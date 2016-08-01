@@ -35,4 +35,9 @@ public class AppTest
     {
         assertTrue( true );
     }
+
+    public void testAdd(){
+        double result = 3.0 + 4.0;
+        assertTrue(result == 6.0);
+    }
 }
