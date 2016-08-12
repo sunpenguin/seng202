@@ -1,3 +1,6 @@
 target/
 .idea/
 SENG202.iml
+.classpath
+.project
+.settings/
