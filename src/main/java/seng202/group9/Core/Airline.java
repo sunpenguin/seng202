@@ -15,7 +15,7 @@ public class Airline {
 	private String alias;
 	private String callSign;
 	private String active;
-	private Country country;
+	private String country;
 	private ArrayList<Route> routes;
 	
 	/**
@@ -30,7 +30,7 @@ public class Airline {
 	 * @param country
 	 * @param active
 	 */
-	public Airline(int ID, String name, String alias, String IATA, String ICAO, String callSign, Country country, String active){
+	public Airline(int ID, String name, String alias, String IATA, String ICAO, String callSign, String country, String active){
 		this.ID = ID;
 		this.IATA = IATA;
 		this.ICAO = ICAO;
@@ -97,7 +97,7 @@ public class Airline {
 	 * Changes Country the Airline belongs to
 	 * @param country
 	 */
-	public void setCountry(Country country) {
+	public void setCountry(String country) {
 		this.country = country;
 	}
 	/**
@@ -160,7 +160,7 @@ public class Airline {
 	 * get the country the airline belongs to
 	 * @return
 	 */
-	public Country getCountry(){
+	public String getCountry(){
 		return country;
 	}
 	/**
