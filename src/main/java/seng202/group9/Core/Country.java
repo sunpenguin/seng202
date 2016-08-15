@@ -11,6 +11,18 @@ public class Country {
 		this.name = name;
 	}
 	
+	public void setDST(String dST) {
+		DST = dST;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setAirlines(ArrayList<Airline> airlines) {
+		this.airlines = airlines;
+	}
+
 	public String getDST(){
 		return this.DST;
 	}

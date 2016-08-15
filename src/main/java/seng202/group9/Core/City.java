@@ -15,6 +15,22 @@ public class City {
 		this.airports = new ArrayList<Airport>();
 	}
 	
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setTimezone(String timezone) {
+		this.timezone = timezone;
+	}
+
+	public void setTimeOlson(String timeOlson) {
+		this.timeOlson = timeOlson;
+	}
+
+	public void setAirports(ArrayList<Airport> airports) {
+		this.airports = airports;
+	}
+
 	public String getName(){
 		return name;
 	}

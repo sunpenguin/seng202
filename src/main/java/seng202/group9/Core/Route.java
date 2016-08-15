@@ -20,6 +20,46 @@ public class Route {
 		this.arrivalAirport = arrivalAirport;
 	}
 	
+	public String getCodeShare() {
+		return codeShare;
+	}
+
+	public void setCodeShare(String codeShare) {
+		this.codeShare = codeShare;
+	}
+
+	public Airport getDepartureAirport() {
+		return departureAirport;
+	}
+
+	public void setDepartureAirport(Airport departureAirport) {
+		this.departureAirport = departureAirport;
+	}
+
+	public Airport getArrivalAirport() {
+		return arrivalAirport;
+	}
+
+	public void setArrivalAirport(Airport arrivalAirport) {
+		this.arrivalAirport = arrivalAirport;
+	}
+
+	public void setID(int iD) {
+		ID = iD;
+	}
+
+	public void setStops(int stops) {
+		this.stops = stops;
+	}
+
+	public void setEquipment(String equipment) {
+		this.equipment = equipment;
+	}
+
+	public void setAirline(Airline airline) {
+		this.airline = airline;
+	}
+
 	public int getID(){
 		return ID;
 	}

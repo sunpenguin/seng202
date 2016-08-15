@@ -24,6 +24,46 @@ public class Airport {
 		this.location = location;
 	}
 	
+	public String getIATA_FFA() {
+		return IATA_FFA;
+	}
+
+	public void setIATA_FFA(String iATA_FFA) {
+		IATA_FFA = iATA_FFA;
+	}
+
+	public void setID(int iD) {
+		ID = iD;
+	}
+
+	public void setICAO(String iCAO) {
+		ICAO = iCAO;
+	}
+
+	public void setAltitude(float altitude) {
+		this.altitude = altitude;
+	}
+
+	public void setLongitude(float longitude) {
+		this.longitude = longitude;
+	}
+
+	public void setLatitude(float latitude) {
+		this.latitude = latitude;
+	}
+
+	public void setLocation(City location) {
+		this.location = location;
+	}
+
+	public void setDepartureRoutes(ArrayList<Route> departureRoutes) {
+		this.departureRoutes = departureRoutes;
+	}
+
+	public void setArrivalRoutes(ArrayList<Route> arrivalRoutes) {
+		this.arrivalRoutes = arrivalRoutes;
+	}
+
 	public int getID(){
 		return ID;
 	}

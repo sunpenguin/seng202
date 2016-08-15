@@ -29,6 +29,54 @@ public class FlightPoint {
 		this.longitude = longitude;
 	}
 	
+	public int getIndexID() {
+		return indexID;
+	}
+
+	public void setIndexID(int indexID) {
+		this.indexID = indexID;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setID(int iD) {
+		ID = iD;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public void setVia(String via) {
+		this.via = via;
+	}
+
+	public void setHeading(String heading) {
+		this.heading = heading;
+	}
+
+	public void setAltitude(float altitude) {
+		this.altitude = altitude;
+	}
+
+	public void setLegDistance(float legDistance) {
+		this.legDistance = legDistance;
+	}
+
+	public void setTotalDistance(float totalDistance) {
+		this.totalDistance = totalDistance;
+	}
+
+	public void setLatitude(float latitude) {
+		this.latitude = latitude;
+	}
+
+	public void setLongitude(float longitude) {
+		this.longitude = longitude;
+	}
+
 	public String getName(){
 		return name;
 	}

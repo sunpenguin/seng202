@@ -25,6 +25,42 @@ public class Airline {
 		routes = new ArrayList<Route>();
 	}
 	
+	public void setID(int iD) {
+		ID = iD;
+	}
+
+	public void setIATA(String iATA) {
+		IATA = iATA;
+	}
+
+	public void setICAO(String iCAO) {
+		ICAO = iCAO;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setAlias(String alias) {
+		this.alias = alias;
+	}
+
+	public void setCallSign(String callSign) {
+		this.callSign = callSign;
+	}
+
+	public void setActive(String active) {
+		this.active = active;
+	}
+
+	public void setCountry(Country country) {
+		this.country = country;
+	}
+
+	public void setRoutes(ArrayList<Route> routes) {
+		this.routes = routes;
+	}
+
 	public int getID(){
 		return ID;
 	}

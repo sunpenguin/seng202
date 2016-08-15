@@ -15,6 +15,34 @@ public class FlightPath {
 		this.flightPoints = new ArrayList<FlightPoint>();
 	}
 	
+	public ArrayList<FlightPoint> getFlightPoints() {
+		return flightPoints;
+	}
+
+	public void setFlightPoints(ArrayList<FlightPoint> flightPoints) {
+		this.flightPoints = flightPoints;
+	}
+
+	public Airport getDepartureAirport() {
+		return departureAirport;
+	}
+
+	public void setDepartureAirport(Airport departureAirport) {
+		this.departureAirport = departureAirport;
+	}
+
+	public Airport getArrivalAirport() {
+		return arrivalAirport;
+	}
+
+	public void setArrivalAirport(Airport arrivalAirport) {
+		this.arrivalAirport = arrivalAirport;
+	}
+
+	public void setID(int iD) {
+		ID = iD;
+	}
+
 	public int getID(){
 		return ID;
 	}
