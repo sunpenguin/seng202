@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.shape.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group9.GUI.MenuController">
+   <children>
+      <MenuBar>
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+                  <MenuItem mnemonicParsing="false" onAction="#importAirports" text="Import Airports" />
+                  <MenuItem mnemonicParsing="false" onAction="#importAirlines" text="Import Airlines" />
+                  <MenuItem mnemonicParsing="false" onAction="#importRoutes" text="Import Routes" />
+                  <MenuItem mnemonicParsing="false" onAction="#importFlightData" text="Import Flight Data" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="View" />
+            <Menu mnemonicParsing="false" text="Analysis" />
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Getting Started" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <AnchorPane prefHeight="371.0" prefWidth="600.0">
+         <children>
+            <HBox prefHeight="300.0" prefWidth="583.0">
+               <children>
+                  <AnchorPane prefHeight="300.0" prefWidth="330.0">
+                     <children>
+                        <Pane layoutY="-6.0" prefHeight="60.0" prefWidth="330.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <Text layoutX="21.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Flight Data Summary">
+                                 <font>
+                                    <Font size="29.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </Pane>
+                        <Pane layoutY="52.0" prefHeight="240.0" prefWidth="330.0" AnchorPane.bottomAnchor="0.0">
+                           <children>
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#0d93e0" height="220.0" layoutX="170.0" layoutY="10.0" smooth="false" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="160.0" />
+                              <Pane layoutX="25.0" layoutY="10.0" prefHeight="220.0" prefWidth="120.0">
+                                 <children>
+                                    <ScrollBar layoutX="103.0" orientation="VERTICAL" prefHeight="220.0" prefWidth="17.0" />
+                                    <ListView layoutX="3.0" prefHeight="220.0" prefWidth="100.0" />
+                                 </children>
+                              </Pane>
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </Pane>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane prefHeight="300.0" prefWidth="253.0">
+                     <children>
+                        <Pane layoutY="200.0" prefHeight="100.0" prefWidth="253.0">
+                           <children>
+                              <Button layoutX="20.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Airports">
+                                 <font>
+                                    <Font size="12.0" />
+                                 </font>
+                              </Button>
+                              <Button layoutX="94.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Routes">
+                                 <font>
+                                    <Font size="12.0" />
+                                 </font>
+                              </Button>
+                              <Button layoutX="169.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Airlines">
+                                 <font>
+                                    <Font size="12.0" />
+                                 </font>
+                              </Button>
+                              <Button layoutX="20.0" layoutY="61.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="214.0" text="Flight Raw Data" />
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </Pane>
+                        <Pane prefHeight="200.0" prefWidth="253.0">
+                           <children>
+                              <TextArea layoutX="20.0" layoutY="26.0" prefHeight="160.0" prefWidth="213.0">
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                              </TextArea>
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </Pane>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </HBox>
+            <ScrollBar layoutX="583.0" orientation="VERTICAL" prefHeight="371.0" prefWidth="17.0" />
+         </children>
+      </AnchorPane>
+   </children>
+</VBox>
