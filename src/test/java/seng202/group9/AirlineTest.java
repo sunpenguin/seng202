@@ -1,9 +1,12 @@
 package seng202.group9;
 
+import java.util.ArrayList;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import seng202.group9.Core.Airline;
+import seng202.group9.Core.Route;
 
 /**
  * Test the functions for the Airline
@@ -42,14 +45,14 @@ public class AirlineTest extends TestCase {
     	Airline allNipponAirways = new Airline(324, "All Nippon Airways", "ANA All Nippon Airways",
     			"NH", "ANA", "ALL NIPPON", "Japan", "Y");
     	//check constructor
-    	assertTrue(allNipponAirways.getID() == 324);
-    	assertTrue(allNipponAirways.getName() == "All Nippon Airways");
-    	assertTrue(allNipponAirways.getAlias() == "ANA All Nippon Airways");
-    	assertTrue(allNipponAirways.getIATA() == "NH");
-    	assertTrue(allNipponAirways.getICAO() == "ANA");
-    	assertTrue(allNipponAirways.getCallSign() == "ALL NIPPON");
-    	assertTrue(allNipponAirways.getCountry() == "Japan");
-    	assertTrue(allNipponAirways.getActive() == "Y");
+    	assertTrue(allNipponAirways.getID() == 324); //test id
+    	assertTrue(allNipponAirways.getName() == "All Nippon Airways");//test name
+    	assertTrue(allNipponAirways.getAlias() == "ANA All Nippon Airways");// test alias
+    	assertTrue(allNipponAirways.getIATA() == "NH");// test iata
+    	assertTrue(allNipponAirways.getICAO() == "ANA");// test icao
+    	assertTrue(allNipponAirways.getCallSign() == "ALL NIPPON");// test call sign
+    	assertTrue(allNipponAirways.getCountry() == "Japan");// test country
+    	assertTrue(allNipponAirways.getActive() == "Y");// get active
     	//check set
     	allNipponAirways.setID(322);//ID
     	assertTrue(allNipponAirways.getID() == 322);
@@ -76,6 +79,34 @@ public class AirlineTest extends TestCase {
     	assertTrue(allNipponAirways.getActive() == "N");
     	
     	//TODO Add Route adding setting and getting.
+    	//try add one route and test
+    	Route route1 = new Route("NH", "Japan", "New Zealand", "JSQ", 3, "Boeing 707");
+    	allNipponAirways.addRoutes(route1);
+    	
+    	assertEquals(allNipponAirways.getRoutes().get(0), route1);//list was originally empty now its first member should be route 1
+    	assertTrue(allNipponAirways.getRoutes().size() == 1);//list was originally empty now it should have 1 member
+    	
+    	Route route2 = new Route("NH", "Japan", "Donald-Trumps Backyard", "KAMIKAZE ATTACK", 0, "Warplane 101");
+    	//test set routes
+    	//adding routes
+    	ArrayList<Route> routes = new ArrayList<Route>();
+    	routes.add(route1);
+    	routes.add(route2);
+    	
+    	allNipponAirways.setRoutes(routes);//set routes test
+    	assertTrue(allNipponAirways.getRoutes().size() == 2);
+    	assertEquals(allNipponAirways.getRoutes().get(0), route1);
+    	assertEquals(allNipponAirways.getRoutes().get(1), route2);
+    	
+    	//test add arraylist of routes. this also makes sure that the above
+    	//code doesn't loop infinitily incase the object pointer has been set
+    	//instead of cloning the data.
+    	allNipponAirways.addRoutes(routes);
+    	assertTrue(allNipponAirways.getRoutes().size() == 4);
+    	assertEquals(allNipponAirways.getRoutes().get(0), route1);
+    	assertEquals(allNipponAirways.getRoutes().get(1), route2);
+    	assertEquals(allNipponAirways.getRoutes().get(2), route1);
+    	assertEquals(allNipponAirways.getRoutes().get(3), route2);
     }
     
     public void testToString(){

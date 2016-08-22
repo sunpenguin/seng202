@@ -39,7 +39,7 @@ public class Airline {
 		this.callSign = callSign;
 		this.active = active;
 		this.country = country;
-		routes = new ArrayList<Route>();
+		this.routes = new ArrayList<Route>();
 	}
 	
 	/**
@@ -105,7 +105,13 @@ public class Airline {
 	 * @param routes
 	 */
 	public void setRoutes(ArrayList<Route> routes) {
-		this.routes = routes;
+		//this is necessary so that the object routes arraylist does not
+		//point the the other list which will result to data errors. THus
+		//a clone must be made.
+		this.routes = new ArrayList<Route>();
+		for(int i = 0; i < routes.size();i ++){
+			this.routes.add(routes.get(i));
+		}
 	}
 	/**
 	 * get the ID of relative to the database
@@ -175,7 +181,18 @@ public class Airline {
 	 * @param route
 	 */
 	public void addRoutes(Route route){
-		routes.add(route);
+		ArrayList<Route> routesToAdd = new ArrayList<Route>();
+		routesToAdd.add(route);
+		addRoutes(routesToAdd);
+	}
+	/**
+	 * Function Overload of addRoutes this allow the adding of a list to route
+	 * @param routes
+	 */
+	public void addRoutes(ArrayList<Route> routesToAdd){
+		for (int i = 0; i < routesToAdd.size(); i ++){
+			routes.add(routesToAdd.get(i));
+		}
 	}
 	/**
 	 * returns the name of the airline when concatenated to a string.

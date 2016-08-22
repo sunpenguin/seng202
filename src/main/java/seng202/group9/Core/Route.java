@@ -6,7 +6,7 @@ package seng202.group9.Core;
  *
  */
 public class Route {
-	private int ID;
+	private int ID;//this ID is the route id not the airline or airports.
 	private int stops;
 	private String codeShare;
 	private String equipment;
@@ -14,7 +14,7 @@ public class Route {
 	private String departureAirport;
 	private String arrivalAirport;
 	/**
-	 * Constructor
+	 * Constructor for pulling from database
 	 * @param airline
 	 * @param ID
 	 * @param departureAirport
@@ -23,9 +23,29 @@ public class Route {
 	 * @param stops
 	 * @param equipment
 	 */
-	public Route(String airline, int ID, String departureAirport, String arrivalAirport,
+	public Route(int ID, String airline, String departureAirport, String arrivalAirport,
 			String codeShare, int stops, String equipment){
 		this.ID = ID;
+		this.stops = stops;
+		this.codeShare = codeShare;
+		this.equipment = equipment;
+		this.airline = airline;
+		this.departureAirport = departureAirport;
+		this.arrivalAirport = arrivalAirport;
+	}
+	/**
+	 * Constructor for adding
+	 * @param airline
+	 * @param departureAirport
+	 * @param arrivalAirport
+	 * @param codeShare
+	 * @param stops
+	 * @param equipment
+	 */
+	public Route(String airline, String departureAirport, String arrivalAirport,
+			String codeShare, int stops, String equipment){
+		//remember to set the id manually later after adding it to the database and grab
+		//the new id value of the route.
 		this.stops = stops;
 		this.codeShare = codeShare;
 		this.equipment = equipment;
