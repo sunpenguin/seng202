@@ -1,5 +1,7 @@
 package seng202.group9.Core;
 
+import seng202.group9.Controller.DataException;
+
 /**
  * Route Class
  * @author Fan-Wu Yang
@@ -46,6 +48,7 @@ public class Route {
 			String codeShare, int stops, String equipment){
 		//remember to set the id manually later after adding it to the database and grab
 		//the new id value of the route.
+		this.ID = -1;
 		this.stops = stops;
 		this.codeShare = codeShare;
 		this.equipment = equipment;
@@ -54,17 +57,10 @@ public class Route {
 		this.arrivalAirport = arrivalAirport;
 	}
 	/**
-	 * Returns code share of the route
-	 * @return
-	 */
-	public String getCodeShare() {
-		return codeShare;
-	}
-	/**
 	 * sets code share of the route
 	 * @param codeShare
 	 */
-	public void setCodeShare(String codeShare) {
+	public void setCode(String codeShare) {
 		this.codeShare = codeShare;
 	}
 	/**
@@ -113,8 +109,12 @@ public class Route {
 	 * returns the id of this route
 	 * @return
 	 */
-	public int getID(){
-		return ID;
+	public int getID() throws DataException{
+		if (this.ID == -1){
+			throw new DataException("ID not set.");
+		}else{
+			return ID;
+		}
 	}
 	/**
 	 * returns the number of stops the route stops.
@@ -159,5 +159,10 @@ public class Route {
 		return arrivalAirport;
 	}
 	
+	@Override
+	public String toString(){
+		
+		return airline+" flies from "+departureAirport+" to "+arrivalAirport+" on a "+equipment +" stopping "+stops+" amount of times";
+	}
 	
 }
