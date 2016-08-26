@@ -10,53 +10,57 @@ import seng202.group9.Controller.DataException;
  */
 public class Airport {
 	private int ID;
+	private String name;
 	private String ICAO;
 	private String IATA_FFA;
-	private float altitude;
-	private float longitude;
-	private float latitude;
-	private String location;
+	private double altitude;
+	private double longitude;
+	private double latitude;
+	private String city;
 	private ArrayList<Route> departureRoutes = new ArrayList<Route>();
 	private ArrayList<Route> arrivalRoutes = new ArrayList<Route>();
 	
 	/**
 	 * Constructor
 	 * @param ID from the database
-	 * @param ICAO
+	 * @param name Name of the airport
+	 * @param city city of the airport
 	 * @param IATA_FFA
+	 * @param ICAO
 	 * @param altitude
 	 * @param longitude
 	 * @param latitude
-	 * @param location
 	 */
-	public Airport(int ID, String ICAO, String IATA_FFA, float altitude, float longitude,
-			float latitude, String location){
+	public Airport(int ID, String name, String city, String IATA_FFA, String ICAO, double latitude, double longitude
+			, double altitude){
 		this.ID = ID;
+		this.name = name;
 		this.ICAO = ICAO;
 		this.IATA_FFA = IATA_FFA;
 		this.altitude = altitude;
 		this.longitude = longitude;
 		this.latitude = latitude;
-		this.location = location;
+		this.city = city;
 	}
 	/**
 	 * Secondary Constructor the ID needs to be set after.
-	 * @param ICAO
+	 * @param city City of airport
 	 * @param IATA_FFA
+	 * @param ICAO
 	 * @param altitude
 	 * @param longitude
 	 * @param latitude
-	 * @param location
 	 */
-	public Airport(String ICAO, String IATA_FFA, float altitude, float longitude,
-			float latitude, String location){
+	public Airport(String name, String city, String IATA_FFA, String ICAO, double latitude, double longitude
+			, double altitude){
 		this.ID = -1;
+		this.name = name;
 		this.ICAO = ICAO;
 		this.IATA_FFA = IATA_FFA;
 		this.altitude = altitude;
 		this.longitude = longitude;
 		this.latitude = latitude;
-		this.location = location;
+		this.city = city;
 	}
 	/**
 	 * returns the IATA/FFA code
@@ -77,34 +81,37 @@ public class Airport {
 	 * @param iD
 	 */
 	public void setID(int iD) {
-		ID = iD;
+		this.ID = iD;
+	}
+	public void setName(String name){
+		this.name = name;
 	}
 	/**
 	 * sets the ICAO Code
 	 * @param iCAO
 	 */
 	public void setICAO(String iCAO) {
-		ICAO = iCAO;
+		this.ICAO = iCAO;
 	}
 	/**
 	 * sets the altitude of the airport
 	 * @param altitude
 	 */
-	public void setAltitude(float altitude) {
+	public void setAltitude(double altitude) {
 		this.altitude = altitude;
 	}
 	/**
 	 * set longitude of the airport
 	 * @param longitude
 	 */
-	public void setLongitude(float longitude) {
+	public void setLongitude(double longitude) {
 		this.longitude = longitude;
 	}
 	/**
 	 * set latitude of the airport
 	 * @param latitude
 	 */
-	public void setLatitude(float latitude) {
+	public void setLatitude(double latitude) {
 		this.latitude = latitude;
 	}
 	/**
@@ -112,16 +119,16 @@ public class Airport {
 	 * @param latitude
 	 * @param longitude
 	 */
-	public void setCoordinates(float latitude, float longitude){
+	public void setCoordinates(double latitude, double longitude){
 		this.latitude = latitude;
 		this.longitude = longitude;
 	}
 	/**
-	 * sets the location of the airport (which city it is in)
-	 * @param location
+	 * sets the city of the airport (which city it is in)
+	 * @param city
 	 */
-	public void setLocation(String location) {
-		this.location = location;
+	public void setCity(String city) {
+		this.city = city;
 	}
 	/**
 	 * set the routes that depart from it
@@ -159,57 +166,64 @@ public class Airport {
 		}
 	}
 	/**
+	 * get the name of the airport
+	 * @return Airport Name
+	 */
+	public String getName(){
+		return name;
+	}
+	/**
 	 * get the ICAO of the airport
-	 * @return
+	 * @return ICAO Code
 	 */
 	public String getICAO(){
 		return ICAO;
 	}
 	/**
 	 * gets the IATA/FFA of the airport
-	 * @return
+	 * @return IATA/FFA Code
 	 */
 	public String IATA_FFA(){
 		return IATA_FFA;
 	}
 	/**
 	 * gets the altitude of the airport
-	 * @return
+	 * @return Altitude of Airport
 	 */
-	public float getAltitude(){
+	public double getAltitude(){
 		return altitude;
 	}
 	/**
 	 * gets the longitude of the airport
-	 * @return
+	 * @return Longitude of Airport
 	 */
-	public float getLongitude(){
+	public double getLongitude(){
 		return longitude;
 	}
 	/**
 	 * gets the latitude of the airport
-	 * @return
+	 * @return Latitude of Airport
 	 */
-	public float getLatitude(){
+	public double getLatitude(){
 		return latitude;
 	}
 	/**
 	 * gets the city the airport is located in
-	 * @return
+	 * @return City of Airport
 	 */
-	public String getLocation(){
-		return location;
+	public String getCity(){
+		return city;
 	}
 	/**
 	 * gets the routes that depart from this airport
-	 * @return
+	 * @return Routes Departing from Airport
 	 */
 	public ArrayList<Route> getDepartureRoutes(){
 		return departureRoutes;
 	}
 	/**
 	 * gets the routes that arrive at this airport
-	 * @return
+	 * @return Routes Arriving at Airport
 	 */
 	public ArrayList<Route> getArrivalRoutes(){
 		return arrivalRoutes;
@@ -233,7 +247,7 @@ public class Airport {
 	 */
 	@Override
 	public String toString(){
-		return this.location+" Airport has ICAO: "+this.ICAO+", IATA/FFA: "+this.IATA_FFA+" and is located at ("+this.latitude+", "+this.longitude
+		return this.city+" Airport has ICAO: "+this.ICAO+", IATA/FFA: "+this.IATA_FFA+" and is located at ("+this.latitude+", "+this.longitude
 				+ ").\n It has "+this.departureRoutes.size()+" departing routes and "+this.arrivalRoutes+" arriving routes.";
 	}
 }
