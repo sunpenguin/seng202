@@ -13,7 +13,7 @@ import seng202.group9.Core.Route;
  *
  */
 public class RouteTest extends TestCase {
-	
+	//exception checker
 	public ExpectedException thrown = ExpectedException.none();
     
 	@Test
