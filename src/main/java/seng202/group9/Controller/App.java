@@ -14,17 +14,15 @@ import seng202.group9.GUI.MainMenuBar;
  */
 public class App extends Application
 {
-	ArrayList<DatasetController> Datasets = new ArrayList<DatasetController>();
+	ArrayList<Dataset> Datasets = new ArrayList<Dataset>();
 	
     public static void main( String[] args )
     {
         launch(args);
     }
-
     /**
      * Starts the application
      * @param primaryStage main "stage" of the program
-     * @see The last sessions menu or the getting started page.
      */
 	@Override
 	public void start(Stage primaryStage) {
@@ -37,5 +35,33 @@ public class App extends Application
 		
 		primaryStage.setScene(scene);
 		primaryStage.show();
+		//testing out dataset
+		Dataset dataset1 = null;
+		try {
+			dataset1 = new Dataset("test's", Dataset.getExisting);
+		}catch (DataException e){
+			e.printStackTrace();
+		}
+		//testing out airport parser
+		AirportParser airportParser = new AirportParser("res/Samples/Airports.txt");
+		try {
+			System.out.println(airportParser.parse());
+		} catch (DataException e) {
+			e.printStackTrace();
+		}
+		//testing out airline parser
+		AirlineParser airlineParser = new AirlineParser("res/Samples/Airlines.txt");
+		try {
+			System.out.println(airlineParser.parse());
+		} catch (DataException e) {
+			e.printStackTrace();
+		}
+		//testing out route parser
+		RouteParser routeParser = new RouteParser("res/Samples/Routes.txt");
+		try {
+			System.out.println(routeParser.parse());
+		} catch (DataException e) {
+			e.printStackTrace();
+		}
 	}
 }

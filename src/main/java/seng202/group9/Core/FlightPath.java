@@ -5,10 +5,16 @@ import java.util.ArrayList;
 public class FlightPath {
 	private int ID;
 	private ArrayList<FlightPoint> flightPoints;
-	private Airport departureAirport;
-	private Airport arrivalAirport;
-	
-	public FlightPath(int ID, Airport departureAirport, Airport arrivalAirport){
+	private String departureAirport;
+	private String arrivalAirport;
+
+	/**
+	 *
+	 * @param ID id of the the flight path in the database
+	 * @param departureAirport Iata/FFA of the airport
+	 * @param arrivalAirport IATA/FFA of the airport
+	 */
+	public FlightPath(int ID, String departureAirport, String arrivalAirport){
 		this.ID = ID;
 		this.departureAirport = departureAirport;
 		this.arrivalAirport = arrivalAirport;
@@ -20,22 +26,17 @@ public class FlightPath {
 	}
 
 	public void setFlightPoints(ArrayList<FlightPoint> flightPoints) {
-		this.flightPoints = flightPoints;
+		this.flightPoints = new ArrayList<FlightPoint>();
+		for (int i = 0; i < flightPoints.size(); i ++) {
+			this.flightPoints = flightPoints;
+		}
 	}
 
-	public Airport getDepartureAirport() {
-		return departureAirport;
-	}
-
-	public void setDepartureAirport(Airport departureAirport) {
+	public void setDepartureAirport(String departureAirport) {
 		this.departureAirport = departureAirport;
 	}
 
-	public Airport getArrivalAirport() {
-		return arrivalAirport;
-	}
-
-	public void setArrivalAirport(Airport arrivalAirport) {
+	public void setArrivalAirport(String arrivalAirport) {
 		this.arrivalAirport = arrivalAirport;
 	}
 
@@ -47,11 +48,11 @@ public class FlightPath {
 		return ID;
 	}
 	
-	public Airport departsFrom(){
+	public String departsFrom(){
 		return departureAirport;
 	}
 	
-	public Airport arrivesAt(){
+	public String arrivesAt(){
 		return arrivalAirport;
 	}
 	
@@ -61,5 +62,23 @@ public class FlightPath {
 	
 	public void addFlightPoint(FlightPoint flightPoint){
 		flightPoints.add(flightPoint);
+	}
+
+	public void addFlightPoint(FlightPoint flightPoint, int index){
+		flightPoints.add(index, flightPoint);
+	}
+
+	public void delFlightPoint(FlightPoint flightPoint){
+		flightPoints.remove(flightPoint);
+	}
+
+	public void delFlightPoint(int index){
+		flightPoints.remove(index);
+	}
+
+	public void addFlightPoint(ArrayList<FlightPoint> flightPoints){
+		for (int i = 0; i < flightPoints.size(); i ++){
+			this.flightPoints.add(flightPoints.get(i));
+		}
 	}
 }

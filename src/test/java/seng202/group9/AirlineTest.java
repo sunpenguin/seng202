@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import seng202.group9.Controller.DataException;
 import seng202.group9.Core.Airline;
 import seng202.group9.Core.Route;
 
@@ -45,8 +46,12 @@ public class AirlineTest extends TestCase {
     	Airline allNipponAirways = new Airline(324, "All Nippon Airways", "ANA All Nippon Airways",
     			"NH", "ANA", "ALL NIPPON", "Japan", "Y");
     	//check constructor
-    	assertTrue(allNipponAirways.getID() == 324); //test id
-    	assertTrue(allNipponAirways.getName() == "All Nippon Airways");//test name
+		try {
+			assertTrue(allNipponAirways.getID() == 324); //test id
+		} catch (DataException e) {
+			e.printStackTrace();
+		}
+		assertTrue(allNipponAirways.getName() == "All Nippon Airways");//test name
     	assertTrue(allNipponAirways.getAlias() == "ANA All Nippon Airways");// test alias
     	assertTrue(allNipponAirways.getIATA() == "NH");// test iata
     	assertTrue(allNipponAirways.getICAO() == "ANA");// test icao
@@ -55,9 +60,13 @@ public class AirlineTest extends TestCase {
     	assertTrue(allNipponAirways.getActive() == "Y");// get active
     	//check set
     	allNipponAirways.setID(322);//ID
-    	assertTrue(allNipponAirways.getID() == 322);
-    	
-    	allNipponAirways.setName("All Nike Airways");//Name
+		try {
+			assertTrue(allNipponAirways.getID() == 322);
+		} catch (DataException e) {
+			e.printStackTrace();
+		}
+
+		allNipponAirways.setName("All Nike Airways");//Name
     	assertTrue(allNipponAirways.getName() == "All Nike Airways");
     	
     	allNipponAirways.setAlias("ANA All Nike Airways");//Alias

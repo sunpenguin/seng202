@@ -17,6 +17,7 @@ public class Airport {
 	private double longitude;
 	private double latitude;
 	private String city;
+	private String country;
 	private ArrayList<Route> departureRoutes = new ArrayList<Route>();
 	private ArrayList<Route> arrivalRoutes = new ArrayList<Route>();
 	
@@ -31,7 +32,7 @@ public class Airport {
 	 * @param longitude
 	 * @param latitude
 	 */
-	public Airport(int ID, String name, String city, String IATA_FFA, String ICAO, double latitude, double longitude
+	public Airport(int ID, String name, String city, String country, String IATA_FFA, String ICAO, double latitude, double longitude
 			, double altitude){
 		this.ID = ID;
 		this.name = name;
@@ -41,6 +42,7 @@ public class Airport {
 		this.longitude = longitude;
 		this.latitude = latitude;
 		this.city = city;
+		this.country = country;
 	}
 	/**
 	 * Secondary Constructor the ID needs to be set after.
@@ -51,7 +53,7 @@ public class Airport {
 	 * @param longitude
 	 * @param latitude
 	 */
-	public Airport(String name, String city, String IATA_FFA, String ICAO, double latitude, double longitude
+	public Airport(String name, String city, String country, String IATA_FFA, String ICAO, double latitude, double longitude
 			, double altitude){
 		this.ID = -1;
 		this.name = name;
@@ -61,6 +63,7 @@ public class Airport {
 		this.longitude = longitude;
 		this.latitude = latitude;
 		this.city = city;
+		this.country = country;
 	}
 	/**
 	 * returns the IATA/FFA code
@@ -148,7 +151,7 @@ public class Airport {
 	public void setArrivalRoutes(ArrayList<Route> arrivalRoutes) {
 		//the array list must be clones else future errors may occur
 		this.arrivalRoutes = new ArrayList<Route>();
-		for (int i = 0; i < departureRoutes.size(); i ++){
+		for (int i = 0; i < arrivalRoutes.size(); i ++){
 			this.arrivalRoutes.add(arrivalRoutes.get(i));
 		}
 	}
@@ -236,11 +239,46 @@ public class Airport {
 		departureRoutes.add(route);
 	}
 	/**
+	 * Adds each member of routes to array list;
+	 * @param routes
+	 */
+	public void addDepartureRoutes(ArrayList<Route> routes){
+		for (int i = 0; i < routes.size(); i ++){
+			addDepartureRoutes(routes.get(i));
+		}
+	}
+	/**
 	 * add arriving routes to this airport
 	 * @param route
 	 */
 	public void addArrivalRoutes(Route route){
 		arrivalRoutes.add(route);
+	}
+
+	/**
+	 * Adds each member of routes to array list;
+	 * @param routes
+	 */
+	public void addArrivalRoutes(ArrayList<Route> routes){
+		for (int i = 0; i < routes.size(); i ++){
+			addArrivalRoutes(routes.get(i));
+		}
+	}
+
+	/**
+	 * deletes a member of arrival routes by matching route pointer
+	 * @param route
+	 */
+	public void delArrivalRoutes(Route route){
+		arrivalRoutes.remove(route);
+	}
+
+	/**
+	 * deletes a member of arrival routes by index
+	 * @param index
+	 */
+	public void delArrivalRoutes(int index){
+		arrivalRoutes.remove(index);
 	}
 	/**
 	 * Information of the airport returned in String format.
@@ -248,6 +286,6 @@ public class Airport {
 	@Override
 	public String toString(){
 		return this.city+" Airport has ICAO: "+this.ICAO+", IATA/FFA: "+this.IATA_FFA+" and is located at ("+this.latitude+", "+this.longitude
-				+ ").\n It has "+this.departureRoutes.size()+" departing routes and "+this.arrivalRoutes+" arriving routes.";
+				+ ").\n It has "+this.departureRoutes.size()+" departing routes and "+this.arrivalRoutes.size()+" arriving routes.";
 	}
 }

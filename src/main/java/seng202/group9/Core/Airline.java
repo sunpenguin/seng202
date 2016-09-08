@@ -1,5 +1,7 @@
 package seng202.group9.Core;
 
+import seng202.group9.Controller.DataException;
+
 import java.util.ArrayList;
 
 /**
@@ -41,7 +43,19 @@ public class Airline {
 		this.country = country;
 		this.routes = new ArrayList<Route>();
 	}
-	
+
+
+	public Airline(String name, String alias, String IATA, String ICAO, String callSign, String country, String active){
+		this.ID = -1;
+		this.IATA = IATA;
+		this.ICAO = ICAO;
+		this.name = name;
+		this.alias = alias;
+		this.callSign = callSign;
+		this.active = active;
+		this.country = country;
+		this.routes = new ArrayList<Route>();
+	}
 	/**
 	 * Changes the ID of the Airline this is correlated to the database.
 	 * @param iD
@@ -117,8 +131,12 @@ public class Airline {
 	 * get the ID of relative to the database
 	 * @return
 	 */
-	public int getID(){
-		return ID;
+	public int getID() throws DataException {
+		if (this.ID == -1){
+			throw new DataException("ID not set.");
+		}else{
+			return ID;
+		}
 	}
 	/**
 	 * get the IATA code
@@ -193,6 +211,22 @@ public class Airline {
 		for (int i = 0; i < routesToAdd.size(); i ++){
 			routes.add(routesToAdd.get(i));
 		}
+	}
+
+	/**
+	 * deletes a route by matching the route class/pointer in routes array keep in mind that the array position will change for all indexs after this.
+	 * @param route
+	 */
+	public void delRoutes(Route route){
+		routes.remove(route);
+	}
+
+	/**
+	 * deletes a route by matching index keep in mind that the array position will change for all indexs after this.
+	 * @param index
+	 */
+	public void delRoutes(int index){
+		routes.remove(index);
 	}
 	/**
 	 * returns the name of the airline when concatenated to a string.

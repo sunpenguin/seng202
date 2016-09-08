@@ -1,21 +1,39 @@
 package seng202.group9.Core;
 
+import seng202.group9.Controller.DataException;
+
 public class FlightPoint {
 	private String name;
 	private int ID;
 	private int indexID;
 	private String type;
 	private String via;
-	private String heading;
-	private float altitude;//note float has a max value so they may try to break this
-	private float legDistance;
-	private float totalDistance;
-	private float latitude;
-	private float longitude;
-	
+	private int heading;
+	private double altitude;//note double has a max value so they may try to break this
+	private double legDistance;
+	private double totalDistance;
+	private double latitude;
+	private double longitude;
+
+	public FlightPoint(String type, String via, double altitude, double latitude, double longitude){
+		//extra calculations will have to be used to find heading, legdistance and total distance. If necessary
+		//Type 1 file the file the lecturers gave us
+		this.name = "";
+		this.ID = -1;
+		this.indexID = -1;
+		this.type = type;
+		this.via = via;
+		this.heading = 0;
+		this.altitude = altitude;
+		this.legDistance = 0.0;
+		this.totalDistance = 0.0;
+		this.latitude = latitude;
+		this.longitude = longitude;
+	}
+
 	public FlightPoint(String name, int ID, int indexID, String type, String via,
-			String heading, float altitude, float legDistance, float totalDistance,
-			float latitude, float longitude){
+			int heading, double altitude, double legDistance, double totalDistance,
+			double latitude, double longitude){
 		this.name = name;
 		this.ID = ID;
 		this.indexID = indexID;
@@ -28,9 +46,13 @@ public class FlightPoint {
 		this.latitude = latitude;
 		this.longitude = longitude;
 	}
-	
-	public int getIndexID() {
-		return indexID;
+
+	public int getIndexID() throws DataException {
+		if (this.ID == -1){
+			throw new DataException("ID not set.");
+		}else{
+			return ID;
+		}
 	}
 
 	public void setIndexID(int indexID) {
@@ -53,36 +75,40 @@ public class FlightPoint {
 		this.via = via;
 	}
 
-	public void setHeading(String heading) {
+	public void setHeading(int heading) {
 		this.heading = heading;
 	}
 
-	public void setAltitude(float altitude) {
+	public void setAltitude(double altitude) {
 		this.altitude = altitude;
 	}
 
-	public void setLegDistance(float legDistance) {
+	public void setLegDistance(double legDistance) {
 		this.legDistance = legDistance;
 	}
 
-	public void setTotalDistance(float totalDistance) {
+	public void setTotalDistance(double totalDistance) {
 		this.totalDistance = totalDistance;
 	}
 
-	public void setLatitude(float latitude) {
+	public void setLatitude(double latitude) {
 		this.latitude = latitude;
 	}
 
-	public void setLongitude(float longitude) {
+	public void setLongitude(double longitude) {
 		this.longitude = longitude;
 	}
 
 	public String getName(){
 		return name;
 	}
-	
-	public int getID(){
-		return ID;
+
+	public int getID() throws DataException {
+		if (this.ID == -1){
+			throw new DataException("ID not set.");
+		}else{
+			return ID;
+		}
 	}
 	
 	public int getIndex(){
@@ -97,27 +123,27 @@ public class FlightPoint {
 		return via;
 	}
 	
-	public String getHeading(){
+	public int getHeading(){
 		return heading;
 	}
 	
-	public float getAltitude(){
+	public double getAltitude(){
 		return altitude;
 	}
 	
-	public float getLegDistance(){
+	public double getLegDistance(){
 		return legDistance;
 	}
 	
-	public float getTotalDistance(){
+	public double getTotalDistance(){
 		return totalDistance;
 	}
 	
-	public float getLongitude(){
+	public double getLongitude(){
 		return longitude;
 	}
 	
-	public float getLatitude(){
+	public double getLatitude(){
 		return latitude;
 	}
 	
