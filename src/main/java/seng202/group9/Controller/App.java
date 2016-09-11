@@ -55,9 +55,8 @@ public class App extends Application
 			e.printStackTrace();
 		}
 		//testing out route parser
-		RouteParser routeParser = new RouteParser("res/Samples/Routes.txt");
 		try {
-			System.out.println(routeParser.parse());
+			System.out.println(currentDataset.importRoute("res/Samples/Routes.txt"));
 		} catch (DataException e) {
 			e.printStackTrace();
 		}

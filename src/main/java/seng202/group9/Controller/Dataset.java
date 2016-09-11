@@ -13,8 +13,8 @@ import java.util.LinkedHashMap;
 public class Dataset {
 
     String name;
-    static boolean getExisting = true;
-    static boolean createNew = false;
+    static boolean getExisting = true;//constructor variables for action
+    static boolean createNew = false;//constructor variables for action
     ArrayList<Airline> airlines;
     ArrayList<Airport> airports;
     ArrayList<Route> routes;
@@ -217,14 +217,14 @@ public class Dataset {
                 //String codeShare, int stops, String equipment)
                 int routeID = rs.getInt("Route_ID");
                 String routeAirline = rs.getString("Airline");
-                String routeDestAirport = rs.getString("Source_Airport");
+                String routeSourceAirport = rs.getString("Source_Airport");
                 String routeArrvAirport = rs.getString("Destination_Airport");
                 String routeCodeShare = rs.getString("Codeshare");
                 int routeStops = rs.getInt("Stops");
                 String routeEquip = rs.getString("Equipment");
-                Route routeToAdd = new Route(routeID, routeAirline, routeDestAirport, routeArrvAirport, routeCodeShare, routeStops, routeEquip);
+                Route routeToAdd = new Route(routeID, routeAirline, routeSourceAirport, routeArrvAirport, routeCodeShare, routeStops, routeEquip);
                 //unique identifier for the dictionary
-                String identifier = routeAirline + routeDestAirport + routeArrvAirport + routeCodeShare + routeStops + routeEquip;
+                String identifier = routeAirline + routeSourceAirport + routeArrvAirport + routeCodeShare + routeStops + routeEquip;
                 routeDictionary.put(identifier, routeToAdd);
                 routes.add(routeToAdd);
             }
@@ -354,6 +354,7 @@ public class Dataset {
     /**
      * Imports Airline files to the dataset
      * @param filePath
+     * @return Success Message
      * @throws DataException
      */
     public String importAirline(String filePath) throws DataException {
@@ -390,16 +391,16 @@ public class Dataset {
                     //insert import into database
                     String airName = airlinesToImport.get(i).getName().replace("'", "''").replace("\"", "\"\"");
                     String airAlias = airlinesToImport.get(i).getAlias().replace("'", "''").replace("\"", "\"\"");
-                    String airIATA = airlinesToImport.get(i).getAlias().replace("'", "''").replace("\"", "\"\"");
-                    String airICAO = airlinesToImport.get(i).getAlias().replace("'", "''").replace("\"", "\"\"");
-                    String airCallsign = airlinesToImport.get(i).getAlias().replace("'", "''").replace("\"", "\"\"");
-                    String airCountry = airlinesToImport.get(i).getAlias().replace("'", "''").replace("\"", "\"\"");
-                    String airActive = airlinesToImport.get(i).getAlias().replace("'", "''").replace("\"", "\"\"");
+                    String airIATA = airlinesToImport.get(i).getIATA().replace("'", "''").replace("\"", "\"\"");
+                    String airICAO = airlinesToImport.get(i).getICAO().replace("'", "''").replace("\"", "\"\"");
+                    String airCallsign = airlinesToImport.get(i).getCallSign().replace("'", "''").replace("\"", "\"\"");
+                    String airCountry = airlinesToImport.get(i).getCountry().replace("'", "''").replace("\"", "\"\"");
+                    String airActive = airlinesToImport.get(i).getActive().replace("'", "''").replace("\"", "\"\"");
                     if (numOfAirlines > 0){
                         insertAirlineQuery += ",";
                     }
                     insertAirlineQuery += "(\""+airName+"\", \"" + airAlias + "\", \"" + airIATA + "\"," +
-                            " \"" + airICAO + "\", \"" + airCallsign + "\", \"" + airCountry + "\", \"" + airActive + "\");";
+                            " \"" + airICAO + "\", \"" + airCallsign + "\", \"" + airCountry + "\", \"" + airActive + "\")";
                     airlinesToImport.get(i).setID(nextID);
                     //add data to dataset array.
                     //this is placed after incase the database messes up
@@ -424,6 +425,7 @@ public class Dataset {
     /**
      * Imports Airline files to the dataset
      * @param filePath
+     * @return Success Message
      * @throws DataException
      */
     public String importAirport(String filePath) throws DataException {
@@ -488,7 +490,6 @@ public class Dataset {
             }
             stmt.close();
             stmt = c.createStatement();
-            System.out.println("Inserting Cities Now");
             /*///////////////
             //Insert Cities//
             ///////////////*/
@@ -519,7 +520,6 @@ public class Dataset {
             }
             stmt.close();
             stmt = c.createStatement();
-            System.out.println("Inserting Countries Now");
             /*//////////////////
             //Insert Countries//
             //////////////////*/
@@ -547,6 +547,80 @@ public class Dataset {
             }
             stmt.close();
             c.close();
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            System.exit(0);
+        }
+        message += "\nDuplicates ommitted: "+numOfDuplicates;
+        createDataLinks();
+        return message;
+    }
+
+    /**
+     * Imports Airline files to dataset
+     * @param filePath
+     * @return Success Message
+     * @throws DataException
+     */
+    public String importRoute(String filePath) throws DataException {
+        RouteParser parser = new RouteParser(filePath);
+        //remember this still has to append the duplicate message to it.
+        //routes are identified in the diction by routeAirline + routeSourceAirport + routeArrvAirport + routeCodeShare + routeStops + routeEquip;
+        String message = parser.parse();
+        ArrayList<Route> routesToImport = parser.getResult();
+        //check for dup
+        int numOfDuplicates = 0;
+        int nextID = -1;
+        //query database.
+        Connection c = null;
+        Statement stmt = null;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
+            stmt = c.createStatement();
+            String queryName = this.name.replace("'", "''").replace("\"", "\"\"");
+            String IDQuery = "SELECT * FROM `sqlite_sequence` WHERE `name` = '"+queryName+"_Routes' LIMIT 1;";
+            ResultSet IDResult = stmt.executeQuery(IDQuery);
+            while(IDResult.next()){
+                nextID = Integer.parseInt(IDResult.getString("seq")) + 1;//for some reason sqlite3 stores incremental values as a string...
+            }
+            stmt.close();
+            stmt = c.createStatement();
+            String insertRouteQuery = "INSERT INTO `" + this.name + "_Routes` (`Airline`, `Source_Airport`, `Destination_Airport`," +
+                    " `Codeshare`, `Stops`, `Equipment`) VALUES ";
+            int numOfRoutes = 0;
+            for (int i = 0; i < routesToImport.size(); i ++){
+                String routeIdentifier = routesToImport.get(i).getAirline() + routesToImport.get(i).departsFrom() + routesToImport.get(i).arrivesAt() +
+                        routesToImport.get(i).getCode() + routesToImport.get(i).getStops() + routesToImport.get(i).getEquipment();
+                if (routeDictionary.containsKey(routeIdentifier)){
+                    numOfDuplicates ++;
+                }else{
+                    //route variables
+                    String routeAirline = routesToImport.get(i).getAirline().replace("\"", "\"\"");
+                    String routeSource = routesToImport.get(i).departsFrom().replace("\"", "\"\"");
+                    String routeDestination = routesToImport.get(i).arrivesAt().replace("\"", "\"\"");
+                    String routeCode = routesToImport.get(i).getCode().replace("\"", "\"\"");
+                    int routeStops = routesToImport.get(i).getStops();
+                    String routeEquipment = routesToImport.get(i).getEquipment().replace("\"", "\"\"");
+                    //insert import into database
+                    if (numOfRoutes > 0){
+                        insertRouteQuery += ",";
+                    }
+                    insertRouteQuery += "(\""+routeAirline+"\", \"" + routeSource + "\", \"" + routeDestination + "\", " +
+                            "\"" + routeCode + "\", " + routeStops + ", \"" + routeEquipment + "\")";
+                    routesToImport.get(i).setID(nextID);
+                    //add data to dataset array.
+                    //this is placed after incase the database messes up
+                    routes.add(routesToImport.get(i));
+                    routeDictionary.put(routeIdentifier, routesToImport.get(i));
+                    nextID++;
+                    numOfRoutes++;
+                }
+            }
+            if (numOfRoutes > 0){
+                stmt.execute(insertRouteQuery);
+                stmt.close();
+            }
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
             System.exit(0);
