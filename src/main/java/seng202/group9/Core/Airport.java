@@ -144,6 +144,15 @@ public class Airport {
 			this.departureRoutes.add(departureRoutes.get(i));
 		}
 	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
 	/**
 	 * sets the routes that arrive at this airport
 	 * @param arrivalRoutes

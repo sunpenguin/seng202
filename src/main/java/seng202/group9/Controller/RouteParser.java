@@ -125,11 +125,11 @@ public class RouteParser extends Parser {
                 //passing is done now add stuff to array
                 //String airline, airline id, String departureAirport, airport id, String arrivalAirport, arrival airport id, String codeShare, int stops, String equipment
                 routeAirName = parts[0];
-                routeDepart = parts[1];
-                routeArrive = parts[2];
-                routeCodeshare = parts[3];
-                routeStops = Integer.parseInt(parts[4]);
-                routeEquip = parts[5];
+                routeDepart = parts[2];
+                routeArrive = parts[4];
+                routeCodeshare = parts[6];
+                routeStops = Integer.parseInt(parts[7]);
+                routeEquip = parts[8];
                 parsedRoutes.add(new Route(routeAirName, routeDepart, routeArrive, routeCodeshare, routeStops, routeEquip));
                 successful++;
             }

@@ -8,6 +8,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 public class Dataset {
 
@@ -20,6 +21,12 @@ public class Dataset {
     ArrayList<FlightPath> flightPaths;
     ArrayList<Country> countries;
     ArrayList<City> cities;
+    LinkedHashMap airlineDictionary;
+    LinkedHashMap airportDictionary;
+    LinkedHashMap routeDictionary;
+    LinkedHashMap flightPathDictionary;
+    LinkedHashMap countryDictionary;
+    LinkedHashMap cityDictionary;
 
     /**
      *
@@ -35,6 +42,11 @@ public class Dataset {
         this.routes = new ArrayList<Route>();
         this.cities = new ArrayList<City>();
         this.countries = new ArrayList<Country>();
+        this.airlineDictionary = new LinkedHashMap();
+        this.airportDictionary = new LinkedHashMap();;
+        this.routeDictionary = new LinkedHashMap();;
+        this.countryDictionary = new LinkedHashMap();;
+        this.cityDictionary = new LinkedHashMap();;
         if (action == getExisting){
             updateDataset();
             //after this make connections. ie filling in the country.cities airports.routes etc
@@ -82,7 +94,10 @@ public class Dataset {
                 String airCallsign = rs.getString("CallSign");
                 String airCountry = rs.getString("Country");
                 String airActive = rs.getString("Active");
-                airlines.add(new Airline(airID, airName, airIATA, airICAO, airAlias, airCallsign, airCountry, airActive));
+                Airline airlineToAdd = new Airline(airID, airName, airIATA, airICAO, airAlias, airCallsign, airCountry, airActive);
+                //assuming that all names will be unique
+                airlineDictionary.put(airName, airlineToAdd);
+                airlines.add(airlineToAdd);
             }
             rs.close();
             stmt.close();
@@ -103,7 +118,10 @@ public class Dataset {
                 double airpLatitude = rs.getDouble("Latitude");
                 double airpLongitude = rs.getDouble("Longitude");
                 double airpAltitude = rs.getDouble("Altitude");
-                airports.add(new Airport(airpID, airpName, airpCity, airpCountry, airpIATA_FFA, airpICAO, airpLatitude, airpLongitude, airpAltitude));
+                Airport airportToAdd = new Airport(airpID, airpName, airpCity, airpCountry, airpIATA_FFA, airpICAO, airpLatitude, airpLongitude, airpAltitude);
+                //assuming all names will be unique
+                airportDictionary.put(airpName, airportToAdd);
+                airports.add(airportToAdd);
             }
             rs.close();
             stmt.close();
@@ -119,7 +137,10 @@ public class Dataset {
                 String cityCountry = rs.getString("Country_Name");
                 double cityTz = rs.getDouble("Timezone");
                 String cityTimeOlson = rs.getString("Olson_Timezone");
-                cities.add(new City(cityName, cityCountry, cityTz, cityTimeOlson));
+                City cityToAdd = new City(cityName, cityCountry, cityTz, cityTimeOlson);
+                //considering all city names are unique duplicates are handled elsewhere
+                cityDictionary.put(cityName, cityToAdd);
+                cities.add(cityToAdd);
             }
             rs.close();
             stmt.close();
@@ -133,7 +154,10 @@ public class Dataset {
                 //Country(String DST, String name)
                 String countName = rs.getString("Country_Name");
                 String countDST = rs.getString("DST");
-                countries.add(new Country(countDST, countName));
+                Country countryToAdd = new Country(countDST, countName);
+                //we expect all country names to be unique from other countries
+                countryDictionary.put(countName, countryToAdd);
+                countries.add(countryToAdd);
             }
             rs.close();
             stmt.close();
@@ -148,6 +172,7 @@ public class Dataset {
                 int flightpID = rs.getInt("Path_ID");
                 String flightpDepart = rs.getString("Source_Airport");
                 String flightpArrive = rs.getString("Destination_Airport");
+                //duplicates are fine so no flight dictionary is made.
                 flightPaths.add(new FlightPath(flightpID, flightpDepart, flightpArrive));
             }
             rs.close();
@@ -197,7 +222,11 @@ public class Dataset {
                 String routeCodeShare = rs.getString("Codeshare");
                 int routeStops = rs.getInt("Stops");
                 String routeEquip = rs.getString("Equipment");
-                routes.add(new Route(routeID, routeAirline, routeDestAirport, routeArrvAirport, routeCodeShare, routeStops, routeEquip));
+                Route routeToAdd = new Route(routeID, routeAirline, routeDestAirport, routeArrvAirport, routeCodeShare, routeStops, routeEquip);
+                //unique identifier for the dictionary
+                String identifier = routeAirline + routeDestAirport + routeArrvAirport + routeCodeShare + routeStops + routeEquip;
+                routeDictionary.put(identifier, routeToAdd);
+                routes.add(routeToAdd);
             }
             rs.close();
             stmt.close();
@@ -208,6 +237,10 @@ public class Dataset {
         }
     }
 
+    /**
+     * Creates new Dataset with empty data tables etc
+     * @throws DataException
+     */
     public void createTables() throws DataException{
         Connection c = null;
         Statement stmt = null;
@@ -318,4 +351,238 @@ public class Dataset {
         }
     }
 
+    /**
+     * Imports Airline files to the dataset
+     * @param filePath
+     * @throws DataException
+     */
+    public String importAirline(String filePath) throws DataException {
+        AirlineParser parser = new AirlineParser(filePath);
+        //remember this still has to append the duplicate message to it.
+        //airlines are identified by their names
+        String message = parser.parse();
+        ArrayList<Airline> airlinesToImport = parser.getResult();
+        //check for dup
+        int numOfDuplicates = 0;
+        int nextID = -1;
+        //query database.
+        Connection c = null;
+        Statement stmt = null;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
+            stmt = c.createStatement();
+            String queryName = this.name.replace("'", "''").replace("\"", "\"\"");
+            String IDQuery = "SELECT * FROM `sqlite_sequence` WHERE `name` = '"+queryName+"_Airline' LIMIT 1;";
+            ResultSet IDResult = stmt.executeQuery(IDQuery);
+            while(IDResult.next()){
+                nextID = Integer.parseInt(IDResult.getString("seq")) + 1;//for some reason sqlite3 stores incremental values as a string...
+            }
+            stmt.close();
+            stmt = c.createStatement();
+            String insertAirlineQuery = "INSERT INTO `" + this.name + "_Airline` (`Name`, `Alias`, `IATA`, `ICAO`" +
+                    ", `Callsign`, `Country`, `Active`) VALUES ";
+            int numOfAirlines = 0;
+            for (int i = 0; i < airlinesToImport.size(); i ++){
+                if (airlineDictionary.containsKey(airlinesToImport.get(i).getName())){
+                    numOfDuplicates ++;
+                }else{
+                    //insert import into database
+                    String airName = airlinesToImport.get(i).getName().replace("'", "''").replace("\"", "\"\"");
+                    String airAlias = airlinesToImport.get(i).getAlias().replace("'", "''").replace("\"", "\"\"");
+                    String airIATA = airlinesToImport.get(i).getAlias().replace("'", "''").replace("\"", "\"\"");
+                    String airICAO = airlinesToImport.get(i).getAlias().replace("'", "''").replace("\"", "\"\"");
+                    String airCallsign = airlinesToImport.get(i).getAlias().replace("'", "''").replace("\"", "\"\"");
+                    String airCountry = airlinesToImport.get(i).getAlias().replace("'", "''").replace("\"", "\"\"");
+                    String airActive = airlinesToImport.get(i).getAlias().replace("'", "''").replace("\"", "\"\"");
+                    if (numOfAirlines > 0){
+                        insertAirlineQuery += ",";
+                    }
+                    insertAirlineQuery += "(\""+airName+"\", \"" + airAlias + "\", \"" + airIATA + "\"," +
+                            " \"" + airICAO + "\", \"" + airCallsign + "\", \"" + airCountry + "\", \"" + airActive + "\");";
+                    airlinesToImport.get(i).setID(nextID);
+                    //add data to dataset array.
+                    //this is placed after incase the database messes up
+                    airlines.add(airlinesToImport.get(i));
+                    airlineDictionary.put(airName, airlinesToImport.get(i));
+                    nextID++;
+                    numOfAirlines++;
+                }
+            }
+            if (numOfAirlines > 0){
+                stmt.execute(insertAirlineQuery);
+                stmt.close();
+            }
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            System.exit(0);
+        }
+        message += "\nDuplicates ommitted: "+numOfDuplicates;
+        createDataLinks();
+        return message;
+    }
+    /**
+     * Imports Airline files to the dataset
+     * @param filePath
+     * @throws DataException
+     */
+    public String importAirport(String filePath) throws DataException {
+        AirportParser parser = new AirportParser(filePath);
+        //remember this still has to append the duplicate message to it.
+        //airport are identified by their names
+        String message = parser.parse();
+        ArrayList<Airport> airportsToImport = parser.getResult();
+        ArrayList<City> citiesToImport = parser.getCityResult();
+        ArrayList<Country> countriesToImport = parser.getCountryResult();
+        //check for dup
+        int numOfDuplicates = 0;
+        int nextID = -1;
+        //query database.
+        Connection c = null;
+        Statement stmt = null;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
+            //get next ID
+            stmt = c.createStatement();
+            String queryName = this.name.replace("'", "''");
+            String IDQuery = "SELECT * FROM `sqlite_sequence` WHERE `name` = '" + queryName + "_Airport' LIMIT 1;";
+            ResultSet IDResult = stmt.executeQuery(IDQuery);
+            while (IDResult.next()) {
+                nextID = Integer.parseInt(IDResult.getString("seq")) + 1;//for some reason sqlite3 stores incremental values as a string...
+            }
+            System.out.println(nextID);
+            stmt.close();
+            stmt = c.createStatement();
+            String insertAirportQuery = "INSERT INTO `" + this.name + "_Airport` (`Name`, `City`, `Country`, `IATA/FFA`," +
+                    " `ICAO`, `Latitude`, `Longitude`, `Altitude`) VALUES ";
+            int numOfAirports = 0;
+            for (int i = 0; i < airportsToImport.size(); i++) {
+                if (airportDictionary.containsKey(airportsToImport.get(i).getName())) {
+                    numOfDuplicates++;
+                } else {
+                    //airport variables
+                    String airpName = airportsToImport.get(i).getName().replace("\"", "\"\"");
+                    String airpCity = airportsToImport.get(i).getCity().replace("\"", "\"\"");
+                    String airpCountry = airportsToImport.get(i).getCountry().replace("\"", "\"\"");
+                    String airpIATA_FFA = airportsToImport.get(i).getIATA_FFA().replace("\"", "\"\"");
+                    String airpICAO = airportsToImport.get(i).getICAO().replace("\"", "\"\"");
+                    double airpLat = airportsToImport.get(i).getLatitude();
+                    double airpLong = airportsToImport.get(i).getLongitude();
+                    double airpAltitude = airportsToImport.get(i).getAltitude();
+                    if (numOfAirports > 0) {
+                        insertAirportQuery += ",";
+                    }
+                    insertAirportQuery += "(\"" + airpName + "\", \"" + airpCity + "\", \"" + airpCountry + "\", \"" + airpIATA_FFA + "\"," +
+                            " \"" + airpICAO + "\", " + airpLat + ", " + airpLong + ", " + airpAltitude + ")";
+                    airportsToImport.get(i).setID(nextID);
+                    //this is placed after incase the database messes up
+                    airports.add(airportsToImport.get(i));
+                    airportDictionary.put(airpName, airportsToImport.get(i));
+                    nextID++;
+                    numOfAirports++;
+                }
+            }
+            if (numOfAirports > 0) {
+                stmt.execute(insertAirportQuery);
+            }
+            stmt.close();
+            stmt = c.createStatement();
+            System.out.println("Inserting Cities Now");
+            /*///////////////
+            //Insert Cities//
+            ///////////////*/
+            String insertCityQuery = "INSERT INTO `" + this.name + "_City` (`City_Name`, `Country_Name`, `Timezone`, " +
+                    "`Olson_Timezone`) VALUES ";
+            int numOfCities = 0;
+            for (int i = 0; i < citiesToImport.size(); i++) {
+                if (cityDictionary.containsKey(citiesToImport.get(i).getName())) {
+                    //duplicates are not increased as this is not an airport
+                } else {
+                    //city variables
+                    String cityName = citiesToImport.get(i).getName().replace("\"", "\"\"");
+                    String cityCountry = citiesToImport.get(i).getCountry().replace("\"", "\"\"");
+                    double cityTz = citiesToImport.get(i).getTimezone();
+                    String cityOlson = citiesToImport.get(i).getTimeOlson().replace("\"", "\"\"");
+                    if (numOfCities > 0){
+                        insertCityQuery += ",";
+                    }
+                    insertCityQuery += "(\"" + cityName + "\", \"" + cityCountry + "\", " + cityTz + ", \"" + cityOlson + "\")";
+                    //this is placed after incase the database messes up
+                    cities.add(citiesToImport.get(i));
+                    cityDictionary.put(cityName, citiesToImport.get(i));
+                    numOfCities++;
+                }
+            }
+            if (numOfCities > 0) {
+                stmt.execute(insertCityQuery);
+            }
+            stmt.close();
+            stmt = c.createStatement();
+            System.out.println("Inserting Countries Now");
+            /*//////////////////
+            //Insert Countries//
+            //////////////////*/
+            String insertCountryQuery = "INSERT INTO `" + this.name + "_Country` (`Country_Name`, `DST`) VALUES ";
+            int numOfCountries = 0;
+            for (int i = 0; i < countriesToImport.size(); i++) {
+                if (countryDictionary.containsKey(countriesToImport.get(i).getName())) {
+                    //duplicates are not increased as this is not an airport
+                } else {
+                    //country variables
+                    String countryName = countriesToImport.get(i).getName().replace("\"", "\"\"");
+                    String countryDST = countriesToImport.get(i).getDST().replace("\"", "\"\"");
+                    if (numOfCountries > 0){
+                        insertCountryQuery += ",";
+                    }
+                    insertCountryQuery += "(\"" + countryName + "\", \"" + countryDST + "\")";
+                    //this is placed after incase the database messes up
+                    countries.add(countriesToImport.get(i));
+                    countryDictionary.put(countryName, countriesToImport.get(i));
+                    numOfCountries++;
+                }
+            }
+            if (numOfCountries > 0){
+                stmt.execute(insertCountryQuery);
+            }
+            stmt.close();
+            c.close();
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            System.exit(0);
+        }
+        message += "\nDuplicates ommitted: "+numOfDuplicates;
+        createDataLinks();
+        return message;
+    }
+    /**
+     * This function updates the connections between airports citys countries etc.
+     */
+    public void createDataLinks(){
+
+    }
+
+    public ArrayList<Airline> getAirlines() {
+        return airlines;
+    }
+
+    public ArrayList<Airport> getAirports() {
+        return airports;
+    }
+
+    public ArrayList<Route> getRoutes() {
+        return routes;
+    }
+
+    public ArrayList<FlightPath> getFlightPaths() {
+        return flightPaths;
+    }
+
+    public ArrayList<Country> getCountries() {
+        return countries;
+    }
+
+    public ArrayList<City> getCities() {
+        return cities;
+    }
 }
