@@ -14,7 +14,8 @@ import seng202.group9.GUI.MainMenuBar;
  */
 public class App extends Application
 {
-	ArrayList<Dataset> Datasets = new ArrayList<Dataset>();
+	private ArrayList<Dataset> Datasets = new ArrayList<Dataset>();
+	private Dataset currentDataset = null;
 	
     public static void main( String[] args )
     {
@@ -36,9 +37,8 @@ public class App extends Application
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		//testing out dataset
-		Dataset dataset1 = null;
 		try {
-			dataset1 = new Dataset("test's", Dataset.getExisting);
+			currentDataset = new Dataset("test's", Dataset.getExisting);
 		}catch (DataException e){
 			e.printStackTrace();
 		}
@@ -63,5 +63,9 @@ public class App extends Application
 		} catch (DataException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public Dataset getCurrentDataset(){
+		return currentDataset;
 	}
 }
