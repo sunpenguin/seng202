@@ -43,17 +43,15 @@ public class App extends Application
 			e.printStackTrace();
 		}
 		//testing out airport parser
-		AirportParser airportParser = new AirportParser("res/Samples/Airports.txt");
 		try {
-			System.out.println(airportParser.parse());
+			System.out.println(currentDataset.importAirport("res/Samples/Airports.txt"));
 		} catch (DataException e) {
 			e.printStackTrace();
 		}
 		//testing out airline parser
-		AirlineParser airlineParser = new AirlineParser("res/Samples/Airlines.txt");
-		try {
-			System.out.println(airlineParser.parse());
-		} catch (DataException e) {
+		try{
+			System.out.println(currentDataset.importAirline("res/Samples/Airlines.txt"));
+		} catch (DataException e){
 			e.printStackTrace();
 		}
 		//testing out route parser
