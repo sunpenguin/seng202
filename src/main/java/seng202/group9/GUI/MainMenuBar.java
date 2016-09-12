@@ -14,7 +14,7 @@ public class MainMenuBar{
 		
 	public Parent getmenuBar(){
 		try{
-			Parent menuPane = FXMLLoader.load(getClass().getResource(menuFXML));
+			Parent menuPane = FXMLLoader.load(getClass().getClassLoader().getResource(menuFXML));
 			return menuPane;
 		}catch (Exception e){
 			e.printStackTrace();
