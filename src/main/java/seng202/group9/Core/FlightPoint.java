@@ -15,14 +15,14 @@ public class FlightPoint {
 	private double latitude;
 	private double longitude;
 
-	public FlightPoint(String type, String via, double altitude, double latitude, double longitude){
+	public FlightPoint(String type, String name, double altitude, double latitude, double longitude){
 		//extra calculations will have to be used to find heading, legdistance and total distance. If necessary
 		//Type 1 file the file the lecturers gave us
-		this.name = "";
+		this.name = name;
 		this.ID = -1;
 		this.indexID = -1;
 		this.type = type;
-		this.via = via;
+		this.via = "";
 		this.heading = 0;
 		this.altitude = altitude;
 		this.legDistance = 0.0;

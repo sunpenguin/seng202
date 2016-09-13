@@ -60,7 +60,19 @@ public class App extends Application
 			currentDataset = new Dataset("test's", Dataset.getExisting);
 		}catch (DataException e){
 			e.printStackTrace();
+
 		}/*
+
+		}
+		/*
+		//testout single airport adding
+		try {
+			currentDataset.addAirline("Dota2", "Valve", "D2", "DOT", "Defence of the Ancients", "Steam", "Y");
+		}catch (DataException e){
+			e.printStackTrace();
+		}
+
+
 		//testing out airport parser
 		try {
 			System.out.println(currentDataset.importAirport("res/Samples/Airports.txt"));
@@ -79,7 +91,13 @@ public class App extends Application
 		} catch (DataException e) {
 			e.printStackTrace();
 		}
-		*/
+
+        try {
+            System.out.println(currentDataset.importFlight("res/Samples/NZCH-WSSS.csv"));
+        } catch (DataException e) {
+            e.printStackTrace();
+        }
+*/
 	}
 
 	/**

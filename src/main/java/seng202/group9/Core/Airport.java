@@ -289,6 +289,21 @@ public class Airport {
 	public void delArrivalRoutes(int index){
 		arrivalRoutes.remove(index);
 	}
+
+	/**
+	 * Calculates the distance between this airport and another airport in kilometers.
+	 * @param airport
+	 * @return
+     */
+	public double calculateDistance(Airport airport){
+		double distance = 0;
+		double dLong = this.longitude - airport.getLatitude();
+		double dLat = this.latitude - airport.getLatitude();
+		double a = Math.pow((Math.sin(dLat/2)), 2) + Math.cos(this.latitude) * Math.cos(airport.getLatitude()) * Math.pow(Math.sin(dLong/2), 2);
+		double c = a * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+		distance = 6371 * c;
+		return distance;
+	}
 	/**
 	 * Information of the airport returned in String format.
 	 */
