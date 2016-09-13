@@ -53,8 +53,7 @@ public class MenuController implements Initializable{
 	 */
 	public void viewFlightSummary() {
 		try {
-			FlightSummaryController summaryController = (FlightSummaryController)
-			parent.replaceSceneContent("flight_data_summary.fxml");
+			FlightSummaryController summaryController = (FlightSummaryController) parent.replaceSceneContent("flight_data_summary.fxml");
 			summaryController.setApp(parent);
 		} catch (Exception e) {
 			e.printStackTrace();
