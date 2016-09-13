@@ -5,10 +5,16 @@ import java.util.ResourceBundle;
 
 import javax.swing.JOptionPane;
 
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
+
+import javafx.stage.Stage;
+import seng202.group9.Controller.App;
 
 public class MenuController implements Initializable{
-	
+
 	public void importAirports(){
 		JOptionPane.showMessageDialog(null, "This is not Implemented yet");
 	}
@@ -24,6 +30,23 @@ public class MenuController implements Initializable{
 	public void importFlightData(){
 		JOptionPane.showMessageDialog(null, "This is not Implemented yet");
 	}
+
+	@FXML
+	public void viewFlightSummary() {
+
+		Stage stage = new Stage();
+		BorderPane root = new BorderPane(); //root panel
+		Scene scene = new Scene(root);
+		//create the Flight summary page
+		FlightDataSummary flightSummPage = new FlightDataSummary();
+		root.setTop(flightSummPage.getFlightSummary());
+		stage.setScene(scene);
+		stage.show();
+		//seng202.group9.Controller.App.primaryStage.setScene(scene);
+		//System.out.println("GOT HERE");
+		//seng202.group9.Controller.App.primaryStage.show();
+	}
+
 
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
