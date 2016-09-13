@@ -44,7 +44,7 @@
                                        <children>
                                           <TableView layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="378.0">
                                              <columns>
-                                                <TableColumn prefWidth="75.0" text="Name" />
+                                                <TableColumn fx:id="namesColumn" prefWidth="75.0" text="Name" />
                                                 <TableColumn prefWidth="75.0" text="City" />
                                                 <TableColumn prefWidth="75.0" text="Country" />
                                                 <TableColumn prefWidth="75.0" text="Altitude" />
@@ -64,22 +64,22 @@
                            <children>
                               <Pane layoutY="200.0" prefHeight="100.0" prefWidth="253.0">
                                  <children>
-                                    <Button layoutX="20.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Routes">
+                                    <Button fx:id="toRoutesSumary" layoutX="20.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Routes">
                                        <font>
                                           <Font size="12.0" />
                                        </font>
                                     </Button>
-                                    <Button layoutX="94.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Airlines">
+                                    <Button fx:id="toAirlineSummary" layoutX="94.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Airlines">
                                        <font>
                                           <Font size="12.0" />
                                        </font>
                                     </Button>
-                                    <Button layoutX="169.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Flights">
+                                    <Button fx:id="toFlightSummary" layoutX="169.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Flights">
                                        <font>
                                           <Font size="12.0" />
                                        </font>
                                     </Button>
-                                    <Button layoutX="20.0" layoutY="61.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="214.0" text="Airport Raw Data" />
+                                    <Button fx:id="toAiportRawData" layoutX="20.0" layoutY="61.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="214.0" text="Airport Raw Data" />
                                  </children>
                                  <padding>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
