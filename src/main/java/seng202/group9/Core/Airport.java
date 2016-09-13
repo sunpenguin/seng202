@@ -195,9 +195,9 @@ public class Airport {
 	 * gets the IATA/FFA of the airport
 	 * @return IATA/FFA Code
 	 */
-	public String IATA_FFA(){
-		return IATA_FFA;
-	}
+//	public String IATA_FFA(){
+//		return IATA_FFA;
+//	}
 	/**
 	 * gets the altitude of the airport
 	 * @return Altitude of Airport
@@ -292,6 +292,7 @@ public class Airport {
 	/**
 	 * Information of the airport returned in String format.
 	 */
+
 	@Override
 	public String toString(){
 		return this.city+" Airport has ICAO: "+this.ICAO+", IATA/FFA: "+this.IATA_FFA+" and is located at ("+this.latitude+", "+this.longitude

@@ -1,23 +1,19 @@
 package seng202.group9.GUI;
 
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import seng202.group9.Controller.DataException;
+import seng202.group9.Controller.App;
 import seng202.group9.Controller.Dataset;
 import seng202.group9.Core.Airline;
-
-import java.net.URL;
-import java.util.ResourceBundle;
-
 
 /**
  * Created by Sunguin on 2016/09/13.
  */
-public class AirlineRDController extends MenuController implements Initializable{
+public class AirlineRDController extends MenuController {
 
     @FXML
     private TableView<Airline> tableView;
@@ -57,13 +53,13 @@ public class AirlineRDController extends MenuController implements Initializable
 
     private Dataset theDataSet = null;
 
-    public AirlineRDController(){
+    App parent;
+
+    public void setApp(App parent){
+        this.parent = parent;
     }
 
-    //Initializes the table.
-    //Uses dummy data since I have no idea how the data is connected together.
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void loadTables() {
         airlIDcol.setCellValueFactory(new PropertyValueFactory<Airline, String>("ID"));
         airlNamecol.setCellValueFactory(new PropertyValueFactory<Airline, String>("Name"));
         airlAliascol.setCellValueFactory(new PropertyValueFactory<Airline, String>("Alias"));
@@ -73,17 +69,13 @@ public class AirlineRDController extends MenuController implements Initializable
         airlCountrycol.setCellValueFactory(new PropertyValueFactory<Airline, String>("Country"));
         airlActivecol.setCellValueFactory(new PropertyValueFactory<Airline, String>("Active"));
 
-        try {
-            theDataSet = new Dataset("test's", Dataset.getExisting);
-        }catch (DataException e){
-            e.printStackTrace();
-        }
-        try{
-            System.out.println(theDataSet.importAirline("res/Samples/Airlines.txt"));
-        } catch (DataException e){
-            e.printStackTrace();
-        }
-        tableView.setItems(theDataSet.getAirlines());
+        theDataSet = this.parent.getCurrentDataset();
+//        try{
+//            System.out.println(theDataSet.importAirline("res/Samples/Airlines.txt"));
+//        } catch (DataException e){
+//            e.printStackTrace();
+//        }
+        tableView.setItems(FXCollections.observableArrayList(theDataSet.getAirlines()));
     }
 
     //Dummy function to test the add button.

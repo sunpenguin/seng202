@@ -9,11 +9,11 @@ import java.util.ArrayList;
 
 public class AirlineParser extends Parser {
     String filePath = "";
-    ObservableList<Airline> parsedAirline;
+    ArrayList<Airline> parsedAirline;
 
     public AirlineParser(String filePath){
         this.filePath = filePath;
-        parsedAirline = FXCollections.observableArrayList();
+        parsedAirline = new ArrayList<Airline>();
     }
 
     public String parse() throws DataException{
@@ -122,7 +122,7 @@ public class AirlineParser extends Parser {
                 "Entries With Errors: %2$d", successful, error);
     }
 
-    public ObservableList<Airline> getResult(){
+    public ArrayList<Airline> getResult(){
         return parsedAirline;
     }
 
