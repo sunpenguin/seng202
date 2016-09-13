@@ -629,9 +629,90 @@ public class Dataset {
         createDataLinks();
         return message;
     }
+
+    /**
+     * Imports Airline files to dataset
+     * @param filePath
+     * @return Success Message
+     * @throws DataException
+     */
+
+    /*
+    public String importFlight(String filePath) throws DataException {
+        FlightPathParser parser = new FlightPathParser(filePath);
+        //remember this still has to append the duplicate message to it.
+        //routes are identified in the diction by routeAirline + routeSourceAirport + routeArrvAirport + routeCodeShare + routeStops + routeEquip;
+        String message = parser.parse();
+        ArrayList<FlightPoint> flightsToImport = parser.getResult();
+        //check for dup
+        int numOfDuplicates = 0;
+        int nextID = -1;
+        //query database.
+        Connection c = null;
+        Statement stmt = null;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
+            stmt = c.createStatement();
+            String queryName = this.name.replace("'", "''").replace("\"", "\"\"");
+            String IDQuery = "SELECT * FROM `sqlite_sequence` WHERE `name` = '"+queryName+"_Routes' LIMIT 1;";
+            ResultSet IDResult = stmt.executeQuery(IDQuery);
+            while(IDResult.next()){
+                nextID = Integer.parseInt(IDResult.getString("seq")) + 1;//for some reason sqlite3 stores incremental values as a string...
+            }
+            stmt.close();
+            stmt = c.createStatement();
+            String insertFlightQuery = "INSERT INTO `" + this.name + "_Routes` (`Airline`, `Source_Airport`, `Destination_Airport`," +
+                    " `Codeshare`, `Stops`, `Equipment`) VALUES ";
+            int numOfRoutes = 0;
+            for (int i = 0; i < flightsToImport.size(); i ++){
+                String routeIdentifier = flightsToImport.get(i).getType() + flightsToImport.get(i).getID() +
+                        flightsToImport.get(i).getAltitude() + flightsToImport.get(i).getLatitude() +
+                        flightsToImport.get(i).getLongitude();
+                //if (routeDictionary.containsKey(routeIdentifier)){
+                //        numOfDuplicates ++;
+                //}else{
+                    //route variables
+                String flightType = flightsToImport.get(i).getType().replace("\"", "\"\"");
+                String flightID = flightsToImport.get(i).getID().replace("\"", "\"\"");
+                double flightAltitude = flightsToImport.get(i).getAltitude();
+                double flightLatitude = flightsToImport.get(i).getLatitude();
+                double flightLongitude = flightsToImport.get(i).getLongitude();
+                //insert import into database
+                if (numOfRoutes > 0){
+                    insertFlightQuery += ",";
+                }
+                insertFlightQuery += "(\""+flightType+"\", \"" + flightID + "\", \"" + flightAltitude + "\", " +
+                        "\"" + flightLatitude + "\", " + flightLongitude + "\")";
+                flightsToImport.get(i).setID(nextID);
+                //add data to dataset array.
+                //this is placed after incase the database messes up
+                flights.add(flightsToImport.get(i));
+                routeDictionary.put(routeIdentifier, flightsToImport.get(i));
+                nextID++;
+                numOfRoutes++;
+                //}
+            }
+            if (numOfRoutes > 0){
+                stmt.execute(insertRouteQuery);
+                stmt.close();
+            }
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            System.exit(0);
+        }
+        message += "\nDuplicates ommitted: "+numOfDuplicates;
+        createDataLinks();
+        return message;
+    }
+    /*
+
+
+     */
     /**
      * This function updates the connections between airports citys countries etc.
      */
+
     public void createDataLinks(){
 
     }
