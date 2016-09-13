@@ -21,12 +21,12 @@ public class Dataset {
     ArrayList<FlightPath> flightPaths;
     ArrayList<Country> countries;
     ArrayList<City> cities;
-    LinkedHashMap airlineDictionary;
-    LinkedHashMap airportDictionary;
-    LinkedHashMap routeDictionary;
-    LinkedHashMap flightPathDictionary;
-    LinkedHashMap countryDictionary;
-    LinkedHashMap cityDictionary;
+    LinkedHashMap<String, Airline> airlineDictionary;
+    LinkedHashMap<String, Airport> airportDictionary;
+    LinkedHashMap<String, Route> routeDictionary;
+    LinkedHashMap<String, FlightPath> flightPathDictionary;
+    LinkedHashMap<String, Country> countryDictionary;
+    LinkedHashMap<String, City> cityDictionary;
 
     /**
      *
@@ -42,11 +42,11 @@ public class Dataset {
         this.routes = new ArrayList<Route>();
         this.cities = new ArrayList<City>();
         this.countries = new ArrayList<Country>();
-        this.airlineDictionary = new LinkedHashMap();
-        this.airportDictionary = new LinkedHashMap();;
-        this.routeDictionary = new LinkedHashMap();;
-        this.countryDictionary = new LinkedHashMap();;
-        this.cityDictionary = new LinkedHashMap();;
+        this.airlineDictionary = new LinkedHashMap<String, Airline>();
+        this.airportDictionary = new LinkedHashMap<String, Airport>();;
+        this.routeDictionary = new LinkedHashMap<String, Route>();;
+        this.countryDictionary = new LinkedHashMap<String, Country>();;
+        this.cityDictionary = new LinkedHashMap<String, City>();;
         if (action == getExisting){
             updateDataset();
             //after this make connections. ie filling in the country.cities airports.routes etc
@@ -585,6 +585,7 @@ public class Dataset {
                 nextID = Integer.parseInt(IDResult.getString("seq")) + 1;//for some reason sqlite3 stores incremental values as a string...
             }
             stmt.close();
+
             stmt = c.createStatement();
             String insertRouteQuery = "INSERT INTO `" + this.name + "_Routes` (`Airline`, `Source_Airport`, `Destination_Airport`," +
                     " `Codeshare`, `Stops`, `Equipment`) VALUES ";
@@ -715,6 +716,54 @@ public class Dataset {
 
     public void createDataLinks(){
 
+    }
+
+    public void addAirline(String name, String alias, String IATA, String ICAO, String callsign, String country, String active) throws DataException{
+        Airline airlineToAdd = new Airline(name, alias, IATA, ICAO, callsign, country, active);
+        addAirline(airlineToAdd);
+    }
+
+    public void addAirline(Airline airlineToAdd) throws DataException{
+        if (airlineToAdd.getIATA().length() != 0 && airlineToAdd.getIATA().length() != 2){
+            throw new DataException("IATA is either empty or length of 2 Letters.");
+        }
+        if (airlineToAdd.getICAO().length() != 0 && airlineToAdd.getICAO().length() != 3){
+            throw new DataException("ICAO is either empty or length of 3 Letters.");
+        }
+        if (airlineToAdd.getActive().length() != 1){
+            throw new DataException ("Active must be Y or N.");
+        }
+        for (String key : airlineDictionary.keySet()){
+            airlineDictionary.get(key).hasDuplicate(airlineToAdd);
+        }
+        //checking is done now we add it to the dictionary and the database
+        //query database.
+        Connection c = null;
+        Statement stmt = null;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
+            //add the airline
+            stmt = c.createStatement();
+            String insertAirlineQuery = "INSERT INTO `" + this.name + "_Airline` (`Name`, `Alias`, `IATA`, `ICAO`" +
+                    ", `Callsign`, `Country`, `Active`) VALUES (\""+airlineToAdd.getName()+"\", \"" + airlineToAdd.getAlias() + "\", " +
+                    "\"" + airlineToAdd.getIATA() + "\", \"" + airlineToAdd.getICAO() + "\", \"" + airlineToAdd.getCallSign() + "\", " +
+                    "\"" + airlineToAdd.getCountry() + "\", \"" + airlineToAdd.getActive() + "\");";
+            stmt.execute(insertAirlineQuery);
+            //get the airline id
+            stmt = c.createStatement();
+            String airlineIDQuery = "SELECT * FROM `sqlite_sequence` WHERE `name` = \""+this.name+"_Airline\" LIMIT 1;";
+            ResultSet airlineIDRes= stmt.executeQuery(airlineIDQuery);
+            int airlineID = 0;
+            while (airlineIDRes.next()){
+                airlineID = Integer.parseInt(airlineIDRes.getString("seq"));
+            }
+            airlineToAdd.setID(airlineID);
+            airlines.add(airlineToAdd);
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            System.exit(0);
+        }
     }
 
     public ArrayList<Airline> getAirlines() {

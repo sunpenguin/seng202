@@ -228,6 +228,29 @@ public class Airline {
 	public void delRoutes(int index){
 		routes.remove(index);
 	}
+
+	/**
+	 * checks if the airline has a duplicate unique entry to another. Used for validating
+	 * @param airline
+	 * @return
+     */
+	public void hasDuplicate(Airline airline) throws DataException{
+		if (this.name == airline.getName()){
+			throw new DataException("This Airline Name already Exists, Please Choose Another.");
+		}
+		if (this.IATA != "" && this.IATA == airline.getIATA()){
+			throw new DataException("This IATA Code already Exists, Please Choose Another.");
+		}
+		if (this.ICAO != "" && this.ICAO == airline.getICAO()){
+			throw new DataException("This ICAO Code already Exists, Please Choose Another.");
+		}
+		if (this.alias != "" && this.alias == airline.getAlias()){
+			throw new DataException("This Alias already Exists, Please Choose Another.");
+		}
+		if (this.callSign != "" && this.callSign == airline.getCallSign()){
+			throw new DataException("This Callsign already Exists, Please Choose Another.");
+		}
+	}
 	/**
 	 * returns the name of the airline when concatenated to a string.
 	 */
