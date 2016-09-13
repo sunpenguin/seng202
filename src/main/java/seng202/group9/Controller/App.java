@@ -54,13 +54,14 @@ public class App extends Application
 			e.printStackTrace();
 		}
 		primaryStage.show();
-		/*
+/*
 		//testing out dataset
 		try {
 			currentDataset = new Dataset("test's", Dataset.getExisting);
 		}catch (DataException e){
 			e.printStackTrace();
 		}
+
 		//testing out airport parser
 		try {
 			System.out.println(currentDataset.importAirport("res/Samples/Airports.txt"));
@@ -79,7 +80,13 @@ public class App extends Application
 		} catch (DataException e) {
 			e.printStackTrace();
 		}
-		*/
+
+        try {
+            System.out.println(currentDataset.importFlight("res/Samples/NZCH-WSSS.csv"));
+        } catch (DataException e) {
+            e.printStackTrace();
+        }
+*/
 	}
 
 	/**
