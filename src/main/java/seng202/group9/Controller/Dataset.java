@@ -738,6 +738,17 @@ public class Dataset {
 
     }
 
+    /**
+     * Addes Single Airline to Program and Database.
+     * @param name
+     * @param alias
+     * @param IATA
+     * @param ICAO
+     * @param callsign
+     * @param country
+     * @param active
+     * @throws DataException
+     */
     public void addAirline(String name, String alias, String IATA, String ICAO, String callsign, String country, String active) throws DataException{
         Airline airlineToAdd = new Airline(name, alias, IATA, ICAO, callsign, country, active);
         addAirline(airlineToAdd);
@@ -780,9 +791,118 @@ public class Dataset {
             }
             airlineToAdd.setID(airlineID);
             airlines.add(airlineToAdd);
+            airlineDictionary.put(airlineToAdd.getName(), airlineToAdd);
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
             System.exit(0);
+        }
+    }
+
+    public void addAirport(String name, String city, String country, String IATA_FFA, String ICAO, String latitude, String longitude,
+                           String altitude, String timezone, String DST, String olsonTz) throws DataException{
+        try{
+            double latitudeVal = Double.parseDouble(latitude);
+            double longitudeVal = Double.parseDouble(longitude);
+            double altitudeVal = Double.parseDouble(altitude);
+            double timezoneVal = Double.parseDouble(timezone);
+            Airport airportToAdd = new Airport(name, city, country, IATA_FFA, ICAO, latitudeVal, longitudeVal, altitudeVal);
+            City cityToAdd = new City(city, country, timezoneVal, olsonTz);
+            Country countryToAdd = new Country(DST, country);
+            addAirport(airportToAdd);
+            addCity(cityToAdd);
+            addCountry(countryToAdd);
+        }catch (NumberFormatException e){
+            throw new DataException("Latitude, Longitude, Altitude and Timezone must be numbers");
+        }
+    }
+
+    public void addAirport(Airport airportToAdd) throws DataException{
+        if (airportToAdd.getIATA_FFA() != "" && airportToAdd.getIATA_FFA().length() != 3){
+            throw new DataException("IATA/FFA either empty or 3 letters");
+        }
+        if (airportToAdd.getICAO() != "" && airportToAdd.getICAO().length() != 4){
+            throw new DataException("ICAO either empty or 4 letters");
+        }
+        for (String key : airportDictionary.keySet()){
+            airportDictionary.get(key).hasDuplicate(airportToAdd);
+        }
+        //checking is done now we add it to the dictionary and the database
+        //query database.
+        Connection c = null;
+        Statement stmt = null;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
+            //add the airport
+            stmt = c.createStatement();
+            String insertAirportQuery = "INSERT INTO `" + this.name + "_Airport`  (`Name`, `City`, `Country`, `IATA/FFA`, " +
+                    "`ICAO`, `Latitude`, `Longitude`, `Altitude`) VALUES (\""+airportToAdd.getName()+"\", \""+airportToAdd.getCity()+"\", " +
+                    "\""+airportToAdd.getCountry()+"\", \""+airportToAdd.getIATA_FFA()+"\", \""+airportToAdd.getICAO()+"\", " +
+                    ""+airportToAdd.getLatitude()+", "+airportToAdd.getLongitude()+", "+airportToAdd.getAltitude()+");";
+            stmt.execute(insertAirportQuery);
+            //get the airport id
+            stmt = c.createStatement();
+            String airportIDQuery = "SELECT * FROM `sqlite_sequence` WHERE `name` = \""+this.name+"_Airport\" LIMIT 1;";
+            ResultSet airportIDRes= stmt.executeQuery(airportIDQuery);
+            int airportID = 0;
+            while (airportIDRes.next()){
+                airportID = Integer.parseInt(airportIDRes.getString("seq"));
+            }
+            airportToAdd.setID(airportID);
+            airports.add(airportToAdd);
+            airportDictionary.put(airportToAdd.getName(), airportToAdd);
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            System.exit(0);
+        }
+    }
+
+    public void addCity(City city){
+        if (!cityDictionary.containsKey(city.getName())){
+            Connection c = null;
+            Statement stmt = null;
+            try {
+                Class.forName("org.sqlite.JDBC");
+                c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
+                //add the city
+                stmt = c.createStatement();
+                String cityName = city.getName().replace("\"", "\"\"");
+                String countryName = city.getCountry().replace("\"", "\"\"");
+                String olson = city.getTimeOlson().replace("\"", "\"\"");
+                String insertCityQuery = "INSERT INTO `" + this.name + "_City` (`City_Name`, `Country_Name`, `Timezone`, " +
+                        "`Olson_Timezone`) VALUES (\""+cityName+"\", \""+countryName+"\", "+city.getTimezone() + ", \""+olson+"\");";
+                stmt.execute(insertCityQuery);
+                stmt.close();
+                cityDictionary.put(city.getName(), city);
+                cities.add(city);
+            } catch ( Exception e ) {
+                System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+                System.exit(0);
+            }
+        }
+    }
+
+    public void addCountry(Country country){
+        if (!countryDictionary.containsKey(country.getName())){
+            Connection c = null;
+            Statement stmt = null;
+            try {
+                Class.forName("org.sqlite.JDBC");
+                c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
+                //add the city
+                stmt = c.createStatement();
+                String countryName = country.getName().replace("\"", "\"\"");
+                String countryDST = country.getDST().replace("\"", "\"\"");
+                String insertCityQuery = "INSERT INTO `" + this.name + "_Country` (`Country_Name`, `DST`) VALUES" +
+                        " (\""+countryName+"\", \""+countryDST+"\");";
+                stmt.execute(insertCityQuery);
+                stmt.close();
+                countryDictionary.put(country.getName(), country);
+                countries.add(country);
+            } catch ( Exception e ) {
+                System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+                System.exit(0);
+            }
         }
     }
 

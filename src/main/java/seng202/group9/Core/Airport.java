@@ -304,6 +304,17 @@ public class Airport {
 		distance = 6371 * c;
 		return distance;
 	}
+	public void hasDuplicate(Airport airport) throws DataException{
+		if (!airport.getName().equals("") && airport.getName().equals(this.name)){
+			throw new DataException("Airport Name already Exists, Please Choose Another.");
+		}
+		if (!airport.getIATA_FFA().equals("") && airport.getIATA_FFA().equals(this.name)){
+			throw new DataException("Airport Name already Exists, Please Choose Another.");
+		}
+		if (!airport.getICAO().equals("") && airport.getICAO().equals(this.name)){
+			throw new DataException("Airport Name already Exists, Please Choose Another.");
+		}
+	}
 	/**
 	 * Information of the airport returned in String format.
 	 */
