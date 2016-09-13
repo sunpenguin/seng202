@@ -5,7 +5,6 @@ import java.util.ResourceBundle;
 
 import javax.swing.JOptionPane;
 
-import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -36,7 +35,7 @@ public class MenuController implements Initializable{
 	/**
 	 * Load Airline Raw Data Function.
 	 */
-	public void loadAirlineRaw() {
+	public void viewAirlineRawData() {
 		try {
 			parent.replaceSceneContent("menu.fxml");
 			System.out.println("Loaded Airline Raw Data.");
@@ -49,31 +48,30 @@ public class MenuController implements Initializable{
 		this.parent = parent;
 	}
 
+	/**
+	 * Load Flight Summary Function.
+	 */
 	public void viewFlightSummary() {
-		Stage stage = new Stage();
-		BorderPane root = new BorderPane(); //root panel
-		Scene scene = new Scene(root);
-		//create the Flight summary page
-		FlightDataSummary flightSummPage = new FlightDataSummary();
-		root.setTop(flightSummPage.getFlightSummary());
-		stage.setScene(scene);
-		stage.show();
-		//seng202.group9.Controller.App.primaryStage.setScene(scene);
-		//seng202.group9.Controller.App.primaryStage.show();
+		try {
+			FlightSummaryController summaryController = (FlightSummaryController)
+			parent.replaceSceneContent("flight_data_summary.fxml");
+			summaryController.setApp(parent);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
+	/**
+	 * Load Flight Raw Data Function.
+	 */
 	public void viewFlightRawData() {
-
-		Stage stage = new Stage();
-		BorderPane root = new BorderPane(); //root panel
-		Scene scene = new Scene(root);
-		//create the Flight summary page
-		FlightRawData flightRawDataPage = new FlightRawData();
-		root.setTop(flightRawDataPage.getFlightRawData());
-		stage.setScene(scene);
-		stage.show();
-		//seng202.group9.Controller.App.primaryStage.setScene(scene);
-		//seng202.group9.Controller.App.primaryStage.show();
+		try {
+			FlightRawDataController rawDataController = (FlightRawDataController)
+					parent.replaceSceneContent("flight_raw_data.fxml");
+			rawDataController.setApp(parent);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 

@@ -49,11 +49,12 @@ public class App extends Application
 			primaryStage.sizeToScene();
 			MenuController menuController = (MenuController) loader.getController();
 			menuController.setApp(this);
-			replaceSceneContent("menu.fxml");//replace this to check your fxml file
+			//replaceSceneContent("flight_raw_data.fxml");//replace this to check your fxml file
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		primaryStage.show();
+		/*
 		//testing out dataset
 		try {
 			currentDataset = new Dataset("test's", Dataset.getExisting);
@@ -78,6 +79,7 @@ public class App extends Application
 		} catch (DataException e) {
 			e.printStackTrace();
 		}
+		*/
 	}
 
 	/**
