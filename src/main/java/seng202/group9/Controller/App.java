@@ -26,6 +26,7 @@ public class App extends Application
 	private ArrayList<Dataset> Datasets = new ArrayList<Dataset>();
 	private Dataset currentDataset = null;
 	private Stage primaryStage = null;
+	private VBox mainContainer;
 	
     public static void main( String[] args )
     {
@@ -38,8 +39,15 @@ public class App extends Application
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
+		//load the menu and the first container
 		try {
-			MenuController menuController = new MenuController();
+			FXMLLoader loader = new FXMLLoader();
+			InputStream in = getClass().getClassLoader().getResourceAsStream("menu.fxml");
+			mainContainer = (VBox) loader.load(in);
+			Scene scene = new Scene(mainContainer, 800, 600);
+			primaryStage.setScene(scene);
+			primaryStage.sizeToScene();
+			MenuController menuController = (MenuController) loader.getController();
 			menuController.setApp(this);
 			replaceSceneContent("menu.fxml");//replace this to check your fxml file
 		} catch (Exception e) {
@@ -81,18 +89,16 @@ public class App extends Application
 	public Initializable replaceSceneContent(String fxml) throws Exception {
 		FXMLLoader loader = new FXMLLoader();
 		InputStream in = getClass().getClassLoader().getResourceAsStream(fxml);
-		InputStream menuIn = getClass().getClassLoader().getResourceAsStream("menu.fxml");
-		VBox page;
+		Parent page;
 		try {
-			page = (VBox) loader.load(menuIn);
-			Parent content = loader.load(getClass().getClassLoader().getResource(fxml));
-			page.getChildren().add(content);
+			page = (Parent) loader.load(in);
 		} finally {
 			in.close();
 		}
-		Scene scene = new Scene(page, 800, 600);
-		primaryStage.setScene(scene);
-		primaryStage.sizeToScene();
+		while(mainContainer.getChildren().size() > 1) {
+			mainContainer.getChildren().remove(1);
+		}
+		mainContainer.getChildren().add(page);
 		return (Initializable) loader.getController();
 	}
 

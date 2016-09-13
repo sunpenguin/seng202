@@ -34,7 +34,8 @@ public class MenuController implements Initializable{
 	 */
 	public void loadAirlineRaw(){
 		try {
-			parent.replaceSceneContent("airline_raw_data.fxml");
+			parent.replaceSceneContent("menu.fxml");
+			System.out.println("Loaded Airline Raw Data.");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
