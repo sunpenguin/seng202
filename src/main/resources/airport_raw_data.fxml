@@ -1,45 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.shape.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.control.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="533.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="533.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group9.GUI.AirportRDController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
   </columnConstraints>
   <rowConstraints>
-    <RowConstraints maxHeight="125.0" minHeight="0.0" prefHeight="9.0" vgrow="SOMETIMES" />
     <RowConstraints maxHeight="457.0" minHeight="10.0" prefHeight="403.0" vgrow="SOMETIMES" />
     <RowConstraints maxHeight="129.0" minHeight="10.0" prefHeight="111.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <MenuBar GridPane.columnSpan="2">
-         <menus>
-            <Menu mnemonicParsing="false" text="File">
-               <items>
-                  <MenuItem mnemonicParsing="false" onAction="#importAirports" text="Import Airports" />
-                  <MenuItem mnemonicParsing="false" onAction="#importAirlines" text="Import Airlines" />
-                  <MenuItem mnemonicParsing="false" onAction="#importRoutes" text="Import Routes" />
-                  <MenuItem mnemonicParsing="false" onAction="#importFlightData" text="Import Flight Data" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="Close" />
-               </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="View" />
-            <Menu mnemonicParsing="false" text="Analysis" />
-            <Menu mnemonicParsing="false" text="Help">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="Getting Started" />
-               </items>
-            </Menu>
-         </menus>
-      </MenuBar>
-      <Pane prefHeight="141.0" prefWidth="306.0" GridPane.columnSpan="2" GridPane.rowIndex="1">
+      <Pane prefHeight="141.0" prefWidth="306.0" GridPane.columnSpan="2">
          <children>
             <ScrollPane layoutX="-1.0" layoutY="9.0" prefHeight="513.0" prefWidth="600.0" vbarPolicy="ALWAYS">
               <content>
@@ -73,7 +59,7 @@
             </ScrollPane>
             <ScrollPane hbarPolicy="ALWAYS" layoutX="14.0" layoutY="311.0" prefHeight="47.0" prefViewportHeight="29.0" prefViewportWidth="1095.0" prefWidth="563.0" vbarPolicy="NEVER">
                <content>
-                  <Pane prefHeight="49.0" prefWidth="1097.0">
+                  <Pane prefHeight="29.0" prefWidth="1097.0">
                      <children>
                         <TextField layoutX="6.0" layoutY="2.0" prefHeight="25.0" prefWidth="80.0" promptText="Airport ID">
                            <padding>
@@ -136,9 +122,10 @@
             </ScrollPane>
             <Button layoutX="14.0" layoutY="367.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" text="Analyse" />
             <Button layoutX="452.0" layoutY="367.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" text="Add" />
+            <Pane layoutX="15.0" layoutY="60.0" prefHeight="140.0" prefWidth="563.0" />
          </children>
       </Pane>
-      <Pane prefHeight="114.0" prefWidth="202.0" GridPane.columnSpan="2" GridPane.rowIndex="2">
+      <Pane prefHeight="114.0" prefWidth="202.0" GridPane.columnSpan="2" GridPane.rowIndex="1">
          <children>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ec1fff35" height="114.0" layoutY="1.0" stroke="BLACK" strokeType="INSIDE" width="584.0" />
          </children>

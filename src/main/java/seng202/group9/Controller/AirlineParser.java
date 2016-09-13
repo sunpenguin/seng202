@@ -1,5 +1,7 @@
 package seng202.group9.Controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import seng202.group9.Core.Airline;
 
 import java.io.*;
@@ -7,11 +9,11 @@ import java.util.ArrayList;
 
 public class AirlineParser extends Parser {
     String filePath = "";
-    ArrayList<Airline> parsedAirline;
+    ObservableList<Airline> parsedAirline;
 
     public AirlineParser(String filePath){
         this.filePath = filePath;
-        parsedAirline = new ArrayList<Airline>();
+        parsedAirline = FXCollections.observableArrayList();
     }
 
     public String parse() throws DataException{
@@ -120,7 +122,7 @@ public class AirlineParser extends Parser {
                 "Entries With Errors: %2$d", successful, error);
     }
 
-    public ArrayList<Airline> getResult(){
+    public ObservableList<Airline> getResult(){
         return parsedAirline;
     }
 
