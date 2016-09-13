@@ -6,7 +6,7 @@
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group9.GUI.MenuController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group9.GUI.MenuController">
    <children>
       <MenuBar>
         <menus>
@@ -25,7 +25,7 @@
                   <Menu mnemonicParsing="false" text="Airport">
                     <items>
                         <MenuItem mnemonicParsing="false" text="Summary" />
-                        <MenuItem mnemonicParsing="false" text="Raw Data" />
+                        <MenuItem mnemonicParsing="false" onAction="#viewAirportRawData" text="Raw Data" />
                     </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="Airline">
@@ -37,7 +37,7 @@
                   <Menu mnemonicParsing="false" text="Route">
                      <items>
                         <MenuItem mnemonicParsing="false" text="Summary" />
-                        <MenuItem mnemonicParsing="false" text="Raw Data" />
+                        <MenuItem mnemonicParsing="false" onAction="#viewRouteRawData" text="Raw Data" />
                      </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="Flight">

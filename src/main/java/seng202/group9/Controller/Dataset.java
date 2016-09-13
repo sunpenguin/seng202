@@ -1,6 +1,8 @@
 package seng202.group9.Controller;
 
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import seng202.group9.Core.*;
 
 import java.sql.Connection;
@@ -13,7 +15,7 @@ import java.util.LinkedHashMap;
 public class Dataset {
 
     String name;
-    static boolean getExisting = true;//constructor variables for action
+    public static boolean getExisting = true;//constructor variables for action
     static boolean createNew = false;//constructor variables for action
     ArrayList<Airline> airlines;
     ArrayList<Airport> airports;

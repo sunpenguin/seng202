@@ -37,8 +37,29 @@ public class MenuController implements Initializable{
 	 */
 	public void viewAirlineRawData() {
 		try {
-			parent.replaceSceneContent("menu.fxml");
-			System.out.println("Loaded Airline Raw Data.");
+            AirlineRDController summaryController = (AirlineRDController) parent.replaceSceneContent("airline_raw_data.fxml");
+            summaryController.setApp(parent);
+            summaryController.loadTables();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void viewAirportRawData() {
+		try {
+            AirportRDController summaryController = (AirportRDController) parent.replaceSceneContent("airport_raw_data.fxml");
+            summaryController.setApp(parent);
+            summaryController.loadTables();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void viewRouteRawData() {
+		try {
+			RouteRDController summaryController = (RouteRDController) parent.replaceSceneContent("route_raw_data.fxml");
+			summaryController.setApp(parent);
+			//summaryController.loadTables();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -72,6 +93,7 @@ public class MenuController implements Initializable{
 			e.printStackTrace();
 		}
 	}
+
 
 
 	public void initialize(URL arg0, ResourceBundle arg1) {

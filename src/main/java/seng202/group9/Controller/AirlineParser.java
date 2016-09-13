@@ -1,5 +1,7 @@
 package seng202.group9.Controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import seng202.group9.Core.Airline;
 
 import java.io.*;
