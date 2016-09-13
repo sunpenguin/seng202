@@ -31,7 +31,6 @@ public class MenuController implements Initializable{
 		JOptionPane.showMessageDialog(null, "This is not Implemented yet");
 	}
 
-	@FXML
 	public void viewFlightSummary() {
 
 		Stage stage = new Stage();
@@ -43,7 +42,20 @@ public class MenuController implements Initializable{
 		stage.setScene(scene);
 		stage.show();
 		//seng202.group9.Controller.App.primaryStage.setScene(scene);
-		//System.out.println("GOT HERE");
+		//seng202.group9.Controller.App.primaryStage.show();
+	}
+
+	public void viewFlightRawData() {
+
+		Stage stage = new Stage();
+		BorderPane root = new BorderPane(); //root panel
+		Scene scene = new Scene(root);
+		//create the Flight summary page
+		FlightRawData flightRawDataPage = new FlightRawData();
+		root.setTop(flightRawDataPage.getFlightRawData());
+		stage.setScene(scene);
+		stage.show();
+		//seng202.group9.Controller.App.primaryStage.setScene(scene);
 		//seng202.group9.Controller.App.primaryStage.show();
 	}
 
