@@ -39,6 +39,8 @@ public class App extends Application
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
 		try {
+			MenuController menuController = new MenuController();
+			menuController.setApp(this);
 			replaceSceneContent("menu.fxml");//replace this to check your fxml file
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -76,7 +78,7 @@ public class App extends Application
 	 * @return
 	 * @throws Exception
 	 */
-	private Initializable replaceSceneContent(String fxml) throws Exception {
+	public Initializable replaceSceneContent(String fxml) throws Exception {
 		FXMLLoader loader = new FXMLLoader();
 		InputStream in = getClass().getClassLoader().getResourceAsStream(fxml);
 		InputStream menuIn = getClass().getClassLoader().getResourceAsStream("menu.fxml");

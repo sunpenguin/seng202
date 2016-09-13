@@ -7,10 +7,11 @@ import javax.swing.JOptionPane;
 
 import javafx.application.Application;
 import javafx.fxml.Initializable;
+import seng202.group9.Controller.App;
 
 public class MenuController implements Initializable{
 
-	Application parent;
+	App parent;
 
 	public void importAirports(){
 		JOptionPane.showMessageDialog(null, "This is not Implemented yet");
@@ -28,13 +29,24 @@ public class MenuController implements Initializable{
 		JOptionPane.showMessageDialog(null, "This is not Implemented yet");
 	}
 
+	/**
+	 * Load Airline Raw Data Function.
+	 */
+	public void loadAirlineRaw(){
+		try {
+			parent.replaceSceneContent("airline_raw_data.fxml");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	public void setApp(Application parent){
+	public void setApp(App parent){
 		this.parent = parent;
 	}
-	
+
 }
