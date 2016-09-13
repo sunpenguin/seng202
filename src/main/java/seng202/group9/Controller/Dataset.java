@@ -637,13 +637,13 @@ public class Dataset {
      * @throws DataException
      */
 
-    /*
+
     public String importFlight(String filePath) throws DataException {
         FlightPathParser parser = new FlightPathParser(filePath);
         //remember this still has to append the duplicate message to it.
         //routes are identified in the diction by routeAirline + routeSourceAirport + routeArrvAirport + routeCodeShare + routeStops + routeEquip;
         String message = parser.parse();
-        ArrayList<FlightPoint> flightsToImport = parser.getResult();
+        ArrayList<FlightPoint> flightPointsToImport = parser.getResult();
         //check for dup
         int numOfDuplicates = 0;
         int nextID = -1;
@@ -654,49 +654,69 @@ public class Dataset {
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
             stmt = c.createStatement();
-            String queryName = this.name.replace("'", "''").replace("\"", "\"\"");
-            String IDQuery = "SELECT * FROM `sqlite_sequence` WHERE `name` = '"+queryName+"_Routes' LIMIT 1;";
+            String queryName = this.name.replace("'", "''");
+            String IDQuery = "SELECT * FROM `sqlite_sequence` WHERE `name` = '"+queryName+"_Flight_Points' LIMIT 1;";
             ResultSet IDResult = stmt.executeQuery(IDQuery);
             while(IDResult.next()){
                 nextID = Integer.parseInt(IDResult.getString("seq")) + 1;//for some reason sqlite3 stores incremental values as a string...
             }
             stmt.close();
             stmt = c.createStatement();
-            String insertFlightQuery = "INSERT INTO `" + this.name + "_Routes` (`Airline`, `Source_Airport`, `Destination_Airport`," +
-                    " `Codeshare`, `Stops`, `Equipment`) VALUES ";
-            int numOfRoutes = 0;
-            for (int i = 0; i < flightsToImport.size(); i ++){
-                String routeIdentifier = flightsToImport.get(i).getType() + flightsToImport.get(i).getID() +
-                        flightsToImport.get(i).getAltitude() + flightsToImport.get(i).getLatitude() +
-                        flightsToImport.get(i).getLongitude();
-                //if (routeDictionary.containsKey(routeIdentifier)){
-                //        numOfDuplicates ++;
-                //}else{
-                    //route variables
-                String flightType = flightsToImport.get(i).getType().replace("\"", "\"\"");
-                String flightID = flightsToImport.get(i).getID().replace("\"", "\"\"");
-                double flightAltitude = flightsToImport.get(i).getAltitude();
-                double flightLatitude = flightsToImport.get(i).getLatitude();
-                double flightLongitude = flightsToImport.get(i).getLongitude();
+            //ADDED
+            String firstPt = flightPointsToImport.get(0).getName();
+            String lastPt = flightPointsToImport.get(flightPointsToImport.size() - 1).getName();
+            FlightPath flightPathToAdd = new FlightPath(firstPt, lastPt);
+
+            String insertFlightPathQuery = "INSERT INTO `" + this.name + "_Flight_Path` (`Source_Airport`, `Destination_Airport`)" +
+                    "VALUES ( \"" + firstPt + "\",\"" + lastPt + "\") ";
+            stmt.execute(insertFlightPathQuery);
+            stmt.close();
+            stmt = c.createStatement();
+            int flightPathId = 0;
+            String getLastestIndex = "SELECT * FROM `sqlite_sequence` WHERE `name` = \"" + this.name.replace("\"", "\"\"") +
+                    "_Flight_Path\"  LIMIT 1;";
+            ResultSet lastestIdResult = stmt.executeQuery(getLastestIndex);
+            while(lastestIdResult.next()){
+                flightPathId = Integer.parseInt(lastestIdResult.getString("seq"));//for some reason sqlite3 stores incremental values as a string...
+            }
+            stmt.close();
+            lastestIdResult.close();
+            stmt = c.createStatement();
+            flightPathToAdd.setID(flightPathId);
+            //ADDED
+            String insertFlightPointQuery = "INSERT INTO `" + this.name + "_Flight_Points` (`Index_ID`, `Name`, `Type`," +
+                    " `Altitude`, `Longitude`, `Latitude`) VALUES ";
+            int numOfFlights = 0;
+            for (int i = 0; i < flightPointsToImport.size(); i ++){
+                String flightPointIdentifier = flightPointsToImport.get(i).getType() + flightPointsToImport.get(i).getName() +
+                        flightPointsToImport.get(i).getAltitude() + flightPointsToImport.get(i).getLatitude() +
+                        flightPointsToImport.get(i).getLongitude();
+
+                String flightType = flightPointsToImport.get(i).getType().replace("\"", "\"\"");
+                String flightName = flightPointsToImport.get(i).getName().replace("\"", "\"\"");
+                double flightAltitude = flightPointsToImport.get(i).getAltitude();
+                double flightLatitude = flightPointsToImport.get(i).getLatitude();
+                double flightLongitude = flightPointsToImport.get(i).getLongitude();
                 //insert import into database
-                if (numOfRoutes > 0){
-                    insertFlightQuery += ",";
+                if (numOfFlights > 0){
+                    insertFlightPointQuery += ",";
                 }
-                insertFlightQuery += "(\""+flightType+"\", \"" + flightID + "\", \"" + flightAltitude + "\", " +
-                        "\"" + flightLatitude + "\", " + flightLongitude + "\")";
-                flightsToImport.get(i).setID(nextID);
+                insertFlightPointQuery += "(" + flightPathId +", \""+ flightName +"\", \"" + flightType + "\",  "+ flightAltitude + ", " +
+                        "" + flightLatitude + ", " + flightLongitude + ")";
+                flightPointsToImport.get(i).setID(nextID);
                 //add data to dataset array.
                 //this is placed after incase the database messes up
-                flights.add(flightsToImport.get(i));
-                routeDictionary.put(routeIdentifier, flightsToImport.get(i));
+                flightPathToAdd.addFlightPoint(flightPointsToImport.get(i));
+                //routeDictionary.put(routeIdentifier, flightsToImport.get(i));
                 nextID++;
-                numOfRoutes++;
+                numOfFlights++;
                 //}
             }
-            if (numOfRoutes > 0){
-                stmt.execute(insertRouteQuery);
+            if (numOfFlights > 0){
+                stmt.execute(insertFlightPointQuery);
                 stmt.close();
             }
+            flightPaths.add(flightPathToAdd);
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
             System.exit(0);
@@ -705,10 +725,10 @@ public class Dataset {
         createDataLinks();
         return message;
     }
-    /*
 
 
-     */
+
+
     /**
      * This function updates the connections between airports citys countries etc.
      */
