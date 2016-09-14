@@ -425,7 +425,7 @@ public class Dataset {
         return message;
     }
     /**
-     * Imports Airline files to the dataset
+     * Imports Airport files to the dataset
      * @param filePath
      * @return Success Message
      * @throws DataException
@@ -559,7 +559,7 @@ public class Dataset {
     }
 
     /**
-     * Imports Airline files to dataset
+     * Imports Route files to dataset
      * @param filePath
      * @return Success Message
      * @throws DataException
@@ -634,13 +634,11 @@ public class Dataset {
     }
 
     /**
-     * Imports Airline files to dataset
+     * Imports Flight files to dataset
      * @param filePath
      * @return Success Message
      * @throws DataException
      */
-
-
     public String importFlight(String filePath) throws DataException {
         FlightPathParser parser = new FlightPathParser(filePath);
         //remember this still has to append the duplicate message to it.

@@ -44,11 +44,8 @@
                            <children>
                               <Pane prefHeight="461.0" prefWidth="175.0" GridPane.rowIndex="1">
                                  <children>
-                                    <ListView layoutX="20.0" layoutY="-1.0" prefHeight="432.0" prefWidth="125.0">
-                                       <padding>
-                                          <Insets top="20.0" />
-                                       </padding></ListView>
-                                    <Label layoutX="32.0" layoutY="4.0" text="Flight Path Files">
+                                    <ListView fx:id="flightPathListView" layoutX="20.0" layoutY="27.0" prefHeight="404.0" prefWidth="125.0" />
+                                    <Label layoutX="26.0" layoutY="4.0" text="Flight Path File(s)">
                                        <font>
                                           <Font size="15.0" />
                                        </font>

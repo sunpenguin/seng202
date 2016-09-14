@@ -76,6 +76,7 @@ public class MenuController implements Initializable{
 		try {
 			FlightSummaryController summaryController = (FlightSummaryController) parent.replaceSceneContent("flight_data_summary.fxml");
 			summaryController.setApp(parent);
+			summaryController.flightPathListView();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -90,6 +91,7 @@ public class MenuController implements Initializable{
 					parent.replaceSceneContent("flight_raw_data.fxml");
 			rawDataController.setApp(parent);
 			rawDataController.loadTables();
+			rawDataController.flightPathListView();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

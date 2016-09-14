@@ -1,8 +1,10 @@
 package seng202.group9.GUI;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -21,6 +23,12 @@ import java.util.ResourceBundle;
  */
 public class FlightRawDataController  implements Initializable {
 
+    private Dataset theDataSet = null;
+
+    App parent;
+    public void setApp(App parent){
+        this.parent = parent;
+    }
 
     @FXML
     private TableView<FlightPoint> flightTableView;
@@ -45,13 +53,29 @@ public class FlightRawDataController  implements Initializable {
     @FXML
     private TableColumn<FlightPoint, String> flightTotDisCol;
 
-    private Dataset theDataSet = null;
-    App parent;
+    @FXML
+    ListView<String> flightPathListView;
+    final ObservableList<String> flightList = FXCollections.observableArrayList();
 
 
-    public void setApp(App parent){
-        this.parent = parent;
+    public void flightPathListView() {
+        try {
+            ArrayList<FlightPath> flightPaths = new ArrayList();
+            flightPaths = theDataSet.getFlightPaths();
+            for(int i = 0; i<flightPaths.size(); i++ ){
+                int pathID = flightPaths.get(i).getID();
+                String pathSource = flightPaths.get(i).departsFrom();
+                String pathDestin = flightPaths.get(i).arrivesAt();
+                String flightPathDisplayName = Integer.toString(pathID) + "_" + pathSource + "_" + pathDestin;
+                flightList.add(flightPathDisplayName);
+            }
+            flightPathListView.setItems(flightList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
+
 
     public void loadTables() {
         flightIdCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("ID"));
@@ -66,11 +90,7 @@ public class FlightRawDataController  implements Initializable {
         flightTotDisCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("Tot_Dist"));
 
         theDataSet = this.parent.getCurrentDataset();
-//        try{
-//            System.out.println(theDataSet.importAirline("res/Samples/Airlines.txt"));
-//        } catch (DataException e){
-//            e.printStackTrace();
-//        }
+
         ArrayList<FlightPath> flightPaths = new ArrayList();
         flightPaths = theDataSet.getFlightPaths();
         int firstID = flightPaths.get(0).getID();
