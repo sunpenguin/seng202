@@ -36,13 +36,13 @@
                                  <children>
                                     <Pane layoutX="25.0" layoutY="10.0" prefHeight="220.0" prefWidth="120.0">
                                        <children>
-                                          <TableView prefHeight="200.0" prefWidth="378.0">
+                                          <TableView fx:id="tableView" prefHeight="200.0" prefWidth="378.0">
                                             <columns>
-                                              <TableColumn fx:id="columnName" prefWidth="75.0" text="Name" />
-                                              <TableColumn fx:id="columnCity" prefWidth="75.0" text="City" />
-                                                <TableColumn fx:id="columnCountry" prefWidth="75.0" text="Country" />
-                                                <TableColumn fx:id="columnAltitude" prefWidth="75.0" text="Altitude" />
-                                                <TableColumn fx:id="columnIATA" prefWidth="75.0" text="IATA/FAA" />
+                                              <TableColumn fx:id="columnAirline" prefWidth="75.0" text="Airline" />
+                                              <TableColumn fx:id="columnDepart" prefWidth="75.0" text="Depart" />
+                                               <TableColumn fx:id="columnArrive" prefWidth="75.0" text="Arrive" />
+                                               <TableColumn fx:id="columnStops" prefWidth="75.0" text="Stops" />
+                                               <TableColumn fx:id="columnEquipment" prefWidth="75.0" text="Equipment" />
                                             </columns>
                                           </TableView>
                                        </children>

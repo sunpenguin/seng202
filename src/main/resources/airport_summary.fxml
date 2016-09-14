@@ -36,7 +36,7 @@
                                  <children>
                                     <Pane layoutX="25.0" layoutY="10.0" prefHeight="220.0" prefWidth="120.0">
                                        <children>
-                                          <TableView layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="378.0">
+                                          <TableView fx:id="tableView" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="378.0">
                                              <columns>
                                                 <TableColumn fx:id="columnName" prefWidth="75.0" text="Name" />
                                                 <TableColumn fx:id="columnCity" prefWidth="75.0" text="City" />

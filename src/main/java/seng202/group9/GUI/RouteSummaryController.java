@@ -16,15 +16,15 @@ public class RouteSummaryController extends MenuController{
     @FXML
     private TableView<Route> tableView;
     @FXML
-    private TableColumn<Route, String> columnName;
+    private TableColumn<Route, String> columnAirline;
     @FXML
-    private TableColumn<Route, String> columnCity;
+    private TableColumn<Route, String> columnDepart;
     @FXML
-    private TableColumn<Route, String> columnCountry;
+    private TableColumn<Route, String> columnArrive;
     @FXML
-    private TableColumn<Route, String> columnAltitude;
+    private TableColumn<Route, String> columnStops;
     @FXML
-    private TableColumn<Route, String> columnIATA;
+    private TableColumn<Route, String> columnEquipment;
 
     private Dataset currentData = null;
 
@@ -36,11 +36,11 @@ public class RouteSummaryController extends MenuController{
 
     public void loadTables() {
         currentData = this.parent.getCurrentDataset();
-        columnName.setCellValueFactory(new PropertyValueFactory<Route, String>("Name"));
-        columnCity.setCellValueFactory(new PropertyValueFactory<Route, String>("City"));
-        columnCountry.setCellValueFactory(new PropertyValueFactory<Route, String>("Country"));
-        columnIATA.setCellValueFactory(new PropertyValueFactory<Route, String>("IATA_FFA"));
-        columnAltitude.setCellValueFactory(new PropertyValueFactory<Route, String>("Altitude"));
+        columnAirline.setCellValueFactory(new PropertyValueFactory<Route, String>("Airline"));
+        columnDepart.setCellValueFactory(new PropertyValueFactory<Route, String>("DepartureAirport"));
+        columnArrive.setCellValueFactory(new PropertyValueFactory<Route, String>("ArrivalAirport"));
+        columnStops.setCellValueFactory(new PropertyValueFactory<Route, String>("Stops"));
+        columnEquipment.setCellValueFactory(new PropertyValueFactory<Route, String>("Equipment"));
         currentData = this.parent.getCurrentDataset();
         tableView.setItems(FXCollections.observableArrayList(currentData.getRoutes()));
     }
