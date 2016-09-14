@@ -33,74 +33,70 @@
             </Label>
             <ScrollPane hbarPolicy="ALWAYS" layoutX="14.0" layoutY="364.0" prefHeight="47.0" prefViewportHeight="29.0" prefViewportWidth="1095.0" prefWidth="770.0" vbarPolicy="NEVER">
                <content>
-                  <Pane prefHeight="29.0" prefWidth="1087.0">
+                  <Pane prefHeight="29.0" prefWidth="1219.0">
                      <children>
-                        <TextField layoutX="6.0" layoutY="2.0" prefHeight="25.0" prefWidth="83.0" promptText="Airport ID">
+                        <TextField fx:id="airpNameBox" layoutX="89.0" layoutY="2.0" prefHeight="25.0" prefWidth="137.0" promptText="Name">
                            <padding>
                               <Insets left="2.0" right="2.0" />
                            </padding>
                         </TextField>
-                        <TextField layoutX="89.0" layoutY="2.0" prefHeight="25.0" prefWidth="137.0" promptText="Name">
+                        <TextField fx:id="airpCityBox" layoutX="226.0" layoutY="2.0" prefHeight="25.0" prefWidth="129.0" promptText="City">
                            <padding>
                               <Insets left="2.0" right="2.0" />
                            </padding>
                         </TextField>
-                        <TextField layoutX="226.0" layoutY="2.0" prefHeight="25.0" prefWidth="129.0" promptText="City">
+                        <TextField fx:id="airpCountryBox" layoutX="355.0" layoutY="2.0" prefHeight="25.0" prefWidth="96.0" promptText="Country">
                            <padding>
                               <Insets left="2.0" right="2.0" />
                            </padding>
                         </TextField>
-                        <TextField layoutX="355.0" layoutY="2.0" prefHeight="25.0" prefWidth="96.0" promptText="Country">
+                        <TextField fx:id="airpIATAFFABox" layoutX="451.0" layoutY="2.0" prefHeight="25.0" prefWidth="87.0" promptText="IATA/FAA">
                            <padding>
                               <Insets left="2.0" right="2.0" />
                            </padding>
                         </TextField>
-                        <TextField layoutX="451.0" layoutY="2.0" prefHeight="25.0" prefWidth="87.0" promptText="IATA/FAA">
+                        <TextField fx:id="airpICAOBox" layoutX="538.0" layoutY="2.0" prefHeight="25.0" prefWidth="48.0" promptText="ICAO">
                            <padding>
                               <Insets left="2.0" right="2.0" />
                            </padding>
                         </TextField>
-                        <TextField layoutX="538.0" layoutY="2.0" prefHeight="25.0" prefWidth="48.0" promptText="ICAO">
+                        <TextField fx:id="airpLatitudeBox" layoutX="586.0" layoutY="2.0" prefHeight="25.0" prefWidth="82.0" promptText="Latitude">
                            <padding>
                               <Insets left="2.0" right="2.0" />
                            </padding>
                         </TextField>
-                        <TextField layoutX="586.0" layoutY="2.0" prefHeight="25.0" prefWidth="82.0" promptText="Latitude">
+                        <TextField fx:id="airpLongitudeBox" layoutX="668.0" layoutY="2.0" prefHeight="25.0" prefWidth="92.0" promptText="Longitude">
                            <padding>
                               <Insets left="2.0" right="2.0" />
                            </padding>
                         </TextField>
-                        <TextField layoutX="668.0" layoutY="2.0" prefHeight="25.0" prefWidth="92.0" promptText="Longitude">
+                        <TextField fx:id="airpAltitudeBox" layoutX="760.0" layoutY="2.0" prefHeight="25.0" prefWidth="78.0" promptText="Altitude">
                            <padding>
                               <Insets left="2.0" right="2.0" />
                            </padding>
                         </TextField>
-                        <TextField layoutX="760.0" layoutY="2.0" prefHeight="25.0" prefWidth="78.0" promptText="Altitude">
+                        <TextField fx:id="airpTimezoneBox" layoutX="838.0" layoutY="2.0" prefHeight="25.0" prefWidth="80.0" promptText="Timezone">
                            <padding>
                               <Insets left="2.0" right="2.0" />
                            </padding>
                         </TextField>
-                        <TextField layoutX="838.0" layoutY="2.0" prefHeight="25.0" prefWidth="80.0" promptText="Timezone">
+                        <TextField fx:id="airpTzBox" layoutX="1023.0" layoutY="3.0" prefHeight="25.0" prefWidth="182.0" promptText="Tz database time zone">
                            <padding>
                               <Insets left="2.0" right="2.0" />
                            </padding>
                         </TextField>
-                        <TextField layoutX="1020.0" layoutY="2.0" prefHeight="25.0" prefWidth="182.0" promptText="Tz database time zone">
+                        <TextField fx:id="airpDSTBox" layoutX="918.0" layoutY="2.0" prefHeight="25.0" prefWidth="102.0" promptText="DST">
                            <padding>
                               <Insets left="2.0" right="2.0" />
                            </padding>
                         </TextField>
-                        <TextField layoutX="918.0" layoutY="2.0" prefHeight="25.0" prefWidth="102.0" promptText="DST">
-                           <padding>
-                              <Insets left="2.0" right="2.0" />
-                           </padding>
-                        </TextField>
+                        <Label layoutY="2.0" prefHeight="25.0" prefWidth="87.0" text="Enter Values:" />
                      </children>
                   </Pane>
                </content>
             </ScrollPane>
             <Button layoutX="10.0" layoutY="420.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" text="Analyse" />
-            <Button layoutX="661.0" layoutY="420.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" text="Add" />
+            <Button layoutX="661.0" layoutY="420.0" mnemonicParsing="false" onAction="#addAirportSingle" prefHeight="25.0" prefWidth="125.0" text="Add" />
             <Pane layoutX="15.0" layoutY="60.0" prefHeight="295.0" prefWidth="772.0">
                <children>
                   <TableView fx:id="tableViewAirportRD" prefHeight="293.0" prefWidth="770.0">

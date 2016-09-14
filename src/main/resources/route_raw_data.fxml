@@ -65,17 +65,17 @@
                               <Insets left="2.0" right="2.0" />
                            </padding>
                         </TextField>
-                        <TextField layoutX="758.0" layoutY="2.0" prefHeight="25.0" prefWidth="99.0" promptText="Codeshare">
+                        <TextField fx:id="rCodeshareCol" layoutX="758.0" layoutY="2.0" prefHeight="25.0" prefWidth="99.0" promptText="Codeshare">
                            <padding>
                               <Insets left="2.0" right="2.0" />
                            </padding>
                         </TextField>
-                        <TextField layoutX="857.0" layoutY="2.0" prefHeight="25.0" prefWidth="65.0" promptText="Stops">
+                        <TextField fx:id="rStopsCol" layoutX="857.0" layoutY="2.0" prefHeight="25.0" prefWidth="65.0" promptText="Stops">
                            <padding>
                               <Insets left="2.0" right="2.0" />
                            </padding>
                         </TextField>
-                        <TextField layoutX="922.0" layoutY="2.0" prefHeight="25.0" prefWidth="98.0" promptText="Equipment">
+                        <TextField fx:id="rEquipmentCol" layoutX="922.0" layoutY="2.0" prefHeight="25.0" prefWidth="98.0" promptText="Equipment">
                            <padding>
                               <Insets left="2.0" right="2.0" />
                            </padding>
@@ -85,17 +85,17 @@
                </content>
             </ScrollPane>
             <Button layoutX="10.0" layoutY="420.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" text="Analyse" />
-            <Button layoutX="661.0" layoutY="420.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" text="Add" />
+            <Button layoutX="661.0" layoutY="420.0" mnemonicParsing="false" onAction="#addRouteSingle" prefHeight="25.0" prefWidth="125.0" text="Add" />
             <Pane layoutX="8.0" layoutY="53.0" prefHeight="300.0" prefWidth="776.0">
                <children>
-                  <TableView layoutX="-1.0" prefHeight="300.0" prefWidth="784.0">
+                  <TableView fx:id="tableViewRouteRD" layoutX="-1.0" prefHeight="300.0" prefWidth="784.0">
                     <columns>
-                      <TableColumn prefWidth="67.0" text="Airline" />
-                      <TableColumn prefWidth="86.0" text="Airline ID" />
-                        <TableColumn minWidth="0.0" prefWidth="124.0" text="Source airport" />
-                        <TableColumn minWidth="0.0" prefWidth="141.0" text="Source airport ID" />
-                        <TableColumn minWidth="0.0" prefWidth="160.0" text="Destination airport" />
-                        <TableColumn minWidth="0.0" prefWidth="184.0" text="Destination airport ID" />
+                      <TableColumn fx:id="rAirlineCol" prefWidth="67.0" text="Airline" />
+                      <TableColumn fx:id="rAirlineIDCol" prefWidth="86.0" text="Airline ID" />
+                        <TableColumn fx:id="rSourceCol" minWidth="0.0" prefWidth="124.0" text="Source airport" />
+                        <TableColumn fx:id="rSourceIDCol" minWidth="0.0" prefWidth="141.0" text="Source airport ID" />
+                        <TableColumn fx:id="rDestCol" minWidth="0.0" prefWidth="160.0" text="Destination airport" />
+                        <TableColumn fx:id="rDestIDCol" minWidth="0.0" prefWidth="184.0" text="Destination airport ID" />
                         <TableColumn minWidth="0.0" prefWidth="95.0" text="Codeshare" />
                         <TableColumn minWidth="0.0" prefWidth="69.0" text="Stops" />
                         <TableColumn prefWidth="98.0" text="Equipment" />

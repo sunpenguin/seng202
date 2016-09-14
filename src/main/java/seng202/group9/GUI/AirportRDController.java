@@ -5,10 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 import seng202.group9.Controller.App;
@@ -50,6 +47,30 @@ public class AirportRDController extends MenuController{
     @FXML
     private TableColumn<Airport, City> airpTzcol;
 
+    @FXML
+    private TextField airpNameBox;
+    @FXML
+    private TextField airpCityBox;
+    @FXML
+    private TextField airpCountryBox;
+    @FXML
+    private TextField airpIATAFFABox;
+    @FXML
+    private TextField airpICAOBox;
+    @FXML
+    private TextField airpLatitudeBox;
+    @FXML
+    private TextField airpLongitudeBox;
+    @FXML
+    private TextField airpAltitudeBox;
+    @FXML
+    private TextField airpTimezoneBox;
+    @FXML
+    private TextField airpDSTBox;
+    @FXML
+    private TextField airpTzBox;
+
+
     private Dataset theDataSet = null;
 
     App parent;
@@ -59,8 +80,6 @@ public class AirportRDController extends MenuController{
     }
 
     public void loadTables() {
-        theDataSet = this.parent.getCurrentDataset();
-
         airpIDcol.setCellValueFactory(new PropertyValueFactory<Airport, String>("ID"));
         airpNamecol.setCellValueFactory(new PropertyValueFactory<Airport, String>("Name"));
         airpCitycol.setCellValueFactory(new PropertyValueFactory<Airport, String>("City"));
@@ -91,8 +110,42 @@ public class AirportRDController extends MenuController{
 //                return timeZoneCell;
 //            }
 //        });
-
+        theDataSet = this.parent.getCurrentDataset();
         tableViewAirportRD.setItems(FXCollections.observableArrayList(theDataSet.getAirports()));
+    }
+
+    public void addAirportSingle() {
+        try {
+            theDataSet.addAirport(
+                    airpNameBox.getText(),
+                    airpCityBox.getText(),
+                    airpCountryBox.getText(),
+                    airpIATAFFABox.getText(),
+                    airpICAOBox.getText(),
+                    airpLatitudeBox.getText(),
+                    airpLongitudeBox.getText(),
+                    airpAltitudeBox.getText(),
+                    airpTimezoneBox.getText(),
+                    airpDSTBox.getText(),
+                    airpTzBox.getText());
+                airpCityBox.clear();
+                airpCountryBox.clear();
+                airpIATAFFABox.clear();
+                airpICAOBox.clear();
+                airpLatitudeBox.clear();
+                airpLongitudeBox.clear();
+                airpAltitudeBox.clear();
+                airpTimezoneBox.clear();
+                airpDSTBox.clear();
+                airpTzBox.clear();
+            tableViewAirportRD.setItems(FXCollections.observableArrayList(theDataSet.getAirports()));
+        } catch ( Exception e ) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Airline Data Error");
+            alert.setHeaderText("Error adding a custom airport entry.");
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
+        }
     }
 
 }

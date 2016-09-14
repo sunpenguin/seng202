@@ -2,6 +2,7 @@ package seng202.group9.GUI;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -47,11 +48,7 @@ public class AirlineRDController extends MenuController {
     private TextField airlCountryBox;
     @FXML
     private TextField airlActiveBox;
-    @FXML
-    private TextField airlIDBox;
 
-
-    private Dataset theDataSet = null;
 
     App parent;
 
@@ -59,44 +56,49 @@ public class AirlineRDController extends MenuController {
         this.parent = parent;
     }
 
+    private Dataset theDataSet = null;
+
     public void loadTables() {
         airlIDcol.setCellValueFactory(new PropertyValueFactory<Airline, String>("ID"));
         airlNamecol.setCellValueFactory(new PropertyValueFactory<Airline, String>("Name"));
         airlAliascol.setCellValueFactory(new PropertyValueFactory<Airline, String>("Alias"));
-        airlIATAcol.setCellValueFactory(new PropertyValueFactory<Airline, String>("IATA"));
-        airlICAOcol.setCellValueFactory(new PropertyValueFactory<Airline, String>("ICAO"));
+        //Need to check IATA and ICAO
+        airlIATAcol.setCellValueFactory(new PropertyValueFactory<Airline, String>("ICAO"));
+        airlICAOcol.setCellValueFactory(new PropertyValueFactory<Airline, String>("IATA"));
         airlCallsigncol.setCellValueFactory(new PropertyValueFactory<Airline, String>("CallSign"));
         airlCountrycol.setCellValueFactory(new PropertyValueFactory<Airline, String>("Country"));
         airlActivecol.setCellValueFactory(new PropertyValueFactory<Airline, String>("Active"));
 
         theDataSet = this.parent.getCurrentDataset();
-//        try{
-//            System.out.println(theDataSet.importAirline("res/Samples/Airlines.txt"));
-//        } catch (DataException e){
-//            e.printStackTrace();
-//        }
         tableView.setItems(FXCollections.observableArrayList(theDataSet.getAirlines()));
     }
 
     //Dummy function to test the add button.
     //Will edit when ID is added automatically.
     public void addAirlineSingle() {
-        theDataSet.getAirlines().add(new Airline(
-                Integer.parseInt(airlIDBox.getText()),
-                airlNameBox.getText(),
-                airlAliasBox.getText(),
-                airlIATABox.getText(),
-                airlICAOBox.getText(),
-                airlCallsignBox.getText(),
-                airlCountryBox.getText(),
-                airlActiveBox.getText()));
-        airlIDBox.clear();
-        airlNameBox.clear();
-        airlAliasBox.clear();
-        airlIATABox.clear();
-        airlICAOBox.clear();
-        airlCallsignBox.clear();
-        airlCountryBox.clear();
-        airlActiveBox.clear();
+        try {
+            theDataSet.addAirline(
+                    airlNameBox.getText(),
+                    airlAliasBox.getText(),
+                    airlIATABox.getText(),
+                    airlICAOBox.getText(),
+                    airlCallsignBox.getText(),
+                    airlCountryBox.getText(),
+                    airlActiveBox.getText());
+            airlNameBox.clear();
+            airlAliasBox.clear();
+            airlIATABox.clear();
+            airlICAOBox.clear();
+            airlCallsignBox.clear();
+            airlCountryBox.clear();
+            airlActiveBox.clear();
+            tableView.setItems(FXCollections.observableArrayList(theDataSet.getAirlines()));
+        } catch ( Exception e ) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Airline Data Error");
+            alert.setHeaderText("Error adding a custom airline entry.");
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
+        }
     }
 }
