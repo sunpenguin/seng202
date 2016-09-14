@@ -65,6 +65,16 @@ public class MenuController implements Initializable{
 		}
 	}
 
+	public void viewAirlineSummary() {
+		try {
+			AirlineSummaryController summaryController = (AirlineSummaryController) parent.replaceSceneContent("airline_summary.fxml");
+			summaryController.setApp(parent);
+			summaryController.loadTables();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public void setApp(App parent){
 		this.parent = parent;
 	}
