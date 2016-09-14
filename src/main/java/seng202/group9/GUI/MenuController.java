@@ -77,7 +77,17 @@ public class MenuController implements Initializable{
 
 	public void viewAirportSummary() {
 		try {
-			AirlineSummaryController summaryController = (AirportSummaryController) parent.replaceSceneContent("airport_summary.fxml");
+			AirportSummaryController summaryController = (AirportSummaryController) parent.replaceSceneContent("airport_summary.fxml");
+			summaryController.setApp(parent);
+			summaryController.loadTables();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void viewRouteSummary() {
+		try {
+			RouteSummaryController summaryController = (RouteSummaryController) parent.replaceSceneContent("route_summary.fxml");
 			summaryController.setApp(parent);
 			summaryController.loadTables();
 		} catch (Exception e) {
