@@ -158,7 +158,18 @@ public class Route {
 	public String arrivesAt(){
 		return arrivalAirport;
 	}
-	
+
+	/**
+	 * Checks is passed route is a duplicate of the current one if so it throws an DataException
+	 */
+	public void hasDuplicate(Route route) throws DataException{
+		//routeAirline + routeSourceAirport + routeArrvAirport + routeCodeShare + routeStops + routeEquip
+		if (route.getAirline().equals(this.airline) && route.departsFrom().equals(this.departureAirport)
+				&& route.arrivesAt().equals(this.arrivalAirport) && route.getCode().equals(this.codeShare)
+				 && route.getStops() == this.stops && route.getEquipment().equals(this.equipment)){
+			throw new DataException("This Route already exists.");
+		}
+	}
 	@Override
 	public String toString(){
 		

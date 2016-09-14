@@ -908,6 +908,82 @@ public class Dataset {
         }
     }
 
+    /**
+     * Adds one single route to the program.
+     * @param airline
+     * @param sourceAirport
+     * @param destAirport
+     * @param codeshare
+     * @param stops
+     * @param equipment
+     * @throws DataException
+     */
+    public void addRoute(String airline, String sourceAirport, String destAirport, String codeshare, String stops, String equipment) throws DataException{
+        int stopsVal = 0;
+        try{
+            stopsVal = Integer.parseInt(stops);
+        }catch (NumberFormatException e){
+            throw new DataException("Stops must be a greater than or equal to 0.");
+        }
+        if (stopsVal < 0){
+            throw new DataException("Stops must be a greater than or equal to 0.");
+        }
+        Route routeToAdd = new Route(airline, sourceAirport, destAirport, codeshare, stopsVal, equipment);
+        addRoute(routeToAdd);
+    }
+
+    public void addRoute(Route routeToAdd) throws DataException{
+        if (routeToAdd.getAirline().length() != 2 && routeToAdd.getAirline().length() != 3){
+            throw new DataException("Airline ICAO code must be 2 or 3 letters.");
+        }
+        if (routeToAdd.departsFrom().length() != 3 && routeToAdd.departsFrom().length() != 4){
+            throw new DataException("Airport Source Airport IATA must be 3 letters or 4 letters if ICAO.");
+        }
+        if (routeToAdd.arrivesAt().length() != 3 && routeToAdd.arrivesAt().length() != 4){
+            throw new DataException("Airport Destination Airport IATA must be 3 letters or 4 letters if ICAO.");
+        }
+        if (routeToAdd.getCode().length() != 0 && routeToAdd.getCode().length() != 1){
+            throw new DataException("Codeshare has to be empty or Y.");
+        }
+        for (String key : routeDictionary.keySet()){
+            routeDictionary.get(key).hasDuplicate(routeToAdd);
+        }
+        //checking is done now we add it to the dictionary and the database
+        //query database.
+        Connection c = null;
+        Statement stmt = null;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
+            //add the airline
+            stmt = c.createStatement();
+            String airline = routeToAdd.getAirline().replace("\"", "\"\"");
+            String sourceAir = routeToAdd.departsFrom().replace("\"", "\"\"");
+            String destAir = routeToAdd.arrivesAt().replace("\"", "\"\"");
+            String equipment = routeToAdd.getEquipment().replace("\"", "\"\"");
+            String insertRouteQuery = "INSERT INTO `" + this.name + "_Routes` (`Airline`, `Source_Airport`, `Destination_Airport`," +
+                    " `Codeshare`, `Stops`, `Equipment`) VALUES (\""+airline+"\", \""+sourceAir+"\", \""+destAir+"\", " +
+                    "\""+routeToAdd.getCode()+"\", "+routeToAdd.getStops()+", \""+equipment+"\")";
+            stmt.execute(insertRouteQuery);
+            //get the airline id
+            stmt = c.createStatement();
+            String routeIDQuery = "SELECT * FROM `sqlite_sequence` WHERE `name` = \""+this.name+"_Route\" LIMIT 1;";
+            ResultSet routeIDRes= stmt.executeQuery(routeIDQuery);
+            int routeID = 0;
+            while (routeIDRes.next()){
+                routeID = Integer.parseInt(routeIDRes.getString("seq"));
+            }
+            routeToAdd.setID(routeID);
+            routes.add(routeToAdd);
+            //routeAirline + routeSourceAirport + routeArrvAirport + routeCodeShare + routeStops + routeEquip
+            String routeKey = routeToAdd.getAirline() + routeToAdd.departsFrom() + routeToAdd.arrivesAt() + routeToAdd.getCode() + routeToAdd.getStops() + routeToAdd.getEquipment();
+            routeDictionary.put(routeKey, routeToAdd);
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            System.exit(0);
+        }
+    }
+
     public ArrayList<Airline> getAirlines() {
         return airlines;
     }

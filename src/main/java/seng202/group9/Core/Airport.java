@@ -309,10 +309,10 @@ public class Airport {
 			throw new DataException("Airport Name already Exists, Please Choose Another.");
 		}
 		if (!airport.getIATA_FFA().equals("") && airport.getIATA_FFA().equals(this.name)){
-			throw new DataException("Airport Name already Exists, Please Choose Another.");
+			throw new DataException("Airport IATA/FFA already Exists, Please Choose Another.");
 		}
 		if (!airport.getICAO().equals("") && airport.getICAO().equals(this.name)){
-			throw new DataException("Airport Name already Exists, Please Choose Another.");
+			throw new DataException("Airport ICAO already Exists, Please Choose Another.");
 		}
 	}
 	/**
