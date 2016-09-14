@@ -97,13 +97,13 @@ public class App extends Application
 		} catch (DataException e) {
 			e.printStackTrace();
 		}
-
+*/
         try {
             System.out.println(currentDataset.importFlight("res/Samples/NZCH-WSSS.csv"));
         } catch (DataException e) {
             e.printStackTrace();
         }
-*/
+
 	}
 
 	/**

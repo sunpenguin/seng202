@@ -89,6 +89,7 @@ public class MenuController implements Initializable{
 			FlightRawDataController rawDataController = (FlightRawDataController)
 					parent.replaceSceneContent("flight_raw_data.fxml");
 			rawDataController.setApp(parent);
+			rawDataController.loadTables();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
