@@ -8,6 +8,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 public class Dataset {
@@ -389,13 +390,13 @@ public class Dataset {
                     numOfDuplicates ++;
                 }else{
                     //insert import into database
-                    String airName = airlinesToImport.get(i).getName().replace("'", "''").replace("\"", "\"\"");
-                    String airAlias = airlinesToImport.get(i).getAlias().replace("'", "''").replace("\"", "\"\"");
-                    String airIATA = airlinesToImport.get(i).getIATA().replace("'", "''").replace("\"", "\"\"");
-                    String airICAO = airlinesToImport.get(i).getICAO().replace("'", "''").replace("\"", "\"\"");
-                    String airCallsign = airlinesToImport.get(i).getCallSign().replace("'", "''").replace("\"", "\"\"");
-                    String airCountry = airlinesToImport.get(i).getCountry().replace("'", "''").replace("\"", "\"\"");
-                    String airActive = airlinesToImport.get(i).getActive().replace("'", "''").replace("\"", "\"\"");
+                    String airName = airlinesToImport.get(i).getName().replace("\"", "\"\"");
+                    String airAlias = airlinesToImport.get(i).getAlias().replace("\"", "\"\"");
+                    String airIATA = airlinesToImport.get(i).getIATA().replace("\"", "\"\"");
+                    String airICAO = airlinesToImport.get(i).getICAO().replace("\"", "\"\"");
+                    String airCallsign = airlinesToImport.get(i).getCallSign().replace("\"", "\"\"");
+                    String airCountry = airlinesToImport.get(i).getCountryName().replace("\"", "\"\"");
+                    String airActive = airlinesToImport.get(i).getActive().replace("\"", "\"\"");
                     if (numOfAirlines > 0){
                         insertAirlineQuery += ",";
                     }
@@ -465,8 +466,8 @@ public class Dataset {
                 } else {
                     //airport variables
                     String airpName = airportsToImport.get(i).getName().replace("\"", "\"\"");
-                    String airpCity = airportsToImport.get(i).getCity().replace("\"", "\"\"");
-                    String airpCountry = airportsToImport.get(i).getCountry().replace("\"", "\"\"");
+                    String airpCity = airportsToImport.get(i).getCityName().replace("\"", "\"\"");
+                    String airpCountry = airportsToImport.get(i).getCountryName().replace("\"", "\"\"");
                     String airpIATA_FFA = airportsToImport.get(i).getIATA_FFA().replace("\"", "\"\"");
                     String airpICAO = airportsToImport.get(i).getICAO().replace("\"", "\"\"");
                     double airpLat = airportsToImport.get(i).getLatitude();
@@ -597,7 +598,7 @@ public class Dataset {
                     numOfDuplicates ++;
                 }else{
                     //route variables
-                    String routeAirline = routesToImport.get(i).getAirline().replace("\"", "\"\"");
+                    String routeAirline = routesToImport.get(i).getAirlineName().replace("\"", "\"\"");
                     String routeSource = routesToImport.get(i).getDepartureAirport().replace("\"", "\"\"");
                     String routeDestination = routesToImport.get(i).getArrivalAirport().replace("\"", "\"\"");
                     String routeCode = routesToImport.get(i).getCode().replace("\"", "\"\"");
@@ -733,7 +734,37 @@ public class Dataset {
      */
 
     public void createDataLinks(){
-
+        //this may be seperated into more sepearate function in the future for time optimisation
+        //create Airline country link
+        for (Airline airline: airlines){
+            airline.setCountry(countryDictionary.get(airline.getCountryName()));
+        }
+        //create Airport City and Country Link
+        HashMap<String, Airport> airportsByIATA = new HashMap<String, Airport>(); //this is used later for connecting the routes
+        HashMap<String, Airport> airportsByICAO = new HashMap<String, Airport>(); //this is used later for connecting the routes
+        for (Airport airport: airports){
+            airportsByIATA.put(airport.getIATA_FFA(), airport);
+            airportsByICAO.put(airport.getICAO(), airport);
+            airport.setCountry(countryDictionary.get(airport.getCountryName()));
+            //TODO Add City in country (This is extra work).
+            airport.setCity(cityDictionary.get(airport.getCityName()));
+            airport.getCity().addAirport(airport);
+        }
+        //set Airport variables for route
+        for (Route route: routes){
+            if (route.getDepartureAirport().length() > 3){
+                route.setSourceAirport(airportsByICAO.get(route.getDepartureAirport()));
+            }else{
+                route.setSourceAirport(airportsByIATA.get(route.getDepartureAirport()));
+            }
+            if (route.getArrivalAirport().length() > 3){
+                route.setDestinationAirport(airportsByICAO.get(route.getArrivalAirport()));
+            }else{
+                route.setDestinationAirport(airportsByIATA.get(route.getArrivalAirport()));
+            }
+            route.setAirline(airlineDictionary.get(route.getAirlineName()));
+        }
+        System.out.println("Links Made");
     }
 
     /**
@@ -777,7 +808,7 @@ public class Dataset {
             String insertAirlineQuery = "INSERT INTO `" + this.name + "_Airline` (`Name`, `Alias`, `IATA`, `ICAO`" +
                     ", `Callsign`, `Country`, `Active`) VALUES (\""+airlineToAdd.getName()+"\", \"" + airlineToAdd.getAlias() + "\", " +
                     "\"" + airlineToAdd.getIATA() + "\", \"" + airlineToAdd.getICAO() + "\", \"" + airlineToAdd.getCallSign() + "\", " +
-                    "\"" + airlineToAdd.getCountry() + "\", \"" + airlineToAdd.getActive() + "\");";
+                    "\"" + airlineToAdd.getCountryName() + "\", \"" + airlineToAdd.getActive() + "\");";
             stmt.execute(insertAirlineQuery);
             //get the airline id
             stmt = c.createStatement();
@@ -834,8 +865,8 @@ public class Dataset {
             //add the airport
             stmt = c.createStatement();
             String insertAirportQuery = "INSERT INTO `" + this.name + "_Airport`  (`Name`, `City`, `Country`, `IATA/FFA`, " +
-                    "`ICAO`, `Latitude`, `Longitude`, `Altitude`) VALUES (\""+airportToAdd.getName()+"\", \""+airportToAdd.getCity()+"\", " +
-                    "\""+airportToAdd.getCountry()+"\", \""+airportToAdd.getIATA_FFA()+"\", \""+airportToAdd.getICAO()+"\", " +
+                    "`ICAO`, `Latitude`, `Longitude`, `Altitude`) VALUES (\""+airportToAdd.getName()+"\", \""+airportToAdd.getCityName()+"\", " +
+                    "\""+airportToAdd.getCountryName()+"\", \""+airportToAdd.getIATA_FFA()+"\", \""+airportToAdd.getICAO()+"\", " +
                     ""+airportToAdd.getLatitude()+", "+airportToAdd.getLongitude()+", "+airportToAdd.getAltitude()+");";
             stmt.execute(insertAirportQuery);
             //get the airport id
@@ -929,7 +960,7 @@ public class Dataset {
     }
 
     public void addRoute(Route routeToAdd) throws DataException{
-        if (routeToAdd.getAirline().length() != 2 && routeToAdd.getAirline().length() != 3){
+        if (routeToAdd.getAirlineName().length() != 2 && routeToAdd.getAirlineName().length() != 3){
             throw new DataException("Airline ICAO code must be 2 or 3 letters.");
         }
         if (routeToAdd.getDepartureAirport().length() != 3 && routeToAdd.getDepartureAirport().length() != 4){
@@ -953,7 +984,7 @@ public class Dataset {
             c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
             //add the airline
             stmt = c.createStatement();
-            String airline = routeToAdd.getAirline().replace("\"", "\"\"");
+            String airline = routeToAdd.getAirlineName().replace("\"", "\"\"");
             String sourceAir = routeToAdd.getDepartureAirport().replace("\"", "\"\"");
             String destAir = routeToAdd.getArrivalAirport().replace("\"", "\"\"");
             String equipment = routeToAdd.getEquipment().replace("\"", "\"\"");

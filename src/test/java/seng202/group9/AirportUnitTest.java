@@ -34,7 +34,7 @@ public class AirportUnitTest {
 			fail("No Exception should be thrown by the constructor where the ID is already set bye trying to get the ID.");
 		}
 		assertEquals(heathrow.getName(), "Heathrow");
-		assertEquals(heathrow.getCity(), "London");//check city
+		assertEquals(heathrow.getCityName(), "London");//check city
 		assertEquals(heathrow.getIATA_FFA(), "LHR");//check IATA/FFA
 		assertEquals(heathrow.getICAO(), "EGLL");//check ICAO
 		assertTrue(heathrow.getLatitude() == 51.4775);//check latitude
@@ -51,8 +51,8 @@ public class AirportUnitTest {
 		}
 		heathrow.setName("Hearthstone");//check name
 		assertEquals(heathrow.getName(), "Hearthstone");
-		heathrow.setCity("Blizzard Servers");//check city
-		assertEquals(heathrow.getCity(), "Blizzard Servers");
+		heathrow.setCityName("Blizzard Servers");//check city
+		assertEquals(heathrow.getCityName(), "Blizzard Servers");
 		heathrow.setIATA_FFA("HTS");//test set IATA/FFA
 		assertEquals(heathrow.getIATA_FFA(), "HTS");
 		heathrow.setICAO("BLIZ");// test set ICAO

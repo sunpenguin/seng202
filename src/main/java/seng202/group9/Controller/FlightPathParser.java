@@ -147,8 +147,8 @@ public class FlightPathParser extends Parser {
             }
         }
 
-        return String.format("Entries Successfully Entered: %1$d.\n" +
-                "Entries With Errors: %2$d", successful, error);
+        return String.format("Flight Points Successfully Entered: %1$d.\n" +
+                "Flight Points With Errors: %2$d", successful, error);
     }
 
     public ArrayList<FlightPoint> getResult(){

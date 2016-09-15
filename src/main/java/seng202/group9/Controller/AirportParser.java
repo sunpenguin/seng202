@@ -169,8 +169,8 @@ public class AirportParser extends Parser {
             }
         }
 
-        return String.format("Entries Successfully Entered: %1$d.\n" +
-                "Entries With Errors: %2$d", successful, error);
+        return String.format("Airports Successfully Entered: %1$d.\n" +
+                "Airports With Errors: %2$d", successful, error);
     }
 
     public ArrayList<Airport> getResult(){

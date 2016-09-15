@@ -30,21 +30,22 @@ public class RouteTest extends TestCase {
     	assertEquals(route.getAirline(), "BA");
     	assertEquals(route.getDepartureAirport(), "SIN");
     	assertEquals(route.getArrivalAirport(), "LHR");
+    	assertEquals(route.getAirlineName(), "BA");
     	assertEquals(route.getCode(), "");
     	assertEquals(route.getEquipment(), "744 777");
     	///////////////
     	//test setters
     	///////////////
-    	route.setAirline("BAH");
+    	route.setAirlineName("BAH");
     	route.setArrivalAirport("LEFT-HAND-RULE");
     	route.setDepartureAirport("SING-SONG");
     	route.setCode("Y");
     	route.setStops(5);
     	route.setEquipment("747 840");
 
-    	assertEquals(route.getAirline(), "BAH");
     	assertEquals(route.getDepartureAirport(), "SING-SONG");
     	assertEquals(route.getArrivalAirport(), "LEFT-HAND-RULE");
+    	assertEquals(route.getAirlineName(), "BAH");
     	assertEquals(route.getCode(), "Y");
     	assertEquals(route.getEquipment(), "747 840");
     	////////////////////////////
