@@ -27,7 +27,7 @@ public class RouteTest extends TestCase {
     	//////////////
     	//test getters
     	//////////////
-    	assertEquals(route.getAirline(), "BA");
+    	assertEquals(route.getAirlineName(), "BA");
     	assertEquals(route.getDepartureAirport(), "SIN");
     	assertEquals(route.getArrivalAirport(), "LHR");
     	assertEquals(route.getAirlineName(), "BA");
