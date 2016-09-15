@@ -148,14 +148,14 @@ public class Route {
 	 * returns the source airport of this route
 	 * @return
 	 */
-	public String departsFrom(){
+	public String getDepartureAirport(){
 		return departureAirport;
 	}
 	/**
 	 * returns the target airport of this route.
 	 * @return
 	 */
-	public String arrivesAt(){
+	public String getArrivalAirport(){
 		return arrivalAirport;
 	}
 
@@ -164,8 +164,8 @@ public class Route {
 	 */
 	public void hasDuplicate(Route route) throws DataException{
 		//routeAirline + routeSourceAirport + routeArrvAirport + routeCodeShare + routeStops + routeEquip
-		if (route.getAirline().equals(this.airline) && route.departsFrom().equals(this.departureAirport)
-				&& route.arrivesAt().equals(this.arrivalAirport) && route.getCode().equals(this.codeShare)
+		if (route.getAirline().equals(this.airline) && route.getDepartureAirport().equals(this.departureAirport)
+				&& route.getArrivalAirport().equals(this.arrivalAirport) && route.getCode().equals(this.codeShare)
 				 && route.getStops() == this.stops && route.getEquipment().equals(this.equipment)){
 			throw new DataException("This Route already exists.");
 		}

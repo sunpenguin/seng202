@@ -61,9 +61,9 @@ public class AirlineRDController extends MenuController {
     public void loadTables() {
         airlIDcol.setCellValueFactory(new PropertyValueFactory<Airline, String>("ID"));
         airlNamecol.setCellValueFactory(new PropertyValueFactory<Airline, String>("Name"));
-        airlAliascol.setCellValueFactory(new PropertyValueFactory<Airline, String>("Alias"));
+        airlAliascol.setCellValueFactory(new PropertyValueFactory<Airline, String>("ICAO"));
         //Need to check IATA and ICAO
-        airlIATAcol.setCellValueFactory(new PropertyValueFactory<Airline, String>("ICAO"));
+        airlIATAcol.setCellValueFactory(new PropertyValueFactory<Airline, String>("Alias"));
         airlICAOcol.setCellValueFactory(new PropertyValueFactory<Airline, String>("IATA"));
         airlCallsigncol.setCellValueFactory(new PropertyValueFactory<Airline, String>("CallSign"));
         airlCountrycol.setCellValueFactory(new PropertyValueFactory<Airline, String>("Country"));

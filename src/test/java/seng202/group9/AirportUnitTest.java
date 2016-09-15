@@ -90,31 +90,31 @@ public class AirportUnitTest {
 		heathrow.addArrivalRoutes(route1);
 		heathrow.addArrivalRoutes(routes);
 
-		assertEquals(heathrow.getArrivalRoutes().get(0).arrivesAt(), "LHR1");
-		assertEquals(heathrow.getArrivalRoutes().get(1).arrivesAt(), "LHR1");
-		assertEquals(heathrow.getArrivalRoutes().get(2).arrivesAt(), "LHR2");
-		assertEquals(heathrow.getArrivalRoutes().get(3).arrivesAt(), "LHR3");
+		assertEquals(heathrow.getArrivalRoutes().get(0).getArrivalAirport(), "LHR1");
+		assertEquals(heathrow.getArrivalRoutes().get(1).getArrivalAirport(), "LHR1");
+		assertEquals(heathrow.getArrivalRoutes().get(2).getArrivalAirport(), "LHR2");
+		assertEquals(heathrow.getArrivalRoutes().get(3).getArrivalAirport(), "LHR3");
 
 		//check add departrue routes;
 		heathrow.addDepartureRoutes(route1);
 		heathrow.addDepartureRoutes(routes);
 
-		assertEquals(heathrow.getDepartureRoutes().get(0).departsFrom(), "SIN1");
-		assertEquals(heathrow.getDepartureRoutes().get(1).departsFrom(), "SIN1");
-		assertEquals(heathrow.getDepartureRoutes().get(2).departsFrom(), "SIN2");
-		assertEquals(heathrow.getDepartureRoutes().get(3).departsFrom(), "SIN3");
+		assertEquals(heathrow.getDepartureRoutes().get(0).getDepartureAirport(), "SIN1");
+		assertEquals(heathrow.getDepartureRoutes().get(1).getDepartureAirport(), "SIN1");
+		assertEquals(heathrow.getDepartureRoutes().get(2).getDepartureAirport(), "SIN2");
+		assertEquals(heathrow.getDepartureRoutes().get(3).getDepartureAirport(), "SIN3");
 
 		//check set
 		heathrow.setArrivalRoutes(routes);
 		heathrow.setDepartureRoutes(routes);
 		//Arrival check
-		assertEquals(heathrow.getArrivalRoutes().get(0).arrivesAt(), "LHR1");
-		assertEquals(heathrow.getArrivalRoutes().get(1).arrivesAt(), "LHR2");
-		assertEquals(heathrow.getArrivalRoutes().get(2).arrivesAt(), "LHR3");
+		assertEquals(heathrow.getArrivalRoutes().get(0).getArrivalAirport(), "LHR1");
+		assertEquals(heathrow.getArrivalRoutes().get(1).getArrivalAirport(), "LHR2");
+		assertEquals(heathrow.getArrivalRoutes().get(2).getArrivalAirport(), "LHR3");
 		//departure check
-		assertEquals(heathrow.getDepartureRoutes().get(0).departsFrom(), "SIN1");
-		assertEquals(heathrow.getDepartureRoutes().get(1).departsFrom(), "SIN2");
-		assertEquals(heathrow.getDepartureRoutes().get(2).departsFrom(), "SIN3");
+		assertEquals(heathrow.getDepartureRoutes().get(0).getDepartureAirport(), "SIN1");
+		assertEquals(heathrow.getDepartureRoutes().get(1).getDepartureAirport(), "SIN2");
+		assertEquals(heathrow.getDepartureRoutes().get(2).getDepartureAirport(), "SIN3");
 	}
 
 	@Test
