@@ -35,7 +35,6 @@ public class RouteSummaryController extends MenuController{
     }
 
     public void loadTables() {
-        currentData = this.parent.getCurrentDataset();
         columnAirline.setCellValueFactory(new PropertyValueFactory<Route, String>("Airline"));
         columnDepart.setCellValueFactory(new PropertyValueFactory<Route, String>("DepartureAirport"));
         columnArrive.setCellValueFactory(new PropertyValueFactory<Route, String>("ArrivalAirport"));

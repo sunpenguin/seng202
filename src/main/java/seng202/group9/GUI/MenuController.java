@@ -87,7 +87,7 @@ public class MenuController implements Initializable{
 
 	public void viewRouteSummary() {
 		try {
-			RouteSummaryController summaryController = (RouteSummaryController) parent.replaceSceneContent("route_summary.fxml");
+			RouteSummaryController summaryController = (RouteSummaryController) parent.replaceSceneContent("routes_summary.fxml");
 			summaryController.setApp(parent);
 			summaryController.loadTables();
 		} catch (Exception e) {
