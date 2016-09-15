@@ -141,7 +141,7 @@ public class AirportRDController extends MenuController{
             tableViewAirportRD.setItems(FXCollections.observableArrayList(theDataSet.getAirports()));
         } catch ( Exception e ) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Airline Data Error");
+            alert.setTitle("Airport Data Error");
             alert.setHeaderText("Error adding a custom airport entry.");
             alert.setContentText(e.getMessage());
             alert.showAndWait();

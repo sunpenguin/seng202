@@ -59,7 +59,7 @@ public class MenuController implements Initializable{
 		try {
 			RouteRDController summaryController = (RouteRDController) parent.replaceSceneContent("route_raw_data.fxml");
 			summaryController.setApp(parent);
-			//summaryController.loadTables();
+			summaryController.loadTables();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -1,8 +1,6 @@
 package seng202.group9.Controller;
 
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import seng202.group9.Core.*;
 
 import java.sql.Connection;
@@ -593,15 +591,15 @@ public class Dataset {
                     " `Codeshare`, `Stops`, `Equipment`) VALUES ";
             int numOfRoutes = 0;
             for (int i = 0; i < routesToImport.size(); i ++){
-                String routeIdentifier = routesToImport.get(i).getAirline() + routesToImport.get(i).departsFrom() + routesToImport.get(i).arrivesAt() +
+                String routeIdentifier = routesToImport.get(i).getAirline() + routesToImport.get(i).getDepartureAirport() + routesToImport.get(i).getArrivalAirport() +
                         routesToImport.get(i).getCode() + routesToImport.get(i).getStops() + routesToImport.get(i).getEquipment();
                 if (routeDictionary.containsKey(routeIdentifier)){
                     numOfDuplicates ++;
                 }else{
                     //route variables
                     String routeAirline = routesToImport.get(i).getAirline().replace("\"", "\"\"");
-                    String routeSource = routesToImport.get(i).departsFrom().replace("\"", "\"\"");
-                    String routeDestination = routesToImport.get(i).arrivesAt().replace("\"", "\"\"");
+                    String routeSource = routesToImport.get(i).getDepartureAirport().replace("\"", "\"\"");
+                    String routeDestination = routesToImport.get(i).getArrivalAirport().replace("\"", "\"\"");
                     String routeCode = routesToImport.get(i).getCode().replace("\"", "\"\"");
                     int routeStops = routesToImport.get(i).getStops();
                     String routeEquipment = routesToImport.get(i).getEquipment().replace("\"", "\"\"");
@@ -934,10 +932,10 @@ public class Dataset {
         if (routeToAdd.getAirline().length() != 2 && routeToAdd.getAirline().length() != 3){
             throw new DataException("Airline ICAO code must be 2 or 3 letters.");
         }
-        if (routeToAdd.departsFrom().length() != 3 && routeToAdd.departsFrom().length() != 4){
+        if (routeToAdd.getDepartureAirport().length() != 3 && routeToAdd.getDepartureAirport().length() != 4){
             throw new DataException("Airport Source Airport IATA must be 3 letters or 4 letters if ICAO.");
         }
-        if (routeToAdd.arrivesAt().length() != 3 && routeToAdd.arrivesAt().length() != 4){
+        if (routeToAdd.getArrivalAirport().length() != 3 && routeToAdd.getArrivalAirport().length() != 4){
             throw new DataException("Airport Destination Airport IATA must be 3 letters or 4 letters if ICAO.");
         }
         if (routeToAdd.getCode().length() != 0 && routeToAdd.getCode().length() != 1){
@@ -956,8 +954,8 @@ public class Dataset {
             //add the airline
             stmt = c.createStatement();
             String airline = routeToAdd.getAirline().replace("\"", "\"\"");
-            String sourceAir = routeToAdd.departsFrom().replace("\"", "\"\"");
-            String destAir = routeToAdd.arrivesAt().replace("\"", "\"\"");
+            String sourceAir = routeToAdd.getDepartureAirport().replace("\"", "\"\"");
+            String destAir = routeToAdd.getArrivalAirport().replace("\"", "\"\"");
             String equipment = routeToAdd.getEquipment().replace("\"", "\"\"");
             String insertRouteQuery = "INSERT INTO `" + this.name + "_Routes` (`Airline`, `Source_Airport`, `Destination_Airport`," +
                     " `Codeshare`, `Stops`, `Equipment`) VALUES (\""+airline+"\", \""+sourceAir+"\", \""+destAir+"\", " +
@@ -974,7 +972,7 @@ public class Dataset {
             routeToAdd.setID(routeID);
             routes.add(routeToAdd);
             //routeAirline + routeSourceAirport + routeArrvAirport + routeCodeShare + routeStops + routeEquip
-            String routeKey = routeToAdd.getAirline() + routeToAdd.departsFrom() + routeToAdd.arrivesAt() + routeToAdd.getCode() + routeToAdd.getStops() + routeToAdd.getEquipment();
+            String routeKey = routeToAdd.getAirline() + routeToAdd.getDepartureAirport() + routeToAdd.getArrivalAirport() + routeToAdd.getCode() + routeToAdd.getStops() + routeToAdd.getEquipment();
             routeDictionary.put(routeKey, routeToAdd);
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );

@@ -31,7 +31,7 @@
                   <Font size="29.0" />
                </font>
             </Label>
-            <ScrollPane hbarPolicy="ALWAYS" layoutX="14.0" layoutY="364.0" prefHeight="47.0" prefViewportHeight="29.0" prefViewportWidth="1095.0" prefWidth="770.0" vbarPolicy="NEVER">
+            <ScrollPane hbarPolicy="ALWAYS" layoutX="14.0" layoutY="369.0" prefHeight="47.0" prefViewportHeight="29.0" prefViewportWidth="1095.0" prefWidth="772.0" vbarPolicy="NEVER">
                <content>
                   <Pane prefHeight="29.0" prefWidth="1219.0">
                      <children>
@@ -95,11 +95,11 @@
                   </Pane>
                </content>
             </ScrollPane>
-            <Button layoutX="10.0" layoutY="420.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" text="Analyse" />
-            <Button layoutX="661.0" layoutY="420.0" mnemonicParsing="false" onAction="#addAirportSingle" prefHeight="25.0" prefWidth="125.0" text="Add" />
+            <Button layoutX="15.0" layoutY="420.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" text="Analyse" />
+            <Button layoutX="662.0" layoutY="420.0" mnemonicParsing="false" onAction="#addAirportSingle" prefHeight="25.0" prefWidth="125.0" text="Add" />
             <Pane layoutX="15.0" layoutY="60.0" prefHeight="295.0" prefWidth="772.0">
                <children>
-                  <TableView fx:id="tableViewAirportRD" prefHeight="293.0" prefWidth="770.0">
+                  <TableView fx:id="tableViewAirportRD" prefHeight="300.0" prefWidth="772.0">
                     <columns>
                       <TableColumn fx:id="airpIDcol" prefWidth="83.0" text="Airport ID" />
                       <TableColumn fx:id="airpNamecol" prefWidth="137.0" text="Name" />
@@ -118,7 +118,7 @@
                </children></Pane>
          </children>
       </Pane>
-      <Pane prefHeight="153.0" prefWidth="800.0" GridPane.columnSpan="2" GridPane.rowIndex="1">
+      <Pane prefHeight="137.0" prefWidth="800.0" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="2147483647">
          <children>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ec1fff35" height="142.0" layoutY="1.0" stroke="BLACK" strokeType="INSIDE" width="800.0" />
          </children>
