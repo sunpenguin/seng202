@@ -118,8 +118,8 @@ public class AirlineParser extends Parser {
             }
         }
 
-        return String.format("Entries Successfully Entered: %1$d.\n" +
-                "Entries With Errors: %2$d", successful, error);
+        return String.format("Airlines Successfully Entered: %1$d.\n" +
+                "Airlines With Errors: %2$d", successful, error);
     }
 
     public ArrayList<Airline> getResult(){

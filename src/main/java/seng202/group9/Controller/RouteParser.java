@@ -149,8 +149,8 @@ public class RouteParser extends Parser {
             }
         }
 
-        return String.format("Entries Successfully Entered: %1$d.\n" +
-                "Entries With Errors: %2$d", successful, error);
+        return String.format("Routes Successfully Entered: %1$d.\n" +
+                "Routes With Errors: %2$d", successful, error);
     }
 
     public ArrayList<Route> getResult(){
