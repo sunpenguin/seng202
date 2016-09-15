@@ -58,9 +58,6 @@ public class App extends Application
 		//testing out dataset
 		try {
 			currentDataset = new Dataset("test's", Dataset.getExisting);
-			System.out.println(currentDataset.getAirports().get(8078));
-			currentDataset.deleteAirport(currentDataset.getAirports().get(8078));
-			System.out.println(currentDataset.getAirports().get(8078));
 		}catch (DataException e){
 			e.printStackTrace();
 
