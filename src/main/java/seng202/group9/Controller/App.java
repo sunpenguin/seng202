@@ -83,7 +83,6 @@ public class App extends Application
 			e.printStackTrace();
 		}
 
-
 		//testing out airport parser
 		try {
 			System.out.println(currentDataset.importAirport("res/Samples/Airports.txt"));

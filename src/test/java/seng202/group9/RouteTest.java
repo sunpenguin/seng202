@@ -27,7 +27,7 @@ public class RouteTest extends TestCase {
     	//////////////
     	//test getters
     	//////////////
-    	assertEquals(route.getAirline(), "BA");
+    	assertEquals(route.getAirlineName(), "BA");
     	assertEquals(route.departsFrom(), "SIN");
     	assertEquals(route.arrivesAt(), "LHR");
     	assertEquals(route.getCode(), "");
@@ -35,14 +35,14 @@ public class RouteTest extends TestCase {
     	///////////////
     	//test setters
     	///////////////
-    	route.setAirline("BAH");
+    	route.setAirlineName("BAH");
     	route.setArrivalAirport("LEFT-HAND-RULE");
     	route.setDepartureAirport("SING-SONG");
     	route.setCode("Y");
     	route.setStops(5);
     	route.setEquipment("747 840");
 
-    	assertEquals(route.getAirline(), "BAH");
+    	assertEquals(route.getAirlineName(), "BAH");
     	assertEquals(route.departsFrom(), "SING-SONG");
     	assertEquals(route.arrivesAt(), "LEFT-HAND-RULE");
     	assertEquals(route.getCode(), "Y");
