@@ -61,6 +61,10 @@ public class FlightRawDataController  implements Initializable {
     final ObservableList<String> flightList = FXCollections.observableArrayList();
 
 
+    /**
+     * Loads the Flight paths into the List View and waits for a mouse clicked event for which it will update the table
+     * to display the selected Flight paths points. Called from the MenuController.
+     */
     public void flightPathListView() {
         try {
             ArrayList<FlightPath> flightPaths = new ArrayList();
@@ -92,6 +96,9 @@ public class FlightRawDataController  implements Initializable {
         }
     }
 
+    /**
+     * Function used to load the table for the Flight points initially from the MenuController
+     */
     public void loadTables() {
         flightIdCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("ID"));
         flightNameCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("Name"));
@@ -112,11 +119,6 @@ public class FlightRawDataController  implements Initializable {
         ArrayList<FlightPoint> flightPoints = flightPaths.get(0).getFlight();
         flightTableView.setItems(FXCollections.observableArrayList(flightPoints));
     }
-
-    public static void updateTable(int pathID) {
-
-    }
-
 
     public void initialize(URL arg0, ResourceBundle arg1) {
         // TODO Auto-generated method stub
