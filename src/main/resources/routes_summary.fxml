@@ -38,11 +38,11 @@
                                        <children>
                                           <TableView fx:id="tableView" prefHeight="200.0" prefWidth="378.0">
                                              <columns>
-                                                <TableColumn fx:id="columnAirline" prefWidth="75.0" text="Airline" />
-                                                <TableColumn fx:id="columnDepart" prefWidth="75.0" text="Depart" />
-                                                <TableColumn fx:id="columnArrive" prefWidth="75.0" text="Arrive" />
-                                                <TableColumn fx:id="columnStops" prefWidth="75.0" text="Stops" />
-                                                <TableColumn fx:id="columnEquipment" prefWidth="75.0" text="Equipment" />
+                                                <TableColumn fx:id="columnAirline" prefWidth="89.0" text="Airline" />
+                                                <TableColumn fx:id="columnDepart" prefWidth="80.99998474121094" text="Depart" />
+                                                <TableColumn fx:id="columnArrive" prefWidth="67.0" text="Arrive" />
+                                                <TableColumn fx:id="columnStops" prefWidth="72.0" text="Stops" />
+                                                <TableColumn fx:id="columnEquipment" prefWidth="66.0" text="Equipment" />
                                              </columns>
                                           </TableView>
                                        </children>
@@ -58,22 +58,22 @@
                            <children>
                               <Pane layoutY="200.0" prefHeight="100.0" prefWidth="253.0">
                                  <children>
-                                    <Button layoutX="20.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Airports">
+                                    <Button layoutX="20.0" layoutY="14.0" mnemonicParsing="false" onAction="#airportSummaryButton" prefHeight="25.0" prefWidth="65.0" text="Airports">
                                        <font>
                                           <Font size="12.0" />
                                        </font>
                                     </Button>
-                                    <Button layoutX="94.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Airlines">
+                                    <Button layoutX="94.0" layoutY="14.0" mnemonicParsing="false" onAction="#airlineSummaryButton" prefHeight="25.0" prefWidth="65.0" text="Airlines">
                                        <font>
                                           <Font size="12.0" />
                                        </font>
                                     </Button>
-                                    <Button layoutX="169.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Flights">
+                                    <Button layoutX="169.0" layoutY="14.0" mnemonicParsing="false" onAction="#flightSummaryButton" prefHeight="25.0" prefWidth="65.0" text="Flights">
                                        <font>
                                           <Font size="12.0" />
                                        </font>
                                     </Button>
-                                    <Button layoutX="20.0" layoutY="61.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="214.0" text="Routes Raw Data" />
+                                    <Button layoutX="20.0" layoutY="61.0" mnemonicParsing="false" onAction="#routeRawDataButton" prefHeight="25.0" prefWidth="214.0" text="Routes Raw Data" />
                                  </children>
                                  <padding>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

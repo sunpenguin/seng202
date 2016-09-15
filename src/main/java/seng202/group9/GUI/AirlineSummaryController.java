@@ -43,5 +43,48 @@ public class AirlineSummaryController extends MenuController{
         currentData = this.parent.getCurrentDataset();
         tableView.setItems(FXCollections.observableArrayList(currentData.getAirlines()));
     }
-
+    public void airlineRawDataButton() {
+        try {
+            RouteRDController rawDataController = (RouteRDController)
+                    parent.replaceSceneContent("airline_raw_data.fxml");
+            rawDataController.setApp(parent);
+            rawDataController.loadTables();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void flightSummaryButton() {
+        try {
+            FlightSummaryController summaryController = (FlightSummaryController)
+                    parent.replaceSceneContent("flight_data_summary.fxml");
+            summaryController.setApp(parent);
+            summaryController.flightPathListView();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void airportSummaryButton() {
+        try {
+            AirportSummaryController summaryController = (AirportSummaryController)
+                    parent.replaceSceneContent("airport_summary.fxml");
+            summaryController.setApp(parent);
+            summaryController.loadTables();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void routeSummaryButton() {
+        try {
+            RouteSummaryController summaryController = (RouteSummaryController)
+                    parent.replaceSceneContent("routes_summary.fxml");
+            summaryController.setApp(parent);
+            summaryController.loadTables();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
