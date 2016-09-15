@@ -45,7 +45,7 @@ public class AirlineSummaryController extends MenuController{
     }
     public void airlineRawDataButton() {
         try {
-            RouteRDController rawDataController = (RouteRDController)
+            AirlineRDController rawDataController = (AirlineRDController)
                     parent.replaceSceneContent("airline_raw_data.fxml");
             rawDataController.setApp(parent);
             rawDataController.loadTables();
