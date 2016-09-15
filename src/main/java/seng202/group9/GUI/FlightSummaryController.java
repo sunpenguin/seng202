@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 /**
+ * Controller for the Flights Summary Scene.
  * Created by Liam Beckett on 13/09/2016.
  */
 public class FlightSummaryController implements Initializable {
@@ -25,11 +26,13 @@ public class FlightSummaryController implements Initializable {
         this.parent = parent;
     }
 
-
     @FXML
     ListView<String> flightPathListView;
     final ObservableList<String> flightList = FXCollections.observableArrayList();
 
+    /**
+     * Loads the Flight paths into the List View and is called from the MenuController.
+     */
     public void flightPathListView() {
         try {
             theDataSet = this.parent.getCurrentDataset();
