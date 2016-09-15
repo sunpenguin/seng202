@@ -2,12 +2,14 @@ package seng202.group9.GUI;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import seng202.group9.Controller.App;
 import seng202.group9.Controller.Dataset;
 import seng202.group9.Core.FlightPath;
@@ -15,6 +17,7 @@ import seng202.group9.Core.FlightPoint;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 /**
@@ -62,20 +65,32 @@ public class FlightRawDataController  implements Initializable {
         try {
             ArrayList<FlightPath> flightPaths = new ArrayList();
             flightPaths = theDataSet.getFlightPaths();
-            for(int i = 0; i<flightPaths.size(); i++ ){
+            for(int i = 0; i<flightPaths.size(); i++ ) {
                 int pathID = flightPaths.get(i).getID();
                 String pathSource = flightPaths.get(i).departsFrom();
                 String pathDestin = flightPaths.get(i).arrivesAt();
                 String flightPathDisplayName = Integer.toString(pathID) + "_" + pathSource + "_" + pathDestin;
                 flightList.add(flightPathDisplayName);
             }
+            flightPathListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                public void handle(MouseEvent event) {
+                    String flightPathDisplayNameClicked = flightPathListView.getSelectionModel().getSelectedItem();
+                    String[] segments = flightPathDisplayNameClicked.split("_");
+                    String pathIdClicked = segments[0];
+
+                    ArrayList<FlightPath> flightPaths;
+                    flightPaths = theDataSet.getFlightPaths();
+                    ArrayList<FlightPoint> flightPoints = flightPaths.get(Integer.parseInt(pathIdClicked)-1).getFlight();
+                    flightTableView.setItems(FXCollections.observableArrayList(flightPoints));
+
+                }
+            });
+
             flightPathListView.setItems(flightList);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
-
 
     public void loadTables() {
         flightIdCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("ID"));
@@ -91,11 +106,15 @@ public class FlightRawDataController  implements Initializable {
 
         theDataSet = this.parent.getCurrentDataset();
 
-        ArrayList<FlightPath> flightPaths = new ArrayList();
+        ArrayList<FlightPath> flightPaths;
         flightPaths = theDataSet.getFlightPaths();
         int firstID = flightPaths.get(0).getID();
         ArrayList<FlightPoint> flightPoints = flightPaths.get(0).getFlight();
         flightTableView.setItems(FXCollections.observableArrayList(flightPoints));
+    }
+
+    public static void updateTable(int pathID) {
+
     }
 
 
