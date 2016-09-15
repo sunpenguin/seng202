@@ -205,7 +205,7 @@ public class Airline {
 	}
 	/**
 	 * Function Overload of addRoutes this allow the adding of a list to route
-	 * @param routes
+	 * @param routesToAdd array list of routes to add routes
 	 */
 	public void addRoutes(ArrayList<Route> routesToAdd){
 		for (int i = 0; i < routesToAdd.size(); i ++){
@@ -227,6 +227,29 @@ public class Airline {
 	 */
 	public void delRoutes(int index){
 		routes.remove(index);
+	}
+
+	/**
+	 * checks if the airline has a duplicate unique entry to another. Used for validating
+	 * @param airline
+	 * @return
+     */
+	public void hasDuplicate(Airline airline) throws DataException{
+		if (this.name.equals(airline.getName())){
+			throw new DataException("This Airline Name already Exists, Please Choose Another.");
+		}
+		if (!this.IATA.equals("") && this.IATA.equals(airline.getIATA())){
+			throw new DataException("This IATA Code already Exists, Please Choose Another.");
+		}
+		if (!this.ICAO.equals("") && this.ICAO.equals(airline.getICAO())){
+			throw new DataException("This ICAO Code already Exists, Please Choose Another.");
+		}
+		if (!this.alias.equals("") && this.alias.equals(airline.getAlias())){
+			throw new DataException("This Alias already Exists, Please Choose Another.");
+		}
+		if (!this.callSign.equals("") && this.callSign.equals(airline.getCallSign())){
+			throw new DataException("This Callsign already Exists, Please Choose Another.");
+		}
 	}
 	/**
 	 * returns the name of the airline when concatenated to a string.

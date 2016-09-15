@@ -20,6 +20,13 @@ public class FlightPath {
 		this.arrivalAirport = arrivalAirport;
 		this.flightPoints = new ArrayList<FlightPoint>();
 	}
+
+	public FlightPath(String departureAirport, String arrivalAirport){
+		this.ID = -1;
+		this.departureAirport = departureAirport;
+		this.arrivalAirport = arrivalAirport;
+		this.flightPoints = new ArrayList<FlightPoint>();
+	}
 	
 	public ArrayList<FlightPoint> getFlightPoints() {
 		return flightPoints;

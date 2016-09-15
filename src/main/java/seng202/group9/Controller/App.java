@@ -54,13 +54,36 @@ public class App extends Application
 			e.printStackTrace();
 		}
 		primaryStage.show();
-		/*
+
 		//testing out dataset
 		try {
 			currentDataset = new Dataset("test's", Dataset.getExisting);
 		}catch (DataException e){
 			e.printStackTrace();
+
 		}
+		/*
+		//testout single route adding
+		try {
+			currentDataset.addRoute("D2", "MAC", "WIN", "Y", "0", "NOW");
+		}catch (DataException e){
+			e.printStackTrace();
+		}
+		//testout single airport adding
+		try {
+			currentDataset.addAirport("Windows 10", "PC", "Windows", "WIN", "WIND", "0.0", "0.0", "0.0", "0.0", "U", "PC/Windows");
+		}catch (DataException e){
+			e.printStackTrace();
+		}
+		/*
+		//testout single airline adding
+		try {
+			currentDataset.addAirline("Dota2", "Valve", "D2", "DOT", "Defence of the Ancients", "Steam", "Y");
+		}catch (DataException e){
+			e.printStackTrace();
+		}
+
+
 		//testing out airport parser
 		try {
 			System.out.println(currentDataset.importAirport("res/Samples/Airports.txt"));
@@ -78,8 +101,15 @@ public class App extends Application
 			System.out.println(currentDataset.importRoute("res/Samples/Routes.txt"));
 		} catch (DataException e) {
 			e.printStackTrace();
-		}
-		*/
+		}*/
+
+		//testing out flight parser
+        try {
+            System.out.println(currentDataset.importFlight("res/Samples/NZCH-WSSS.csv"));
+        } catch (DataException e) {
+            e.printStackTrace();
+        }
+
 	}
 
 	/**
