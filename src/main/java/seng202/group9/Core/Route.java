@@ -15,6 +15,9 @@ public class Route {
 	private String airline;
 	private String departureAirport;
 	private String arrivalAirport;
+	private Airport sourceAirport;
+	private Airport destinationAirport;
+
 	/**
 	 * Constructor for pulling from database
 	 * @param airline
@@ -157,6 +160,38 @@ public class Route {
 	 */
 	public String arrivesAt(){
 		return arrivalAirport;
+	}
+
+	/**
+	 * get Airport class that is bound with the destination of the airport
+	 * @return
+     */
+	public Airport getDestinationAirport() {
+		return destinationAirport;
+	}
+
+	/**
+	 * set Airport class that is bound with the destination of the airport
+	 * @param destinationAirport
+     */
+	public void setDestinationAirport(Airport destinationAirport) {
+		this.destinationAirport = destinationAirport;
+	}
+
+	/**
+	 * get Airport class that is bound with the source airport
+	 * @return
+     */
+	public Airport getSourceAirport() {
+		return sourceAirport;
+	}
+
+	/**
+	 * set Airport class that is bound with the source airport
+	 * @param sourceAirport
+     */
+	public void setSourceAirport(Airport sourceAirport) {
+		this.sourceAirport = sourceAirport;
 	}
 
 	/**

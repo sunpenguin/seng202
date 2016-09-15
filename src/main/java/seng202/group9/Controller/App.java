@@ -101,14 +101,14 @@ public class App extends Application
 			System.out.println(currentDataset.importRoute("res/Samples/Routes.txt"));
 		} catch (DataException e) {
 			e.printStackTrace();
-		}*/
+		}
 
 		//testing out flight parser
         try {
             System.out.println(currentDataset.importFlight("res/Samples/NZCH-WSSS.csv"));
         } catch (DataException e) {
             e.printStackTrace();
-        }
+        }*/
 
 	}
 

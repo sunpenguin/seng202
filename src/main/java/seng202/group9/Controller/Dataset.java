@@ -1,8 +1,6 @@
 package seng202.group9.Controller;
 
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import seng202.group9.Core.*;
 
 import java.sql.Connection;
@@ -391,13 +389,13 @@ public class Dataset {
                     numOfDuplicates ++;
                 }else{
                     //insert import into database
-                    String airName = airlinesToImport.get(i).getName().replace("'", "''").replace("\"", "\"\"");
-                    String airAlias = airlinesToImport.get(i).getAlias().replace("'", "''").replace("\"", "\"\"");
-                    String airIATA = airlinesToImport.get(i).getIATA().replace("'", "''").replace("\"", "\"\"");
-                    String airICAO = airlinesToImport.get(i).getICAO().replace("'", "''").replace("\"", "\"\"");
-                    String airCallsign = airlinesToImport.get(i).getCallSign().replace("'", "''").replace("\"", "\"\"");
-                    String airCountry = airlinesToImport.get(i).getCountry().replace("'", "''").replace("\"", "\"\"");
-                    String airActive = airlinesToImport.get(i).getActive().replace("'", "''").replace("\"", "\"\"");
+                    String airName = airlinesToImport.get(i).getName().replace("\"", "\"\"");
+                    String airAlias = airlinesToImport.get(i).getAlias().replace("\"", "\"\"");
+                    String airIATA = airlinesToImport.get(i).getIATA().replace("\"", "\"\"");
+                    String airICAO = airlinesToImport.get(i).getICAO().replace("\"", "\"\"");
+                    String airCallsign = airlinesToImport.get(i).getCallSign().replace("\"", "\"\"");
+                    String airCountry = airlinesToImport.get(i).getCountryName().replace("\"", "\"\"");
+                    String airActive = airlinesToImport.get(i).getActive().replace("\"", "\"\"");
                     if (numOfAirlines > 0){
                         insertAirlineQuery += ",";
                     }
@@ -467,8 +465,8 @@ public class Dataset {
                 } else {
                     //airport variables
                     String airpName = airportsToImport.get(i).getName().replace("\"", "\"\"");
-                    String airpCity = airportsToImport.get(i).getCity().replace("\"", "\"\"");
-                    String airpCountry = airportsToImport.get(i).getCountry().replace("\"", "\"\"");
+                    String airpCity = airportsToImport.get(i).getCityName().replace("\"", "\"\"");
+                    String airpCountry = airportsToImport.get(i).getCountryName().replace("\"", "\"\"");
                     String airpIATA_FFA = airportsToImport.get(i).getIATA_FFA().replace("\"", "\"\"");
                     String airpICAO = airportsToImport.get(i).getICAO().replace("\"", "\"\"");
                     double airpLat = airportsToImport.get(i).getLatitude();
@@ -779,7 +777,7 @@ public class Dataset {
             String insertAirlineQuery = "INSERT INTO `" + this.name + "_Airline` (`Name`, `Alias`, `IATA`, `ICAO`" +
                     ", `Callsign`, `Country`, `Active`) VALUES (\""+airlineToAdd.getName()+"\", \"" + airlineToAdd.getAlias() + "\", " +
                     "\"" + airlineToAdd.getIATA() + "\", \"" + airlineToAdd.getICAO() + "\", \"" + airlineToAdd.getCallSign() + "\", " +
-                    "\"" + airlineToAdd.getCountry() + "\", \"" + airlineToAdd.getActive() + "\");";
+                    "\"" + airlineToAdd.getCountryName() + "\", \"" + airlineToAdd.getActive() + "\");";
             stmt.execute(insertAirlineQuery);
             //get the airline id
             stmt = c.createStatement();
@@ -836,8 +834,8 @@ public class Dataset {
             //add the airport
             stmt = c.createStatement();
             String insertAirportQuery = "INSERT INTO `" + this.name + "_Airport`  (`Name`, `City`, `Country`, `IATA/FFA`, " +
-                    "`ICAO`, `Latitude`, `Longitude`, `Altitude`) VALUES (\""+airportToAdd.getName()+"\", \""+airportToAdd.getCity()+"\", " +
-                    "\""+airportToAdd.getCountry()+"\", \""+airportToAdd.getIATA_FFA()+"\", \""+airportToAdd.getICAO()+"\", " +
+                    "`ICAO`, `Latitude`, `Longitude`, `Altitude`) VALUES (\""+airportToAdd.getName()+"\", \""+airportToAdd.getCityName()+"\", " +
+                    "\""+airportToAdd.getCountryName()+"\", \""+airportToAdd.getIATA_FFA()+"\", \""+airportToAdd.getICAO()+"\", " +
                     ""+airportToAdd.getLatitude()+", "+airportToAdd.getLongitude()+", "+airportToAdd.getAltitude()+");";
             stmt.execute(insertAirportQuery);
             //get the airport id

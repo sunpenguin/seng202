@@ -17,9 +17,10 @@ public class Airline {
 	private String alias;
 	private String callSign;
 	private String active;
-	private String country;
+	private String countryName;
 	private ArrayList<Route> routes;
-	
+	private Country country = null;
+
 	/**
 	 * Constructor
 	 * 
@@ -29,10 +30,10 @@ public class Airline {
 	 * @param IATA
 	 * @param ICAO
 	 * @param callSign
-	 * @param country
+	 * @param countryName
 	 * @param active
 	 */
-	public Airline(int ID, String name, String alias, String IATA, String ICAO, String callSign, String country, String active){
+	public Airline(int ID, String name, String alias, String IATA, String ICAO, String callSign, String countryName, String active){
 		this.ID = ID;
 		this.IATA = IATA;
 		this.ICAO = ICAO;
@@ -40,12 +41,12 @@ public class Airline {
 		this.alias = alias;
 		this.callSign = callSign;
 		this.active = active;
-		this.country = country;
+		this.countryName = countryName;
 		this.routes = new ArrayList<Route>();
 	}
 
 
-	public Airline(String name, String alias, String IATA, String ICAO, String callSign, String country, String active){
+	public Airline(String name, String alias, String IATA, String ICAO, String callSign, String countryName, String active){
 		this.ID = -1;
 		this.IATA = IATA;
 		this.ICAO = ICAO;
@@ -53,7 +54,7 @@ public class Airline {
 		this.alias = alias;
 		this.callSign = callSign;
 		this.active = active;
-		this.country = country;
+		this.countryName = countryName;
 		this.routes = new ArrayList<Route>();
 	}
 	/**
@@ -109,10 +110,10 @@ public class Airline {
 	}
 	/**
 	 * Changes Country the Airline belongs to
-	 * @param country
+	 * @param countryName
 	 */
-	public void setCountry(String country) {
-		this.country = country;
+	public void setCountryName(String countryName) {
+		this.countryName = countryName;
 	}
 	/**
 	 * Sets routes to the airline
@@ -181,11 +182,27 @@ public class Airline {
 		return active;
 	}
 	/**
-	 * get the country the airline belongs to
+	 * get the countryName the airline belongs to
 	 * @return
 	 */
-	public String getCountry(){
+	public String getCountryName(){
+		return countryName;
+	}
+
+	/**
+	 * gets the Country class that this airline belongs to
+	 * @return
+     */
+	public Country getCountry() {
 		return country;
+	}
+
+	/**
+	 * sets the country class this airline belongs to
+	 * @param country
+     */
+	public void setCountry(Country country) {
+		this.country = country;
 	}
 	/**
 	 * get routes the airline flies

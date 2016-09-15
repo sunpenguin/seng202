@@ -56,7 +56,7 @@ public class AirlineTest extends TestCase {
     	assertTrue(allNipponAirways.getIATA() == "NH");// test iata
     	assertTrue(allNipponAirways.getICAO() == "ANA");// test icao
     	assertTrue(allNipponAirways.getCallSign() == "ALL NIPPON");// test call sign
-    	assertTrue(allNipponAirways.getCountry() == "Japan");// test country
+    	assertTrue(allNipponAirways.getCountryName() == "Japan");// test country
     	assertTrue(allNipponAirways.getActive() == "Y");// get active
     	//check set
     	allNipponAirways.setID(322);//ID
@@ -81,8 +81,8 @@ public class AirlineTest extends TestCase {
     	allNipponAirways.setCallSign("NIKE RULES");//Call Sign
     	assertTrue(allNipponAirways.getCallSign() =="NIKE RULES");
     	
-    	allNipponAirways.setCountry("Nikeland");//Country
-    	assertTrue(allNipponAirways.getCountry() == "Nikeland");
+    	allNipponAirways.setCountryName("Nikeland");//Country
+    	assertTrue(allNipponAirways.getCountryName() == "Nikeland");
     	
     	allNipponAirways.setActive("N");//Active
     	assertTrue(allNipponAirways.getActive() == "N");
