@@ -9,7 +9,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import seng202.group9.Controller.App;
 import seng202.group9.Controller.Dataset;
-import seng202.group9.Core.Airline;
 import seng202.group9.Core.Route;
 
 /**
