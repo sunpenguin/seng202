@@ -62,7 +62,7 @@ public class App extends Application
 			e.printStackTrace();
 
 		}
-		/*
+
 		//testout single route adding
 		try {
 			currentDataset.addRoute("D2", "MAC", "WIN", "Y", "0", "NOW");
@@ -75,7 +75,7 @@ public class App extends Application
 		}catch (DataException e){
 			e.printStackTrace();
 		}
-		/*
+
 		//testout single airline adding
 		try {
 			currentDataset.addAirline("Dota2", "Valve", "D2", "DOT", "Defence of the Ancients", "Steam", "Y");
@@ -101,7 +101,7 @@ public class App extends Application
 			System.out.println(currentDataset.importRoute("res/Samples/Routes.txt"));
 		} catch (DataException e) {
 			e.printStackTrace();
-		}*/
+		}
 
 		//testing out flight parser
         try {
