@@ -58,6 +58,9 @@ public class App extends Application
 		//testing out dataset
 		try {
 			currentDataset = new Dataset("test's", Dataset.getExisting);
+			System.out.println(currentDataset.getAirports().get(8078));
+			currentDataset.deleteAirport(currentDataset.getAirports().get(8078));
+			System.out.println(currentDataset.getAirports().get(8078));
 		}catch (DataException e){
 			e.printStackTrace();
 
@@ -75,14 +78,12 @@ public class App extends Application
 		}catch (DataException e){
 			e.printStackTrace();
 		}
-
 		//testout single airline adding
 		try {
 			currentDataset.addAirline("Dota2", "Valve", "D2", "DOT", "Defence of the Ancients", "Steam", "Y");
 		}catch (DataException e){
 			e.printStackTrace();
 		}
-
 		//testing out airport parser
 		try {
 			System.out.println(currentDataset.importAirport("res/Samples/Airports.txt"));
