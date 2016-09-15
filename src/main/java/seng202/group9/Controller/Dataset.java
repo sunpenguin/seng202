@@ -1011,6 +1011,29 @@ public class Dataset {
         }
     }
 
+    /**
+     * This is called in conjunction to the App deleteDataset DO NOT CALL UNLESS THROUGH APP.DELETEDATASET
+     */
+    public void deleteDataset(){
+        //drop the tables
+        Connection c = null;
+        Statement stmt = null;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
+            String[] tablesToDrop = {"_Airline", "_Airport", "_City", "_Country", "_Routes", "_Flight_Path", "_Flight_Points"};
+            for (int i = 0; i < tablesToDrop.length; i++){
+                stmt = c.createStatement();
+                stmt.execute(tablesToDrop[i]);
+                stmt.close();
+            }
+            c.close();
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            System.exit(0);
+        }
+    }
+
     public ArrayList<Airline> getAirlines() {
         return airlines;
     }
