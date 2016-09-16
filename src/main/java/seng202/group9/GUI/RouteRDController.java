@@ -11,7 +11,7 @@ import seng202.group9.Core.Route;
 /**
  * Created by Sunguin on 2016/09/14.
  */
-public class RouteRDController extends MenuController {
+public class RouteRDController extends Controller {
 
     @FXML
     private TableView<Route> tableViewRouteRD;
@@ -47,31 +47,7 @@ public class RouteRDController extends MenuController {
     @FXML
     private TextField rEquipmentBox;
 
-
-    App parent;
-
-    public void setApp(App parent){
-        this.parent = parent;
-    }
-
     private Dataset theDataSet = null;
-
-    public void loadTables() {
-        rAirlineCol.setCellValueFactory(new PropertyValueFactory<Route, String>("AirlineName"));
-        rAirlineIDCol.setCellValueFactory(new PropertyValueFactory<Route, String>("AirlineID"));
-        rSourceCol.setCellValueFactory(new PropertyValueFactory<Route, String>("DepartureAirport"));
-        rSourceIDCol.setCellValueFactory(new PropertyValueFactory<Route, String>("SourceID"));
-        rDestCol.setCellValueFactory(new PropertyValueFactory<Route, String>("ArrivalAirport"));
-        rDestIDCol.setCellValueFactory(new PropertyValueFactory<Route, String>("DestID"));
-        rCodeshareCol.setCellValueFactory(new PropertyValueFactory<Route, String>("Code"));
-        rStopsCol.setCellValueFactory(new PropertyValueFactory<Route, String>("Stops"));
-        rEquipmentCol.setCellValueFactory(new PropertyValueFactory<Route, String>("Equipment"));
-
-        theDataSet = this.parent.getCurrentDataset();
-        tableViewRouteRD.setItems(FXCollections.observableArrayList(theDataSet.getRoutes()));
-
-        rCodeshareCBox.getItems().addAll("Y", "");
-    }
 
     public void addRouteSingle() {
         try {
@@ -97,5 +73,22 @@ public class RouteRDController extends MenuController {
             alert.setContentText(e.getMessage());
             alert.showAndWait();
         }
+    }
+
+    public void load() {
+        rAirlineCol.setCellValueFactory(new PropertyValueFactory<Route, String>("AirlineName"));
+        rAirlineIDCol.setCellValueFactory(new PropertyValueFactory<Route, String>("AirlineID"));
+        rSourceCol.setCellValueFactory(new PropertyValueFactory<Route, String>("DepartureAirport"));
+        rSourceIDCol.setCellValueFactory(new PropertyValueFactory<Route, String>("SourceID"));
+        rDestCol.setCellValueFactory(new PropertyValueFactory<Route, String>("ArrivalAirport"));
+        rDestIDCol.setCellValueFactory(new PropertyValueFactory<Route, String>("DestID"));
+        rCodeshareCol.setCellValueFactory(new PropertyValueFactory<Route, String>("Code"));
+        rStopsCol.setCellValueFactory(new PropertyValueFactory<Route, String>("Stops"));
+        rEquipmentCol.setCellValueFactory(new PropertyValueFactory<Route, String>("Equipment"));
+
+        theDataSet = getParent().getCurrentDataset();
+        tableViewRouteRD.setItems(FXCollections.observableArrayList(theDataSet.getRoutes()));
+
+        rCodeshareCBox.getItems().addAll("Y", "");
     }
 }

@@ -116,14 +116,18 @@ public class App extends Application
 			FileInputStream fileIn = new FileInputStream("res/session.ser");
 			ObjectInputStream objectIn = new ObjectInputStream(fileIn);
 			session = (Session) objectIn.readObject();
+			Controller controller = (Controller) replaceSceneContent(session.getSceneDisplayed());
+			controller.setApp(this);
+			controller.load();
+			controller.loadOnce();/*
 			if (session.getSceneDisplayed() == SceneCode.AIRLINE_RAW_DATA){
-				AirlineRDController controller = (AirlineRDController) replaceSceneContent(session.getSceneDisplayed());
+				Controller controller = (Controller) replaceSceneContent(session.getSceneDisplayed());
 				controller.setApp(this);
-				controller.loadTables();
+				controller.load();
 			}else if (session.getSceneDisplayed() == SceneCode.AIRLINE_SUMMARY){
-				AirlineSummaryController controller = (AirlineSummaryController) replaceSceneContent(session.getSceneDisplayed());
+				Controller controller = (Controller) replaceSceneContent(session.getSceneDisplayed());
 				controller.setApp(this);
-				controller.loadTables();
+				controller.load();
 			}else if (session.getSceneDisplayed() == SceneCode.AIRPORT_RAW_DATA){
 				AirportRDController controller = (AirportRDController) replaceSceneContent(session.getSceneDisplayed());
 				controller.setApp(this);
@@ -148,7 +152,7 @@ public class App extends Application
 				FlightSummaryController controller = (FlightSummaryController) replaceSceneContent(session.getSceneDisplayed());
 				controller.setApp(this);
 				controller.flightPathListView();
-			}
+			}*/
 			objectIn.close();
 			fileIn.close();
 		}catch(IOException e){

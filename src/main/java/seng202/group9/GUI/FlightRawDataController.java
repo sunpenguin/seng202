@@ -24,14 +24,9 @@ import java.util.ResourceBundle;
  * Controller for the Flights Raw Data Scene.
  * Created by Liam Beckett on 13/09/2016.
  */
-public class FlightRawDataController  implements Initializable {
+public class FlightRawDataController extends Controller {
 
     private Dataset theDataSet = null;
-
-    App parent;
-    public void setApp(App parent){
-        this.parent = parent;
-    }
 
     @FXML
     private TableView<FlightPoint> flightTableView;
@@ -99,7 +94,7 @@ public class FlightRawDataController  implements Initializable {
     /**
      * Function used to load the table for the Flight points initially from the MenuController
      */
-    public void loadTables() {
+    public void load() {
         flightIdCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("ID"));
         flightNameCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("Name"));
         flightTypeCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("Type"));
@@ -111,7 +106,7 @@ public class FlightRawDataController  implements Initializable {
         flightLegDisCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("Leg_Dist"));
         flightTotDisCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("Tot_Dist"));
 
-        theDataSet = this.parent.getCurrentDataset();
+        theDataSet = getParent().getCurrentDataset();
 
         ArrayList<FlightPath> flightPaths;
         flightPaths = theDataSet.getFlightPaths();
@@ -119,9 +114,9 @@ public class FlightRawDataController  implements Initializable {
         ArrayList<FlightPoint> flightPoints = flightPaths.get(0).getFlight();
         flightTableView.setItems(FXCollections.observableArrayList(flightPoints));
     }
-
-    public void initialize(URL arg0, ResourceBundle arg1) {
-        // TODO Auto-generated method stub
-
+    @Override
+    public void loadOnce(){
+        flightPathListView();
     }
+
 }

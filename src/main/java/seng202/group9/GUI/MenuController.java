@@ -13,9 +13,7 @@ import javafx.stage.Stage;
 import seng202.group9.Controller.App;
 import seng202.group9.Controller.SceneCode;
 
-public class MenuController implements Initializable{
-
-	App parent;
+public class MenuController extends Controller{
 
 	public void importAirports(){
 		JOptionPane.showMessageDialog(null, "This is not Implemented yet");
@@ -37,98 +35,46 @@ public class MenuController implements Initializable{
 	 * Load Airline Raw Data Function.
 	 */
 	public void viewAirlineRawData() {
-		try {
-            AirlineRDController summaryController = (AirlineRDController) parent.replaceSceneContent(SceneCode.AIRLINE_RAW_DATA);
-            summaryController.setApp(parent);
-            summaryController.loadTables();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		replaceSceneContent(SceneCode.AIRPORT_RAW_DATA);
 	}
 
 	public void viewAirportRawData() {
-		try {
-            AirportRDController summaryController = (AirportRDController) parent.replaceSceneContent(SceneCode.AIRPORT_RAW_DATA);
-            summaryController.setApp(parent);
-            summaryController.loadTables();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		replaceSceneContent(SceneCode.AIRPORT_RAW_DATA);
 	}
 
 	public void viewRouteRawData() {
-		try {
-			RouteRDController summaryController = (RouteRDController) parent.replaceSceneContent(SceneCode.ROUTE_RAW_DATA);
-			summaryController.setApp(parent);
-			summaryController.loadTables();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		replaceSceneContent(SceneCode.ROUTE_RAW_DATA);
 	}
 
 	public void viewAirlineSummary() {
-		try {
-			AirlineSummaryController summaryController = (AirlineSummaryController) parent.replaceSceneContent(SceneCode.AIRLINE_SUMMARY);
-			summaryController.setApp(parent);
-			summaryController.loadTables();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		replaceSceneContent(SceneCode.AIRLINE_SUMMARY);
 	}
 
 	public void viewAirportSummary() {
-		try {
-			AirportSummaryController summaryController = (AirportSummaryController) parent.replaceSceneContent(SceneCode.AIRPORT_SUMMARY);
-			summaryController.setApp(parent);
-			summaryController.loadTables();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		replaceSceneContent(SceneCode.AIRPORT_SUMMARY);
 	}
 
 	public void viewRouteSummary() {
-		try {
-			RouteSummaryController summaryController = (RouteSummaryController) parent.replaceSceneContent(SceneCode.ROUTE_SUMMARY);
-			summaryController.setApp(parent);
-			summaryController.loadTables();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void setApp(App parent){
-		this.parent = parent;
+		replaceSceneContent(SceneCode.ROUTE_SUMMARY);
 	}
 
 	/**
 	 * Load Flight Summary Function.
 	 */
 	public void viewFlightSummary() {
-		try {
-			FlightSummaryController summaryController = (FlightSummaryController) parent.replaceSceneContent(SceneCode.FLIGHT_SUMMARY);
-			summaryController.setApp(parent);
-			summaryController.flightPathListView();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		replaceSceneContent(SceneCode.FLIGHT_SUMMARY);
 	}
 
 	/**
 	 * Load Flight Raw Data Function.
 	 */
 	public void viewFlightRawData() {
-		try {
-			FlightRawDataController rawDataController = (FlightRawDataController)
-					parent.replaceSceneContent(SceneCode.FLIGHT_RAW_DATA);
-			rawDataController.setApp(parent);
-			rawDataController.loadTables();
-			rawDataController.flightPathListView();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		replaceSceneContent(SceneCode.FLIGHT_RAW_DATA);
 	}
 
-
+	public void load() {
+		//nothing to load
+	}
 
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub

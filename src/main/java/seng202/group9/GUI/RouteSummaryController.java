@@ -13,7 +13,7 @@ import seng202.group9.Core.Route;
 /**
  * Created by michael on 14/09/2016.
  */
-public class RouteSummaryController extends MenuController{
+public class RouteSummaryController extends Controller{
     @FXML
     private TableView<Route> tableView;
     @FXML
@@ -29,64 +29,26 @@ public class RouteSummaryController extends MenuController{
 
     private Dataset currentData = null;
 
-    App parent;
-
-    public void setApp(App parent){
-        this.parent = parent;
-    }
-
-    public void loadTables() {
+    public void load() {
         columnAirline.setCellValueFactory(new PropertyValueFactory<Route, String>("Airline"));
         columnDepart.setCellValueFactory(new PropertyValueFactory<Route, String>("DepartureAirport"));
         columnArrive.setCellValueFactory(new PropertyValueFactory<Route, String>("ArrivalAirport"));
         columnStops.setCellValueFactory(new PropertyValueFactory<Route, String>("Stops"));
         columnEquipment.setCellValueFactory(new PropertyValueFactory<Route, String>("Equipment"));
-        currentData = this.parent.getCurrentDataset();
+        currentData = getParent().getCurrentDataset();
         tableView.setItems(FXCollections.observableArrayList(currentData.getRoutes()));
     }
     public void routeRawDataButton() {
-        try {
-            RouteRDController rawDataController = (RouteRDController)
-                    parent.replaceSceneContent(SceneCode.ROUTE_RAW_DATA);
-            rawDataController.setApp(parent);
-            rawDataController.loadTables();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+        replaceSceneContent(SceneCode.ROUTE_RAW_DATA);
     }
     public void flightSummaryButton() {
-        try {
-            FlightSummaryController summaryController = (FlightSummaryController)
-                    parent.replaceSceneContent(SceneCode.FLIGHT_SUMMARY);
-            summaryController.setApp(parent);
-            summaryController.flightPathListView();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+        replaceSceneContent(SceneCode.FLIGHT_SUMMARY);
     }
     public void airportSummaryButton() {
-        try {
-            AirportSummaryController summaryController = (AirportSummaryController)
-                    parent.replaceSceneContent(SceneCode.AIRPORT_SUMMARY);
-            summaryController.setApp(parent);
-            summaryController.loadTables();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+        replaceSceneContent(SceneCode.AIRPORT_SUMMARY);
     }
     public void airlineSummaryButton() {
-        try {
-            AirlineSummaryController summaryController = (AirlineSummaryController)
-                    parent.replaceSceneContent(SceneCode.AIRLINE_SUMMARY);
-            summaryController.setApp(parent);
-            summaryController.loadTables();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+        replaceSceneContent(SceneCode.AIRLINE_SUMMARY);
     }
 
 }
