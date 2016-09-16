@@ -11,6 +11,7 @@ import javafx.scene.layout.BorderPane;
 
 import javafx.stage.Stage;
 import seng202.group9.Controller.App;
+import seng202.group9.Controller.SceneCode;
 
 public class MenuController implements Initializable{
 
@@ -37,7 +38,7 @@ public class MenuController implements Initializable{
 	 */
 	public void viewAirlineRawData() {
 		try {
-            AirlineRDController summaryController = (AirlineRDController) parent.replaceSceneContent("airline_raw_data.fxml");
+            AirlineRDController summaryController = (AirlineRDController) parent.replaceSceneContent(SceneCode.AIRLINE_RAW_DATA);
             summaryController.setApp(parent);
             summaryController.loadTables();
 		} catch (Exception e) {
@@ -47,7 +48,7 @@ public class MenuController implements Initializable{
 
 	public void viewAirportRawData() {
 		try {
-            AirportRDController summaryController = (AirportRDController) parent.replaceSceneContent("airport_raw_data.fxml");
+            AirportRDController summaryController = (AirportRDController) parent.replaceSceneContent(SceneCode.AIRPORT_RAW_DATA);
             summaryController.setApp(parent);
             summaryController.loadTables();
 		} catch (Exception e) {
@@ -57,7 +58,7 @@ public class MenuController implements Initializable{
 
 	public void viewRouteRawData() {
 		try {
-			RouteRDController summaryController = (RouteRDController) parent.replaceSceneContent("route_raw_data.fxml");
+			RouteRDController summaryController = (RouteRDController) parent.replaceSceneContent(SceneCode.ROUTE_RAW_DATA);
 			summaryController.setApp(parent);
 			summaryController.loadTables();
 		} catch (Exception e) {
@@ -67,7 +68,7 @@ public class MenuController implements Initializable{
 
 	public void viewAirlineSummary() {
 		try {
-			AirlineSummaryController summaryController = (AirlineSummaryController) parent.replaceSceneContent("airline_summary.fxml");
+			AirlineSummaryController summaryController = (AirlineSummaryController) parent.replaceSceneContent(SceneCode.AIRLINE_SUMMARY);
 			summaryController.setApp(parent);
 			summaryController.loadTables();
 		} catch (Exception e) {
@@ -77,7 +78,7 @@ public class MenuController implements Initializable{
 
 	public void viewAirportSummary() {
 		try {
-			AirportSummaryController summaryController = (AirportSummaryController) parent.replaceSceneContent("airport_summary.fxml");
+			AirportSummaryController summaryController = (AirportSummaryController) parent.replaceSceneContent(SceneCode.AIRPORT_SUMMARY);
 			summaryController.setApp(parent);
 			summaryController.loadTables();
 		} catch (Exception e) {
@@ -87,7 +88,7 @@ public class MenuController implements Initializable{
 
 	public void viewRouteSummary() {
 		try {
-			RouteSummaryController summaryController = (RouteSummaryController) parent.replaceSceneContent("routes_summary.fxml");
+			RouteSummaryController summaryController = (RouteSummaryController) parent.replaceSceneContent(SceneCode.ROUTE_SUMMARY);
 			summaryController.setApp(parent);
 			summaryController.loadTables();
 		} catch (Exception e) {
@@ -104,7 +105,7 @@ public class MenuController implements Initializable{
 	 */
 	public void viewFlightSummary() {
 		try {
-			FlightSummaryController summaryController = (FlightSummaryController) parent.replaceSceneContent("flight_data_summary.fxml");
+			FlightSummaryController summaryController = (FlightSummaryController) parent.replaceSceneContent(SceneCode.FLIGHT_SUMMARY);
 			summaryController.setApp(parent);
 			summaryController.flightPathListView();
 		} catch (Exception e) {
@@ -118,7 +119,7 @@ public class MenuController implements Initializable{
 	public void viewFlightRawData() {
 		try {
 			FlightRawDataController rawDataController = (FlightRawDataController)
-					parent.replaceSceneContent("flight_raw_data.fxml");
+					parent.replaceSceneContent(SceneCode.FLIGHT_RAW_DATA);
 			rawDataController.setApp(parent);
 			rawDataController.loadTables();
 			rawDataController.flightPathListView();

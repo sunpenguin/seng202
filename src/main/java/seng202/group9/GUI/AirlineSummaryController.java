@@ -7,6 +7,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import seng202.group9.Controller.App;
 import seng202.group9.Controller.Dataset;
+import seng202.group9.Controller.SceneCode;
 import seng202.group9.Core.Airline;
 
 /**
@@ -46,7 +47,7 @@ public class AirlineSummaryController extends MenuController{
     public void airlineRawDataButton() {
         try {
             AirlineRDController rawDataController = (AirlineRDController)
-                    parent.replaceSceneContent("airline_raw_data.fxml");
+                    parent.replaceSceneContent(SceneCode.AIRLINE_RAW_DATA);
             rawDataController.setApp(parent);
             rawDataController.loadTables();
         }
@@ -57,7 +58,7 @@ public class AirlineSummaryController extends MenuController{
     public void flightSummaryButton() {
         try {
             FlightSummaryController summaryController = (FlightSummaryController)
-                    parent.replaceSceneContent("flight_data_summary.fxml");
+                    parent.replaceSceneContent(SceneCode.FLIGHT_SUMMARY);
             summaryController.setApp(parent);
             summaryController.flightPathListView();
         }
@@ -68,7 +69,7 @@ public class AirlineSummaryController extends MenuController{
     public void airportSummaryButton() {
         try {
             AirportSummaryController summaryController = (AirportSummaryController)
-                    parent.replaceSceneContent("airport_summary.fxml");
+                    parent.replaceSceneContent(SceneCode.AIRPORT_SUMMARY);
             summaryController.setApp(parent);
             summaryController.loadTables();
         }
@@ -79,7 +80,7 @@ public class AirlineSummaryController extends MenuController{
     public void routeSummaryButton() {
         try {
             RouteSummaryController summaryController = (RouteSummaryController)
-                    parent.replaceSceneContent("routes_summary.fxml");
+                    parent.replaceSceneContent(SceneCode.ROUTE_SUMMARY);
             summaryController.setApp(parent);
             summaryController.loadTables();
         }

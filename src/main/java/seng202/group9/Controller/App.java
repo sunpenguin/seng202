@@ -28,6 +28,7 @@ public class App extends Application
 	private Dataset currentDataset = null;
 	private Stage primaryStage = null;
 	private VBox mainContainer;
+	private Session session;
 	
     public static void main( String[] args )
     {
@@ -40,6 +41,7 @@ public class App extends Application
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
+		this.session = new Session();
 		//load the menu and the first container
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -126,9 +128,9 @@ public class App extends Application
 	 * @return
 	 * @throws Exception
 	 */
-	public Initializable replaceSceneContent(String fxml) throws Exception {
+	public Initializable replaceSceneContent(SceneCode fxml) throws Exception {
 		FXMLLoader loader = new FXMLLoader();
-		InputStream in = getClass().getClassLoader().getResourceAsStream(fxml);
+		InputStream in = getClass().getClassLoader().getResourceAsStream(fxml.getFilePath());
 		Parent page;
 		try {
 			page = (Parent) loader.load(in);
@@ -139,6 +141,8 @@ public class App extends Application
 			mainContainer.getChildren().remove(1);
 		}
 		mainContainer.getChildren().add(page);
+		//change session code to fit with the serialisation
+		session.setSceneDisplayed(fxml);
 		return (Initializable) loader.getController();
 	}
 

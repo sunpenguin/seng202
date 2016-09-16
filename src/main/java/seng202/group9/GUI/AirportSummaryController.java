@@ -7,6 +7,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import seng202.group9.Controller.App;
 import seng202.group9.Controller.Dataset;
+import seng202.group9.Controller.SceneCode;
 import seng202.group9.Core.Airport;
 
 /**
@@ -47,7 +48,7 @@ public class AirportSummaryController extends MenuController{
     public void airportRawDataButton() {
         try {
             AirportRDController rawDataController = (AirportRDController)
-                    parent.replaceSceneContent("airport_raw_data.fxml");
+                    parent.replaceSceneContent(SceneCode.AIRPORT_RAW_DATA);
             rawDataController.setApp(parent);
             rawDataController.loadTables();
         }
@@ -58,7 +59,7 @@ public class AirportSummaryController extends MenuController{
     public void flightSummaryButton() {
         try {
             FlightSummaryController summaryController = (FlightSummaryController)
-                    parent.replaceSceneContent("flight_data_summary.fxml");
+                    parent.replaceSceneContent(SceneCode.FLIGHT_SUMMARY);
             summaryController.setApp(parent);
             summaryController.flightPathListView();
         }
@@ -69,7 +70,7 @@ public class AirportSummaryController extends MenuController{
     public void routeSummaryButton() {
         try {
             RouteSummaryController summaryController = (RouteSummaryController)
-                    parent.replaceSceneContent("routes_summary.fxml");
+                    parent.replaceSceneContent(SceneCode.ROUTE_SUMMARY);
             summaryController.setApp(parent);
             summaryController.loadTables();
         }
@@ -80,7 +81,7 @@ public class AirportSummaryController extends MenuController{
     public void airlineSummaryButton() {
         try {
             AirlineSummaryController summaryController = (AirlineSummaryController)
-                    parent.replaceSceneContent("airline_summary.fxml");
+                    parent.replaceSceneContent(SceneCode.AIRLINE_SUMMARY);
             summaryController.setApp(parent);
             summaryController.loadTables();
         }

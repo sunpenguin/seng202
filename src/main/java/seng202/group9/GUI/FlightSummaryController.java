@@ -11,6 +11,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TableView;
 import seng202.group9.Controller.App;
 import seng202.group9.Controller.Dataset;
+import seng202.group9.Controller.SceneCode;
 import seng202.group9.Core.FlightPath;
 import seng202.group9.Core.FlightPoint;
 
@@ -66,7 +67,7 @@ public class FlightSummaryController implements Initializable {
     public void handleRawDataButton() {
         try {
             FlightRawDataController rawDataController = (FlightRawDataController)
-                    parent.replaceSceneContent("flight_raw_data.fxml");
+                    parent.replaceSceneContent(SceneCode.FLIGHT_RAW_DATA);
             rawDataController.setApp(parent);
             rawDataController.loadTables();
             rawDataController.flightPathListView();
@@ -79,7 +80,7 @@ public class FlightSummaryController implements Initializable {
     public void airportSummaryButton() {
         try {
             AirportSummaryController summaryController = (AirportSummaryController)
-                    parent.replaceSceneContent("airport_summary.fxml");
+                    parent.replaceSceneContent(SceneCode.AIRPORT_SUMMARY);
             summaryController.setApp(parent);
             summaryController.loadTables();
         }
@@ -90,7 +91,7 @@ public class FlightSummaryController implements Initializable {
     public void routeSummaryButton() {
         try {
             RouteSummaryController summaryController = (RouteSummaryController)
-                    parent.replaceSceneContent("routes_summary.fxml");
+                    parent.replaceSceneContent(SceneCode.ROUTE_SUMMARY);
             summaryController.setApp(parent);
             summaryController.loadTables();
         }
@@ -101,7 +102,7 @@ public class FlightSummaryController implements Initializable {
     public void airlineSummaryButton() {
         try {
             AirlineSummaryController summaryController = (AirlineSummaryController)
-                    parent.replaceSceneContent("airline_summary.fxml");
+                    parent.replaceSceneContent(SceneCode.AIRLINE_SUMMARY);
             summaryController.setApp(parent);
             summaryController.loadTables();
         }
