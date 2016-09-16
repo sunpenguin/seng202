@@ -36,7 +36,7 @@ public class FlightPoint {
 			double latitude, double longitude){
 		this.name = name;
 		this.ID = ID;
-		this.indexID = indexID;
+		this.indexID = indexID; //path
 		this.type = type;
 		this.via = via;
 		this.heading = heading;

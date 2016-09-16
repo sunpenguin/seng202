@@ -6,10 +6,7 @@ import java.util.ResourceBundle;
 import javax.swing.JOptionPane;
 
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
 
-import javafx.stage.Stage;
 import seng202.group9.Controller.App;
 
 public class MenuController implements Initializable{
@@ -117,7 +114,7 @@ public class MenuController implements Initializable{
 	 */
 	public void viewFlightRawData() {
 		try {
-			FlightRawDataController rawDataController = (FlightRawDataController)
+			FlightRDController rawDataController = (FlightRDController)
 					parent.replaceSceneContent("flight_raw_data.fxml");
 			rawDataController.setApp(parent);
 			rawDataController.loadTables();

@@ -25,7 +25,7 @@ public class Dataset {
     LinkedHashMap<String, Airline> airlineDictionary;
     LinkedHashMap<String, Airport> airportDictionary;
     LinkedHashMap<String, Route> routeDictionary;
-    LinkedHashMap<String, FlightPath> flightPathDictionary;
+    LinkedHashMap<Integer, FlightPath> flightPathDictionary;
     LinkedHashMap<String, Country> countryDictionary;
     LinkedHashMap<String, City> cityDictionary;
 
@@ -48,6 +48,7 @@ public class Dataset {
         this.routeDictionary = new LinkedHashMap<String, Route>();;
         this.countryDictionary = new LinkedHashMap<String, Country>();;
         this.cityDictionary = new LinkedHashMap<String, City>();;
+        this.flightPathDictionary = new LinkedHashMap<Integer, FlightPath>();
         if (action == getExisting){
             updateDataset();
             //after this make connections. ie filling in the country.cities airports.routes etc
@@ -174,7 +175,9 @@ public class Dataset {
                 String flightpDepart = rs.getString("Source_Airport");
                 String flightpArrive = rs.getString("Destination_Airport");
                 //duplicates are fine so no flight dictionary is made.
-                flightPaths.add(new FlightPath(flightpID, flightpDepart, flightpArrive));
+                FlightPath flightPathToAdd = new FlightPath(flightpID, flightpDepart, flightpArrive);
+                flightPaths.add(flightPathToAdd);
+                flightPathDictionary.put(flightpID, flightPathToAdd);
             }
             rs.close();
             stmt.close();
@@ -717,6 +720,7 @@ public class Dataset {
                 stmt.close();
             }
             flightPaths.add(flightPathToAdd);
+            flightPathDictionary.put(flightPathToAdd.getID(), flightPathToAdd);
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
             System.exit(0);
@@ -1011,6 +1015,87 @@ public class Dataset {
         }
     }
 
+
+    public void addFlightPointToPath(int id, String name, String type, String via, String altitude, String latitude, String longitude,
+                               String heading, String legDist, String totDist) throws DataException{
+        double altitudeVal = 0.0;
+        double latitudeVal = 0.0;
+        double longitudeVal = 0.0;
+        int headingVal = 0;
+        double legDistVal = 0.0;
+        double totalDistVal = 0.0;
+
+        try{
+            altitudeVal = Double.parseDouble(altitude);
+        }catch (NumberFormatException e){
+            throw new DataException("Altitude must be a double value");
+        }
+        try{
+            latitudeVal = Double.parseDouble(latitude);
+        }catch (NumberFormatException e){
+            throw new DataException("Latitude must be a double value");
+        }
+        try{
+            longitudeVal = Double.parseDouble(longitude);
+        }catch (NumberFormatException e){
+            throw new DataException("Longitude must be a double value");
+        }
+        try{
+            headingVal = Integer.parseInt(heading);
+        }catch (NumberFormatException e){
+            throw new DataException("Heading must be a integer value");
+        }
+        try{
+            legDistVal = Double.parseDouble(legDist);
+        }catch (NumberFormatException e){
+            throw new DataException("Leg DIstance must be a double value");
+        }
+        try{
+            totalDistVal = Double.parseDouble(totDist);
+        }catch (NumberFormatException e){
+            throw new DataException("Total Distance must be a double value");
+        }
+        Connection c = null;
+        Statement stmt;
+        int pointID = 0;
+        try {
+            c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
+
+            stmt = c.createStatement();
+            String flightPointIDQuery = "SELECT * FROM `sqlite_sequence` WHERE `name` = \""+this.name+"_Flight_Points\" LIMIT 1;";
+            ResultSet pointIDRes= stmt.executeQuery(flightPointIDQuery);
+            while (pointIDRes.next()){
+                pointID = Integer.parseInt(pointIDRes.getString("seq"));
+            }
+            stmt.close();
+
+            stmt = c.createStatement();
+            String insertFlightPointQuery = "INSERT INTO `" + this.name + "_Flight_Points` (`Index_ID`, `Name`, `Type`," +
+                    " `Altitude`, `Longitude`, `Latitude`, `Heading`, `Tot_Dist`, `Leg_Dist`, `Via`) VALUES ";
+            String flightType = type.replace("\"", "\"\"");
+            String flightName = name.replace("\"", "\"\"");
+            insertFlightPointQuery += "(" + id +", \""+ flightName +"\", \"" + flightType + "\",  "+ altitudeVal + ", " +
+                    "" + latitudeVal + ", " + longitudeVal + ", " + headingVal + ", " + totalDistVal + ", " + legDistVal +
+                    ", \"" + via + "\")";
+            stmt.execute(insertFlightPointQuery);
+            stmt.close();
+
+
+
+
+
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            System.exit(0);
+        }
+
+        FlightPoint pointToAdd = new FlightPoint(name, pointID+1, id, type, via, headingVal, altitudeVal, legDistVal,
+                totalDistVal,latitudeVal, longitudeVal);
+        flightPathDictionary.get(id).addFlightPoint(pointToAdd);
+
+
+    }
+
     public ArrayList<Airline> getAirlines() {
         return airlines;
     }
@@ -1033,5 +1118,29 @@ public class Dataset {
 
     public ArrayList<City> getCities() {
         return cities;
+    }
+
+    public LinkedHashMap<String, Airline> getAirlineDictionary() {
+        return airlineDictionary;
+    }
+
+    public LinkedHashMap<String, Airport> getAirportDictionary() {
+        return airportDictionary;
+    }
+
+    public LinkedHashMap<String, Route> getRouteDictionary() {
+        return routeDictionary;
+    }
+
+    public LinkedHashMap<Integer, FlightPath> getFlightPathDictionary() {
+        return flightPathDictionary;
+    }
+
+    public LinkedHashMap<String, Country> getCountryDictionary() {
+        return countryDictionary;
+    }
+
+    public LinkedHashMap<String, City> getCityDictionary() {
+        return cityDictionary;
     }
 }

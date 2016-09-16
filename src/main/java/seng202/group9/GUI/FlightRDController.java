@@ -5,9 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import seng202.group9.Controller.App;
@@ -24,13 +22,17 @@ import java.util.ResourceBundle;
  * Controller for the Flights Raw Data Scene.
  * Created by Liam Beckett on 13/09/2016.
  */
-public class FlightRawDataController  implements Initializable {
+public class FlightRDController implements Initializable {
 
     private Dataset theDataSet = null;
+    private int currentPathId = 0;
+    private int currentPathIndex = 0;
 
     App parent;
     public void setApp(App parent){
         this.parent = parent;
+        theDataSet = parent.getCurrentDataset();
+        currentPathId = theDataSet.getFlightPaths().get(0).getID(); //Sets the default to the 1st Path
     }
 
     @FXML
@@ -60,6 +62,24 @@ public class FlightRawDataController  implements Initializable {
     ListView<String> flightPathListView;
     final ObservableList<String> flightList = FXCollections.observableArrayList();
 
+    @FXML
+    private TextField flightNameBox;
+    @FXML
+    private TextField flightTypeBox;
+    @FXML
+    private TextField flightViaBox;
+    @FXML
+    private TextField flightAltitudeBox;
+    @FXML
+    private TextField flightLatitudeBox;
+    @FXML
+    private TextField flightLongitudeBox;
+    @FXML
+    private TextField flightHeadingBox;
+    @FXML
+    private TextField flightLegDistBox;
+    @FXML
+    private TextField flightTotDistBox;
 
     /**
      * Loads the Flight paths into the List View and waits for a mouse clicked event for which it will update the table
@@ -67,7 +87,7 @@ public class FlightRawDataController  implements Initializable {
      */
     public void flightPathListView() {
         try {
-            ArrayList<FlightPath> flightPaths = new ArrayList();
+            ArrayList<FlightPath> flightPaths;
             flightPaths = theDataSet.getFlightPaths();
             for(int i = 0; i<flightPaths.size(); i++ ) {
                 int pathID = flightPaths.get(i).getID();
@@ -82,9 +102,13 @@ public class FlightRawDataController  implements Initializable {
                     String[] segments = flightPathDisplayNameClicked.split("_");
                     String pathIdClicked = segments[0];
 
+                    currentPathIndex = theDataSet.getFlightPaths().indexOf(theDataSet.getFlightPathDictionary()
+                            .get(Integer.parseInt(pathIdClicked)));
+                    currentPathId = Integer.parseInt(pathIdClicked);
+
                     ArrayList<FlightPath> flightPaths;
                     flightPaths = theDataSet.getFlightPaths();
-                    ArrayList<FlightPoint> flightPoints = flightPaths.get(Integer.parseInt(pathIdClicked)-1).getFlight();
+                    ArrayList<FlightPoint> flightPoints = flightPaths.get(currentPathIndex).getFlight();
                     flightTableView.setItems(FXCollections.observableArrayList(flightPoints));
 
                 }
@@ -115,9 +139,46 @@ public class FlightRawDataController  implements Initializable {
 
         ArrayList<FlightPath> flightPaths;
         flightPaths = theDataSet.getFlightPaths();
-        int firstID = flightPaths.get(0).getID();
+        //int firstID = flightPaths.get(0).getID();
         ArrayList<FlightPoint> flightPoints = flightPaths.get(0).getFlight();
         flightTableView.setItems(FXCollections.observableArrayList(flightPoints));
+    }
+
+    public void addFlightPoint() {
+        ArrayList<FlightPath> flightPaths;
+        flightPaths = theDataSet.getFlightPaths();
+
+            try {
+                theDataSet.addFlightPointToPath(currentPathId,
+                    flightNameBox.getText(),
+                    flightTypeBox.getText(),
+                    flightViaBox.getText(),
+                    flightAltitudeBox.getText(),
+                    flightLatitudeBox.getText(),
+                    flightLongitudeBox.getText(),
+                    flightHeadingBox.getText(),
+                    flightLegDistBox.getText(),
+                    flightTotDistBox.getText());
+                flightNameBox.clear();
+                flightTypeBox.clear();
+                flightViaBox.clear();
+                flightAltitudeBox.clear();
+                flightLatitudeBox.clear();
+                flightLongitudeBox.clear();
+                flightHeadingBox.clear();
+                flightLegDistBox.clear();
+                flightTotDistBox.clear();
+
+                ArrayList<FlightPoint> flightPoints = flightPaths.get(currentPathIndex).getFlight();
+                flightTableView.setItems(FXCollections.observableArrayList(flightPoints));
+        } catch ( Exception e ) {
+            //e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Flight Point Data Error");
+            alert.setHeaderText("Error adding a custom flight point entry.");
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
+        }
     }
 
     public void initialize(URL arg0, ResourceBundle arg1) {
