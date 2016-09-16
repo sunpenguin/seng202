@@ -86,10 +86,10 @@ public class AirlineRDController extends Controller {
     public void load() {
         airlIDcol.setCellValueFactory(new PropertyValueFactory<Airline, String>("ID"));
         airlNamecol.setCellValueFactory(new PropertyValueFactory<Airline, String>("Name"));
-        airlAliascol.setCellValueFactory(new PropertyValueFactory<Airline, String>("ICAO"));
+        airlAliascol.setCellValueFactory(new PropertyValueFactory<Airline, String>("Alias"));
         //Need to check IATA and ICAO
-        airlIATAcol.setCellValueFactory(new PropertyValueFactory<Airline, String>("Alias"));
-        airlICAOcol.setCellValueFactory(new PropertyValueFactory<Airline, String>("IATA"));
+        airlIATAcol.setCellValueFactory(new PropertyValueFactory<Airline, String>("IATA"));
+        airlICAOcol.setCellValueFactory(new PropertyValueFactory<Airline, String>("ICAO"));
         airlCallsigncol.setCellValueFactory(new PropertyValueFactory<Airline, String>("CallSign"));
         airlCountrycol.setCellValueFactory(new PropertyValueFactory<Airline, String>("CountryName"));
         airlActivecol.setCellValueFactory(new PropertyValueFactory<Airline, String>("Active"));

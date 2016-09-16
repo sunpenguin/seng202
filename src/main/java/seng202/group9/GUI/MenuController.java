@@ -32,7 +32,7 @@ public class MenuController extends Controller{
 	 * Load Airline Raw Data Function.
 	 */
 	public void viewAirlineRawData() {
-		replaceSceneContent(SceneCode.AIRPORT_RAW_DATA);
+		replaceSceneContent(SceneCode.AIRLINE_RAW_DATA);
 	}
 
 	public void viewAirportRawData() {
