@@ -3,16 +3,20 @@ package seng202.group9.GUI;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import seng202.group9.Controller.App;
 import seng202.group9.Controller.Dataset;
 import seng202.group9.Core.Airline;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 /**
  * Created by Sunguin on 2016/09/13.
  */
-public class AirlineRDController extends MenuController {
+public class AirlineRDController extends Controller {
 
     @FXML
     private TableView<Airline> tableView;
@@ -48,31 +52,7 @@ public class AirlineRDController extends MenuController {
     //private TextField airlActiveBox;
     private ComboBox<String> airlActiveCBox;
 
-
-    App parent;
-
-    public void setApp(App parent){
-        this.parent = parent;
-    }
-
     private Dataset theDataSet = null;
-
-    public void loadTables() {
-        airlIDcol.setCellValueFactory(new PropertyValueFactory<Airline, String>("ID"));
-        airlNamecol.setCellValueFactory(new PropertyValueFactory<Airline, String>("Name"));
-        airlAliascol.setCellValueFactory(new PropertyValueFactory<Airline, String>("ICAO"));
-        //Need to check IATA and ICAO
-        airlIATAcol.setCellValueFactory(new PropertyValueFactory<Airline, String>("Alias"));
-        airlICAOcol.setCellValueFactory(new PropertyValueFactory<Airline, String>("IATA"));
-        airlCallsigncol.setCellValueFactory(new PropertyValueFactory<Airline, String>("CallSign"));
-        airlCountrycol.setCellValueFactory(new PropertyValueFactory<Airline, String>("CountryName"));
-        airlActivecol.setCellValueFactory(new PropertyValueFactory<Airline, String>("Active"));
-
-        theDataSet = this.parent.getCurrentDataset();
-        tableView.setItems(FXCollections.observableArrayList(theDataSet.getAirlines()));
-        //ObservableList<String> activeOptions= FXCollections.observableArrayList("Y", "N");
-        airlActiveCBox.getItems().addAll("Y", "N");
-    }
 
     //Dummy function to test the add button.
     //Will edit when ID is added automatically.
@@ -102,4 +82,22 @@ public class AirlineRDController extends MenuController {
             alert.showAndWait();
         }
     }
+
+    public void load() {
+        airlIDcol.setCellValueFactory(new PropertyValueFactory<Airline, String>("ID"));
+        airlNamecol.setCellValueFactory(new PropertyValueFactory<Airline, String>("Name"));
+        airlAliascol.setCellValueFactory(new PropertyValueFactory<Airline, String>("ICAO"));
+        //Need to check IATA and ICAO
+        airlIATAcol.setCellValueFactory(new PropertyValueFactory<Airline, String>("Alias"));
+        airlICAOcol.setCellValueFactory(new PropertyValueFactory<Airline, String>("IATA"));
+        airlCallsigncol.setCellValueFactory(new PropertyValueFactory<Airline, String>("CallSign"));
+        airlCountrycol.setCellValueFactory(new PropertyValueFactory<Airline, String>("CountryName"));
+        airlActivecol.setCellValueFactory(new PropertyValueFactory<Airline, String>("Active"));
+
+        theDataSet = getParent().getCurrentDataset();
+        tableView.setItems(FXCollections.observableArrayList(theDataSet.getAirlines()));
+        //ObservableList<String> activeOptions= FXCollections.observableArrayList("Y", "N");
+        airlActiveCBox.getItems().addAll("Y", "N");
+    }
+
 }

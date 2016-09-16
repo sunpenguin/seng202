@@ -7,12 +7,13 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import seng202.group9.Controller.App;
 import seng202.group9.Controller.Dataset;
+import seng202.group9.Controller.SceneCode;
 import seng202.group9.Core.Airport;
 
 /**
  * Created by michael on 14/09/2016.
  */
-public class AirportSummaryController extends MenuController{
+public class AirportSummaryController extends Controller{
     @FXML
     private TableView<Airport> tableView;
     @FXML
@@ -28,64 +29,27 @@ public class AirportSummaryController extends MenuController{
 
     private Dataset currentData = null;
 
-    App parent;
-
-    public void setApp(App parent){
-        this.parent = parent;
+    public void airportRawDataButton() {
+        replaceSceneContent(SceneCode.AIRLINE_RAW_DATA);
+    }
+    public void flightSummaryButton() {
+        replaceSceneContent(SceneCode.FLIGHT_SUMMARY);
+    }
+    public void routeSummaryButton() {
+        replaceSceneContent(SceneCode.ROUTE_SUMMARY);
+    }
+    public void airlineSummaryButton() {
+        replaceSceneContent(SceneCode.AIRLINE_SUMMARY);
     }
 
-    public void loadTables() {
-        currentData = this.parent.getCurrentDataset();
+    public void load() {
+        currentData = getParent().getCurrentDataset();
         columnName.setCellValueFactory(new PropertyValueFactory<Airport, String>("Name"));
         columnCity.setCellValueFactory(new PropertyValueFactory<Airport, String>("City"));
         columnCountry.setCellValueFactory(new PropertyValueFactory<Airport, String>("Country"));
         columnIATA.setCellValueFactory(new PropertyValueFactory<Airport, String>("IATA_FFA"));
         columnAltitude.setCellValueFactory(new PropertyValueFactory<Airport, String>("Altitude"));
-        currentData = this.parent.getCurrentDataset();
+        currentData = getParent().getCurrentDataset();
         tableView.setItems(FXCollections.observableArrayList(currentData.getAirports()));
-    }
-    public void airportRawDataButton() {
-        try {
-            AirportRDController rawDataController = (AirportRDController)
-                    parent.replaceSceneContent("airport_raw_data.fxml");
-            rawDataController.setApp(parent);
-            rawDataController.loadTables();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    public void flightSummaryButton() {
-        try {
-            FlightSummaryController summaryController = (FlightSummaryController)
-                    parent.replaceSceneContent("flight_data_summary.fxml");
-            summaryController.setApp(parent);
-            summaryController.flightPathListView();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    public void routeSummaryButton() {
-        try {
-            RouteSummaryController summaryController = (RouteSummaryController)
-                    parent.replaceSceneContent("routes_summary.fxml");
-            summaryController.setApp(parent);
-            summaryController.loadTables();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    public void airlineSummaryButton() {
-        try {
-            AirlineSummaryController summaryController = (AirlineSummaryController)
-                    parent.replaceSceneContent("airline_summary.fxml");
-            summaryController.setApp(parent);
-            summaryController.loadTables();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }

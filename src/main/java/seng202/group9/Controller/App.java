@@ -1,7 +1,6 @@
 package seng202.group9.Controller;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 
 import javafx.application.Application;
@@ -15,7 +14,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import seng202.group9.GUI.MenuController;
+import seng202.group9.GUI.*;
 
 /**
  * Main Application frame of the Flight Data Analyser.
@@ -27,6 +26,7 @@ public class App extends Application
 	private Dataset currentDataset = null;
 	private Stage primaryStage = null;
 	private VBox mainContainer;
+	private Session session;
 	
     public static void main( String[] args )
     {
@@ -49,7 +49,7 @@ public class App extends Application
 			primaryStage.sizeToScene();
 			MenuController menuController = (MenuController) loader.getController();
 			menuController.setApp(this);
-			//replaceSceneContent("flight_raw_data.fxml");//replace this to check your fxml file
+			in.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -62,11 +62,12 @@ public class App extends Application
 			e.printStackTrace();
 
 		}
+/*
 		AirlineFilter filter = new AirlineFilter(currentDataset.getAirlines());
 		filter.filterName("NZ");
 		filter.filterAlias("flight");
 		filter.printFilter();
-/*
+
 		//testout single route adding
 		try {
 			currentDataset.addRoute("D2", "MAC", "WIN", "Y", "0", "NOW");
@@ -110,18 +111,85 @@ public class App extends Application
         } catch (DataException e) {
             e.printStackTrace();
         }*/
-
+		//after all loading then load the previous session
+		try{
+			FileInputStream fileIn = new FileInputStream("res/session.ser");
+			ObjectInputStream objectIn = new ObjectInputStream(fileIn);
+			session = (Session) objectIn.readObject();
+			Controller controller = (Controller) replaceSceneContent(session.getSceneDisplayed());
+			controller.setApp(this);
+			controller.load();
+			controller.loadOnce();/*
+			if (session.getSceneDisplayed() == SceneCode.AIRLINE_RAW_DATA){
+				Controller controller = (Controller) replaceSceneContent(session.getSceneDisplayed());
+				controller.setApp(this);
+				controller.load();
+			}else if (session.getSceneDisplayed() == SceneCode.AIRLINE_SUMMARY){
+				Controller controller = (Controller) replaceSceneContent(session.getSceneDisplayed());
+				controller.setApp(this);
+				controller.load();
+			}else if (session.getSceneDisplayed() == SceneCode.AIRPORT_RAW_DATA){
+				AirportRDController controller = (AirportRDController) replaceSceneContent(session.getSceneDisplayed());
+				controller.setApp(this);
+				controller.loadTables();
+			}else if (session.getSceneDisplayed() == SceneCode.AIRPORT_SUMMARY){
+				AirportSummaryController controller = (AirportSummaryController) replaceSceneContent(session.getSceneDisplayed());
+				controller.setApp(this);
+				controller.loadTables();
+			}else if (session.getSceneDisplayed() == SceneCode.ROUTE_RAW_DATA){
+				RouteRDController controller = (RouteRDController) replaceSceneContent(session.getSceneDisplayed());
+				controller.setApp(this);
+				controller.loadTables();
+			}else if (session.getSceneDisplayed() == SceneCode.ROUTE_RAW_DATA){
+				RouteSummaryController controller = (RouteSummaryController) replaceSceneContent(session.getSceneDisplayed());
+				controller.setApp(this);
+				controller.loadTables();
+			}else if (session.getSceneDisplayed() == SceneCode.FLIGHT_RAW_DATA){
+				FlightRawDataController controller = (FlightRawDataController) replaceSceneContent(session.getSceneDisplayed());
+				controller.setApp(this);
+				controller.loadTables();
+			}else if (session.getSceneDisplayed() == SceneCode.FLIGHT_SUMMARY){
+				FlightSummaryController controller = (FlightSummaryController) replaceSceneContent(session.getSceneDisplayed());
+				controller.setApp(this);
+				controller.flightPathListView();
+			}*/
+			objectIn.close();
+			fileIn.close();
+		}catch(IOException e){
+			session = new Session();
+			e.printStackTrace();
+		}catch(ClassNotFoundException e){
+			System.out.println("Missing Session Class");
+			System.exit(1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
+	/**
+	 * Serialize the exiting session
+	 */
+	public void stop(){
+		try{
+			FileOutputStream fileOut = new FileOutputStream("res/session.ser");
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			out.writeObject(session);
+			out.close();
+			fileOut.close();
+			System.out.println("Session has been serialised for next load");
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+	}
 	/**
 	 * Replace Scene Content with fxml file code from oracle.
 	 * @param fxml
 	 * @return
 	 * @throws Exception
 	 */
-	public Initializable replaceSceneContent(String fxml) throws Exception {
+	public Initializable replaceSceneContent(SceneCode fxml) throws Exception {
 		FXMLLoader loader = new FXMLLoader();
-		InputStream in = getClass().getClassLoader().getResourceAsStream(fxml);
+		InputStream in = getClass().getClassLoader().getResourceAsStream(fxml.getFilePath());
 		Parent page;
 		try {
 			page = (Parent) loader.load(in);
@@ -132,6 +200,8 @@ public class App extends Application
 			mainContainer.getChildren().remove(1);
 		}
 		mainContainer.getChildren().add(page);
+		//change session code to fit with the serialisation
+		session.setSceneDisplayed(fxml);
 		return (Initializable) loader.getController();
 	}
 

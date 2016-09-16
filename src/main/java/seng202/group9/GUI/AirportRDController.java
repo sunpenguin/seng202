@@ -22,7 +22,7 @@ import seng202.group9.Core.Country;
 /**
  * Created by Sunguin on 2016/09/13.
  */
-public class AirportRDController extends MenuController{
+public class AirportRDController extends Controller{
 
     @FXML
     private TableView<Airport> tableViewAirportRD;
@@ -74,16 +74,9 @@ public class AirportRDController extends MenuController{
     @FXML
     private TextField airpTzBox;
 
-
     private Dataset theDataSet = null;
 
-    App parent;
-
-    public void setApp(App parent){
-        this.parent = parent;
-    }
-
-    public void loadTables() {
+    public void load() {
         airpIDcol.setCellValueFactory(new PropertyValueFactory<Airport, String>("ID"));
         airpNamecol.setCellValueFactory(new PropertyValueFactory<Airport, String>("Name"));
         airpCitycol.setCellValueFactory(new PropertyValueFactory<Airport, String>("CityName"));
@@ -114,7 +107,7 @@ public class AirportRDController extends MenuController{
 //                return timeZoneCell;
 //            }
 //        });
-        theDataSet = this.parent.getCurrentDataset();
+        theDataSet = getParent().getCurrentDataset();
         tableViewAirportRD.setItems(FXCollections.observableArrayList(theDataSet.getAirports()));
 
         airpDSTCBox.getItems().addAll("E", "A", "S", "O", "Z", "N", "U");

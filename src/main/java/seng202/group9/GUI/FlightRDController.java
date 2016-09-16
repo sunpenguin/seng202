@@ -22,18 +22,12 @@ import java.util.ResourceBundle;
  * Controller for the Flights Raw Data Scene.
  * Created by Liam Beckett on 13/09/2016.
  */
-public class FlightRDController implements Initializable {
+
+public class FlightRDController extends Controller {
 
     private Dataset theDataSet = null;
     private int currentPathId = 0;
     private int currentPathIndex = 0;
-
-    App parent;
-    public void setApp(App parent){
-        this.parent = parent;
-        theDataSet = parent.getCurrentDataset();
-        currentPathId = theDataSet.getFlightPaths().get(0).getID(); //Sets the default to the 1st Path
-    }
 
     @FXML
     private TableView<FlightPoint> flightTableView;
@@ -123,7 +117,9 @@ public class FlightRDController implements Initializable {
     /**
      * Function used to load the table for the Flight points initially from the MenuController
      */
-    public void loadTables() {
+    public void load() {
+        theDataSet = getParent().getCurrentDataset();
+        currentPathId = theDataSet.getFlightPaths().get(0).getID(); //Sets the default to the 1st Path
         flightIdCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("ID"));
         flightNameCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("Name"));
         flightTypeCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("Type"));
@@ -134,8 +130,6 @@ public class FlightRDController implements Initializable {
         flightHeadCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("Heading"));
         flightLegDisCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("Leg_Dist"));
         flightTotDisCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("Tot_Dist"));
-
-        theDataSet = this.parent.getCurrentDataset();
 
         ArrayList<FlightPath> flightPaths;
         flightPaths = theDataSet.getFlightPaths();
@@ -181,8 +175,9 @@ public class FlightRDController implements Initializable {
         }
     }
 
-    public void initialize(URL arg0, ResourceBundle arg1) {
-        // TODO Auto-generated method stub
-
+    @Override
+    public void loadOnce(){
+        flightPathListView();
     }
+
 }

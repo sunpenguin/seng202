@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import seng202.group9.Controller.App;
 import seng202.group9.Controller.Dataset;
+import seng202.group9.Controller.SceneCode;
 import seng202.group9.Core.FlightPath;
 
 import java.net.URL;
@@ -18,14 +19,9 @@ import java.util.ResourceBundle;
  * Controller for the Flights Summary Scene.
  * Created by Liam Beckett on 13/09/2016.
  */
-public class FlightSummaryController implements Initializable {
+public class FlightSummaryController extends Controller {
 
     private Dataset theDataSet = null;
-
-    App parent;
-    public void setApp(App parent){
-        this.parent = parent;
-    }
 
     @FXML
     private Button flightRawData;
@@ -35,11 +31,25 @@ public class FlightSummaryController implements Initializable {
     final ObservableList<String> flightList = FXCollections.observableArrayList();
 
     /**
-     * Loads the Flight paths into the List View and is called from the MenuController.
+     * Changes to the Flight Raw Data Scene when the Raw Data Button is clicked
      */
-    public void flightPathListView() {
+    public void handleRawDataButton() {
+        replaceSceneContent(SceneCode.FLIGHT_RAW_DATA);
+    }
+
+    public void airportSummaryButton() {
+        replaceSceneContent(SceneCode.AIRPORT_SUMMARY);
+    }
+    public void routeSummaryButton() {
+        replaceSceneContent(SceneCode.ROUTE_SUMMARY);
+    }
+    public void airlineSummaryButton() {
+        replaceSceneContent(SceneCode.AIRLINE_SUMMARY);
+    }
+
+    public void load() {
         try {
-            theDataSet = this.parent.getCurrentDataset();
+            theDataSet = getParent().getCurrentDataset();
             ArrayList<FlightPath> flightPaths = new ArrayList();
             flightPaths = theDataSet.getFlightPaths();
             for(int i = 0; i<flightPaths.size(); i++ ){
@@ -54,61 +64,6 @@ public class FlightSummaryController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * Changes to the Flight Raw Data Scene when the Raw Data Button is clicked
-     */
-    public void handleRawDataButton() {
-        try {
-            FlightRDController rawDataController = (FlightRDController)
-                    parent.replaceSceneContent("flight_raw_data.fxml");
-            rawDataController.setApp(parent);
-            rawDataController.loadTables();
-            rawDataController.flightPathListView();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void airportSummaryButton() {
-        try {
-            AirportSummaryController summaryController = (AirportSummaryController)
-                    parent.replaceSceneContent("airport_summary.fxml");
-            summaryController.setApp(parent);
-            summaryController.loadTables();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    public void routeSummaryButton() {
-        try {
-            RouteSummaryController summaryController = (RouteSummaryController)
-                    parent.replaceSceneContent("routes_summary.fxml");
-            summaryController.setApp(parent);
-            summaryController.loadTables();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    public void airlineSummaryButton() {
-        try {
-            AirlineSummaryController summaryController = (AirlineSummaryController)
-                    parent.replaceSceneContent("airline_summary.fxml");
-            summaryController.setApp(parent);
-            summaryController.loadTables();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void initialize(URL arg0, ResourceBundle arg1) {
-        // TODO Auto-generated method stub
-
     }
 }
 
