@@ -1,0 +1,9 @@
+package seng202.group9.Controller;
+
+/**
+ * Created by fwy13 on 16/09/16.
+ */
+public enum SceneCode {
+    INITIAL, AIRLINE_SUMMARY, AIRLINE_RAW_DATA, AIRPORT_SUMMARY, AIRPORT_RAW_DATA,
+    ROUTE_SUMMARY, ROUTE_RAW_DATA, FLIGHT_SUMMARY, FLIGHT_RAW_DATA
+}

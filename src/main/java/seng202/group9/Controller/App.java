@@ -2,6 +2,7 @@ package seng202.group9.Controller;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import javafx.application.Application;
@@ -113,6 +114,12 @@ public class App extends Application
 
 	}
 
+	/**
+	 * Serialize the exiting session
+	 */
+	public void stop(){
+
+	}
 	/**
 	 * Replace Scene Content with fxml file code from oracle.
 	 * @param fxml
