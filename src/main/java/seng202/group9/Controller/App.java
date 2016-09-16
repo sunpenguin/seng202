@@ -1,8 +1,6 @@
 package seng202.group9.Controller;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Serializable;
+import java.io.*;
 import java.util.ArrayList;
 
 import javafx.application.Application;
@@ -120,7 +118,16 @@ public class App extends Application
 	 * Serialize the exiting session
 	 */
 	public void stop(){
-
+		try{
+			FileOutputStream fileOut = new FileOutputStream("res/session.ser");
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			out.writeObject(session);
+			out.close();
+			fileOut.close();
+			System.out.println("Session has been serialised for next load");
+		}catch(IOException e){
+			e.printStackTrace();
+		}
 	}
 	/**
 	 * Replace Scene Content with fxml file code from oracle.
