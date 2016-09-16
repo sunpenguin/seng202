@@ -20,4 +20,8 @@ public class Session implements Serializable {
     public void setSceneDisplayed(SceneCode sceneDisplayed) {
         this.sceneDisplayed = sceneDisplayed;
     }
+
+    public SceneCode getSceneDisplayed() {
+        return sceneDisplayed;
+    }
 }
