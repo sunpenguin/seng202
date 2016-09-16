@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-        <?import javafx.geometry.Insets?>
-        <?import javafx.scene.control.Button?>
-        <?import javafx.scene.control.ScrollPane?>
-        <?import javafx.scene.control.TableColumn?>
-        <?import javafx.scene.control.TableView?>
-        <?import javafx.scene.layout.AnchorPane?>
-        <?import javafx.scene.layout.HBox?>
-        <?import javafx.scene.layout.Pane?>
-        <?import javafx.scene.layout.VBox?>
-        <?import javafx.scene.shape.Rectangle?>
-        <?import javafx.scene.text.Font?>
-        <?import javafx.scene.text.Text?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group9.GUI.AirlineSummaryController">
 <children>
@@ -34,16 +34,18 @@
                            </Pane>
                            <Pane layoutY="52.0" prefHeight="240.0" prefWidth="480.0" AnchorPane.bottomAnchor="0.0">
                               <children>
-                                 <Pane layoutX="25.0" layoutY="10.0" prefHeight="220.0" prefWidth="120.0" />
-                                 <TableView fx:id="tableView" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="378.0">
-                                    <columns>
-                                       <TableColumn fx:id="columnName" text="Name" />
-                                       <TableColumn fx:id="columnAlias" prefWidth="77.0" text="Alias" />
-                                       <TableColumn fx:id="columnCountry" prefWidth="86.0" text="Country" />
-                                       <TableColumn fx:id="columnIATA" prefWidth="86.0" text="IATA/FAA" />
-                                       <TableColumn fx:id="columnActive" prefWidth="46.0" text="Active" />
-                                    </columns>
-                                 </TableView>
+                                 <Pane layoutX="25.0" layoutY="10.0" prefHeight="220.0" prefWidth="120.0">
+                                       <children>
+                                       <TableView fx:id="tableView" prefHeight="200.0" prefWidth="378.0">
+                                          <columns>
+                                             <TableColumn fx:id="columnName" maxWidth="100.0" prefWidth="50.0" text="Name" />
+                                             <TableColumn fx:id="columnAlias" prefWidth="77.0" text="Alias" />
+                                             <TableColumn fx:id="columnCountry" prefWidth="86.0" text="Country" />
+                                             <TableColumn fx:id="columnIATA" prefWidth="86.0" text="IATA/FAA" />
+                                             <TableColumn fx:id="columnActive" prefWidth="46.0" text="Active" />
+                                          </columns>
+                                       </TableView>
+                                       </children></Pane>
                               </children>
                               <padding>
                                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -54,24 +56,24 @@
                      <AnchorPane prefHeight="300.0" prefWidth="253.0">
                         <children>
                            <Pane layoutY="200.0" prefHeight="100.0" prefWidth="253.0">
-                              <children>
-                                 <Button layoutX="20.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Airports">
-                                    <font>
-                                       <Font size="12.0" />
-                                    </font>
-                                 </Button>
-                                 <Button layoutX="94.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Routes">
-                                    <font>
-                                       <Font size="12.0" />
-                                    </font>
-                                 </Button>
-                                 <Button layoutX="169.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Flights">
-                                    <font>
-                                       <Font size="12.0" />
-                                    </font>
-                                 </Button>
-                                 <Button layoutX="20.0" layoutY="61.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="214.0" text="Airline Raw Data" />
-                              </children>
+                               <children>
+                                   <Button layoutX="20.0" layoutY="14.0" mnemonicParsing="false" onAction="#airportSummaryButton" prefHeight="25.0" prefWidth="65.0" text="Airports">
+                                       <font>
+                                           <Font size="12.0" />
+                                       </font>
+                                   </Button>
+                                   <Button layoutX="94.0" layoutY="14.0" mnemonicParsing="false" onAction="#routeSummaryButton" prefHeight="25.0" prefWidth="65.0" text="Routes">
+                                       <font>
+                                           <Font size="12.0" />
+                                       </font>
+                                   </Button>
+                                   <Button layoutX="169.0" layoutY="14.0" mnemonicParsing="false" onAction="#flightSummaryButton" prefHeight="25.0" prefWidth="65.0" text="Flights">
+                                       <font>
+                                           <Font size="12.0" />
+                                       </font>
+                                   </Button>
+                                   <Button layoutX="20.0" layoutY="61.0" mnemonicParsing="false" onAction="#airlineRawDataButton" prefHeight="25.0" prefWidth="214.0" text="Airline Raw Data" />
+                               </children>
                               <padding>
                                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                               </padding>
