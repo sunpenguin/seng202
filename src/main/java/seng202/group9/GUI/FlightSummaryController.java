@@ -2,17 +2,13 @@ package seng202.group9.GUI;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TableView;
 import seng202.group9.Controller.App;
 import seng202.group9.Controller.Dataset;
 import seng202.group9.Core.FlightPath;
-import seng202.group9.Core.FlightPoint;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -65,7 +61,7 @@ public class FlightSummaryController implements Initializable {
      */
     public void handleRawDataButton() {
         try {
-            FlightRawDataController rawDataController = (FlightRawDataController)
+            FlightRDController rawDataController = (FlightRDController)
                     parent.replaceSceneContent("flight_raw_data.fxml");
             rawDataController.setApp(parent);
             rawDataController.loadTables();
