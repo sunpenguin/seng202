@@ -72,6 +72,40 @@ public class FlightSummaryController implements Initializable {
         }
     }
 
+    public void airportSummaryButton() {
+        try {
+            AirportSummaryController summaryController = (AirportSummaryController)
+                    parent.replaceSceneContent("airport_summary.fxml");
+            summaryController.setApp(parent);
+            summaryController.loadTables();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void routeSummaryButton() {
+        try {
+            RouteSummaryController summaryController = (RouteSummaryController)
+                    parent.replaceSceneContent("routes_summary.fxml");
+            summaryController.setApp(parent);
+            summaryController.loadTables();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void airlineSummaryButton() {
+        try {
+            AirlineSummaryController summaryController = (AirlineSummaryController)
+                    parent.replaceSceneContent("airline_summary.fxml");
+            summaryController.setApp(parent);
+            summaryController.loadTables();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void initialize(URL arg0, ResourceBundle arg1) {
         // TODO Auto-generated method stub
 

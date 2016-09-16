@@ -18,6 +18,8 @@ public class FlightPoint {
 	public FlightPoint(String type, String name, double altitude, double latitude, double longitude){
 		//extra calculations will have to be used to find heading, legdistance and total distance. If necessary
 		//Type 1 file the file the lecturers gave us
+		//indexID = flight path ID
+		//ID = unique Auto Increment value
 		this.name = name;
 		this.ID = -1;
 		this.indexID = -1;

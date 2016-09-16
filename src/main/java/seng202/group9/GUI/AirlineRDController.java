@@ -1,11 +1,9 @@
 package seng202.group9.GUI;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import seng202.group9.Controller.App;
 import seng202.group9.Controller.Dataset;
@@ -47,7 +45,8 @@ public class AirlineRDController extends MenuController {
     @FXML
     private TextField airlCountryBox;
     @FXML
-    private TextField airlActiveBox;
+    //private TextField airlActiveBox;
+    private ComboBox<String> airlActiveCBox;
 
 
     App parent;
@@ -66,11 +65,13 @@ public class AirlineRDController extends MenuController {
         airlIATAcol.setCellValueFactory(new PropertyValueFactory<Airline, String>("Alias"));
         airlICAOcol.setCellValueFactory(new PropertyValueFactory<Airline, String>("IATA"));
         airlCallsigncol.setCellValueFactory(new PropertyValueFactory<Airline, String>("CallSign"));
-        airlCountrycol.setCellValueFactory(new PropertyValueFactory<Airline, String>("Country"));
+        airlCountrycol.setCellValueFactory(new PropertyValueFactory<Airline, String>("CountryName"));
         airlActivecol.setCellValueFactory(new PropertyValueFactory<Airline, String>("Active"));
 
         theDataSet = this.parent.getCurrentDataset();
         tableView.setItems(FXCollections.observableArrayList(theDataSet.getAirlines()));
+        //ObservableList<String> activeOptions= FXCollections.observableArrayList("Y", "N");
+        airlActiveCBox.getItems().addAll("Y", "N");
     }
 
     //Dummy function to test the add button.
@@ -84,14 +85,14 @@ public class AirlineRDController extends MenuController {
                     airlICAOBox.getText(),
                     airlCallsignBox.getText(),
                     airlCountryBox.getText(),
-                    airlActiveBox.getText());
+                    airlActiveCBox.getSelectionModel().getSelectedItem().toString());
             airlNameBox.clear();
             airlAliasBox.clear();
             airlIATABox.clear();
             airlICAOBox.clear();
             airlCallsignBox.clear();
             airlCountryBox.clear();
-            airlActiveBox.clear();
+            airlActiveCBox.getSelectionModel().clearSelection();
             tableView.setItems(FXCollections.observableArrayList(theDataSet.getAirlines()));
         } catch ( Exception e ) {
             Alert alert = new Alert(Alert.AlertType.ERROR);

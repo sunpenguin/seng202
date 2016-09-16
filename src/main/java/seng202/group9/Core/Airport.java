@@ -254,6 +254,31 @@ public class Airport {
 		return country;
 	}
 
+	//JavaDoc needed
+	public Double getTimezone() {
+		if (this.city != null) {
+			return this.city.getTimezone();
+		}else{
+			return 0.0;
+		}
+	}
+	//JavaDoc needed
+	public String getDST() {
+		if (this.country != null) {
+			return this.country.getDST();
+		}else{
+			return "";
+		}
+	}
+	//JavaDoc needed
+	public String getTz() {
+		if (this.city != null) {
+			return this.city.getTimeOlson();
+		}else{
+			return "";
+		}
+	}
+
 	/**
 	 * set country class associated with this airport
 	 * @param country

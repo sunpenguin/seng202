@@ -83,24 +83,24 @@
                           </rowConstraints>
                            <children>
                               <Pane prefHeight="160.0" prefWidth="295.0" GridPane.rowIndex="1">
-                                 <children>
-                                    <Button layoutX="33.0" layoutY="82.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Airports">
-                                       <font>
-                                          <Font size="12.0" />
-                                       </font>
-                                    </Button>
-                                    <Button layoutX="126.0" layoutY="81.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Routes">
-                                       <font>
-                                          <Font size="12.0" />
-                                       </font>
-                                    </Button>
-                                    <Button layoutX="218.0" layoutY="81.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Airlines">
-                                       <font>
-                                          <Font size="12.0" />
-                                       </font>
-                                    </Button>
-                                    <Button layoutX="33.0" layoutY="129.0" mnemonicParsing="false" onAction="#handleRawDataButton" prefHeight="25.0" prefWidth="250.0" text="Flight Raw Data" />
-                                 </children>
+                                  <children>
+                                      <Button layoutX="20.0" layoutY="14.0" mnemonicParsing="false" onAction="#airportSummaryButton" prefHeight="25.0" prefWidth="65.0" text="Airports">
+                                          <font>
+                                              <Font size="12.0" />
+                                          </font>
+                                      </Button>
+                                      <Button layoutX="94.0" layoutY="14.0" mnemonicParsing="false" onAction="#airlineSummaryButton" prefHeight="25.0" prefWidth="65.0" text="Airlines">
+                                          <font>
+                                              <Font size="12.0" />
+                                          </font>
+                                      </Button>
+                                      <Button layoutX="169.0" layoutY="14.0" mnemonicParsing="false" onAction="#routeSummaryButton" prefHeight="25.0" prefWidth="65.0" text="Routes">
+                                          <font>
+                                              <Font size="12.0" />
+                                          </font>
+                                      </Button>
+                                      <Button layoutX="20.0" layoutY="61.0" mnemonicParsing="false" onAction="#handleRawDataButton" prefHeight="25.0" prefWidth="214.0" text="Flights Raw Data" />
+                                  </children>
                                  <padding>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </padding>

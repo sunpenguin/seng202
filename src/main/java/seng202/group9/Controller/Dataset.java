@@ -96,7 +96,7 @@ public class Dataset {
                 String airCallsign = rs.getString("CallSign");
                 String airCountry = rs.getString("Country");
                 String airActive = rs.getString("Active");
-                Airline airlineToAdd = new Airline(airID, airName, airIATA, airICAO, airAlias, airCallsign, airCountry, airActive);
+                Airline airlineToAdd = new Airline(airID, airName, airAlias, airIATA, airICAO, airCallsign, airCountry, airActive);
                 //assuming that all names will be unique
                 airlineDictionary.put(airName, airlineToAdd);
                 airlines.add(airlineToAdd);
@@ -239,6 +239,7 @@ public class Dataset {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
             System.exit(0);
         }
+        createDataLinks();
     }
 
     /**
@@ -739,14 +740,18 @@ public class Dataset {
 
     public void createDataLinks(){
         //this may be seperated into more sepearate function in the future for time optimisation
+        HashMap<String, Airline> airlineByIATA= new HashMap<String, Airline>();
         //create Airline country link
         for (Airline airline: airlines){
+            airlineByIATA.put(airline.getAlias(), airline);
+            //System.out.println(airline.getAlias());
             airline.setCountry(countryDictionary.get(airline.getCountryName()));
         }
         //create Airport City and Country Link
         HashMap<String, Airport> airportsByIATA = new HashMap<String, Airport>(); //this is used later for connecting the routes
         HashMap<String, Airport> airportsByICAO = new HashMap<String, Airport>(); //this is used later for connecting the routes
         for (Airport airport: airports){
+            //System.out.println(airport.getIATA_FFA());
             airportsByIATA.put(airport.getIATA_FFA(), airport);
             airportsByICAO.put(airport.getICAO(), airport);
             airport.setCountry(countryDictionary.get(airport.getCountryName()));
@@ -766,7 +771,7 @@ public class Dataset {
             }else{
                 route.setDestinationAirport(airportsByIATA.get(route.getArrivalAirport()));
             }
-            route.setAirline(airlineDictionary.get(route.getAirlineName()));
+            route.setAirline(airlineByIATA.get(route.getAirlineName()));
         }
         System.out.println("Links Made");
     }
@@ -1081,9 +1086,6 @@ public class Dataset {
             stmt.close();
 
 
-
-
-
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
             System.exit(0);
@@ -1094,6 +1096,242 @@ public class Dataset {
         flightPathDictionary.get(id).addFlightPoint(pointToAdd);
 
 
+    }
+    /**
+     * This is called in conjunction to the App deleteDataset DO NOT CALL UNLESS THROUGH APP.DELETEDATASET
+     */
+    public void deleteDataset(){
+        //drop the tables
+        Connection c = null;
+        Statement stmt = null;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
+            String[] tablesToDrop = {"_Airline", "_Airport", "_City", "_Country", "_Routes", "_Flight_Path", "_Flight_Points"};
+            for (int i = 0; i < tablesToDrop.length; i++){
+                stmt = c.createStatement();
+                String dropTableStatment = "DROP TABLE `"+this.name+tablesToDrop[i]+"`";
+                stmt.execute(dropTableStatment);
+                stmt.close();
+            }
+            stmt = c.createStatement();
+            String deleteDatasetEntry = "DELETE FROM `Datasets` WHERE `Dataset_Name` = \""+this.name+"\"";
+            stmt.execute(deleteDatasetEntry);
+            stmt.close();
+            c.close();
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            System.exit(0);
+        }
+    }
+
+    /**
+     * deletes an airline from the dataset.
+     * @param airline
+     */
+    public void deleteAirline(Airline airline){
+        //drop the entries
+        Connection c = null;
+        Statement stmt = null;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
+            String deleteQuery = "DELETE FROM `"+this.name+"_Airline` WHERE `Airline_ID` = " + airline.getID() + ";";
+            stmt = c.createStatement();
+            stmt.execute(deleteQuery);
+            stmt.close();
+            stmt = c.createStatement();
+            //check if number of countries that contain airlines > 0 else delete the country
+            String countCountry = "SELECT COUNT(*) FROM `"+this.name+"_Airline` JOIN `"+this.name+"_Country` ON" +
+                    " `"+this.name+"_Country`.`Country_Name` = `"+this.name+"_Airline`.`Country`" +
+                    " WHERE `"+this.name+"_Airline`.`Country` = \""+airline.getCountry().getName().replace("\"", "\"\"")+"\"";
+            ResultSet countCountryRes = stmt.executeQuery(countCountry);
+            int countryCount = 0;
+            while (countCountryRes.next()){
+                countryCount +=  countCountryRes.getInt("COUNT(*)");
+            }
+            countCountryRes.close();
+            stmt.close();
+            //check if number of counties that contain airports > 0 else delete the country
+            String countCountryA = "SELECT COUNT(*) FROM `"+this.name+"_Airport` JOIN `"+this.name+"_Country` ON" +
+                    " `"+this.name+"_Country`.`Country_Name` = `"+this.name+"_Airport`.`Country`" +
+                    " WHERE `"+this.name+"_Airport`.`Country` = \""+airline.getCountry().getName().replace("\"", "\"\"")+"\"";
+            countCountryRes = stmt.executeQuery(countCountryA);
+            while (countCountryRes.next()){
+                countryCount +=  countCountryRes.getInt("COUNT(*)");
+            }
+            countCountryRes.close();
+            stmt.close();
+            //delete country if there are no matches
+            if (countryCount == 0){
+                stmt = c.createStatement();
+                String deleteCountry = "DELETE FROM `"+this.name+"_Country` WHERE `Country_Name` = \""+airline.getCountry().getName()+"\"";
+                stmt.execute(deleteCountry);
+                stmt.close();
+            }
+            c.close();
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            System.exit(0);
+        }
+        airlines.remove(airline);
+    }
+
+    public void deleteAirline(int index){
+        deleteAirline(airlines.get(index));
+    }
+
+    /**
+     * deletes an airport from the dataset.
+     * @param airport
+     */
+    public void deleteAirport(Airport airport){
+        //drop the entries
+        Connection c = null;
+        Statement stmt = null;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
+            String deleteQuery = "DELETE FROM `"+this.name+"_Airport` WHERE `Airport_ID` = " + airport.getID() + ";";
+            stmt = c.createStatement();
+            stmt.execute(deleteQuery);
+            stmt.close();
+            //check if number of countries that contain airports and airlines > 0 else delete the country
+            String countCountry = "SELECT COUNT(*) FROM `"+this.name+"_Airport` JOIN `"+this.name+"_Country` ON" +
+                    " `"+this.name+"_Country`.`Country_Name` = `"+this.name+"_Airport`.`Country`" +
+                    " WHERE `"+this.name+"_Airport`.`Country` = \""+airport.getCountry().getName().replace("\"", "\"\"")+"\"";
+            ResultSet countCountryRes = stmt.executeQuery(countCountry);
+            int countryCount = 0;
+            while (countCountryRes.next()){
+                countryCount =  countCountryRes.getInt("COUNT(*)");
+            }
+            countCountryRes.close();
+            stmt.close();
+            //check if number of countries that contain airlines > 0 else delete the country
+            String countCountryA = "SELECT COUNT(*) FROM `"+this.name+"_Airline` JOIN `"+this.name+"_Country` ON" +
+                    " `"+this.name+"_Country`.`Country_Name` = `"+this.name+"_Airline`.`Country`" +
+                    " WHERE `"+this.name+"_Airline`.`Country` = \""+airport.getCountry().getName().replace("\"", "\"\"")+"\"";
+            ResultSet countCountryResA = stmt.executeQuery(countCountry);
+            while (countCountryResA.next()){
+                countryCount +=  countCountryResA.getInt("COUNT(*)");
+            }
+            countCountryResA.close();
+            stmt.close();
+            //delete country if no matches
+            if (countryCount == 0){
+                stmt = c.createStatement();
+                String deleteCountry = "DELETE FROM `"+this.name+"_Country` WHERE `Country_Name` = \""+airport.getCountry().getName()+"\"";
+                stmt.execute(deleteCountry);
+                stmt.close();
+            }
+            //cehck if number cities that contain airports > 0 else delete the city
+            String countCity = "SELECT COUNT(*) FROM `"+this.name+"_Airport` JOIN `"+this.name+"_City` ON" +
+                    " `"+this.name+"_City`.`City_Name` = `"+this.name+"_Airport`.`City`" +
+                    " WHERE `"+this.name+"_Airport`.`City` = \""+airport.getCityName().replace("\"", "\"\"")+"\"";
+            ResultSet countCityRes = stmt.executeQuery(countCity);
+            int cityCount = 0;
+            while (countCityRes.next()){
+                cityCount = countCityRes.getInt("COUNT(*)");
+            }
+            countCountryRes.close();
+            stmt.close();
+            //delete country if no matches
+            if (cityCount == 0){
+                stmt = c.createStatement();
+                String deleteCity = "DELETE FROM `"+this.name+"_City` WHERE `City_Name` = \""+airport.getCityName()+"\"";
+                stmt.execute(deleteCity);
+                stmt.close();
+            }
+            c.close();
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            System.exit(0);
+        }
+        airports.remove(airport);
+    }
+
+    public void deleteAirport(int index){
+        deleteAirport(airports.get(index));
+    }
+    /**
+     * deletes an route from the dataset.
+     * @param route
+     */
+    public void deleteRoute(Route route){
+        //drop the entries
+        Connection c = null;
+        Statement stmt = null;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
+            String deleteQuery = "DELETE FROM `"+this.name+"_Routes` WHERE `Route_ID` = " + route.getID() + ";";
+            stmt = c.createStatement();
+            stmt.execute(deleteQuery);
+            c.close();
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            System.exit(0);
+        }
+        routes.remove(route);
+    }
+
+    public void deleteRoute(int index){
+        deleteRoute(routes.get(index));
+    }
+    /**
+     * deletes an airline from the dataset.
+     * @param flightPath
+     */
+    public void deleteFlightPath(FlightPath flightPath){
+        //delete all flight points with the id
+        while(flightPath.getFlightPoints().size() > 0){
+            deleteFlightPoint(flightPath.getFlightPoints().get(0), flightPath);
+        }
+        //drop the entries
+        Connection c = null;
+        Statement stmt = null;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
+            String deleteQuery = "DELETE FROM `"+this.name+"_Flight_Path` WHERE `Path_ID` = " + flightPath.getID() + ";";
+            stmt = c.createStatement();
+            stmt.execute(deleteQuery);
+            c.close();
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            System.exit(0);
+        }
+        flightPaths.remove(flightPath);
+    }
+
+    public void deleteFlightPath(int index){
+        deleteFlightPath(flightPaths.get(index));
+    }
+
+    /**
+     * deletes an airline from the dataset.
+     * @param flightPoint
+     */
+    public void deleteFlightPoint(FlightPoint flightPoint, FlightPath flightPath){
+        //drop the tables
+        Connection c = null;
+        Statement stmt = null;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
+            String deleteQuery = "DELETE FROM `"+this.name+"_Flight_Points` WHERE `Point_ID` = " + flightPoint.getID() + ";";
+            stmt = c.createStatement();
+            stmt.execute(deleteQuery);
+            c.close();
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            System.exit(0);
+        }
+        flightPath.getFlightPoints().remove(flightPoint);
+    }
+
+    public void deleteFlightPoint(int pathIndex, int pointIndex){
+        deleteFlightPoint(flightPaths.get(pathIndex).getFlightPoints().get(pointIndex), flightPaths.get(pathIndex));
     }
 
     public ArrayList<Airline> getAirlines() {

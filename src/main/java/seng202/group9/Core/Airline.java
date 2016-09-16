@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * @author Fan-Wu Yang
  *
  */
-public class Airline {
+public class Airline{
 	private int ID;
 	private String IATA;
 	private String ICAO;

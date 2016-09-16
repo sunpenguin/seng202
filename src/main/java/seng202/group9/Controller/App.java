@@ -23,7 +23,7 @@ import seng202.group9.GUI.MenuController;
  */
 public class App extends Application
 {
-	private ArrayList<Dataset> Datasets = new ArrayList<Dataset>();
+	private ArrayList<Dataset> datasets = new ArrayList<Dataset>();
 	private Dataset currentDataset = null;
 	private Stage primaryStage = null;
 	private VBox mainContainer;
@@ -62,6 +62,10 @@ public class App extends Application
 			e.printStackTrace();
 
 		}
+		AirlineFilter filter = new AirlineFilter(currentDataset.getAirlines());
+		filter.filterName("NZ");
+		filter.filterAlias("flight");
+		filter.printFilter();
 /*
 		//testout single route adding
 		try {
@@ -75,14 +79,12 @@ public class App extends Application
 		}catch (DataException e){
 			e.printStackTrace();
 		}
-
 		//testout single airline adding
 		try {
 			currentDataset.addAirline("Dota2", "Valve", "D2", "DOT", "Defence of the Ancients", "Steam", "Y");
 		}catch (DataException e){
 			e.printStackTrace();
 		}
-
 		//testing out airport parser
 		try {
 			System.out.println(currentDataset.importAirport("res/Samples/Airports.txt"));
@@ -135,5 +137,10 @@ public class App extends Application
 
 	public Dataset getCurrentDataset(){
 		return currentDataset;
+	}
+
+	public void deleteDataset(Dataset dataset){
+		dataset.deleteDataset();
+		datasets.remove(dataset);
 	}
 }

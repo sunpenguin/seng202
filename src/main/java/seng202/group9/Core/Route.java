@@ -120,6 +120,31 @@ public class Route {
 			return ID;
 		}
 	}
+	//JavaDoc needed
+	public int getAirlineID() throws DataException {
+		if (this.airline != null) {
+			return this.getAirline().getID();
+		}else {
+			return 0;
+		}
+	}
+
+	public int getSourceID() throws DataException {
+        if (this.getSourceAirport() != null) {
+            return this.getSourceAirport().getID();
+        } else {
+            return 0;
+        }
+	}
+
+	public int getDestID() throws DataException {
+        if (this.getDestinationAirport() != null) {
+            return this.getDestinationAirport().getID();
+        } else {
+            return 0;
+        }
+	}
+
 	/**
 	 * returns the number of stops the route stops.
 	 * @return
