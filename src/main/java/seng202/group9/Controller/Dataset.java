@@ -236,6 +236,7 @@ public class Dataset {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
             System.exit(0);
         }
+        createDataLinks();
     }
 
     /**
@@ -735,14 +736,18 @@ public class Dataset {
 
     public void createDataLinks(){
         //this may be seperated into more sepearate function in the future for time optimisation
+        HashMap<String, Airline> airlineByIATA= new HashMap<String, Airline>();
         //create Airline country link
         for (Airline airline: airlines){
+            airlineByIATA.put(airline.getAlias(), airline);
+            //System.out.println(airline.getAlias());
             airline.setCountry(countryDictionary.get(airline.getCountryName()));
         }
         //create Airport City and Country Link
         HashMap<String, Airport> airportsByIATA = new HashMap<String, Airport>(); //this is used later for connecting the routes
         HashMap<String, Airport> airportsByICAO = new HashMap<String, Airport>(); //this is used later for connecting the routes
         for (Airport airport: airports){
+            //System.out.println(airport.getIATA_FFA());
             airportsByIATA.put(airport.getIATA_FFA(), airport);
             airportsByICAO.put(airport.getICAO(), airport);
             airport.setCountry(countryDictionary.get(airport.getCountryName()));
@@ -762,7 +767,7 @@ public class Dataset {
             }else{
                 route.setDestinationAirport(airportsByIATA.get(route.getArrivalAirport()));
             }
-            route.setAirline(airlineDictionary.get(route.getAirlineName()));
+            route.setAirline(airlineByIATA.get(route.getAirlineName()));
         }
         System.out.println("Links Made");
     }

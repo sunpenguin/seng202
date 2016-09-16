@@ -1,6 +1,10 @@
 package seng202.group9.GUI;
 
+import com.sun.javafx.collections.ObservableListWrapper;
 import javafx.beans.InvalidationListener;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableStringValue;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -41,11 +45,11 @@ public class AirportRDController extends MenuController{
     @FXML
     private TableColumn<Airport, String> airpAltitudecol;
     @FXML
-    private TableColumn<Airport, City> airpTimezonecol;
+    private TableColumn<Airport, String> airpTimezonecol;
     @FXML
-    private TableColumn<Airport, Country> airpDSTcol;
+    private TableColumn<Airport, String> airpDSTcol;
     @FXML
-    private TableColumn<Airport, City> airpTzcol;
+    private TableColumn<Airport, String> airpTzcol;
 
     @FXML
     private TextField airpNameBox;
@@ -66,7 +70,7 @@ public class AirportRDController extends MenuController{
     @FXML
     private TextField airpTimezoneBox;
     @FXML
-    private TextField airpDSTBox;
+    private ComboBox<String> airpDSTCBox;
     @FXML
     private TextField airpTzBox;
 
@@ -82,18 +86,18 @@ public class AirportRDController extends MenuController{
     public void loadTables() {
         airpIDcol.setCellValueFactory(new PropertyValueFactory<Airport, String>("ID"));
         airpNamecol.setCellValueFactory(new PropertyValueFactory<Airport, String>("Name"));
-        airpCitycol.setCellValueFactory(new PropertyValueFactory<Airport, String>("City"));
-        airpCountrycol.setCellValueFactory(new PropertyValueFactory<Airport, String>("Country"));
+        airpCitycol.setCellValueFactory(new PropertyValueFactory<Airport, String>("CityName"));
+        airpCountrycol.setCellValueFactory(new PropertyValueFactory<Airport, String>("CountryName"));
         airpIATAFFAcol.setCellValueFactory(new PropertyValueFactory<Airport, String>("IATA_FFA"));
         airpICAOcol.setCellValueFactory(new PropertyValueFactory<Airport, String>("ICAO"));
         airpLatitudecol.setCellValueFactory(new PropertyValueFactory<Airport, String>("Latitude"));
         airpLongitudecol.setCellValueFactory(new PropertyValueFactory<Airport, String>("Longitude"));
-        airpAltitudecol.setCellValueFactory(new PropertyValueFactory<Airport, String>("Altitude"));
-        airpTimezonecol.setCellValueFactory(new PropertyValueFactory<Airport, City>("Timezone"));
-        airpDSTcol.setCellValueFactory(new PropertyValueFactory<Airport, Country>("DST"));
-        airpTzcol.setCellValueFactory(new PropertyValueFactory<Airport, City>("Tz"));
+        airpAltitudecol.setCellValueFactory(new PropertyValueFactory<Airport, String> ("Altitude"));
+        airpTimezonecol.setCellValueFactory(new PropertyValueFactory<Airport, String>("Timezone"));
+        airpDSTcol.setCellValueFactory(new PropertyValueFactory<Airport, String>("DST"));
+        airpTzcol.setCellValueFactory(new PropertyValueFactory<Airport, String>("Tz"));
 
-//        airpTimezonecol.setCellFactory(new Callback<TableColumn<Airport, String>, TableCell<Airport, City>>() {
+//        airpTimezonecol.setCellFactory(new Callback<TableColumn<Airport, String>, TableCell<Airport, String>>() {
 //
 //            @Override
 //            public TableCell<Airport, City> call(TableColumn<Airport, City> param) {
@@ -112,6 +116,8 @@ public class AirportRDController extends MenuController{
 //        });
         theDataSet = this.parent.getCurrentDataset();
         tableViewAirportRD.setItems(FXCollections.observableArrayList(theDataSet.getAirports()));
+
+        airpDSTCBox.getItems().addAll("E", "A", "S", "O", "Z", "N", "U");
     }
 
     public void addAirportSingle() {
@@ -126,7 +132,7 @@ public class AirportRDController extends MenuController{
                     airpLongitudeBox.getText(),
                     airpAltitudeBox.getText(),
                     airpTimezoneBox.getText(),
-                    airpDSTBox.getText(),
+                    airpDSTCBox.getSelectionModel().getSelectedItem().toString(),
                     airpTzBox.getText());
                 airpCityBox.clear();
                 airpCountryBox.clear();
@@ -136,7 +142,7 @@ public class AirportRDController extends MenuController{
                 airpLongitudeBox.clear();
                 airpAltitudeBox.clear();
                 airpTimezoneBox.clear();
-                airpDSTBox.clear();
+                airpDSTCBox.getSelectionModel().clearSelection();
                 airpTzBox.clear();
             tableViewAirportRD.setItems(FXCollections.observableArrayList(theDataSet.getAirports()));
         } catch ( Exception e ) {

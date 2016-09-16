@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -50,37 +51,33 @@
             </Pane>
             <Pane layoutX="16.0" layoutY="479.0" prefHeight="32.0" prefWidth="765.0">
                <children>
-                  <TextField fx:id="rAirlineBox" layoutX="90.0" layoutY="2.0" prefHeight="25.0" prefWidth="100.0" promptText="Airline">
+                  <TextField fx:id="rAirlineBox" layoutX="90.0" layoutY="-1.0" prefHeight="31.0" prefWidth="100.0" promptText="Airline">
                      <padding>
                         <Insets left="2.0" right="2.0" />
                      </padding>
                   </TextField>
-                  <TextField fx:id="rSourceBox" layoutX="190.0" layoutY="2.0" prefHeight="25.0" prefWidth="150.0" promptText="Source airport">
+                  <TextField fx:id="rSourceBox" layoutX="190.0" layoutY="-1.0" prefHeight="31.0" prefWidth="150.0" promptText="Source airport">
                      <padding>
                         <Insets left="2.0" right="2.0" />
                      </padding>
                   </TextField>
-                  <TextField fx:id="rDestBox" layoutX="340.0" layoutY="2.0" prefHeight="25.0" prefWidth="150.0" promptText="Destination airport">
+                  <TextField fx:id="rDestBox" layoutX="340.0" layoutY="-1.0" prefHeight="31.0" prefWidth="150.0" promptText="Destination airport">
                      <padding>
                         <Insets left="2.0" right="2.0" />
                      </padding>
                   </TextField>
-                  <TextField fx:id="rCodeshareBox" layoutX="490.0" layoutY="2.0" prefHeight="25.0" prefWidth="100.0" promptText="Codeshare">
+                  <TextField fx:id="rStopsBox" layoutX="590.0" layoutY="-1.0" prefHeight="31.0" prefWidth="75.0" promptText="Stops">
                      <padding>
                         <Insets left="2.0" right="2.0" />
                      </padding>
                   </TextField>
-                  <TextField fx:id="rStopsBox" layoutX="590.0" layoutY="2.0" prefHeight="25.0" prefWidth="75.0" promptText="Stops">
-                     <padding>
-                        <Insets left="2.0" right="2.0" />
-                     </padding>
-                  </TextField>
-                  <TextField fx:id="rEquipmentBox" layoutX="665.0" layoutY="2.0" prefHeight="25.0" prefWidth="100.0" promptText="Equipment">
+                  <TextField fx:id="rEquipmentBox" layoutX="665.0" layoutY="-1.0" prefHeight="31.0" prefWidth="100.0" promptText="Equipment">
                      <padding>
                         <Insets left="2.0" right="2.0" />
                      </padding>
                   </TextField>
                   <Label layoutY="4.0" text="Enter Values:" />
+                  <ComboBox fx:id="rCodeshareCBox" layoutX="490.0" layoutY="-1.0" prefHeight="31.0" prefWidth="100.0" promptText="Codeshare" />
                </children>
             </Pane>
          </children>

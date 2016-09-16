@@ -2,10 +2,7 @@ package seng202.group9.GUI;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import seng202.group9.Controller.App;
 import seng202.group9.Controller.Dataset;
@@ -40,17 +37,11 @@ public class RouteRDController extends MenuController {
     @FXML
     private TextField rAirlineBox;
     @FXML
-    private TextField rAirlineIDBox;
-    @FXML
     private TextField rSourceBox;
-    @FXML
-    private TextField rSourceIDBox;
     @FXML
     private TextField rDestBox;
     @FXML
-    private TextField rDestIDBox;
-    @FXML
-    private TextField rCodeshareBox;
+    private ComboBox<String> rCodeshareCBox;
     @FXML
     private TextField rStopsBox;
     @FXML
@@ -66,18 +57,20 @@ public class RouteRDController extends MenuController {
     private Dataset theDataSet = null;
 
     public void loadTables() {
-        rAirlineCol.setCellValueFactory(new PropertyValueFactory<Route, String>("Airline"));
-        //rAirlineIDCol.setCellValueFactory(new PropertyValueFactory<Route, String>("AirlineID"));
+        rAirlineCol.setCellValueFactory(new PropertyValueFactory<Route, String>("AirlineName"));
+        rAirlineIDCol.setCellValueFactory(new PropertyValueFactory<Route, String>("AirlineID"));
         rSourceCol.setCellValueFactory(new PropertyValueFactory<Route, String>("DepartureAirport"));
-        //rSourceIDCol.setCellValueFactory(new PropertyValueFactory<Route, String>("SourceID"));
+        rSourceIDCol.setCellValueFactory(new PropertyValueFactory<Route, String>("SourceID"));
         rDestCol.setCellValueFactory(new PropertyValueFactory<Route, String>("ArrivalAirport"));
-        //rDestIDCol.setCellValueFactory(new PropertyValueFactory<Route, String>("DestID"));
+        rDestIDCol.setCellValueFactory(new PropertyValueFactory<Route, String>("DestID"));
         rCodeshareCol.setCellValueFactory(new PropertyValueFactory<Route, String>("Code"));
         rStopsCol.setCellValueFactory(new PropertyValueFactory<Route, String>("Stops"));
         rEquipmentCol.setCellValueFactory(new PropertyValueFactory<Route, String>("Equipment"));
 
         theDataSet = this.parent.getCurrentDataset();
         tableViewRouteRD.setItems(FXCollections.observableArrayList(theDataSet.getRoutes()));
+
+        rCodeshareCBox.getItems().addAll("Y", "");
     }
 
     public void addRouteSingle() {
@@ -86,14 +79,14 @@ public class RouteRDController extends MenuController {
                     rAirlineBox.getText(),
                     rSourceBox.getText(),
                     rDestBox.getText(),
-                    rCodeshareBox.getText(),
+                    rCodeshareCBox.getSelectionModel().getSelectedItem().toString(),
                     rStopsBox.getText(),
                     rEquipmentBox.getText()
             );
             rAirlineBox.clear();
             rSourceBox.clear();
             rDestBox.clear();
-            rCodeshareBox.clear();
+            rCodeshareCBox.getSelectionModel().clearSelection();
             rStopsBox.clear();
             rEquipmentBox.clear();
             tableViewRouteRD.setItems(FXCollections.observableArrayList(theDataSet.getRoutes()));
