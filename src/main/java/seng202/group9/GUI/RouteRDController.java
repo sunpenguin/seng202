@@ -105,4 +105,15 @@ public class RouteRDController extends MenuController {
             alert.showAndWait();
         }
     }
+    public void analyse_Button() {
+        try {
+            RouteAnalyser graphController = (RouteAnalyser)
+                    parent.replaceSceneContent("route_analyser.fxml");
+            graphController.setApp(parent);
+            graphController.build_graph(theDataSet);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
