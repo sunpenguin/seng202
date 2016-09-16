@@ -95,7 +95,7 @@ public class Dataset {
                 String airCallsign = rs.getString("CallSign");
                 String airCountry = rs.getString("Country");
                 String airActive = rs.getString("Active");
-                Airline airlineToAdd = new Airline(airID, airName, airIATA, airICAO, airAlias, airCallsign, airCountry, airActive);
+                Airline airlineToAdd = new Airline(airID, airName, airAlias, airIATA, airICAO, airCallsign, airCountry, airActive);
                 //assuming that all names will be unique
                 airlineDictionary.put(airName, airlineToAdd);
                 airlines.add(airlineToAdd);
