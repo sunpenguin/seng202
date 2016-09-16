@@ -62,6 +62,10 @@ public class App extends Application
 			e.printStackTrace();
 
 		}
+		AirlineFilter filter = new AirlineFilter(currentDataset.getAirlines());
+		filter.filterName("NZ");
+		filter.filterAlias("flight");
+		filter.printFilter();
 /*
 		//testout single route adding
 		try {
