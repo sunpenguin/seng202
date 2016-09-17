@@ -32,7 +32,12 @@ public class App extends Application
     {
         launch(args);
     }
-    /**
+
+	public Stage getPrimaryStage() {
+		return primaryStage;
+	}
+
+	/**
      * Starts the application
      * @param primaryStage main "stage" of the program
      */
@@ -62,6 +67,7 @@ public class App extends Application
 			e.printStackTrace();
 
 		}
+
 /*
 		AirlineFilter filter = new AirlineFilter(currentDataset.getAirlines());
 		filter.filterName("NZ");
@@ -119,40 +125,7 @@ public class App extends Application
 			Controller controller = (Controller) replaceSceneContent(session.getSceneDisplayed());
 			controller.setApp(this);
 			controller.load();
-			controller.loadOnce();/*
-			if (session.getSceneDisplayed() == SceneCode.AIRLINE_RAW_DATA){
-				Controller controller = (Controller) replaceSceneContent(session.getSceneDisplayed());
-				controller.setApp(this);
-				controller.load();
-			}else if (session.getSceneDisplayed() == SceneCode.AIRLINE_SUMMARY){
-				Controller controller = (Controller) replaceSceneContent(session.getSceneDisplayed());
-				controller.setApp(this);
-				controller.load();
-			}else if (session.getSceneDisplayed() == SceneCode.AIRPORT_RAW_DATA){
-				AirportRDController controller = (AirportRDController) replaceSceneContent(session.getSceneDisplayed());
-				controller.setApp(this);
-				controller.loadTables();
-			}else if (session.getSceneDisplayed() == SceneCode.AIRPORT_SUMMARY){
-				AirportSummaryController controller = (AirportSummaryController) replaceSceneContent(session.getSceneDisplayed());
-				controller.setApp(this);
-				controller.loadTables();
-			}else if (session.getSceneDisplayed() == SceneCode.ROUTE_RAW_DATA){
-				RouteRDController controller = (RouteRDController) replaceSceneContent(session.getSceneDisplayed());
-				controller.setApp(this);
-				controller.loadTables();
-			}else if (session.getSceneDisplayed() == SceneCode.ROUTE_RAW_DATA){
-				RouteSummaryController controller = (RouteSummaryController) replaceSceneContent(session.getSceneDisplayed());
-				controller.setApp(this);
-				controller.loadTables();
-			}else if (session.getSceneDisplayed() == SceneCode.FLIGHT_RAW_DATA){
-				FlightRawDataController controller = (FlightRawDataController) replaceSceneContent(session.getSceneDisplayed());
-				controller.setApp(this);
-				controller.loadTables();
-			}else if (session.getSceneDisplayed() == SceneCode.FLIGHT_SUMMARY){
-				FlightSummaryController controller = (FlightSummaryController) replaceSceneContent(session.getSceneDisplayed());
-				controller.setApp(this);
-				controller.flightPathListView();
-			}*/
+			controller.loadOnce();
 			objectIn.close();
 			fileIn.close();
 		}catch(IOException e){
