@@ -26,7 +26,7 @@
     function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
             center: {lat: 39.144684, lng: -84.510079},
-            zoom: 15
+            zoom: 5
         });
 
         new google.maps.Marker({
@@ -39,7 +39,7 @@
     function displayAirport(position){
         map = new google.maps.Map(document.getElementById('map'), {
             center: position[0],
-            zoom: 15
+            zoom: 5
         });
 
         new google.maps.Marker({
@@ -50,6 +50,10 @@
     }
 
     function displayRoute(flightPath) {
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: 39.144684, lng: -84.510079},
+            zoom: 15
+        });
         // CLEAR EXISTING MARKERS
         if (marker1 !== undefined && marker2 !== undefined && path !== undefined) {
             marker1.setMap(null);
