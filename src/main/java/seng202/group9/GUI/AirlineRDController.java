@@ -1,17 +1,12 @@
 package seng202.group9.GUI;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import seng202.group9.Controller.App;
+import seng202.group9.Controller.AirlineFilter;
 import seng202.group9.Controller.Dataset;
 import seng202.group9.Core.Airline;
-
-import java.net.URL;
-import java.util.ResourceBundle;
 
 /**
  * Created by Sunguin on 2016/09/13.
@@ -19,7 +14,7 @@ import java.util.ResourceBundle;
 public class AirlineRDController extends Controller {
 
     @FXML
-    private TableView<Airline> tableView;
+    private TableView<Airline> tableViewAirlineRD;
     @FXML
     private TableColumn<Airline, String> airlIDcol;
     @FXML
@@ -36,6 +31,7 @@ public class AirlineRDController extends Controller {
     private TableColumn<Airline, String> airlCountrycol;
     @FXML
     private TableColumn<Airline, String> airlActivecol;
+
     @FXML
     private TextField airlNameBox;
     @FXML
@@ -49,8 +45,22 @@ public class AirlineRDController extends Controller {
     @FXML
     private TextField airlCountryBox;
     @FXML
-    //private TextField airlActiveBox;
     private ComboBox<String> airlActiveCBox;
+
+    @FXML
+    private TextField airlNameFilter;
+    @FXML
+    private TextField airlAliasFilter;
+    @FXML
+    private TextField airlIATAFilter;
+    @FXML
+    private TextField airlICAOFilter;
+    @FXML
+    private TextField airlCallsignFilter;
+    @FXML
+    private TextField airlCountryFilter;
+    @FXML
+    private TextField airlActiveFilter;
 
     private Dataset theDataSet = null;
 
@@ -73,7 +83,7 @@ public class AirlineRDController extends Controller {
             airlCallsignBox.clear();
             airlCountryBox.clear();
             airlActiveCBox.getSelectionModel().clearSelection();
-            tableView.setItems(FXCollections.observableArrayList(theDataSet.getAirlines()));
+            tableViewAirlineRD.setItems(FXCollections.observableArrayList(theDataSet.getAirlines()));
         } catch ( Exception e ) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Airline Data Error");
@@ -87,7 +97,6 @@ public class AirlineRDController extends Controller {
         airlIDcol.setCellValueFactory(new PropertyValueFactory<Airline, String>("ID"));
         airlNamecol.setCellValueFactory(new PropertyValueFactory<Airline, String>("Name"));
         airlAliascol.setCellValueFactory(new PropertyValueFactory<Airline, String>("Alias"));
-        //Need to check IATA and ICAO
         airlIATAcol.setCellValueFactory(new PropertyValueFactory<Airline, String>("IATA"));
         airlICAOcol.setCellValueFactory(new PropertyValueFactory<Airline, String>("ICAO"));
         airlCallsigncol.setCellValueFactory(new PropertyValueFactory<Airline, String>("CallSign"));
@@ -95,9 +104,41 @@ public class AirlineRDController extends Controller {
         airlActivecol.setCellValueFactory(new PropertyValueFactory<Airline, String>("Active"));
 
         theDataSet = getParent().getCurrentDataset();
-        tableView.setItems(FXCollections.observableArrayList(theDataSet.getAirlines()));
-        //ObservableList<String> activeOptions= FXCollections.observableArrayList("Y", "N");
+        tableViewAirlineRD.setItems(FXCollections.observableArrayList(theDataSet.getAirlines()));
+
+        airlActiveCBox.setValue("Y");
         airlActiveCBox.getItems().addAll("Y", "N");
     }
 
+    public void deleteAirline() {
+        Airline toDelete = tableViewAirlineRD.getSelectionModel().getSelectedItem();
+        theDataSet.deleteAirline(toDelete);
+        tableViewAirlineRD.setItems(FXCollections.observableArrayList(theDataSet.getAirlines()));
+    }
+
+    public void filterAirlines() {
+        AirlineFilter filter = new AirlineFilter(theDataSet.getAirlines());
+        if (airlNameFilter.getText() != null) {
+            filter.filterName(airlNameFilter.getText());
+        }
+        if (airlAliasFilter.getText() != null) {
+            filter.filterAlias(airlAliasFilter.getText());
+        }
+        if (airlIATAFilter.getText() != null) {
+            filter.filterIATA(airlIATAFilter.getText());
+        }
+        if (airlICAOFilter.getText() != null) {
+            filter.filterICAO(airlICAOFilter.getText());
+        }
+        if (airlCallsignFilter.getText() != null) {
+            filter.filterCallsign(airlCallsignFilter.getText());
+        }
+        if (airlCountryFilter.getText() != null) {
+            filter.filterCountry(airlCountryFilter.getText());
+        }
+        if (airlActiveFilter.getText() != null) {
+            filter.filterActive(airlActiveFilter.getText());
+        }
+        tableViewAirlineRD.setItems(FXCollections.<Airline>observableArrayList(filter.getFilteredData()));
+    }
 }

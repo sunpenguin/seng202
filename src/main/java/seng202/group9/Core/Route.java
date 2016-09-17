@@ -123,7 +123,7 @@ public class Route {
 	}
 	//JavaDoc needed
 	public int getAirlineID() throws DataException {
-		if (this.airline != null) {
+		if (this.getAirline() != null) {
 			return this.getAirline().getID();
 		}else {
 			return 0;
@@ -241,7 +241,7 @@ public class Route {
 	 */
 	public void hasDuplicate(Route route) throws DataException{
 		//routeAirline + routeSourceAirport + routeArrvAirport + routeCodeShare + routeStops + routeEquip
-		if (route.getAirline().equals(this.airline) && route.getDepartureAirport().equals(this.departureAirport)
+		if (route.getAirlineName().equals(this.airlineName) && route.getDepartureAirport().equals(this.departureAirport)
 				&& route.getArrivalAirport().equals(this.arrivalAirport) && route.getCode().equals(this.codeShare)
 				 && route.getStops() == this.stops && route.getEquipment().equals(this.equipment)){
 			throw new DataException("This Route already exists.");
