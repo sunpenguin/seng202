@@ -6,6 +6,7 @@ public class Country {
 	private String DST, name;
 	private ArrayList<City> cities = new ArrayList<City>();
 	private ArrayList<Airline> airlines = new ArrayList<Airline>();
+	private Position position;
 	
 	public Country(String DST, String name){
 		this.DST = DST;
@@ -80,5 +81,17 @@ public class Country {
 
 	public void delCities(int index){
 		this.cities.remove(index);
+	}
+
+	public ArrayList<City> getCities() {
+		return cities;
+	}
+
+	public Position getPosition() {
+		return position;
+	}
+
+	public void setPosition(Position position) {
+		this.position = position;
 	}
 }

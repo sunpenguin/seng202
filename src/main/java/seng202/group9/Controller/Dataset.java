@@ -753,6 +753,7 @@ public class Dataset {
             airportsByIATA.put(airport.getIATA_FFA(), airport);
             airportsByICAO.put(airport.getICAO(), airport);
             airport.setCountry(countryDictionary.get(airport.getCountryName()));
+            //airport.getCountry().setPosition(new Position(airport.getLatitude(), airport.getLongitude()));
             //TODO Add City in country (This is extra work).
             airport.setCity(cityDictionary.get(airport.getCityName()));
             airport.getCity().addAirport(airport);
@@ -911,8 +912,8 @@ public class Dataset {
             airportToAdd.setID(airportID);
             airports.add(airportToAdd);
             airportDictionary.put(airportToAdd.getName(), airportToAdd);
-            stmt.close();
             airportIDRes.close();
+            stmt.close();
             c.close();
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
