@@ -210,6 +210,19 @@ public class FlightRDController extends Controller {
         flightTableView.setItems(FXCollections.observableArrayList(flightPoints));
     }
 
+    public void deletePath() {
+        String toDeleteStr = flightPathListView.getSelectionModel().getSelectedItem();
+        String[] segments = toDeleteStr.split("_");
+        String pathIdClicked = segments[0];
+
+        int toDeleteIndex = theDataSet.getFlightPaths().indexOf(theDataSet.getFlightPathDictionary()
+                .get(Integer.parseInt(pathIdClicked)));
+
+        theDataSet.deleteFlightPath(toDeleteIndex);
+        flightPathListView.getItems().clear();
+        flightPathListView();
+    }
+
     public void flightAnalyser(){
         JOptionPane.showMessageDialog(null, "This is not Implemented yet");
     }
