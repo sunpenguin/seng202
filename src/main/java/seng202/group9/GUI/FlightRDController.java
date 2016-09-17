@@ -17,6 +17,7 @@ import javax.swing.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.ResourceBundle;
 
 /**
@@ -192,6 +193,21 @@ public class FlightRDController extends Controller {
             flightPathListView.getItems().clear();
             flightPathListView();
         }
+    }
+
+    public void deletePoint() {
+        FlightPoint toDelete = flightTableView.getSelectionModel().getSelectedItem();
+        int pathID = toDelete.getIndex();
+        LinkedHashMap<Integer, FlightPath> flightPathDict = theDataSet.getFlightPathDictionary();
+        FlightPath toDeletesPath = flightPathDict.get(pathID);
+        theDataSet.deleteFlightPoint(toDelete, toDeletesPath);
+
+        currentPathIndex = theDataSet.getFlightPaths().indexOf(theDataSet.getFlightPathDictionary().get(pathID));
+
+        ArrayList<FlightPath> flightPaths;
+        flightPaths = theDataSet.getFlightPaths();
+        ArrayList<FlightPoint> flightPoints = flightPaths.get(currentPathIndex).getFlight();
+        flightTableView.setItems(FXCollections.observableArrayList(flightPoints));
     }
 
     public void flightAnalyser(){
