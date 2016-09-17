@@ -26,32 +26,33 @@ public class Importer{
                 "Text & .csv", "*.txt", "*.csv");
         chooser.getExtensionFilters().add(filter);
         File file = chooser.showOpenDialog(primaryStage);
-        if (scene == SceneCode.AIRLINE_RAW_DATA){
-            try {
-                showSuccessAlert(parent.getCurrentDataset().importAirline(file.getPath()));
-            } catch (DataException e) {
-                e.printStackTrace();
-            }
-        }else if (scene == SceneCode.AIRPORT_RAW_DATA){
-            try {
-                showSuccessAlert(parent.getCurrentDataset().importAirport(file.getPath()));
-            } catch (DataException e) {
-                e.printStackTrace();
-            }
-        }else if (scene == SceneCode.ROUTE_RAW_DATA){
-            try {
-                showSuccessAlert(parent.getCurrentDataset().importRoute(file.getPath()));
-            } catch (DataException e) {
-                e.printStackTrace();
-            }
-        }else if (scene == SceneCode.FLIGHT_RAW_DATA){
-            try {
-                showSuccessAlert(parent.getCurrentDataset().importFlight(file.getPath()));
-            } catch (DataException e) {
-                e.printStackTrace();
+        if (file != null) {
+            if (scene == SceneCode.AIRLINE_RAW_DATA) {
+                try {
+                    showSuccessAlert(parent.getCurrentDataset().importAirline(file.getPath()));
+                } catch (DataException e) {
+                    e.printStackTrace();
+                }
+            } else if (scene == SceneCode.AIRPORT_RAW_DATA) {
+                try {
+                    showSuccessAlert(parent.getCurrentDataset().importAirport(file.getPath()));
+                } catch (DataException e) {
+                    e.printStackTrace();
+                }
+            } else if (scene == SceneCode.ROUTE_RAW_DATA) {
+                try {
+                    showSuccessAlert(parent.getCurrentDataset().importRoute(file.getPath()));
+                } catch (DataException e) {
+                    e.printStackTrace();
+                }
+            } else if (scene == SceneCode.FLIGHT_RAW_DATA) {
+                try {
+                    showSuccessAlert(parent.getCurrentDataset().importFlight(file.getPath()));
+                } catch (DataException e) {
+                    e.printStackTrace();
+                }
             }
         }
-
     }
 
     public void showSuccessAlert(String message){
