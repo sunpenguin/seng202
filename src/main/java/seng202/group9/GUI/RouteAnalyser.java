@@ -43,6 +43,7 @@ public class RouteAnalyser extends MenuController {
         XYChart.Series seriesDeparts = new XYChart.Series();
         seriesArivals.setName("Arriving routes");
         seriesDeparts.setName("Departs routes");
+        System.out.println(useddata.keySet().size());
         for (String airport : useddata.keySet()){
             ArrayList<Integer> temp = useddata.get(airport);
             seriesArivals.getData().add(new XYChart.Data(airport,temp.get(0)));
