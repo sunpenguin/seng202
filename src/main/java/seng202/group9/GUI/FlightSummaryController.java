@@ -31,15 +31,17 @@ public class FlightSummaryController extends Controller {
 
     private Dataset theDataSet = null;
 
+
+    private int currentPathId = 0;
+    private int currentPathIndex = 0;
+
+
+
     @FXML
     private Button flightRawData;
     private Map map;
     @FXML
     private WebView mapView;
-    private int currentPathId = 0;
-    private int currentPathIndex = 0;
-
-
     @FXML
     ListView<String> flightPathListView;
     final ObservableList<String> flightList = FXCollections.observableArrayList();
