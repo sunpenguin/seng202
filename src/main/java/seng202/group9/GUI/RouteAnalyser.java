@@ -22,22 +22,17 @@ import java.util.List;
 /**
  * Created by michael on 16/09/2016.
  */
-public class RouteAnalyser extends MenuController {
+public class RouteAnalyser extends Controller {
     @FXML
     private BarChart analyserGraph;
 
-    App parent;
     private ArrayList<Route> current_routes;
 
-    public void setApp(App parent){
-        this.parent = parent;
-    }
-
-    private Dataset Data = null;
+    private Dataset currentdata = null;
     private HashMap<String, ArrayList> useddata = new HashMap<String, ArrayList>();
 
-    public void build_graph(Dataset current_data){
-        current_routes = current_data.getRoutes();
+    public void build_graph(){
+        current_routes = currentdata.getRoutes();
         datasetup(current_routes);
         XYChart.Series seriesArivals = new XYChart.Series();
         XYChart.Series seriesDeparts = new XYChart.Series();
@@ -77,5 +72,10 @@ public class RouteAnalyser extends MenuController {
                 useddata.put(arives,temp);
             }
         }
+    }
+
+    public void load() {
+        currentdata = getParent().getCurrentDataset();
+        build_graph();
     }
 }
