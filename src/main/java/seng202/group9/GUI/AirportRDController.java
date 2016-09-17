@@ -12,6 +12,8 @@ import seng202.group9.Core.Airport;
 import static javafx.collections.FXCollections.observableArrayList;
 
 /**
+ * The GUI controller class for airport_raw_data.fxml.
+ * Extends from the abstract class {@link Controller}.
  * Created by Sunguin on 2016/09/13.
  */
 public class AirportRDController extends Controller{
@@ -91,6 +93,10 @@ public class AirportRDController extends Controller{
 
     private Dataset theDataSet = null;
 
+    /**
+     * Loads the initial airport data to the GUI table.
+     * Also sets up the dropdown menu options.
+     */
     public void load() {
         airpIDcol.setCellValueFactory(new PropertyValueFactory<Airport, String>("ID"));
         airpNamecol.setCellValueFactory(new PropertyValueFactory<Airport, String>("Name"));
@@ -112,6 +118,11 @@ public class AirportRDController extends Controller{
         airpDSTCBox.getItems().addAll("E", "A", "S", "O", "Z", "N", "U");
     }
 
+    /**
+     * Adds a single airport entry in the database.
+     * Takes in values from the GUI the user has typed in.
+     * @see Dataset
+     */
     public void addAirportSingle() {
         try {
             theDataSet.addAirport(
@@ -146,16 +157,28 @@ public class AirportRDController extends Controller{
             alert.showAndWait();
         }
     }
+
     public void airportAnalyserButton() {
         replaceSceneContent(SceneCode.AIRPORT_ANALYSER);
     }
 
+    /**
+     * Deletes a single selected airport entry from the database.
+     * Updates the GUI accordingly.
+     * @see Dataset
+     */
     public void deleteAirport(){
         Airport toDelete = tableViewAirportRD.getSelectionModel().getSelectedItem();
         theDataSet.deleteAirport(toDelete);
         tableViewAirportRD.setItems(observableArrayList(theDataSet.getAirports()));
     }
 
+    /**
+     * Filters the airports table by any field.
+     * These are specified by what the user has typed in the filter boxes.
+     * Updates the GUI accordingly.
+     * @see AirportFilter
+     */
     public void filterAirports() {
         AirportFilter filter = new AirportFilter(theDataSet.getAirports());
         if (airpNameFilter.getText() != null) {

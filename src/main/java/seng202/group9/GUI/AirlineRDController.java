@@ -9,6 +9,8 @@ import seng202.group9.Controller.Dataset;
 import seng202.group9.Core.Airline;
 
 /**
+ * The GUI controller class for airline_raw_data.fxml.
+ * Extends from the abstract class {@link Controller}.
  * Created by Sunguin on 2016/09/13.
  */
 public class AirlineRDController extends Controller {
@@ -64,6 +66,32 @@ public class AirlineRDController extends Controller {
 
     private Dataset theDataSet = null;
 
+    /**
+     * Loads the initial airline data to the GUI table.
+     * Also sets up the dropdown menu options.
+     */
+    public void load() {
+        airlIDcol.setCellValueFactory(new PropertyValueFactory<Airline, String>("ID"));
+        airlNamecol.setCellValueFactory(new PropertyValueFactory<Airline, String>("Name"));
+        airlAliascol.setCellValueFactory(new PropertyValueFactory<Airline, String>("Alias"));
+        airlIATAcol.setCellValueFactory(new PropertyValueFactory<Airline, String>("IATA"));
+        airlICAOcol.setCellValueFactory(new PropertyValueFactory<Airline, String>("ICAO"));
+        airlCallsigncol.setCellValueFactory(new PropertyValueFactory<Airline, String>("CallSign"));
+        airlCountrycol.setCellValueFactory(new PropertyValueFactory<Airline, String>("CountryName"));
+        airlActivecol.setCellValueFactory(new PropertyValueFactory<Airline, String>("Active"));
+
+        theDataSet = getParent().getCurrentDataset();
+        tableViewAirlineRD.setItems(FXCollections.observableArrayList(theDataSet.getAirlines()));
+
+        airlActiveCBox.setValue("Y");
+        airlActiveCBox.getItems().addAll("Y", "N");
+    }
+
+    /**
+     * Adds a single airline entry to the database.
+     * Takes in values from the GUI the user has typed in.
+     * @see Dataset
+     */
     public void addAirlineSingle() {
         try {
             theDataSet.addAirline(
@@ -92,29 +120,23 @@ public class AirlineRDController extends Controller {
         }
     }
 
-    public void load() {
-        airlIDcol.setCellValueFactory(new PropertyValueFactory<Airline, String>("ID"));
-        airlNamecol.setCellValueFactory(new PropertyValueFactory<Airline, String>("Name"));
-        airlAliascol.setCellValueFactory(new PropertyValueFactory<Airline, String>("Alias"));
-        airlIATAcol.setCellValueFactory(new PropertyValueFactory<Airline, String>("IATA"));
-        airlICAOcol.setCellValueFactory(new PropertyValueFactory<Airline, String>("ICAO"));
-        airlCallsigncol.setCellValueFactory(new PropertyValueFactory<Airline, String>("CallSign"));
-        airlCountrycol.setCellValueFactory(new PropertyValueFactory<Airline, String>("CountryName"));
-        airlActivecol.setCellValueFactory(new PropertyValueFactory<Airline, String>("Active"));
-
-        theDataSet = getParent().getCurrentDataset();
-        tableViewAirlineRD.setItems(FXCollections.observableArrayList(theDataSet.getAirlines()));
-
-        airlActiveCBox.setValue("Y");
-        airlActiveCBox.getItems().addAll("Y", "N");
-    }
-
+    /**
+     * Deletes a single selected airline entry from the database.
+     * Updates the GUI accordingly.
+     * @see Dataset
+     */
     public void deleteAirline() {
         Airline toDelete = tableViewAirlineRD.getSelectionModel().getSelectedItem();
         theDataSet.deleteAirline(toDelete);
         tableViewAirlineRD.setItems(FXCollections.observableArrayList(theDataSet.getAirlines()));
     }
 
+    /**
+     * Filters airlines by any field.
+     * These are specified by what the user has typed in the filter boxes.
+     * Updates the GUI accordingly.
+     * @see AirlineFilter
+     */
     public void filterAirlines() {
         AirlineFilter filter = new AirlineFilter(theDataSet.getAirlines());
         if (airlNameFilter.getText() != null) {

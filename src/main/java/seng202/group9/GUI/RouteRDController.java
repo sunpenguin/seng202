@@ -4,14 +4,14 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import seng202.group9.Controller.DataException;
 import seng202.group9.Controller.Dataset;
 import seng202.group9.Controller.SceneCode;
 import seng202.group9.Controller.RouteFilter;
 import seng202.group9.Core.Route;
 
 /**
- * Controller class for the Routes Raw Data scene.
+ * The GUI controller class for route_raw_data.fxml.
+ * Extends from the abstract class {@link Controller}.
  * Created by Sunguin on 2016/09/14.
  */
 public class RouteRDController extends Controller {
@@ -66,8 +66,31 @@ public class RouteRDController extends Controller {
     private Dataset theDataSet = null;
 
     /**
-     * Adds a single route to the Route database.
-     * Takes in values written from the GUI.
+     * Loads the initial route data to the GUI table.
+     * Also sets up the dropdown menu options.
+     */
+    public void load() {
+        rAirlineCol.setCellValueFactory(new PropertyValueFactory<Route, String>("AirlineName"));
+        rAirlineIDCol.setCellValueFactory(new PropertyValueFactory<Route, String>("AirlineID"));
+        rSourceCol.setCellValueFactory(new PropertyValueFactory<Route, String>("DepartureAirport"));
+        rSourceIDCol.setCellValueFactory(new PropertyValueFactory<Route, String>("SourceID"));
+        rDestCol.setCellValueFactory(new PropertyValueFactory<Route, String>("ArrivalAirport"));
+        rDestIDCol.setCellValueFactory(new PropertyValueFactory<Route, String>("DestID"));
+        rCodeshareCol.setCellValueFactory(new PropertyValueFactory<Route, String>("Code"));
+        rStopsCol.setCellValueFactory(new PropertyValueFactory<Route, String>("Stops"));
+        rEquipmentCol.setCellValueFactory(new PropertyValueFactory<Route, String>("Equipment"));
+
+        theDataSet = getParent().getCurrentDataset();
+        tableViewRouteRD.setItems(FXCollections.observableArrayList(theDataSet.getRoutes()));
+
+        rCodeshareCBox.setValue("");
+        rCodeshareCBox.getItems().addAll("Y", "");
+    }
+
+    /**
+     * Adds a single route entry in the database.
+     * Takes in values from the GUI the user has typed in.
+     * @see Dataset
      */
     public void addRouteSingle() {
         try {
@@ -96,31 +119,23 @@ public class RouteRDController extends Controller {
         }
     }
 
-    public void load() {
-        rAirlineCol.setCellValueFactory(new PropertyValueFactory<Route, String>("AirlineName"));
-        rAirlineIDCol.setCellValueFactory(new PropertyValueFactory<Route, String>("AirlineID"));
-        rSourceCol.setCellValueFactory(new PropertyValueFactory<Route, String>("DepartureAirport"));
-        rSourceIDCol.setCellValueFactory(new PropertyValueFactory<Route, String>("SourceID"));
-        rDestCol.setCellValueFactory(new PropertyValueFactory<Route, String>("ArrivalAirport"));
-        rDestIDCol.setCellValueFactory(new PropertyValueFactory<Route, String>("DestID"));
-        rCodeshareCol.setCellValueFactory(new PropertyValueFactory<Route, String>("Code"));
-        rStopsCol.setCellValueFactory(new PropertyValueFactory<Route, String>("Stops"));
-        rEquipmentCol.setCellValueFactory(new PropertyValueFactory<Route, String>("Equipment"));
-
-        theDataSet = getParent().getCurrentDataset();
-        tableViewRouteRD.setItems(FXCollections.observableArrayList(theDataSet.getRoutes()));
-
-        rCodeshareCBox.setValue("");
-        rCodeshareCBox.getItems().addAll("Y", "");
-
-    }
-
+    /**
+     * Deletes a single selected route entry from the database.
+     * Updates the GUI accordingly.
+     * @see Dataset
+     */
     public void deleteRoute(){
         Route toDelete = tableViewRouteRD.getSelectionModel().getSelectedItem();
         theDataSet.deleteRoute(toDelete);
         tableViewRouteRD.setItems(FXCollections.observableArrayList(theDataSet.getRoutes()));
     }
 
+    /**
+     * Filters the routes table by any field.
+     * These are specified by what the user has typed in the filter boxes.
+     * Updates the GUI accordingly.
+     * @see RouteFilter
+     */
     public void filterRoutes(){
         RouteFilter filter = new RouteFilter(theDataSet.getRoutes());
         if (rAirlineFilter.getText() != null) {
