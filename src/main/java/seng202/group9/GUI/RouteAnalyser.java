@@ -1,23 +1,15 @@
 package seng202.group9.GUI;
 
-import javafx.collections.FXCollections;
+
 import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import seng202.group9.Controller.App;
 import seng202.group9.Controller.Dataset;
 import seng202.group9.Core.Route;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+
 
 /**
  * Created by michael on 16/09/2016.

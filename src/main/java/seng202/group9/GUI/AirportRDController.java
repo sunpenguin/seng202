@@ -14,6 +14,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 import seng202.group9.Controller.App;
 import seng202.group9.Controller.Dataset;
+import seng202.group9.Controller.SceneCode;
 import seng202.group9.Core.Airport;
 import seng202.group9.Core.City;
 import seng202.group9.Core.Country;
@@ -146,5 +147,7 @@ public class AirportRDController extends Controller{
             alert.showAndWait();
         }
     }
-
+    public void airportAnalyserButton(){
+        replaceSceneContent(SceneCode.AIRPORT_ANALYSER);
+    }
 }
