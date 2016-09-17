@@ -147,6 +147,6 @@ public class RouteRDController extends Controller {
         }
 //        System.out.println("Hello");
 //        filter.printFilter();
-        tableViewRouteRD.setItems(FXCollections.observableArrayList(filter.getFilteredData()));
+        tableViewRouteRD.setItems(FXCollections.<Route>observableArrayList(filter.getFilteredData()));
     }
 }
