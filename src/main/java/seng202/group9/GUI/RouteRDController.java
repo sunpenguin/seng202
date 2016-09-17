@@ -6,6 +6,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import seng202.group9.Controller.App;
 import seng202.group9.Controller.Dataset;
+import seng202.group9.Controller.SceneCode;
 import seng202.group9.Core.Route;
 
 /**
@@ -90,5 +91,9 @@ public class RouteRDController extends Controller {
         tableViewRouteRD.setItems(FXCollections.observableArrayList(theDataSet.getRoutes()));
 
         rCodeshareCBox.getItems().addAll("Y", "");
+    }
+
+    public void analyse_Button() {
+        replaceSceneContent(SceneCode.ROUTE_ANALYSER);
     }
 }
