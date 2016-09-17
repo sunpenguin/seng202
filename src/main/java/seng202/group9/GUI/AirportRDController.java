@@ -1,25 +1,15 @@
 package seng202.group9.GUI;
 
-import com.sun.javafx.collections.ObservableListWrapper;
-import javafx.beans.InvalidationListener;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableStringValue;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.util.Callback;
 import seng202.group9.Controller.AirportFilter;
-import seng202.group9.Controller.App;
 import seng202.group9.Controller.Dataset;
 import seng202.group9.Controller.SceneCode;
 import seng202.group9.Core.Airport;
-import seng202.group9.Core.City;
-import seng202.group9.Core.Country;
 
+import static javafx.collections.FXCollections.observableArrayList;
 
 /**
  * Created by Sunguin on 2016/09/13.
@@ -116,7 +106,7 @@ public class AirportRDController extends Controller{
         airpTzcol.setCellValueFactory(new PropertyValueFactory<Airport, String>("Tz"));
 
         theDataSet = getParent().getCurrentDataset();
-        tableViewAirportRD.setItems(FXCollections.observableArrayList(theDataSet.getAirports()));
+        tableViewAirportRD.setItems(observableArrayList(theDataSet.getAirports()));
 
         airpDSTCBox.setValue("E");
         airpDSTCBox.getItems().addAll("E", "A", "S", "O", "Z", "N", "U");
@@ -145,6 +135,7 @@ public class AirportRDController extends Controller{
                 airpAltitudeBox.clear();
                 airpTimezoneBox.clear();
                 airpDSTCBox.getSelectionModel().clearSelection();
+                airpDSTCBox.setValue("E");
                 airpTzBox.clear();
             tableViewAirportRD.setItems(FXCollections.observableArrayList(theDataSet.getAirports()));
         } catch ( Exception e ) {
@@ -162,7 +153,7 @@ public class AirportRDController extends Controller{
     public void deleteAirport(){
         Airport toDelete = tableViewAirportRD.getSelectionModel().getSelectedItem();
         theDataSet.deleteAirport(toDelete);
-        tableViewAirportRD.setItems(FXCollections.observableArrayList(theDataSet.getAirports()));
+        tableViewAirportRD.setItems(observableArrayList(theDataSet.getAirports()));
     }
 
     public void filterAirports() {

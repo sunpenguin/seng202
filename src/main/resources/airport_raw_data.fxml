@@ -93,15 +93,9 @@
                   </Pane>
                </content>
             </ScrollPane>
-<<<<<<< HEAD
-            <Button layoutX="14.0" layoutY="526.0" mnemonicParsing="false" onAction="#airportAnalyserButton" prefHeight="25.0" prefWidth="125.0" text="Analyse" />
-            <Button layoutX="662.0" layoutY="526.0" mnemonicParsing="false" onAction="#addAirportSingle" prefHeight="25.0" prefWidth="125.0" text="Add" />
-            <Pane layoutX="15.0" layoutY="60.0" prefHeight="403.0" prefWidth="772.0">
-=======
             <Button layoutX="14.0" layoutY="526.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" text="Analyse" />
             <Button layoutX="653.0" layoutY="526.0" mnemonicParsing="false" onAction="#addAirportSingle" prefHeight="25.0" prefWidth="125.0" text="Add" />
             <Pane layoutX="15.0" layoutY="60.0" prefHeight="342.0" prefWidth="764.0">
->>>>>>> raw_data_fixes
                <children>
                   <TableView fx:id="tableViewAirportRD" prefHeight="340.0" prefWidth="765.0">
                     <columns>

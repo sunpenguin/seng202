@@ -4,16 +4,14 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import seng202.group9.Controller.App;
 import seng202.group9.Controller.DataException;
 import seng202.group9.Controller.Dataset;
 import seng202.group9.Controller.SceneCode;
 import seng202.group9.Controller.RouteFilter;
 import seng202.group9.Core.Route;
 
-import java.util.ArrayList;
-
 /**
+ * Controller class for the Routes Raw Data scene.
  * Created by Sunguin on 2016/09/14.
  */
 public class RouteRDController extends Controller {
@@ -64,9 +62,13 @@ public class RouteRDController extends Controller {
     private TextField rStopsFilter;
     @FXML
     private TextField rEquipmentFilter;
-    @FXML
+
     private Dataset theDataSet = null;
 
+    /**
+     * Adds a single route to the Route database.
+     * Takes in values written from the GUI.
+     */
     public void addRouteSingle() {
         try {
             theDataSet.addRoute(
@@ -81,19 +83,13 @@ public class RouteRDController extends Controller {
             rSourceBox.clear();
             rDestBox.clear();
             rCodeshareCBox.getSelectionModel().clearSelection();
+            rCodeshareCBox.setValue("");
             rStopsBox.clear();
             rEquipmentBox.clear();
             tableViewRouteRD.setItems(FXCollections.observableArrayList(theDataSet.getRoutes()));
-        } catch (DataException e){
+        } catch ( Exception e ) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Route Data Error");
-            alert.setHeaderText("Error adding a custom route entry.");
-            alert.setContentText(e.getMessage());
-            alert.showAndWait();
-        } catch ( Exception e ) {
-            e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Route Error");
             alert.setHeaderText("Error adding a custom route entry.");
             alert.setContentText(e.getMessage());
             alert.showAndWait();
@@ -128,7 +124,6 @@ public class RouteRDController extends Controller {
     public void filterRoutes(){
         RouteFilter filter = new RouteFilter(theDataSet.getRoutes());
         if (rAirlineFilter.getText() != null) {
-            //System.out.println("Hello over here");
             filter.filterAirline(rAirlineFilter.getText());
         }
         if (rSourceFilter.getText() != null) {
@@ -146,8 +141,6 @@ public class RouteRDController extends Controller {
         if (rEquipmentFilter.getText() != null) {
             filter.filterEquipment(rEquipmentFilter.getText());
         }
-//        System.out.println("Hello");
-//        filter.printFilter();
         tableViewRouteRD.setItems(FXCollections.<Route>observableArrayList(filter.getFilteredData()));
     }
 

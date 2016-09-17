@@ -64,8 +64,6 @@ public class AirlineRDController extends Controller {
 
     private Dataset theDataSet = null;
 
-    //Dummy function to test the add button.
-    //Will edit when ID is added automatically.
     public void addAirlineSingle() {
         try {
             theDataSet.addAirline(
@@ -83,6 +81,7 @@ public class AirlineRDController extends Controller {
             airlCallsignBox.clear();
             airlCountryBox.clear();
             airlActiveCBox.getSelectionModel().clearSelection();
+            airlActiveCBox.setValue("Y");
             tableViewAirlineRD.setItems(FXCollections.observableArrayList(theDataSet.getAirlines()));
         } catch ( Exception e ) {
             Alert alert = new Alert(Alert.AlertType.ERROR);

@@ -365,7 +365,8 @@ public class Airport {
 		return distance;
 	}
 	public void hasDuplicate(Airport airport) throws DataException{
-		if (!airport.getName().equals("") && airport.getName().equals(this.name)){
+		if (airport.getName().equals("") || airport.getName().equals(this.name)){
+			//System.out.println(airport.getName() + " "+ this.name);
 			throw new DataException("Airport Name already Exists, Please Choose Another.");
 		}
 		if (!airport.getIATA_FFA().equals("") && airport.getIATA_FFA().equals(this.name)){

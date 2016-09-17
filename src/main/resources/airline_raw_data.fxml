@@ -93,7 +93,7 @@
                            </padding>
                         </TextField>
                         <Label layoutX="14.0" layoutY="6.0" prefHeight="25.0" prefWidth="84.0" text="Add Airline:" />
-                        <ComboBox fx:id="airlActiveCBox" layoutX="1330.0" layoutY="-1.0" prefHeight="31.0" prefWidth="102.0" promptText="Active" />
+                        <ComboBox fx:id="airlActiveCBox" layoutX="1330.0" layoutY="3.0" prefHeight="31.0" prefWidth="102.0" promptText="Active" />
                      </children>
                   </Pane>
                </content>
