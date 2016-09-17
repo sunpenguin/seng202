@@ -1049,6 +1049,7 @@ public class Dataset {
         }
         newPath.setID(pathID);
         flightPathDictionary.put(pathID, newPath);
+        flightPaths.add(newPath);
     }
 
     /**
