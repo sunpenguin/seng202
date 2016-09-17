@@ -126,7 +126,7 @@ public class RouteRDController extends Controller {
 
     public void filterRoutes(){
         RouteFilter filter = new RouteFilter(theDataSet.getRoutes());
-        if (rAirlineFilter.getText() != null && !rAirlineFilter.getText().equals("")) {
+        if (rAirlineFilter.getText() != null) {
             //System.out.println("Hello over here");
             filter.filterAirline(rAirlineFilter.getText());
         }

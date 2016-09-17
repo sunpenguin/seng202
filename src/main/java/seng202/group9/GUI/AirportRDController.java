@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
+import seng202.group9.Controller.AirportFilter;
 import seng202.group9.Controller.App;
 import seng202.group9.Controller.Dataset;
 import seng202.group9.Core.Airport;
@@ -74,6 +75,29 @@ public class AirportRDController extends Controller{
     @FXML
     private TextField airpTzBox;
 
+    @FXML
+    private TextField airpNameFilter;
+    @FXML
+    private TextField airpCityFilter;
+    @FXML
+    private TextField airpCountryFilter;
+    @FXML
+    private TextField airpIATAFFAFilter;
+    @FXML
+    private TextField airpICAOFilter;
+    @FXML
+    private TextField airpLatitudeFilter;
+    @FXML
+    private TextField airpLongitudeFilter;
+    @FXML
+    private TextField airpAltitudeFilter;
+    @FXML
+    private TextField airpTimezoneFilter;
+    @FXML
+    private TextField airpDSTFilter;
+    @FXML
+    private TextField airpTzFilter;
+
     private Dataset theDataSet = null;
 
     public void load() {
@@ -135,5 +159,43 @@ public class AirportRDController extends Controller{
         Airport toDelete = tableViewAirportRD.getSelectionModel().getSelectedItem();
         theDataSet.deleteAirport(toDelete);
         tableViewAirportRD.setItems(FXCollections.observableArrayList(theDataSet.getAirports()));
+    }
+
+    public void filterAirports() {
+        AirportFilter filter = new AirportFilter(theDataSet.getAirports());
+        if (airpNameFilter.getText() != null) {
+            filter.filterName(airpNameFilter.getText());
+        }
+        if (airpCityFilter.getText() != null) {
+            filter.filterCity(airpCityFilter.getText());
+        }
+        if (airpCountryFilter.getText() != null) {
+            filter.filterCountry(airpCountryFilter.getText());
+        }
+        if (airpIATAFFAFilter.getText() != null) {
+            filter.filterIATA_FFA(airpIATAFFAFilter.getText());
+        }
+        if (airpICAOFilter.getText() != null) {
+            filter.filterICAO(airpICAOFilter.getText());
+        }
+        if (airpLatitudeFilter.getText() != null) {
+            filter.filterLatitude(airpLatitudeFilter.getText());
+        }
+        if (airpLongitudeFilter.getText() != null) {
+            filter.filterLongitude(airpLongitudeFilter.getText());
+        }
+        if (airpAltitudeFilter.getText() != null) {
+            filter.filterAltitude(airpAltitudeFilter.getText());
+        }
+        if (airpTimezoneFilter.getText() != null) {
+            filter.filterTimezone(airpTimezoneFilter.getText());
+        }
+        if (airpDSTFilter.getText() != null) {
+            filter.filterDST(airpDSTFilter.getText());
+        }
+        if (airpTzFilter.getText() != null) {
+            filter.filterOlson(airpTzFilter.getText());
+        }
+        tableViewAirportRD.setItems(FXCollections.<Airport>observableArrayList(filter.getFilteredData()));
     }
 }
