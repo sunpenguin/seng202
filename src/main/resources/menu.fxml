@@ -53,7 +53,10 @@
                      </items>
                   </Menu>
                </items></Menu>
-            <Menu mnemonicParsing="false" text="Analysis" />
+            <Menu mnemonicParsing="false" text="Analysis">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#veiwDistCalc" text="Calculate distance between Airports" />
+               </items></Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>
               <MenuItem mnemonicParsing="false" text="Getting Started" />

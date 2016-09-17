@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 
 import javafx.scene.control.Alert;
 import seng202.group9.Controller.App;
+import seng202.group9.Controller.Dataset;
 import seng202.group9.Controller.SceneCode;
 
 public class MenuController extends Controller{
@@ -73,6 +74,8 @@ public class MenuController extends Controller{
 	public void load() {
 		//nothing to load
 	}
+
+	public void veiwDistCalc(){replaceSceneContent(SceneCode.AIRPORT_DIST_CALC);}
 
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
