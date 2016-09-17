@@ -752,6 +752,7 @@ public class Dataset {
             airportsByIATA.put(airport.getIATA_FFA(), airport);
             airportsByICAO.put(airport.getICAO(), airport);
             airport.setCountry(countryDictionary.get(airport.getCountryName()));
+            //airport.getCountry().setPosition(new Position(airport.getLatitude(), airport.getLongitude()));
             //TODO Add City in country (This is extra work).
             airport.setCity(cityDictionary.get(airport.getCityName()));
             airport.getCity().addAirport(airport);
@@ -846,6 +847,7 @@ public class Dataset {
             addAirport(airportToAdd);
             addCity(cityToAdd);
             addCountry(countryToAdd);
+            createDataLinks();
         }catch (NumberFormatException e){
             throw new DataException("Latitude, Longitude, Altitude and Timezone must be numbers");
         }
@@ -857,6 +859,9 @@ public class Dataset {
         }
         if (airportToAdd.getICAO() != "" && airportToAdd.getICAO().length() != 4){
             throw new DataException("ICAO either empty or 4 letters");
+        }
+        if (airportToAdd.getName() == ""){
+            throw new DataException("An Airport cannot have no name.");
         }
         for (String key : airportDictionary.keySet()){
             airportDictionary.get(key).hasDuplicate(airportToAdd);
@@ -875,6 +880,7 @@ public class Dataset {
                     "\""+airportToAdd.getCountryName()+"\", \""+airportToAdd.getIATA_FFA()+"\", \""+airportToAdd.getICAO()+"\", " +
                     ""+airportToAdd.getLatitude()+", "+airportToAdd.getLongitude()+", "+airportToAdd.getAltitude()+");";
             stmt.execute(insertAirportQuery);
+            stmt.close();
             //get the airport id
             stmt = c.createStatement();
             String airportIDQuery = "SELECT * FROM `sqlite_sequence` WHERE `name` = \""+this.name+"_Airport\" LIMIT 1;";
@@ -886,6 +892,9 @@ public class Dataset {
             airportToAdd.setID(airportID);
             airports.add(airportToAdd);
             airportDictionary.put(airportToAdd.getName(), airportToAdd);
+            airportIDRes.close();
+            stmt.close();
+            c.close();
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
             System.exit(0);
@@ -910,6 +919,7 @@ public class Dataset {
                 stmt.close();
                 cityDictionary.put(city.getName(), city);
                 cities.add(city);
+                c.close();
             } catch ( Exception e ) {
                 System.err.println( e.getClass().getName() + ": " + e.getMessage() );
                 System.exit(0);
@@ -934,6 +944,7 @@ public class Dataset {
                 stmt.close();
                 countryDictionary.put(country.getName(), country);
                 countries.add(country);
+                c.close();
             } catch ( Exception e ) {
                 System.err.println( e.getClass().getName() + ": " + e.getMessage() );
                 System.exit(0);

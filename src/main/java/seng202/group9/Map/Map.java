@@ -35,6 +35,11 @@ public class Map {
         webEngine.load(getClass().getClassLoader().getResource("map.html").toExternalForm());
     }
 
+    public void displayAirport(RoutePath newRoute) {
+        String scriptToExecute = "displayAirport(" + newRoute.toJSONArray() + ");";
+        webEngine.executeScript(scriptToExecute);
+    }
+
     public void displayRoute(RoutePath newRoute) {
         String scriptToExecute = "displayRoute(" + newRoute.toJSONArray() + ");";
         webEngine.executeScript(scriptToExecute);
