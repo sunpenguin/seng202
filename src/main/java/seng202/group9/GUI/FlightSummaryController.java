@@ -31,11 +31,8 @@ public class FlightSummaryController extends Controller {
 
     private Dataset theDataSet = null;
 
-
     private int currentPathId = 0;
     private int currentPathIndex = 0;
-
-
 
     @FXML
     private Button flightRawData;
