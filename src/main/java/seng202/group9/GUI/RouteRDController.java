@@ -7,7 +7,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import seng202.group9.Controller.App;
 import seng202.group9.Controller.DataException;
 import seng202.group9.Controller.Dataset;
+import seng202.group9.Controller.RouteFilter;
 import seng202.group9.Core.Route;
+
+import java.util.ArrayList;
 
 /**
  * Created by Sunguin on 2016/09/14.
@@ -48,6 +51,19 @@ public class RouteRDController extends Controller {
     @FXML
     private TextField rEquipmentBox;
 
+    @FXML
+    private TextField rAirlineFilter;
+    @FXML
+    private TextField rSourceFilter;
+    @FXML
+    private TextField rDestFilter;
+    @FXML
+    private TextField rCodeshareFilter;
+    @FXML
+    private TextField rStopsFilter;
+    @FXML
+    private TextField rEquipmentFilter;
+    @FXML
     private Dataset theDataSet = null;
 
     public void addRouteSingle() {
@@ -106,5 +122,31 @@ public class RouteRDController extends Controller {
         Route toDelete = tableViewRouteRD.getSelectionModel().getSelectedItem();
         theDataSet.deleteRoute(toDelete);
         tableViewRouteRD.setItems(FXCollections.observableArrayList(theDataSet.getRoutes()));
+    }
+
+    public void filterRoutes(){
+        RouteFilter filter = new RouteFilter(theDataSet.getRoutes());
+        if (rAirlineFilter.getText() != null && !rAirlineFilter.getText().equals("")) {
+            //System.out.println("Hello over here");
+            filter.filterAirline(rAirlineFilter.getText());
+        }
+        if (rSourceFilter.getText() != null) {
+            filter.filterSourceAirport(rSourceFilter.getText());
+        }
+        if (rDestFilter.getText() != null) {
+            filter.filterDestinationAirport(rDestFilter.getText());
+        }
+        if (rCodeshareFilter.getText() != null) {
+            filter.filterCodeshare(rCodeshareFilter.getText());
+        }
+        if (rStopsFilter.getText() != null) {
+            filter.filterDestinationStops(rStopsFilter.getText());
+        }
+        if (rEquipmentFilter.getText() != null) {
+            filter.filterEquipment(rEquipmentFilter.getText());
+        }
+//        System.out.println("Hello");
+//        filter.printFilter();
+        tableViewRouteRD.setItems(FXCollections.observableArrayList(filter.getFilteredData()));
     }
 }

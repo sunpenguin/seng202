@@ -30,6 +30,7 @@ public class AirlineRDController extends Controller {
     private TableColumn<Airline, String> airlCountrycol;
     @FXML
     private TableColumn<Airline, String> airlActivecol;
+
     @FXML
     private TextField airlNameBox;
     @FXML
@@ -43,8 +44,9 @@ public class AirlineRDController extends Controller {
     @FXML
     private TextField airlCountryBox;
     @FXML
-    //private TextField airlActiveBox;
     private ComboBox<String> airlActiveCBox;
+
+
 
     private Dataset theDataSet = null;
 
