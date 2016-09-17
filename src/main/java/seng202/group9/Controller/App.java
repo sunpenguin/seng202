@@ -130,7 +130,7 @@ public class App extends Application
 			fileIn.close();
 		}catch(IOException e){
 			session = new Session();
-			e.printStackTrace();
+			System.out.println("New Session File Created");
 		}catch(ClassNotFoundException e){
 			System.out.println("Missing Session Class");
 			System.exit(1);

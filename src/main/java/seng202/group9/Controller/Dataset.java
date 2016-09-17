@@ -731,9 +731,6 @@ public class Dataset {
         return message;
     }
 
-
-
-
     /**
      * This function updates the connections between airports citys countries etc.
      */
@@ -1020,7 +1017,53 @@ public class Dataset {
         }
     }
 
+    /**
+     * Adds a path to the database and to the path dictionary
+     * @param sourceAirport
+     * @param destAirport
+     */
+    public void addFlightPath(String sourceAirport, String destAirport){
+        FlightPath newPath = new FlightPath(sourceAirport, destAirport);
+        Connection c;
+        Statement stmt;
+        int pathID = 0;
+        try {
+            c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
 
+            stmt = c.createStatement();
+            String flightPathIDQuery = "SELECT * FROM `sqlite_sequence` WHERE `name` = \""+this.name+"_Flight_Path\" LIMIT 1;";
+            ResultSet pathIDRes= stmt.executeQuery(flightPathIDQuery);
+            while (pathIDRes.next()){
+                pathID = Integer.parseInt(pathIDRes.getString("seq"));
+            }
+            pathID +=1;
+            stmt.close();
+
+            stmt = c.createStatement();
+            String insertPathQuery = "INSERT INTO `" + this.name + "_Flight_Path` (`Path_ID`, `Source_Airport`, " +
+                    "`Destination_Airport`) VALUES ("+pathID+", \""+sourceAirport+"\", \""+destAirport+"\" )";
+            stmt.execute(insertPathQuery);
+        } catch (Exception e){
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            System.exit(0);
+        }
+        newPath.setID(pathID);
+        flightPathDictionary.put(pathID, newPath);
+    }
+
+    /**
+     * Adds a flight point to a given path woth the given id
+     * @param id
+     * @param name
+     * @param type
+     * @param via
+     * @param altitude
+     * @param latitude
+     * @param longitude
+     * @param heading
+     * @param legDist 
+     * @param totDist
+     */
     public void addFlightPointToPath(int id, String name, String type, String via, String altitude, String latitude, String longitude,
                                String heading, String legDist, String totDist) throws DataException{
         double altitudeVal = 0.0;

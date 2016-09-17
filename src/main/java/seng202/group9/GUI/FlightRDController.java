@@ -13,6 +13,7 @@ import seng202.group9.Controller.Dataset;
 import seng202.group9.Core.FlightPath;
 import seng202.group9.Core.FlightPoint;
 
+import javax.swing.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -115,7 +116,7 @@ public class FlightRDController extends Controller {
     }
 
     /**
-     * Function used to load the table for the Flight points initially from the MenuController
+     * Used to load the table for the Flight points initially from the MenuController
      */
     public void load() {
         theDataSet = getParent().getCurrentDataset();
@@ -133,11 +134,13 @@ public class FlightRDController extends Controller {
 
         ArrayList<FlightPath> flightPaths;
         flightPaths = theDataSet.getFlightPaths();
-        //int firstID = flightPaths.get(0).getID();
         ArrayList<FlightPoint> flightPoints = flightPaths.get(0).getFlight();
         flightTableView.setItems(FXCollections.observableArrayList(flightPoints));
     }
 
+    /**
+     *  Will take the inputs from the text fields and adds the point to the current flight path.
+     */
     public void addFlightPoint() {
         ArrayList<FlightPath> flightPaths;
         flightPaths = theDataSet.getFlightPaths();
@@ -171,8 +174,26 @@ public class FlightRDController extends Controller {
             alert.setTitle("Flight Point Data Error");
             alert.setHeaderText("Error adding a custom flight point entry.");
             alert.setContentText(e.getMessage());
-            alert.showAndWait();
+
         }
+    }
+
+    /**
+     * Creates a pop up dialog which prompts the user for two ICAO airport codes which will use when creating a new path
+     */
+    public void newPath() {
+        NewPathPopUp dialogBox = new NewPathPopUp();
+        dialogBox.display();
+        String destAirport = dialogBox.getDestinationAirport();
+        String sourceAirport = dialogBox.getSourceAirport();
+
+        if (destAirport != null && sourceAirport != null){
+            theDataSet.addFlightPath(sourceAirport, destAirport);
+        }
+    }
+
+    public void flightAnalyser(){
+        JOptionPane.showMessageDialog(null, "This is not Implemented yet");
     }
 
     @Override
