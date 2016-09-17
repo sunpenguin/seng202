@@ -189,6 +189,8 @@ public class FlightRDController extends Controller {
 
         if (destAirport != null && sourceAirport != null){
             theDataSet.addFlightPath(sourceAirport, destAirport);
+            flightPathListView.getItems().clear();
+            flightPathListView();
         }
     }
 
