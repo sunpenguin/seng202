@@ -18,6 +18,7 @@ public class Route {
 	private Airport sourceAirport;
 	private Airport destinationAirport;
 	private Airline airline = null;
+	private RoutePath routePath = null;
 
 	/**
 	 * Constructor for pulling from database
@@ -246,6 +247,17 @@ public class Route {
 			throw new DataException("This Route already exists.");
 		}
 	}
+
+	public RoutePath getRoutePath(){
+		if (routePath == null) {
+			routePath = new RoutePath(
+					new Position(getSourceAirport().getLatitude(), getSourceAirport().getLongitude()),
+					new Position(getDestinationAirport().getLatitude(), getDestinationAirport().getLongitude())
+			);
+		}
+		return routePath;
+	}
+
 	@Override
 	public String toString(){
 		
