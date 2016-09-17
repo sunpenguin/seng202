@@ -743,7 +743,7 @@ public class Dataset {
         HashMap<String, Airline> airlineByIATA= new HashMap<String, Airline>();
         //create Airline country link
         for (Airline airline: airlines){
-            airlineByIATA.put(airline.getAlias(), airline);
+            airlineByIATA.put(airline.getIATA(), airline);
             //System.out.println(airline.getAlias());
             airline.setCountry(countryDictionary.get(airline.getCountryName()));
         }
@@ -834,6 +834,7 @@ public class Dataset {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
             System.exit(0);
         }
+        createDataLinks();
     }
 
     public void addAirport(String name, String city, String country, String IATA_FFA, String ICAO, String latitude, String longitude,
@@ -893,6 +894,7 @@ public class Dataset {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
             System.exit(0);
         }
+        createDataLinks();
     }
 
     public void addCity(City city){
@@ -1018,6 +1020,7 @@ public class Dataset {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
             System.exit(0);
         }
+        createDataLinks();
     }
 
 
@@ -1136,10 +1139,14 @@ public class Dataset {
         try {
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
+            //System.out.println(airline.getID());
             String deleteQuery = "DELETE FROM `"+this.name+"_Airline` WHERE `Airline_ID` = " + airline.getID() + ";";
             stmt = c.createStatement();
+            //System.out.println("Airline deleted");
             stmt.execute(deleteQuery);
+            //System.out.println("Airline deleted");
             stmt.close();
+            //System.out.println("Airline deleted");
             stmt = c.createStatement();
             //check if number of countries that contain airlines > 0 else delete the country
             String countCountry = "SELECT COUNT(*) FROM `"+this.name+"_Airline` JOIN `"+this.name+"_Country` ON" +
@@ -1152,6 +1159,7 @@ public class Dataset {
             }
             countCountryRes.close();
             stmt.close();
+
             //check if number of counties that contain airports > 0 else delete the country
             String countCountryA = "SELECT COUNT(*) FROM `"+this.name+"_Airport` JOIN `"+this.name+"_Country` ON" +
                     " `"+this.name+"_Country`.`Country_Name` = `"+this.name+"_Airport`.`Country`" +
@@ -1172,7 +1180,7 @@ public class Dataset {
             c.close();
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-            System.exit(0);
+            //System.exit(0);
         }
         airlines.remove(airline);
     }

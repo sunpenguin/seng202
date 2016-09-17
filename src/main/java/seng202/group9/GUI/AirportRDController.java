@@ -90,26 +90,10 @@ public class AirportRDController extends Controller{
         airpDSTcol.setCellValueFactory(new PropertyValueFactory<Airport, String>("DST"));
         airpTzcol.setCellValueFactory(new PropertyValueFactory<Airport, String>("Tz"));
 
-//        airpTimezonecol.setCellFactory(new Callback<TableColumn<Airport, String>, TableCell<Airport, String>>() {
-//
-//            @Override
-//            public TableCell<Airport, City> call(TableColumn<Airport, City> param) {
-//                TableCell<Airport, City> timeZoneCell = new TableCell<Airport, City>() {
-//                    @Override
-//                    protected void updateItem(City timezone, boolean empty) {
-//                        if (timezone != null) {
-//                            Label timeZoneLabel = new Label(timezone.getTimeOlson());
-//                            setGraphic(timeZoneLabel);
-//                        }
-//                    }
-//                };
-//
-//                return timeZoneCell;
-//            }
-//        });
         theDataSet = getParent().getCurrentDataset();
         tableViewAirportRD.setItems(FXCollections.observableArrayList(theDataSet.getAirports()));
 
+        airpDSTCBox.setValue("E");
         airpDSTCBox.getItems().addAll("E", "A", "S", "O", "Z", "N", "U");
     }
 
@@ -147,4 +131,9 @@ public class AirportRDController extends Controller{
         }
     }
 
+    public void deleteAirport(){
+        Airport toDelete = tableViewAirportRD.getSelectionModel().getSelectedItem();
+        theDataSet.deleteAirport(toDelete);
+        tableViewAirportRD.setItems(FXCollections.observableArrayList(theDataSet.getAirports()));
+    }
 }

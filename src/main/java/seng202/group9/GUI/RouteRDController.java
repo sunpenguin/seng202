@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import seng202.group9.Controller.App;
+import seng202.group9.Controller.DataException;
 import seng202.group9.Controller.Dataset;
 import seng202.group9.Core.Route;
 
@@ -66,9 +67,16 @@ public class RouteRDController extends Controller {
             rStopsBox.clear();
             rEquipmentBox.clear();
             tableViewRouteRD.setItems(FXCollections.observableArrayList(theDataSet.getRoutes()));
-        } catch ( Exception e ) {
+        } catch (DataException e){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Route Data Error");
+            alert.setHeaderText("Error adding a custom route entry.");
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
+        } catch ( Exception e ) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Route Error");
             alert.setHeaderText("Error adding a custom route entry.");
             alert.setContentText(e.getMessage());
             alert.showAndWait();
@@ -89,6 +97,14 @@ public class RouteRDController extends Controller {
         theDataSet = getParent().getCurrentDataset();
         tableViewRouteRD.setItems(FXCollections.observableArrayList(theDataSet.getRoutes()));
 
+        rCodeshareCBox.setValue("");
         rCodeshareCBox.getItems().addAll("Y", "");
+
+    }
+
+    public void deleteRoute(){
+        Route toDelete = tableViewRouteRD.getSelectionModel().getSelectedItem();
+        theDataSet.deleteRoute(toDelete);
+        tableViewRouteRD.setItems(FXCollections.observableArrayList(theDataSet.getRoutes()));
     }
 }

@@ -1,17 +1,11 @@
 package seng202.group9.GUI;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import seng202.group9.Controller.App;
 import seng202.group9.Controller.Dataset;
 import seng202.group9.Core.Airline;
-
-import java.net.URL;
-import java.util.ResourceBundle;
 
 /**
  * Created by Sunguin on 2016/09/13.
@@ -19,7 +13,7 @@ import java.util.ResourceBundle;
 public class AirlineRDController extends Controller {
 
     @FXML
-    private TableView<Airline> tableView;
+    private TableView<Airline> tableViewAirlineRD;
     @FXML
     private TableColumn<Airline, String> airlIDcol;
     @FXML
@@ -73,7 +67,7 @@ public class AirlineRDController extends Controller {
             airlCallsignBox.clear();
             airlCountryBox.clear();
             airlActiveCBox.getSelectionModel().clearSelection();
-            tableView.setItems(FXCollections.observableArrayList(theDataSet.getAirlines()));
+            tableViewAirlineRD.setItems(FXCollections.observableArrayList(theDataSet.getAirlines()));
         } catch ( Exception e ) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Airline Data Error");
@@ -95,9 +89,15 @@ public class AirlineRDController extends Controller {
         airlActivecol.setCellValueFactory(new PropertyValueFactory<Airline, String>("Active"));
 
         theDataSet = getParent().getCurrentDataset();
-        tableView.setItems(FXCollections.observableArrayList(theDataSet.getAirlines()));
-        //ObservableList<String> activeOptions= FXCollections.observableArrayList("Y", "N");
+        tableViewAirlineRD.setItems(FXCollections.observableArrayList(theDataSet.getAirlines()));
+
+        airlActiveCBox.setValue("Y");
         airlActiveCBox.getItems().addAll("Y", "N");
     }
 
+    public void deleteAirline() {
+        Airline toDelete = tableViewAirlineRD.getSelectionModel().getSelectedItem();
+        theDataSet.deleteAirline(toDelete);
+        tableViewAirlineRD.setItems(FXCollections.observableArrayList(theDataSet.getAirlines()));
+    }
 }
