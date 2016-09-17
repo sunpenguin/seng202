@@ -121,7 +121,12 @@ public class Route {
 			return ID;
 		}
 	}
-	//JavaDoc needed
+
+	/**
+	 * Gets this ID of the Airline.
+	 * @return
+	 * @throws DataException
+	 */
 	public int getAirlineID() throws DataException {
 		if (this.getAirline() != null) {
 			return this.getAirline().getID();
@@ -130,6 +135,11 @@ public class Route {
 		}
 	}
 
+	/**
+	 * Gets the ID of the Airport that the Route leaves from.
+	 * @return
+	 * @throws DataException
+	 */
 	public int getSourceID() throws DataException {
         if (this.getSourceAirport() != null) {
             return this.getSourceAirport().getID();
@@ -138,6 +148,11 @@ public class Route {
         }
 	}
 
+	/**
+	 * gets the destination ID of the Airport the Route is arriving at.
+	 * @return
+	 * @throws DataException
+	 */
 	public int getDestID() throws DataException {
         if (this.getDestinationAirport() != null) {
             return this.getDestinationAirport().getID();
@@ -248,6 +263,10 @@ public class Route {
 		}
 	}
 
+	/**
+	 * gets the RoutePath to be passed into {@link seng202.group9.Map.Map}.
+	 * @return
+	 */
 	public RoutePath getRoutePath(){
 		if (routePath == null) {
 			routePath = new RoutePath(
@@ -258,6 +277,10 @@ public class Route {
 		return routePath;
 	}
 
+	/**
+	 * What to print if printed as a string.
+	 * @return
+	 */
 	@Override
 	public String toString(){
 		
