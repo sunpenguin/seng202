@@ -22,6 +22,10 @@ public class RoutePath {
         route.add(position);
     }
 
+    public ArrayList<Position> getRoute() {
+        return route;
+    }
+
     public String toJSONArray() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("[");
@@ -32,4 +36,5 @@ public class RoutePath {
         stringBuilder.append("]");
         return stringBuilder.toString();
     }
+
 }

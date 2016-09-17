@@ -326,8 +326,8 @@ public class Dataset {
                     "`Heading` TEXT, " +
                     "`Altitude` INTEGER, " +
                     "`Tot_Dist` INTEGER, " +
-                    "`Longitude` REAL, " +
                     "`Latitude` REAL, " +
+                    "`Longitude` REAL, " +
                     "`Leg_Dist` INTEGER, " +
                     "`Order` INTEGER)";
             stmt.execute(createFlightPointTable);
@@ -689,7 +689,7 @@ public class Dataset {
             flightPathToAdd.setID(flightPathId);
             //ADDED
             String insertFlightPointQuery = "INSERT INTO `" + this.name + "_Flight_Points` (`Index_ID`, `Name`, `Type`," +
-                    " `Altitude`, `Longitude`, `Latitude`) VALUES ";
+                    " `Altitude`, `Latitude`, `Longitude`) VALUES ";
             int numOfFlights = 0;
             for (int i = 0; i < flightPointsToImport.size(); i ++){
                 String flightPointIdentifier = flightPointsToImport.get(i).getType() + flightPointsToImport.get(i).getName() +
@@ -1076,7 +1076,7 @@ public class Dataset {
 
             stmt = c.createStatement();
             String insertFlightPointQuery = "INSERT INTO `" + this.name + "_Flight_Points` (`Index_ID`, `Name`, `Type`," +
-                    " `Altitude`, `Longitude`, `Latitude`, `Heading`, `Tot_Dist`, `Leg_Dist`, `Via`) VALUES ";
+                    " `Altitude`, `Latitude`, `Longitude`, `Heading`, `Tot_Dist`, `Leg_Dist`, `Via`) VALUES ";
             String flightType = type.replace("\"", "\"\"");
             String flightName = name.replace("\"", "\"\"");
             insertFlightPointQuery += "(" + id +", \""+ flightName +"\", \"" + flightType + "\",  "+ altitudeVal + ", " +

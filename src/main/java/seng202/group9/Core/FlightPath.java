@@ -7,7 +7,7 @@ public class FlightPath {
 	private ArrayList<FlightPoint> flightPoints;
 	private String departureAirport;
 	private String arrivalAirport;
-	private RoutePath routePath;
+	final private RoutePath routePath = new RoutePath();
 
 	/**
 	 *
@@ -91,8 +91,7 @@ public class FlightPath {
 	}
 
 	public RoutePath getRoutePath(){
-		if (routePath == null){
-			routePath = new RoutePath();
+		if (routePath.getRoute().size() == 0){
 			for (FlightPoint point: flightPoints){
 				routePath.addPosition(new Position(point.getLatitude(), point.getLongitude()));
 			}

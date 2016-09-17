@@ -1,5 +1,7 @@
 package seng202.group9.GUI;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -11,6 +13,7 @@ import seng202.group9.Controller.App;
 import seng202.group9.Controller.Dataset;
 import seng202.group9.Controller.SceneCode;
 import seng202.group9.Core.FlightPath;
+import seng202.group9.Core.RoutePath;
 import seng202.group9.Map.Map;
 
 import java.net.URL;
@@ -68,7 +71,16 @@ public class FlightSummaryController extends Controller {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        map = new Map(mapView);
+        if (theDataSet.getFlightPaths().size() > 0){
+            map = new Map(mapView, theDataSet.getFlightPaths().get(0).getRoutePath());
+        }else{
+            map = new Map(mapView, new RoutePath());
+        }
+        flightPathListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                map.displayRoute(theDataSet.getFlightPaths().get(flightPathListView.getSelectionModel().getSelectedIndices().get(0)).getRoutePath());
+            }
+        });
     }
 }
 
