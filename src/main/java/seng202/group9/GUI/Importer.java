@@ -30,25 +30,37 @@ public class Importer{
             if (scene == SceneCode.AIRLINE_RAW_DATA) {
                 try {
                     showSuccessAlert(parent.getCurrentDataset().importAirline(file.getPath()));
+                    parent.getMenuController().replaceSceneContent(SceneCode.AIRLINE_SUMMARY);
                 } catch (DataException e) {
+                    e.printStackTrace();
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             } else if (scene == SceneCode.AIRPORT_RAW_DATA) {
                 try {
                     showSuccessAlert(parent.getCurrentDataset().importAirport(file.getPath()));
+                    parent.getMenuController().replaceSceneContent(SceneCode.AIRPORT_SUMMARY);
                 } catch (DataException e) {
+                    e.printStackTrace();
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             } else if (scene == SceneCode.ROUTE_RAW_DATA) {
                 try {
                     showSuccessAlert(parent.getCurrentDataset().importRoute(file.getPath()));
+                    parent.getMenuController().replaceSceneContent(SceneCode.ROUTE_SUMMARY);
                 } catch (DataException e) {
+                    e.printStackTrace();
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             } else if (scene == SceneCode.FLIGHT_RAW_DATA) {
                 try {
                     showSuccessAlert(parent.getCurrentDataset().importFlight(file.getPath()));
+                    parent.getMenuController().replaceSceneContent(SceneCode.FLIGHT_SUMMARY);
                 } catch (DataException e) {
+                    e.printStackTrace();
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

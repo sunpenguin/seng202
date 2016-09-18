@@ -27,6 +27,7 @@ public class App extends Application
 	private Stage primaryStage = null;
 	private VBox mainContainer;
 	private Session session;
+	private MenuController menuController;
 	
     public static void main( String[] args )
     {
@@ -53,7 +54,7 @@ public class App extends Application
 			primaryStage.setResizable(false);
 			primaryStage.setScene(scene);
 			primaryStage.sizeToScene();
-			MenuController menuController = (MenuController) loader.getController();
+			menuController = (MenuController) loader.getController();
 			menuController.setApp(this);
 			in.close();
 		} catch (Exception e) {
@@ -178,6 +179,10 @@ public class App extends Application
 		//change session code to fit with the serialisation
 		session.setSceneDisplayed(fxml);
 		return (Initializable) loader.getController();
+	}
+
+	public MenuController getMenuController() {
+		return menuController;
 	}
 
 	public Dataset getCurrentDataset(){
