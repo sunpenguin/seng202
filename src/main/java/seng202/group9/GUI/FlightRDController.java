@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import seng202.group9.Controller.App;
+import seng202.group9.Controller.DataException;
 import seng202.group9.Controller.Dataset;
 import seng202.group9.Core.FlightPath;
 import seng202.group9.Core.FlightPoint;
@@ -121,7 +122,11 @@ public class FlightRDController extends Controller {
      */
     public void load() {
         theDataSet = getParent().getCurrentDataset();
-        currentPathId = theDataSet.getFlightPaths().get(0).getID(); //Sets the default to the 1st Path
+        try {
+            currentPathId = theDataSet.getFlightPaths().get(0).getID(); //Sets the default to the 1st Path
+        } catch (DataException e) {
+            e.printStackTrace();
+        }
         flightIdCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("ID"));
         flightNameCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("Name"));
         flightTypeCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("Type"));
