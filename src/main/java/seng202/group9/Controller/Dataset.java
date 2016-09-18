@@ -873,6 +873,10 @@ public class Dataset {
         }
     }
 
+    public String getName() {
+        return name;
+    }
+
     public void addAirport(Airport airportToAdd) throws DataException{
         if (airportToAdd.getIATA_FFA().length() != 0 && airportToAdd.getIATA_FFA().length() != 3){
             throw new DataException("IATA/FFA either empty or 3 letters");
@@ -907,6 +911,7 @@ public class Dataset {
             ResultSet airportIDRes= stmt.executeQuery(airportIDQuery);
             int airportID = 0;
             while (airportIDRes.next()){
+
                 airportID = Integer.parseInt(airportIDRes.getString("seq"));
             }
             airportToAdd.setID(airportID);
