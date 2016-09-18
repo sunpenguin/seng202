@@ -17,6 +17,7 @@ import javax.swing.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.ResourceBundle;
 
 /**
@@ -179,7 +180,7 @@ public class FlightRDController extends Controller {
     }
 
     /**
-     * Creates a pop up dialog which prompts the user for two ICAO airport codes which will use when creating a new path
+     * Creates a pop up dialog which prompts the user for two ICAO airport codes which will use when creating a new path.
      */
     public void newPath() {
         NewPathPopUp dialogBox = new NewPathPopUp();
@@ -193,7 +194,43 @@ public class FlightRDController extends Controller {
             flightPathListView();
         }
     }
+    /**
+     *  Removes the selected point from the table and database.
+     */
+    public void deletePoint() {
+        FlightPoint toDelete = flightTableView.getSelectionModel().getSelectedItem();
+        int pathID = toDelete.getIndex();
+        LinkedHashMap<Integer, FlightPath> flightPathDict = theDataSet.getFlightPathDictionary();
+        FlightPath toDeletesPath = flightPathDict.get(pathID);
+        theDataSet.deleteFlightPoint(toDelete, toDeletesPath);
 
+        currentPathIndex = theDataSet.getFlightPaths().indexOf(theDataSet.getFlightPathDictionary().get(pathID));
+
+        ArrayList<FlightPath> flightPaths;
+        flightPaths = theDataSet.getFlightPaths();
+        ArrayList<FlightPoint> flightPoints = flightPaths.get(currentPathIndex).getFlight();
+        flightTableView.setItems(FXCollections.observableArrayList(flightPoints));
+    }
+
+    /**
+     *  Removes the selected path from the list view of paths and from the database.
+     */
+    public void deletePath() {
+        String toDeleteStr = flightPathListView.getSelectionModel().getSelectedItem();
+        String[] segments = toDeleteStr.split("_");
+        String pathIdClicked = segments[0];
+
+        int toDeleteIndex = theDataSet.getFlightPaths().indexOf(theDataSet.getFlightPathDictionary()
+                .get(Integer.parseInt(pathIdClicked)));
+
+        theDataSet.deleteFlightPath(toDeleteIndex);
+        flightPathListView.getItems().clear();
+        flightPathListView();
+    }
+
+    /**
+     * Will link to the flight analyser when implemented.
+     */
     public void flightAnalyser(){
         JOptionPane.showMessageDialog(null, "This is not Implemented yet");
     }

@@ -1,26 +1,19 @@
 package seng202.group9.GUI;
 
-import com.sun.javafx.collections.ObservableListWrapper;
-import javafx.beans.InvalidationListener;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableStringValue;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.util.Callback;
-import seng202.group9.Controller.App;
+import seng202.group9.Controller.AirportFilter;
 import seng202.group9.Controller.Dataset;
 import seng202.group9.Controller.SceneCode;
 import seng202.group9.Core.Airport;
-import seng202.group9.Core.City;
-import seng202.group9.Core.Country;
 
+import static javafx.collections.FXCollections.observableArrayList;
 
 /**
+ * The GUI controller class for airport_raw_data.fxml.
+ * Extends from the abstract class {@link Controller}.
  * Created by Sunguin on 2016/09/13.
  */
 public class AirportRDController extends Controller{
@@ -75,8 +68,35 @@ public class AirportRDController extends Controller{
     @FXML
     private TextField airpTzBox;
 
+    @FXML
+    private TextField airpNameFilter;
+    @FXML
+    private TextField airpCityFilter;
+    @FXML
+    private TextField airpCountryFilter;
+    @FXML
+    private TextField airpIATAFFAFilter;
+    @FXML
+    private TextField airpICAOFilter;
+    @FXML
+    private TextField airpLatitudeFilter;
+    @FXML
+    private TextField airpLongitudeFilter;
+    @FXML
+    private TextField airpAltitudeFilter;
+    @FXML
+    private TextField airpTimezoneFilter;
+    @FXML
+    private TextField airpDSTFilter;
+    @FXML
+    private TextField airpTzFilter;
+
     private Dataset theDataSet = null;
 
+    /**
+     * Loads the initial airport data to the GUI table.
+     * Also sets up the dropdown menu options.
+     */
     public void load() {
         airpIDcol.setCellValueFactory(new PropertyValueFactory<Airport, String>("ID"));
         airpNamecol.setCellValueFactory(new PropertyValueFactory<Airport, String>("Name"));
@@ -91,29 +111,18 @@ public class AirportRDController extends Controller{
         airpDSTcol.setCellValueFactory(new PropertyValueFactory<Airport, String>("DST"));
         airpTzcol.setCellValueFactory(new PropertyValueFactory<Airport, String>("Tz"));
 
-//        airpTimezonecol.setCellFactory(new Callback<TableColumn<Airport, String>, TableCell<Airport, String>>() {
-//
-//            @Override
-//            public TableCell<Airport, City> call(TableColumn<Airport, City> param) {
-//                TableCell<Airport, City> timeZoneCell = new TableCell<Airport, City>() {
-//                    @Override
-//                    protected void updateItem(City timezone, boolean empty) {
-//                        if (timezone != null) {
-//                            Label timeZoneLabel = new Label(timezone.getTimeOlson());
-//                            setGraphic(timeZoneLabel);
-//                        }
-//                    }
-//                };
-//
-//                return timeZoneCell;
-//            }
-//        });
         theDataSet = getParent().getCurrentDataset();
-        tableViewAirportRD.setItems(FXCollections.observableArrayList(theDataSet.getAirports()));
+        tableViewAirportRD.setItems(observableArrayList(theDataSet.getAirports()));
 
+        airpDSTCBox.setValue("E");
         airpDSTCBox.getItems().addAll("E", "A", "S", "O", "Z", "N", "U");
     }
 
+    /**
+     * Adds a single airport entry in the database.
+     * Takes in values from the GUI the user has typed in.
+     * @see Dataset
+     */
     public void addAirportSingle() {
         try {
             theDataSet.addAirport(
@@ -137,6 +146,7 @@ public class AirportRDController extends Controller{
                 airpAltitudeBox.clear();
                 airpTimezoneBox.clear();
                 airpDSTCBox.getSelectionModel().clearSelection();
+                airpDSTCBox.setValue("E");
                 airpTzBox.clear();
             tableViewAirportRD.setItems(FXCollections.observableArrayList(theDataSet.getAirports()));
         } catch ( Exception e ) {
@@ -147,7 +157,63 @@ public class AirportRDController extends Controller{
             alert.showAndWait();
         }
     }
-    public void airportAnalyserButton(){
+
+    public void airportAnalyserButton() {
         replaceSceneContent(SceneCode.AIRPORT_ANALYSER);
+    }
+
+    /**
+     * Deletes a single selected airport entry from the database.
+     * Updates the GUI accordingly.
+     * @see Dataset
+     */
+    public void deleteAirport(){
+        Airport toDelete = tableViewAirportRD.getSelectionModel().getSelectedItem();
+        theDataSet.deleteAirport(toDelete);
+        tableViewAirportRD.setItems(observableArrayList(theDataSet.getAirports()));
+    }
+
+    /**
+     * Filters the airports table by any field.
+     * These are specified by what the user has typed in the filter boxes.
+     * Updates the GUI accordingly.
+     * @see AirportFilter
+     */
+    public void filterAirports() {
+        AirportFilter filter = new AirportFilter(theDataSet.getAirports());
+        if (airpNameFilter.getText() != null) {
+            filter.filterName(airpNameFilter.getText());
+        }
+        if (airpCityFilter.getText() != null) {
+            filter.filterCity(airpCityFilter.getText());
+        }
+        if (airpCountryFilter.getText() != null) {
+            filter.filterCountry(airpCountryFilter.getText());
+        }
+        if (airpIATAFFAFilter.getText() != null) {
+            filter.filterIATA_FFA(airpIATAFFAFilter.getText());
+        }
+        if (airpICAOFilter.getText() != null) {
+            filter.filterICAO(airpICAOFilter.getText());
+        }
+        if (airpLatitudeFilter.getText() != null) {
+            filter.filterLatitude(airpLatitudeFilter.getText());
+        }
+        if (airpLongitudeFilter.getText() != null) {
+            filter.filterLongitude(airpLongitudeFilter.getText());
+        }
+        if (airpAltitudeFilter.getText() != null) {
+            filter.filterAltitude(airpAltitudeFilter.getText());
+        }
+        if (airpTimezoneFilter.getText() != null) {
+            filter.filterTimezone(airpTimezoneFilter.getText());
+        }
+        if (airpDSTFilter.getText() != null) {
+            filter.filterDST(airpDSTFilter.getText());
+        }
+        if (airpTzFilter.getText() != null) {
+            filter.filterOlson(airpTzFilter.getText());
+        }
+        tableViewAirportRD.setItems(FXCollections.<Airport>observableArrayList(filter.getFilteredData()));
     }
 }
