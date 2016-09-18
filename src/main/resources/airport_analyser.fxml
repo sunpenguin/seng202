@@ -28,7 +28,8 @@
             <Pane layoutX="15.0" layoutY="60.0" prefHeight="403.0" prefWidth="772.0">
                <children>
                   <PieChart fx:id="pieGraph" prefHeight="400.0" prefWidth="772.0" title="Airports per country" />
-               </children></Pane>
+               </children>
+            </Pane>
          </children>
       </Pane>
    </children>

@@ -14,10 +14,10 @@ import static javafx.collections.FXCollections.observableArrayList;
 /**
  * The GUI controller class for airport_raw_data.fxml.
  * Extends from the abstract class {@link Controller}.
- * Created by Sunguin on 2016/09/13.
+ * Created by Sunguin
  */
 public class AirportRDController extends Controller{
-
+    //Setting up the table from the FXML file
     @FXML
     private TableView<Airport> tableViewAirportRD;
     @FXML
@@ -45,6 +45,7 @@ public class AirportRDController extends Controller{
     @FXML
     private TableColumn<Airport, String> airpTzcol;
 
+    //Setting up text fields for adding data
     @FXML
     private TextField airpNameBox;
     @FXML
@@ -68,6 +69,7 @@ public class AirportRDController extends Controller{
     @FXML
     private TextField airpTzBox;
 
+    //Setting up text fields for filtering data
     @FXML
     private TextField airpNameFilter;
     @FXML
@@ -91,6 +93,7 @@ public class AirportRDController extends Controller{
     @FXML
     private TextField airpTzFilter;
 
+    //Set an empty Dataset to be assigned later
     private Dataset theDataSet = null;
 
     /**
@@ -98,6 +101,7 @@ public class AirportRDController extends Controller{
      * Also sets up the dropdown menu options.
      */
     public void load() {
+        //Sets up the table columns to be ready for use for Airport data
         airpIDcol.setCellValueFactory(new PropertyValueFactory<Airport, String>("ID"));
         airpNamecol.setCellValueFactory(new PropertyValueFactory<Airport, String>("Name"));
         airpCitycol.setCellValueFactory(new PropertyValueFactory<Airport, String>("CityName"));
@@ -111,10 +115,12 @@ public class AirportRDController extends Controller{
         airpDSTcol.setCellValueFactory(new PropertyValueFactory<Airport, String>("DST"));
         airpTzcol.setCellValueFactory(new PropertyValueFactory<Airport, String>("Tz"));
 
+        //Assigning the Dataset to the current Dataset's airports and displaying it in a table
         theDataSet = getParent().getCurrentDataset();
         tableViewAirportRD.setItems(observableArrayList(theDataSet.getAirports()));
 
-        airpDSTCBox.setValue("E");
+
+        airpDSTCBox.setValue("E");//Initializes the value for the drop-down menu for DST for adding a new Airport
         airpDSTCBox.getItems().addAll("E", "A", "S", "O", "Z", "N", "U");
     }
 
@@ -124,6 +130,8 @@ public class AirportRDController extends Controller{
      * @see Dataset
      */
     public void addAirportSingle() {
+        //Tries to add a new airport and clears the fields to their initial state if successful.
+        //Otherwise an error message will pop up with what is wrong with the manual data.
         try {
             theDataSet.addAirport(
                     airpNameBox.getText(),
@@ -158,16 +166,13 @@ public class AirportRDController extends Controller{
         }
     }
 
-    public void airportAnalyserButton() {
-        replaceSceneContent(SceneCode.AIRPORT_ANALYSER);
-    }
-
     /**
      * Deletes a single selected airport entry from the database.
      * Updates the GUI accordingly.
      * @see Dataset
      */
     public void deleteAirport(){
+        //Gets an airport from the table and deletes it before updating the table
         Airport toDelete = tableViewAirportRD.getSelectionModel().getSelectedItem();
         theDataSet.deleteAirport(toDelete);
         tableViewAirportRD.setItems(observableArrayList(theDataSet.getAirports()));
@@ -180,6 +185,7 @@ public class AirportRDController extends Controller{
      * @see AirportFilter
      */
     public void filterAirports() {
+        //The filter function also operates like a search function
         AirportFilter filter = new AirportFilter(theDataSet.getAirports());
         if (airpNameFilter.getText() != null) {
             filter.filterName(airpNameFilter.getText());
@@ -214,6 +220,13 @@ public class AirportRDController extends Controller{
         if (airpTzFilter.getText() != null) {
             filter.filterOlson(airpTzFilter.getText());
         }
+        //Sets the data according to the criteria specified by the user
         tableViewAirportRD.setItems(FXCollections.<Airport>observableArrayList(filter.getFilteredData()));
     }
+
+    /**
+     * Analyses the current data and creates a graph based on the data.
+     * @see AirportAnalyser
+     */
+    public void analyse_Button(){ replaceSceneContent(SceneCode.AIRPORT_ANALYSER);}
 }

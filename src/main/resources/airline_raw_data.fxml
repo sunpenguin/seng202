@@ -33,7 +33,7 @@
                   <Font size="29.0" />
                </font>
             </Label>
-            <Button layoutX="14.0" layoutY="526.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" text="Analyse" />
+            <Button layoutX="14.0" layoutY="526.0" mnemonicParsing="false" onAction="#analyse_Button" prefHeight="25.0" prefWidth="125.0" text="Analyse" />
             <Button layoutX="654.0" layoutY="526.0" mnemonicParsing="false" onAction="#addAirlineSingle" prefHeight="25.0" prefWidth="125.0" text="Add" />
             <Pane layoutX="14.0" layoutY="57.0" prefHeight="340.0" prefWidth="765.0">
                <children>
