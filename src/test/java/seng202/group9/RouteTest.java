@@ -42,6 +42,7 @@ public class RouteTest{
     	///////////////
     	//test setters
     	///////////////
+		route.setID(5);
     	route.setAirlineName("BAH");
     	route.setArrivalAirport("LEFT-HAND-RULE");
     	route.setDepartureAirport("SING-SONG");
@@ -49,7 +50,12 @@ public class RouteTest{
     	route.setStops(5);
     	route.setEquipment("747 840");
 
-    	assertEquals(route.getDepartureAirport(), "SING-SONG");
+		try {
+			assertTrue(route.getID() == 5);
+		} catch (DataException e) {
+			fail("ID has been set it shouldn't fail.");
+		}
+		assertEquals(route.getDepartureAirport(), "SING-SONG");
     	assertEquals(route.getArrivalAirport(), "LEFT-HAND-RULE");
     	assertEquals(route.getAirlineName(), "BAH");
     	assertEquals(route.getCode(), "Y");
