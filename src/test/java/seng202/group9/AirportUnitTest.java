@@ -100,6 +100,11 @@ public class AirportUnitTest {
 		assertEquals(heathrow.getArrivalRoutes().get(2).getArrivalAirport(), "LHR2");
 		assertEquals(heathrow.getArrivalRoutes().get(3).getArrivalAirport(), "LHR3");
 
+		heathrow.delArrivalRoutes(0);
+		assertTrue(heathrow.getArrivalRoutes().size() == 3);
+		heathrow.delArrivalRoutes(heathrow.getArrivalRoutes().get(0));
+		assertTrue(heathrow.getArrivalRoutes().size() == 2);
+
 		//check add departrue routes;
 		heathrow.addDepartureRoutes(route1);
 		heathrow.addDepartureRoutes(routes);
@@ -108,6 +113,11 @@ public class AirportUnitTest {
 		assertEquals(heathrow.getDepartureRoutes().get(1).getDepartureAirport(), "SIN1");
 		assertEquals(heathrow.getDepartureRoutes().get(2).getDepartureAirport(), "SIN2");
 		assertEquals(heathrow.getDepartureRoutes().get(3).getDepartureAirport(), "SIN3");
+
+		heathrow.delDepartureRoutes(0);
+		assertTrue(heathrow.getDepartureRoutes().size() == 3);
+		heathrow.delDepartureRoutes(heathrow.getDepartureRoutes().get(0));
+		assertTrue(heathrow.getDepartureRoutes().size() == 2);
 
 		//check set
 		heathrow.setArrivalRoutes(routes);
@@ -202,6 +212,15 @@ public class AirportUnitTest {
 		//ID, NaWme, City, Country, IATA/FFA, ICAO, Latitude, Longitude, Altitude, Timezone, DST, Tz Data
 		Airport heathrow = new Airport("Heathrow", "London", "United Kingdom", "LHR", "EGLL", 51.4775, -0.41389, 83);
 		assertEquals(heathrow.getID(), 544);//check ID no id should be thrown
+	}
+
+	@Test
+	public void checkToString(){
+		//507,"Heathrow","London","United Kingdom","LHR","EGLL",51.4775,-0.461389,83,0,"E","Europe/London"
+		//ID, NaWme, City, Country, IATA/FFA, ICAO, Latitude, Longitude, Altitude, Timezone, DST, Tz Data
+		Airport heathrow = new Airport("Heathrow", "London", "United Kingdom", "LHR", "EGLL", 51.4775, -0.41389, 83);
+		assertEquals(heathrow.toString(), "Heathrow Airport has ICAO: EGLL, IATA/FFA: LHR and is located at (51.4775, -0.41389).\n" +
+				" It has 0 departing routes and 0 arriving routes.");
 	}
 
 }

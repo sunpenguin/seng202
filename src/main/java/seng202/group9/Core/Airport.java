@@ -366,6 +366,21 @@ public class Airport {
 	public void delArrivalRoutes(int index){
 		arrivalRoutes.remove(index);
 	}
+	/**
+	 * deletes a member of departure routes by matching route pointer
+	 * @param route
+	 */
+	public void delDepartureRoutes(Route route){
+		departureRoutes.remove(route);
+	}
+
+	/**
+	 * deletes a member of departure routes by index
+	 * @param index
+	 */
+	public void delDepartureRoutes(int index){
+		departureRoutes.remove(index);
+	}
 
 	/**
 	 * Calculates the distance between this airport and another airport in kilometers.
@@ -408,7 +423,7 @@ public class Airport {
 	 */
 	@Override
 	public String toString(){
-		return this.cityName +" Airport has ICAO: "+this.ICAO+", IATA/FFA: "+this.IATA_FFA+" and is located at ("+this.latitude+", "+this.longitude
+		return this.name +" Airport has ICAO: "+this.ICAO+", IATA/FFA: "+this.IATA_FFA+" and is located at ("+this.latitude+", "+this.longitude
 				+ ").\n It has "+this.departureRoutes.size()+" departing routes and "+this.arrivalRoutes.size()+" arriving routes.";
 	}
 }
