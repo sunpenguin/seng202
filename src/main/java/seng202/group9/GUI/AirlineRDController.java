@@ -9,6 +9,8 @@ import seng202.group9.Controller.Dataset;
 import seng202.group9.Core.Airline;
 
 /**
+ * The GUI controller class for airline_raw_data.fxml.
+ * Extends from the abstract class {@link Controller}.
  * Created by Sunguin on 2016/09/13.
  */
 public class AirlineRDController extends Controller {
@@ -64,35 +66,10 @@ public class AirlineRDController extends Controller {
 
     private Dataset theDataSet = null;
 
-    //Dummy function to test the add button.
-    //Will edit when ID is added automatically.
-    public void addAirlineSingle() {
-        try {
-            theDataSet.addAirline(
-                    airlNameBox.getText(),
-                    airlAliasBox.getText(),
-                    airlIATABox.getText(),
-                    airlICAOBox.getText(),
-                    airlCallsignBox.getText(),
-                    airlCountryBox.getText(),
-                    airlActiveCBox.getSelectionModel().getSelectedItem().toString());
-            airlNameBox.clear();
-            airlAliasBox.clear();
-            airlIATABox.clear();
-            airlICAOBox.clear();
-            airlCallsignBox.clear();
-            airlCountryBox.clear();
-            airlActiveCBox.getSelectionModel().clearSelection();
-            tableViewAirlineRD.setItems(FXCollections.observableArrayList(theDataSet.getAirlines()));
-        } catch ( Exception e ) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Airline Data Error");
-            alert.setHeaderText("Error adding a custom airline entry.");
-            alert.setContentText(e.getMessage());
-            alert.showAndWait();
-        }
-    }
-
+    /**
+     * Loads the initial airline data to the GUI table.
+     * Also sets up the dropdown menu options.
+     */
     public void load() {
         airlIDcol.setCellValueFactory(new PropertyValueFactory<Airline, String>("ID"));
         airlNamecol.setCellValueFactory(new PropertyValueFactory<Airline, String>("Name"));
@@ -110,12 +87,56 @@ public class AirlineRDController extends Controller {
         airlActiveCBox.getItems().addAll("Y", "N");
     }
 
+    /**
+     * Adds a single airline entry to the database.
+     * Takes in values from the GUI the user has typed in.
+     * @see Dataset
+     */
+    public void addAirlineSingle() {
+        try {
+            theDataSet.addAirline(
+                    airlNameBox.getText(),
+                    airlAliasBox.getText(),
+                    airlIATABox.getText(),
+                    airlICAOBox.getText(),
+                    airlCallsignBox.getText(),
+                    airlCountryBox.getText(),
+                    airlActiveCBox.getSelectionModel().getSelectedItem().toString());
+            airlNameBox.clear();
+            airlAliasBox.clear();
+            airlIATABox.clear();
+            airlICAOBox.clear();
+            airlCallsignBox.clear();
+            airlCountryBox.clear();
+            airlActiveCBox.getSelectionModel().clearSelection();
+            airlActiveCBox.setValue("Y");
+            tableViewAirlineRD.setItems(FXCollections.observableArrayList(theDataSet.getAirlines()));
+        } catch ( Exception e ) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Airline Data Error");
+            alert.setHeaderText("Error adding a custom airline entry.");
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
+        }
+    }
+
+    /**
+     * Deletes a single selected airline entry from the database.
+     * Updates the GUI accordingly.
+     * @see Dataset
+     */
     public void deleteAirline() {
         Airline toDelete = tableViewAirlineRD.getSelectionModel().getSelectedItem();
         theDataSet.deleteAirline(toDelete);
         tableViewAirlineRD.setItems(FXCollections.observableArrayList(theDataSet.getAirlines()));
     }
 
+    /**
+     * Filters airlines by any field.
+     * These are specified by what the user has typed in the filter boxes.
+     * Updates the GUI accordingly.
+     * @see AirlineFilter
+     */
     public void filterAirlines() {
         AirlineFilter filter = new AirlineFilter(theDataSet.getAirlines());
         if (airlNameFilter.getText() != null) {

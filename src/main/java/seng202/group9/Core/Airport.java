@@ -89,6 +89,11 @@ public class Airport {
 	public void setID(int iD) {
 		this.ID = iD;
 	}
+
+	/**
+	 * Sets the Name of the Airport.
+	 * @param name
+	 */
 	public void setName(String name){
 		this.name = name;
 	}
@@ -148,10 +153,18 @@ public class Airport {
 		}
 	}
 
+	/**
+	 * gets the country name
+	 * @return
+	 */
 	public String getCountryName() {
 		return countryName;
 	}
 
+	/**
+	 * sets the country name
+	 * @param countryName
+	 */
 	public void setCountryName(String countryName) {
 		this.countryName = countryName;
 	}
@@ -194,13 +207,6 @@ public class Airport {
 	public String getICAO(){
 		return ICAO;
 	}
-	/**
-	 * gets the IATA/FFA of the airport
-	 * @return IATA/FFA Code
-	 */
-//	public String IATA_FFA(){
-//		return IATA_FFA;
-//	}
 	/**
 	 * gets the altitude of the airport
 	 * @return Altitude of Airport
@@ -254,7 +260,10 @@ public class Airport {
 		return country;
 	}
 
-	//JavaDoc needed
+	/**
+	 * gets the timezone of the Airport
+	 * @return
+	 */
 	public Double getTimezone() {
 		if (this.city != null) {
 			return this.city.getTimezone();
@@ -262,7 +271,11 @@ public class Airport {
 			return 0.0;
 		}
 	}
-	//JavaDoc needed
+
+	/**
+	 * gets the DST of the Country the Airport is in.
+	 * @return
+	 */
 	public String getDST() {
 		if (this.country != null) {
 			return this.country.getDST();
@@ -270,7 +283,11 @@ public class Airport {
 			return "";
 		}
 	}
-	//JavaDoc needed
+
+	/**
+	 * gets the timezone in Olson format of the country the airport is in
+	 * @return
+	 */
 	public String getTz() {
 		if (this.city != null) {
 			return this.city.getTimeOlson();
@@ -364,6 +381,12 @@ public class Airport {
 		distance = 6371 * c;
 		return distance;
 	}
+
+	/**
+	 * Checks if the airport is a semi duplicate of this class. Used to see if it passes to enter into the Database.
+	 * @param airport
+	 * @throws DataException
+	 */
 	public void hasDuplicate(Airport airport) throws DataException{
 		if (airport.getName().equals("") || airport.getName().equals(this.name)){
 			throw new DataException("Airport Name already Exists, Please Choose Another.");
@@ -378,7 +401,6 @@ public class Airport {
 	/**
 	 * Information of the airport returned in String format.
 	 */
-
 	@Override
 	public String toString(){
 		return this.cityName +" Airport has ICAO: "+this.ICAO+", IATA/FFA: "+this.IATA_FFA+" and is located at ("+this.latitude+", "+this.longitude

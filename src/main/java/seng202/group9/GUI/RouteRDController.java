@@ -4,16 +4,14 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import seng202.group9.Controller.App;
-import seng202.group9.Controller.DataException;
 import seng202.group9.Controller.Dataset;
 import seng202.group9.Controller.SceneCode;
 import seng202.group9.Controller.RouteFilter;
 import seng202.group9.Core.Route;
 
-import java.util.ArrayList;
-
 /**
+ * The GUI controller class for route_raw_data.fxml.
+ * Extends from the abstract class {@link Controller}.
  * Created by Sunguin on 2016/09/14.
  */
 public class RouteRDController extends Controller {
@@ -64,42 +62,13 @@ public class RouteRDController extends Controller {
     private TextField rStopsFilter;
     @FXML
     private TextField rEquipmentFilter;
-    @FXML
+
     private Dataset theDataSet = null;
 
-    public void addRouteSingle() {
-        try {
-            theDataSet.addRoute(
-                    rAirlineBox.getText(),
-                    rSourceBox.getText(),
-                    rDestBox.getText(),
-                    rCodeshareCBox.getSelectionModel().getSelectedItem().toString(),
-                    rStopsBox.getText(),
-                    rEquipmentBox.getText()
-            );
-            rAirlineBox.clear();
-            rSourceBox.clear();
-            rDestBox.clear();
-            rCodeshareCBox.getSelectionModel().clearSelection();
-            rStopsBox.clear();
-            rEquipmentBox.clear();
-            tableViewRouteRD.setItems(FXCollections.observableArrayList(theDataSet.getRoutes()));
-        } catch (DataException e){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Route Data Error");
-            alert.setHeaderText("Error adding a custom route entry.");
-            alert.setContentText(e.getMessage());
-            alert.showAndWait();
-        } catch ( Exception e ) {
-            e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Route Error");
-            alert.setHeaderText("Error adding a custom route entry.");
-            alert.setContentText(e.getMessage());
-            alert.showAndWait();
-        }
-    }
-
+    /**
+     * Loads the initial route data to the GUI table.
+     * Also sets up the dropdown menu options.
+     */
     public void load() {
         rAirlineCol.setCellValueFactory(new PropertyValueFactory<Route, String>("AirlineName"));
         rAirlineIDCol.setCellValueFactory(new PropertyValueFactory<Route, String>("AirlineID"));
@@ -116,19 +85,60 @@ public class RouteRDController extends Controller {
 
         rCodeshareCBox.setValue("");
         rCodeshareCBox.getItems().addAll("Y", "");
-
     }
 
+    /**
+     * Adds a single route entry in the database.
+     * Takes in values from the GUI the user has typed in.
+     * @see Dataset
+     */
+    public void addRouteSingle() {
+        try {
+            theDataSet.addRoute(
+                    rAirlineBox.getText(),
+                    rSourceBox.getText(),
+                    rDestBox.getText(),
+                    rCodeshareCBox.getSelectionModel().getSelectedItem().toString(),
+                    rStopsBox.getText(),
+                    rEquipmentBox.getText()
+            );
+            rAirlineBox.clear();
+            rSourceBox.clear();
+            rDestBox.clear();
+            rCodeshareCBox.getSelectionModel().clearSelection();
+            rCodeshareCBox.setValue("");
+            rStopsBox.clear();
+            rEquipmentBox.clear();
+            tableViewRouteRD.setItems(FXCollections.observableArrayList(theDataSet.getRoutes()));
+        } catch ( Exception e ) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Route Data Error");
+            alert.setHeaderText("Error adding a custom route entry.");
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
+        }
+    }
+
+    /**
+     * Deletes a single selected route entry from the database.
+     * Updates the GUI accordingly.
+     * @see Dataset
+     */
     public void deleteRoute(){
         Route toDelete = tableViewRouteRD.getSelectionModel().getSelectedItem();
         theDataSet.deleteRoute(toDelete);
         tableViewRouteRD.setItems(FXCollections.observableArrayList(theDataSet.getRoutes()));
     }
 
+    /**
+     * Filters the routes table by any field.
+     * These are specified by what the user has typed in the filter boxes.
+     * Updates the GUI accordingly.
+     * @see RouteFilter
+     */
     public void filterRoutes(){
         RouteFilter filter = new RouteFilter(theDataSet.getRoutes());
         if (rAirlineFilter.getText() != null) {
-            //System.out.println("Hello over here");
             filter.filterAirline(rAirlineFilter.getText());
         }
         if (rSourceFilter.getText() != null) {
@@ -146,8 +156,6 @@ public class RouteRDController extends Controller {
         if (rEquipmentFilter.getText() != null) {
             filter.filterEquipment(rEquipmentFilter.getText());
         }
-//        System.out.println("Hello");
-//        filter.printFilter();
         tableViewRouteRD.setItems(FXCollections.<Route>observableArrayList(filter.getFilteredData()));
     }
 

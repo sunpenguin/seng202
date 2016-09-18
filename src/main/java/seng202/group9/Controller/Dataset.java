@@ -1,6 +1,7 @@
 package seng202.group9.Controller;
 
 
+import javafx.scene.chart.PieChart;
 import seng202.group9.Core.*;
 
 import java.sql.Connection;
@@ -787,6 +788,15 @@ public class Dataset {
      */
     public void addAirline(String name, String alias, String IATA, String ICAO, String callsign, String country, String active) throws DataException{
         Airline airlineToAdd = new Airline(name, alias, IATA, ICAO, callsign, country, active);
+        if (name.equals("")) {
+            throw new DataException("You cannot have a blank airline name.");
+        }
+        if (alias.length() <= 0) {
+            throw new DataException("Please insert '\\N' if the airline has no alias.");
+        }
+        if (country.equals("")) {
+            throw new DataException("You cannot have a blank country of origin field.");
+        }
         addAirline(airlineToAdd);
     }
 
@@ -828,6 +838,8 @@ public class Dataset {
             airlineToAdd.setID(airlineID);
             airlines.add(airlineToAdd);
             airlineDictionary.put(airlineToAdd.getName(), airlineToAdd);
+            stmt.close();
+            c.close();
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
             System.exit(0);
@@ -838,10 +850,17 @@ public class Dataset {
     public void addAirport(String name, String city, String country, String IATA_FFA, String ICAO, String latitude, String longitude,
                            String altitude, String timezone, String DST, String olsonTz) throws DataException{
         try{
+            //System.out.print(name + city + country + IATA_FFA + ICAO + latitude + longitude + altitude + timezone + DST + olsonTz);
             double latitudeVal = Double.parseDouble(latitude);
             double longitudeVal = Double.parseDouble(longitude);
             double altitudeVal = Double.parseDouble(altitude);
             double timezoneVal = Double.parseDouble(timezone);
+            if (city.equals("")) {
+                throw new DataException("You cannot have a blank city name.");
+            }
+            if (country.equals("")) {
+                throw new DataException("You cannot have a blank country name.");
+            }
             Airport airportToAdd = new Airport(name, city, country, IATA_FFA, ICAO, latitudeVal, longitudeVal, altitudeVal);
             City cityToAdd = new City(city, country, timezoneVal, olsonTz);
             Country countryToAdd = new Country(DST, country);
@@ -855,14 +874,14 @@ public class Dataset {
     }
 
     public void addAirport(Airport airportToAdd) throws DataException{
-        if (airportToAdd.getIATA_FFA() != "" && airportToAdd.getIATA_FFA().length() != 3){
+        if (airportToAdd.getIATA_FFA().length() != 0 && airportToAdd.getIATA_FFA().length() != 3){
             throw new DataException("IATA/FFA either empty or 3 letters");
         }
-        if (airportToAdd.getICAO() != "" && airportToAdd.getICAO().length() != 4){
+        if (airportToAdd.getICAO().length() != 0 && airportToAdd.getICAO().length() != 4){
             throw new DataException("ICAO either empty or 4 letters");
         }
-        if (airportToAdd.getName() == ""){
-            throw new DataException("An Airport cannot have no name.");
+        if (airportToAdd.getName().equals("")) {
+            throw new DataException("You cannot have an airport without a name.");
         }
         for (String key : airportDictionary.keySet()){
             airportDictionary.get(key).hasDuplicate(airportToAdd);
@@ -900,7 +919,6 @@ public class Dataset {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
             System.exit(0);
         }
-        createDataLinks();
     }
 
     public void addCity(City city){
@@ -1024,6 +1042,8 @@ public class Dataset {
             //routeAirline + routeSourceAirport + routeArrvAirport + routeCodeShare + routeStops + routeEquip
             String routeKey = routeToAdd.getAirline() + routeToAdd.getDepartureAirport() + routeToAdd.getArrivalAirport() + routeToAdd.getCode() + routeToAdd.getStops() + routeToAdd.getEquipment();
             routeDictionary.put(routeKey, routeToAdd);
+            stmt.close();
+            c.close();
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
             System.exit(0);
@@ -1206,19 +1226,19 @@ public class Dataset {
             //check if number of countries that contain airlines > 0 else delete the country
             String countCountry = "SELECT COUNT(*) FROM `"+this.name+"_Airline` JOIN `"+this.name+"_Country` ON" +
                     " `"+this.name+"_Country`.`Country_Name` = `"+this.name+"_Airline`.`Country`" +
-                    " WHERE `"+this.name+"_Airline`.`Country` = \""+airline.getCountry().getName().replace("\"", "\"\"")+"\"";
+                    " WHERE `"+this.name+"_Airline`.`Country` = \""+airline.getCountryName().replace("\"", "\"\"")+"\"";
             ResultSet countCountryRes = stmt.executeQuery(countCountry);
             int countryCount = 0;
-            while (countCountryRes.next()){
-                countryCount +=  countCountryRes.getInt("COUNT(*)");
+            while (countCountryRes.next()) {
+                countryCount += countCountryRes.getInt("COUNT(*)");
             }
             countCountryRes.close();
             stmt.close();
-
+            stmt = c.createStatement();
             //check if number of counties that contain airports > 0 else delete the country
             String countCountryA = "SELECT COUNT(*) FROM `"+this.name+"_Airport` JOIN `"+this.name+"_Country` ON" +
                     " `"+this.name+"_Country`.`Country_Name` = `"+this.name+"_Airport`.`Country`" +
-                    " WHERE `"+this.name+"_Airport`.`Country` = \""+airline.getCountry().getName().replace("\"", "\"\"")+"\"";
+                    " WHERE `"+this.name+"_Airport`.`Country` = \""+airline.getCountryName().replace("\"", "\"\"")+"\"";
             countCountryRes = stmt.executeQuery(countCountryA);
             while (countCountryRes.next()){
                 countryCount +=  countCountryRes.getInt("COUNT(*)");
@@ -1228,12 +1248,13 @@ public class Dataset {
             //delete country if there are no matches
             if (countryCount == 0){
                 stmt = c.createStatement();
-                String deleteCountry = "DELETE FROM `"+this.name+"_Country` WHERE `Country_Name` = \""+airline.getCountry().getName()+"\"";
+                String deleteCountry = "DELETE FROM `"+this.name+"_Country` WHERE `Country_Name` = \""+airline.getCountryName()+"\"";
                 stmt.execute(deleteCountry);
                 stmt.close();
             }
             c.close();
         } catch ( Exception e ) {
+            e.printStackTrace();
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
             //System.exit(0);
         }
