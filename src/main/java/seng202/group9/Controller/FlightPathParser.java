@@ -108,7 +108,7 @@ public class FlightPathParser extends Parser {
                     continue;
                 }
                 //cehck sizes of [][] eg {3,0} will check if length == 3 or == 0. if -1 the size is ignored
-                int partSizes[][] = {{3}, {-1}, {-1}, {-1}, {-1}};
+                int partSizes[][] = {{3,6}, {-1}, {-1}, {-1}, {-1}};
                 for (int i = 0; i < partSizes.length; i ++){
                     boolean passable = false;
                     for (int j = 0; j < partSizes[i].length; j++){
