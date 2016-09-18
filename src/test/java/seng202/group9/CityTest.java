@@ -5,6 +5,7 @@ package seng202.group9;/**
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+import seng202.group9.Controller.DataException;
 import seng202.group9.Core.Airport;
 import seng202.group9.Core.City;
 
@@ -37,7 +38,7 @@ public class CityTest {
     @Test
     public void testAirports(){
         City matsumoto = new City("Matsumoto", "Japan", 9, "Asia/Tokyo");
-        Airport matsumotoAirport = new Airport(2280,"Matsumoto","Matsumoto","Japan","MMJ","RJAF",36.166758,137.922669,2182);
+        Airport matsumotoAirport = new Airport(2280, "Matsumoto", "Matsumoto", "Japan", "MMJ", "RJAF", 36.166758, 137.922669, 2182);
         assertTrue(matsumoto.getAirports().size() == 0);
         matsumoto.addAirport(matsumotoAirport);
         assertEquals(matsumoto.getAirports().get(0), matsumotoAirport);
@@ -49,15 +50,29 @@ public class CityTest {
         airports.add(matsumotoAirport);
         matsumoto.addAirport(airports);
         assertTrue(matsumoto.getAirports().size() == 2);
-        matsumoto.delAirport(0);
-        assertTrue(matsumoto.getAirports().size() == 1);
-        matsumoto.delAirport(0);
-        //try to remove more than the city has for airports
-        matsumoto.delAirport(0);
+        try {
+            matsumoto.delAirport(0);
+            assertTrue(matsumoto.getAirports().size() == 1);
+            matsumoto.delAirport(0);
+        }catch (DataException e){
+
+        }
         matsumoto.delAirport(matsumotoAirport);
         //set the airports
         matsumoto.setAirports(airports);
         assertTrue(matsumoto.getAirports().size() == 2);
+    }
+
+    @Test(expected = DataException.class)
+    public void testDelAirportsMissingIndexErrors() throws DataException{
+        City matsumoto = new City("Matsumoto", "Japan", 9, "Asia/Tokyo");
+        matsumoto.delAirport(0);
+    }
+
+    @Test(expected = DataException.class)
+    public void testDelAirportsNegativeIndexErrors() throws DataException{
+        City matsumoto = new City("Matsumoto", "Japan", 9, "Asia/Tokyo");
+        matsumoto.delAirport(-1);
     }
 
     @Test

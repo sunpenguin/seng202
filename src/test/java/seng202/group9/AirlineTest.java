@@ -11,6 +11,7 @@ import seng202.group9.Core.Route;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * Test the functions for the Airline
@@ -102,14 +103,34 @@ public class AirlineTest{
     	assertEquals(allNipponAirways.getRoutes().get(1), route2);
     	assertEquals(allNipponAirways.getRoutes().get(2), route1);
     	assertEquals(allNipponAirways.getRoutes().get(3), route2);
-
-		allNipponAirways.delRoutes(3);
+		try {
+			allNipponAirways.delRoutes(3);
+		}catch (DataException e){
+			fail("3 is a valid deletable index.");
+		}
 		assertTrue(allNipponAirways.getRoutes().size() == 3);
 
 		allNipponAirways.delRoutes(route2);
 		assertTrue(allNipponAirways.getRoutes().size() == 2);
-
     }
+
+    @Test(expected = DataException.class)
+    public void testInvalidRouteDelete() throws DataException{
+		//ID, Name, Alias, IATA, ICAO, CallSign, Country, Active
+		//324,"All Nippon Airways","ANA All Nippon Airways","NH","ANA","ALL NIPPON","Japan","Y"
+		Airline allNipponAirways = new Airline(324, "All Nippon Airways", "ANA All Nippon Airways",
+				"NH", "ANA", "ALL NIPPON", "Japan", "Y");
+		allNipponAirways.delRoutes(0);
+	}
+
+	@Test(expected = DataException.class)
+	public void testInvalidIndexRouteDelete() throws DataException{
+		//ID, Name, Alias, IATA, ICAO, CallSign, Country, Active
+		//324,"All Nippon Airways","ANA All Nippon Airways","NH","ANA","ALL NIPPON","Japan","Y"
+		Airline allNipponAirways = new Airline(324, "All Nippon Airways", "ANA All Nippon Airways",
+				"NH", "ANA", "ALL NIPPON", "Japan", "Y");
+		allNipponAirways.delRoutes(-1);
+	}
 
     @Test(expected = DataException.class)
 	public void hasDuplicateNameTest() throws DataException {

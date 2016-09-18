@@ -2,6 +2,7 @@ package seng202.group9.Core;
 
 import java.util.ArrayList;
 
+import javafx.scene.chart.PieChart;
 import seng202.group9.Controller.DataException;
 /**
  * Airport Class
@@ -363,8 +364,12 @@ public class Airport {
 	 * deletes a member of arrival routes by index
 	 * @param index
 	 */
-	public void delArrivalRoutes(int index){
-		arrivalRoutes.remove(index);
+	public void delArrivalRoutes(int index) throws DataException{
+		if (arrivalRoutes.size() > index && index >= 0) {
+			arrivalRoutes.remove(index);
+		}else{
+			throw new DataException("Index "+index+" of number of Arrival Routes array size.");
+		}
 	}
 	/**
 	 * deletes a member of departure routes by matching route pointer
@@ -378,8 +383,12 @@ public class Airport {
 	 * deletes a member of departure routes by index
 	 * @param index
 	 */
-	public void delDepartureRoutes(int index){
-		departureRoutes.remove(index);
+	public void delDepartureRoutes(int index) throws DataException{
+		if (departureRoutes.size() > index && index >= 0) {
+			departureRoutes.remove(index);
+		}else{
+			throw new DataException("Index "+index+" is out of number of Departure Routes array size.");
+		}
 	}
 
 	/**

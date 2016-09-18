@@ -2,6 +2,7 @@ package seng202.group9.Core;
 
 import seng202.group9.Controller.DataException;
 
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 
 /**
@@ -251,8 +252,12 @@ public class Airline{
 	 * deletes a route by matching index keep in mind that the array position will change for all indexs after this.
 	 * @param index
 	 */
-	public void delRoutes(int index){
-		routes.remove(index);
+	public void delRoutes(int index) throws DataException{
+		if (routes.size() > index && index >= 0) {
+			routes.remove(index);
+		}else{
+			throw new DataException("The Route at index "+index+ "does not exist to be deleted.");
+		}
 	}
 
 	/**

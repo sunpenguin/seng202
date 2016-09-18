@@ -100,7 +100,12 @@ public class AirportUnitTest {
 		assertEquals(heathrow.getArrivalRoutes().get(2).getArrivalAirport(), "LHR2");
 		assertEquals(heathrow.getArrivalRoutes().get(3).getArrivalAirport(), "LHR3");
 
-		heathrow.delArrivalRoutes(0);
+		try {
+			heathrow.delArrivalRoutes(0);
+		} catch (DataException e) {
+
+		}
+
 		assertTrue(heathrow.getArrivalRoutes().size() == 3);
 		heathrow.delArrivalRoutes(heathrow.getArrivalRoutes().get(0));
 		assertTrue(heathrow.getArrivalRoutes().size() == 2);
@@ -114,7 +119,11 @@ public class AirportUnitTest {
 		assertEquals(heathrow.getDepartureRoutes().get(2).getDepartureAirport(), "SIN2");
 		assertEquals(heathrow.getDepartureRoutes().get(3).getDepartureAirport(), "SIN3");
 
-		heathrow.delDepartureRoutes(0);
+		try {
+			heathrow.delDepartureRoutes(0);
+		} catch (DataException e) {
+
+		}
 		assertTrue(heathrow.getDepartureRoutes().size() == 3);
 		heathrow.delDepartureRoutes(heathrow.getDepartureRoutes().get(0));
 		assertTrue(heathrow.getDepartureRoutes().size() == 2);
@@ -212,6 +221,38 @@ public class AirportUnitTest {
 		//ID, NaWme, City, Country, IATA/FFA, ICAO, Latitude, Longitude, Altitude, Timezone, DST, Tz Data
 		Airport heathrow = new Airport("Heathrow", "London", "United Kingdom", "LHR", "EGLL", 51.4775, -0.41389, 83);
 		assertEquals(heathrow.getID(), 544);//check ID no id should be thrown
+	}
+
+	@Test(expected = DataException.class)
+	public void checkDelArrivalNoIndexFailure() throws DataException{
+		//507,"Heathrow","London","United Kingdom","LHR","EGLL",51.4775,-0.461389,83,0,"E","Europe/London"
+		//ID, NaWme, City, Country, IATA/FFA, ICAO, Latitude, Longitude, Altitude, Timezone, DST, Tz Data
+		Airport heathrow = new Airport("Heathrow", "London", "United Kingdom", "LHR", "EGLL", 51.4775, -0.41389, 83);
+		heathrow.delArrivalRoutes(0);
+	}
+
+	@Test(expected = DataException.class)
+	public void checkDelArrivalNegativeIndexFailure() throws DataException{
+		//507,"Heathrow","London","United Kingdom","LHR","EGLL",51.4775,-0.461389,83,0,"E","Europe/London"
+		//ID, NaWme, City, Country, IATA/FFA, ICAO, Latitude, Longitude, Altitude, Timezone, DST, Tz Data
+		Airport heathrow = new Airport("Heathrow", "London", "United Kingdom", "LHR", "EGLL", 51.4775, -0.41389, 83);
+		heathrow.delArrivalRoutes(-1);
+	}
+
+	@Test(expected = DataException.class)
+	public void checkDelDepartureNoIndexFailure() throws DataException{
+		//507,"Heathrow","London","United Kingdom","LHR","EGLL",51.4775,-0.461389,83,0,"E","Europe/London"
+		//ID, NaWme, City, Country, IATA/FFA, ICAO, Latitude, Longitude, Altitude, Timezone, DST, Tz Data
+		Airport heathrow = new Airport("Heathrow", "London", "United Kingdom", "LHR", "EGLL", 51.4775, -0.41389, 83);
+		heathrow.delDepartureRoutes(0);
+	}
+
+	@Test(expected = DataException.class)
+	public void checkDelDepatureNegativeIndexFailure() throws DataException{
+		//507,"Heathrow","London","United Kingdom","LHR","EGLL",51.4775,-0.461389,83,0,"E","Europe/London"
+		//ID, NaWme, City, Country, IATA/FFA, ICAO, Latitude, Longitude, Altitude, Timezone, DST, Tz Data
+		Airport heathrow = new Airport("Heathrow", "London", "United Kingdom", "LHR", "EGLL", 51.4775, -0.41389, 83);
+		heathrow.delDepartureRoutes(-1);
 	}
 
 	@Test
