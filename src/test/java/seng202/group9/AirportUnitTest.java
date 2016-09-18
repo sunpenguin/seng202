@@ -35,6 +35,7 @@ public class AirportUnitTest {
 		}
 		assertEquals(heathrow.getName(), "Heathrow");
 		assertEquals(heathrow.getCityName(), "London");//check city
+		assertEquals(heathrow.getCountryName(), "United Kingdom");
 		assertEquals(heathrow.getIATA_FFA(), "LHR");//check IATA/FFA
 		assertEquals(heathrow.getICAO(), "EGLL");//check ICAO
 		assertTrue(heathrow.getLatitude() == 51.4775);//check latitude
@@ -53,6 +54,8 @@ public class AirportUnitTest {
 		assertEquals(heathrow.getName(), "Hearthstone");
 		heathrow.setCityName("Blizzard Servers");//check city
 		assertEquals(heathrow.getCityName(), "Blizzard Servers");
+		heathrow.setCountryName("America");
+		assertEquals(heathrow.getCountryName(), "America");
 		heathrow.setIATA_FFA("HTS");//test set IATA/FFA
 		assertEquals(heathrow.getIATA_FFA(), "HTS");
 		heathrow.setICAO("BLIZ");// test set ICAO

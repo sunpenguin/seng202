@@ -264,7 +264,7 @@ public class Airline{
 		if (this.name.equals(airline.getName())){
 			throw new DataException("This Airline Name already Exists, Please Choose Another.");
 		}
-		if (this.name.equals("")){
+		if (airline.getName().equals("")){
 			throw new DataException("This Airline Name cannot be Empty");
 		}
 		if (!this.IATA.equals("") && this.IATA.equals(airline.getIATA())){
