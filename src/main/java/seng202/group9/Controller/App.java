@@ -64,11 +64,10 @@ public class App extends Application
 
 		//testing out dataset
 		try {
-			currentDataset = new Dataset("test's", Dataset.getExisting);
+			currentDataset = new Dataset("test's", Dataset.createNew);
 			datasets.add(currentDataset);
 		}catch (DataException e){
 			e.printStackTrace();
-
 		}
 		//after all loading then load the previous session
 		try{
