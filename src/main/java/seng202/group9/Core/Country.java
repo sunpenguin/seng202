@@ -3,11 +3,14 @@ package seng202.group9.Core;
 import seng202.group9.Controller.DataException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Country {
 	private String DST, name;
 	private ArrayList<City> cities = new ArrayList<City>();
 	private ArrayList<Airline> airlines = new ArrayList<Airline>();
+	private HashMap<String, Airline> airlineDict = new HashMap<String, Airline>();
+	private HashMap<String, City> cityDict = new HashMap<String, City>();
 	private Position position;
 
 	/**
@@ -42,8 +45,10 @@ public class Country {
 	 */
 	public void setAirlines(ArrayList<Airline> airlines) {
 		this.airlines = new ArrayList<Airline>();
+		this.airlineDict = new HashMap<String, Airline>();
 		for (int i = 0; i < airlines.size(); i ++) {
 			this.airlines.add(airlines.get(i));
+			airlineDict.put(airlines.get(i).getName(), airlines.get(i));
 		}
 	}
 
@@ -76,7 +81,10 @@ public class Country {
 	 * @param airline
 	 */
 	public void addAirline(Airline airline){
-		this.airlines.add(airline);
+		if (!airlineDict.containsKey(airline.getName())) {
+			this.airlines.add(airline);
+			airlineDict.put(airline.getName(), airline);
+		}
 	}
 
 	/**
@@ -95,6 +103,7 @@ public class Country {
 	 */
 	public void delAirline(Airline airline){
 		airlines.remove(airline);
+		airlineDict.remove(airline.getName());
 	}
 
 	/**
@@ -103,6 +112,7 @@ public class Country {
 	 */
 	public void delAirline(int index) throws DataException{
 		if (airlines.size() > index && index >= 0) {
+			airlineDict.remove(airlines.get(index).getName());
 			airlines.remove(index);
 		}else{
 			throw new DataException("Index " + index + " does not exist in list of Airlines in this Country.");
@@ -115,8 +125,10 @@ public class Country {
 	 */
 	public void setCities(ArrayList<City> cities){
 		this.cities = new ArrayList<City>();
+		this.cityDict = new HashMap<String, City>();
 		for (int i = 0; i < cities.size(); i++){
 			this.cities.add(cities.get(i));
+			cityDict.put(cities.get(i).getName(), cities.get(i));
 		}
 	}
 
@@ -125,7 +137,10 @@ public class Country {
 	 * @param city
 	 */
 	public void addCities(City city){
-		this.cities.add(city);
+		if (!cityDict.containsKey(city.getName())) {
+			this.cities.add(city);
+			cityDict.put(city.getName(), city);
+		}
 	}
 
 	/**

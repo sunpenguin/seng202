@@ -130,10 +130,8 @@ public class FlightPath {
 	 * @param index
 	 */
 	public void addFlightPoint(FlightPoint flightPoint, int index){
-		if (index >= flightPoints.size()){
+		if (index >= flightPoints.size() || index < 0){
 			flightPoints.add(flightPoint);
-		}else if (index < 0){
-			flightPoints.add(0, flightPoint);
 		}else {
 			flightPoints.add(index, flightPoint);
 		}

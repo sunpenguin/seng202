@@ -709,6 +709,7 @@ public class Dataset {
                 insertFlightPointQuery += "(" + flightPathId +", \""+ flightName +"\", \"" + flightType + "\",  "+ flightAltitude + ", " +
                         "" + flightLatitude + ", " + flightLongitude + ")";
                 flightPointsToImport.get(i).setID(nextID);
+                flightPointsToImport.get(i).setIndexID(flightPathId);
                 //add data to dataset array.
                 //this is placed after incase the database messes up
                 flightPathToAdd.addFlightPoint(flightPointsToImport.get(i));
@@ -739,11 +740,23 @@ public class Dataset {
     public void createDataLinks(){
         //this may be seperated into more sepearate function in the future for time optimisation
         HashMap<String, Airline> airlineByIATA= new HashMap<String, Airline>();
+        for (Country country: countries){
+            country.setAirlines(new ArrayList<Airline>());
+            country.setCities(new ArrayList<City>());
+        }
+        for (City city: cities){
+            city.setAirports(new ArrayList<Airport>());
+        }
         //create Airline country link
         for (Airline airline: airlines){
             airlineByIATA.put(airline.getIATA(), airline);
             //System.out.println(airline.getAlias());
+            airline.setRoutes(new ArrayList<Route>());
             airline.setCountry(countryDictionary.get(airline.getCountryName()));
+            Country country = countryDictionary.get(airline.getCountryName());
+            if (country != null){
+                country.addAirline(airline);
+            }
         }
         //create Airport City and Country Link
         HashMap<String, Airport> airportsByIATA = new HashMap<String, Airport>(); //this is used later for connecting the routes
@@ -757,6 +770,8 @@ public class Dataset {
             //TODO Add City in country (This is extra work).
             airport.setCity(cityDictionary.get(airport.getCityName()));
             airport.getCity().addAirport(airport);
+            airport.setDepartureRoutes(new ArrayList<Route>());
+            airport.setArrivalRoutes(new ArrayList<Route>());
         }
         //set Airport variables for route
         for (Route route: routes){
@@ -771,6 +786,10 @@ public class Dataset {
                 route.setDestinationAirport(airportsByIATA.get(route.getArrivalAirport()));
             }
             route.setAirline(airlineByIATA.get(route.getAirlineName()));
+            Airline airline = airlineByIATA.get(route.getAirlineName());
+            if (airline != null){
+                airline.addRoutes(route);
+            }
         }
         System.out.println("Links Made");
     }
@@ -877,7 +896,7 @@ public class Dataset {
         return name;
     }
 
-    public void addAirport(Airport airportToAdd) throws DataException{
+    private void addAirport(Airport airportToAdd) throws DataException{
         if (airportToAdd.getIATA_FFA().length() != 0 && airportToAdd.getIATA_FFA().length() != 3){
             throw new DataException("IATA/FFA either empty or 3 letters");
         }
@@ -1045,7 +1064,7 @@ public class Dataset {
             routeToAdd.setID(routeID);
             routes.add(routeToAdd);
             //routeAirline + routeSourceAirport + routeArrvAirport + routeCodeShare + routeStops + routeEquip
-            String routeKey = routeToAdd.getAirline() + routeToAdd.getDepartureAirport() + routeToAdd.getArrivalAirport() + routeToAdd.getCode() + routeToAdd.getStops() + routeToAdd.getEquipment();
+            String routeKey = routeToAdd.getAirlineName() + routeToAdd.getDepartureAirport() + routeToAdd.getArrivalAirport() + routeToAdd.getCode() + routeToAdd.getStops() + routeToAdd.getEquipment();
             routeDictionary.put(routeKey, routeToAdd);
             stmt.close();
             c.close();
@@ -1105,7 +1124,7 @@ public class Dataset {
      * @param totDist
      */
     public void addFlightPointToPath(int id, String name, String type, String via, String altitude, String latitude, String longitude,
-                               String heading, String legDist, String totDist) throws DataException{
+                               String heading, String legDist, String totDist , int index) throws DataException{
         double altitudeVal = 0.0;
         double latitudeVal = 0.0;
         double longitudeVal = 0.0;
@@ -1176,9 +1195,24 @@ public class Dataset {
 
         FlightPoint pointToAdd = new FlightPoint(name, pointID+1, id, type, via, headingVal, altitudeVal, legDistVal,
                 totalDistVal,latitudeVal, longitudeVal);
-        flightPathDictionary.get(id).addFlightPoint(pointToAdd);
+        flightPathDictionary.get(Integer.valueOf(id)).addFlightPoint(pointToAdd, index);
+    }
 
+    public void addFlightPointToPath(FlightPoint point, int index) throws DataException{
+        addFlightPointToPath(point.getIndex(), point.getName(), point.getType(), point.getVia(), String.valueOf(point.getAltitude()),
+                String.valueOf( point.getLatitude()),String.valueOf(point.getLongitude()),
+                String.valueOf(point.getHeading()), String.valueOf(point.getLegDistance()), String.valueOf(point.getTotalDistance()), index);
+    }
 
+    public void addFlightPointToPath(FlightPoint point) throws DataException{
+        addFlightPointToPath(point.getIndex(), point.getName(), point.getType(), point.getVia(), String.valueOf(point.getAltitude()),
+                String.valueOf( point.getLatitude()),String.valueOf(point.getLongitude()),
+                String.valueOf(point.getHeading()), String.valueOf(point.getLegDistance()), String.valueOf(point.getTotalDistance()), -1);
+    }
+
+    public void addFlightPointToPath(int id, String name, String type, String via, String altitude, String latitude, String longitude,
+                                     String heading, String legDist, String totDist) throws DataException{
+        addFlightPointToPath(id, name, type, via, altitude, latitude, longitude, heading, legDist, totDist, -1);
     }
     /**
      * This is called in conjunction to the App deleteDataset DO NOT CALL UNLESS THROUGH APP.DELETEDATASET
@@ -1264,6 +1298,8 @@ public class Dataset {
             //System.exit(0);
         }
         airlines.remove(airline);
+        airlineDictionary.remove(airline.getName());
+        createDataLinks();
     }
 
     public void deleteAirline(int index){
@@ -1312,6 +1348,8 @@ public class Dataset {
                 String deleteCountry = "DELETE FROM `"+this.name+"_Country` WHERE `Country_Name` = \""+airport.getCountry().getName()+"\"";
                 stmt.execute(deleteCountry);
                 stmt.close();
+                countries.remove(countryDictionary.get(airport.getCountryName()));
+                countryDictionary.remove(airport.getCountryName());
             }
             //cehck if number cities that contain airports > 0 else delete the city
             String countCity = "SELECT COUNT(*) FROM `"+this.name+"_Airport` JOIN `"+this.name+"_City` ON" +
@@ -1330,6 +1368,8 @@ public class Dataset {
                 String deleteCity = "DELETE FROM `"+this.name+"_City` WHERE `City_Name` = \""+airport.getCityName()+"\"";
                 stmt.execute(deleteCity);
                 stmt.close();
+                cities.remove(cityDictionary.get(airport.getCityName()));
+                cityDictionary.remove(airport.getCityName());
             }
             c.close();
         } catch ( Exception e ) {
@@ -1337,6 +1377,8 @@ public class Dataset {
             System.exit(0);
         }
         airports.remove(airport);
+        airportDictionary.remove(airport.getName());
+        createDataLinks();
     }
 
     public void deleteAirport(int index){
@@ -1362,6 +1404,10 @@ public class Dataset {
             System.exit(0);
         }
         routes.remove(route);
+        //routeAirline + routeSourceAirport + routeArrvAirport + routeCodeShare + routeStops + routeEquip
+        String key = route.getAirlineName() + route.getDepartureAirport() + route.getArrivalAirport() + route.getCode() + route.getStops() + route.getEquipment();
+        routeDictionary.remove(key);
+        createDataLinks();
     }
 
     public void deleteRoute(int index){
@@ -1391,6 +1437,11 @@ public class Dataset {
             System.exit(0);
         }
         flightPaths.remove(flightPath);
+        try {
+            flightPathDictionary.remove(flightPath.getID());
+        } catch (DataException e) {
+            e.printStackTrace();
+        }
     }
 
     public void deleteFlightPath(int index){
@@ -1420,7 +1471,7 @@ public class Dataset {
     }
 
     public void deleteFlightPoint(int pathIndex, int pointIndex){
-        deleteFlightPoint(flightPaths.get(pathIndex).getFlightPoints().get(pointIndex), flightPaths.get(pathIndex));
+        deleteFlightPoint(flightPathDictionary.get(pathIndex).getFlightPoints().get(pointIndex), flightPathDictionary.get(pathIndex));
     }
 
     public ArrayList<Airline> getAirlines() {

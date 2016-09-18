@@ -93,7 +93,7 @@ public class FlightPathTest {
         flightPath.addFlightPoint(endPoint, -1);
         flightPath.addFlightPoint(endPoint, 100);
 
-        assertEquals(flightPath.getFlightPoints().get(0), endPoint);
+        assertEquals(flightPath.getFlightPoints().get(4), endPoint);
         assertEquals(flightPath.getFlightPoints().get(4), endPoint);
     }
 
