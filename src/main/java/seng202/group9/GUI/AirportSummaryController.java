@@ -55,8 +55,8 @@ public class AirportSummaryController extends Controller{
     public void load() {
         currentData = getParent().getCurrentDataset();
         columnName.setCellValueFactory(new PropertyValueFactory<Airport, String>("Name"));
-        columnCity.setCellValueFactory(new PropertyValueFactory<Airport, String>("City"));
-        columnCountry.setCellValueFactory(new PropertyValueFactory<Airport, String>("Country"));
+        columnCity.setCellValueFactory(new PropertyValueFactory<Airport, String>("CityName"));
+        columnCountry.setCellValueFactory(new PropertyValueFactory<Airport, String>("CountryName"));
         columnIATA.setCellValueFactory(new PropertyValueFactory<Airport, String>("IATA_FFA"));
         columnAltitude.setCellValueFactory(new PropertyValueFactory<Airport, String>("Altitude"));
         currentData = getParent().getCurrentDataset();
