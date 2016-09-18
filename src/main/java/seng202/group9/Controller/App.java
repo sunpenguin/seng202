@@ -50,6 +50,7 @@ public class App extends Application
 			InputStream in = getClass().getClassLoader().getResourceAsStream("menu.fxml");
 			mainContainer = (VBox) loader.load(in);
 			Scene scene = new Scene(mainContainer, 800, 600);
+			primaryStage.setResizable(false);
 			primaryStage.setScene(scene);
 			primaryStage.sizeToScene();
 			MenuController menuController = (MenuController) loader.getController();
@@ -135,6 +136,7 @@ public class App extends Application
 			System.out.println("Missing Session Class");
 			System.exit(1);
 		} catch (Exception e) {
+			session = new Session();
 			e.printStackTrace();
 		}
 	}

@@ -73,7 +73,7 @@ public class RouteFilter extends Filter{
         String regexCode = "(?i).*"+stops+".*";
         int index = 0;
         while(index < filteredList.size()){
-            if (!filteredList.get(index).getArrivalAirport().matches(regexCode)){
+            if (!String.valueOf(filteredList.get(index).getStops()).matches(regexCode)){
                 filteredList.remove(index);
             }else{
                 index++;

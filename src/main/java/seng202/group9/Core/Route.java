@@ -121,15 +121,25 @@ public class Route {
 			return ID;
 		}
 	}
-	//JavaDoc needed
+
+	/**
+	 * Gets this ID of the Airline.
+	 * @return
+	 * @throws DataException
+	 */
 	public int getAirlineID() throws DataException {
-		if (this.airline != null) {
+		if (this.getAirline() != null) {
 			return this.getAirline().getID();
 		}else {
 			return 0;
 		}
 	}
 
+	/**
+	 * Gets the ID of the Airport that the Route leaves from.
+	 * @return
+	 * @throws DataException
+	 */
 	public int getSourceID() throws DataException {
         if (this.getSourceAirport() != null) {
             return this.getSourceAirport().getID();
@@ -138,6 +148,11 @@ public class Route {
         }
 	}
 
+	/**
+	 * gets the destination ID of the Airport the Route is arriving at.
+	 * @return
+	 * @throws DataException
+	 */
 	public int getDestID() throws DataException {
         if (this.getDestinationAirport() != null) {
             return this.getDestinationAirport().getID();
@@ -241,13 +256,17 @@ public class Route {
 	 */
 	public void hasDuplicate(Route route) throws DataException{
 		//routeAirline + routeSourceAirport + routeArrvAirport + routeCodeShare + routeStops + routeEquip
-		if (route.getAirline().equals(this.airline) && route.getDepartureAirport().equals(this.departureAirport)
+		if (route.getAirlineName().equals(this.airlineName) && route.getDepartureAirport().equals(this.departureAirport)
 				&& route.getArrivalAirport().equals(this.arrivalAirport) && route.getCode().equals(this.codeShare)
 				 && route.getStops() == this.stops && route.getEquipment().equals(this.equipment)){
 			throw new DataException("This Route already exists.");
 		}
 	}
 
+	/**
+	 * gets the RoutePath to be passed into {@link seng202.group9.Map.Map}.
+	 * @return
+	 */
 	public RoutePath getRoutePath(){
 		if (routePath == null) {
 			routePath = new RoutePath(
@@ -258,6 +277,10 @@ public class Route {
 		return routePath;
 	}
 
+	/**
+	 * What to print if printed as a string.
+	 * @return
+	 */
 	@Override
 	public String toString(){
 		

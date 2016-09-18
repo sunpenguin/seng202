@@ -22,7 +22,7 @@ public class Airline{
 	private Country country = null;
 
 	/**
-	 * Constructor
+	 * Constructor for Airline when pulled from the database.
 	 * 
 	 * @param ID
 	 * @param name
@@ -45,7 +45,16 @@ public class Airline{
 		this.routes = new ArrayList<Route>();
 	}
 
-
+	/**
+	 * Constructor for Airline without ID this will be set later by the dataset from the dataset.
+	 * @param name
+	 * @param alias
+	 * @param IATA
+	 * @param ICAO
+	 * @param callSign
+	 * @param countryName
+	 * @param active
+	 */
 	public Airline(String name, String alias, String IATA, String ICAO, String callSign, String countryName, String active){
 		this.ID = -1;
 		this.IATA = IATA;
@@ -255,6 +264,9 @@ public class Airline{
 		if (this.name.equals(airline.getName())){
 			throw new DataException("This Airline Name already Exists, Please Choose Another.");
 		}
+		if (this.name.equals("")){
+			throw new DataException("This Airline Name cannot be Empty");
+		}
 		if (!this.IATA.equals("") && this.IATA.equals(airline.getIATA())){
 			throw new DataException("This IATA Code already Exists, Please Choose Another.");
 		}
@@ -273,7 +285,7 @@ public class Airline{
 	 */
 	@Override
 	public String toString(){
-		return name;
+		return name + ", IATA:" + IATA + ", ICAO: " + ICAO;
 	}
 	
 }

@@ -83,7 +83,7 @@ public class AirportFilter extends Filter{
     }
 
     public void filterLatitude(String latitude){
-        String regexCode = "(?i).*"+latitude+".*";
+        String regexCode = ".*"+latitude+".*";
         int index = 0;
         while(index < filteredList.size()){
             if (!String.valueOf(filteredList.get(index).getLatitude()).matches(regexCode)){
@@ -95,7 +95,7 @@ public class AirportFilter extends Filter{
     }
 
     public void filterLongitude(String longitude){
-        String regexCode = "(?i).*"+longitude+".*";
+        String regexCode = ".*"+longitude+".*";
         int index = 0;
         while(index < filteredList.size()){
             if (!String.valueOf(filteredList.get(index).getLongitude()).matches(regexCode)){
@@ -107,7 +107,7 @@ public class AirportFilter extends Filter{
     }
 
     public void filterAltitude(String altitude){
-        String regexCode = "(?i).*"+altitude+".*";
+        String regexCode = ".*"+altitude+".*";
         int index = 0;
         while(index < filteredList.size()){
             if (!String.valueOf(filteredList.get(index).getAltitude()).matches(regexCode)){
@@ -146,7 +146,7 @@ public class AirportFilter extends Filter{
         String regexCode = "(?i).*"+DST+".*";
         int index = 0;
         while(index < filteredList.size()){
-            if (!filteredList.get(index).getCountry().getDST().matches(regexCode)){
+            if (!filteredList.get(index).getDST().matches(regexCode)){
                 filteredList.remove(index);
             }else{
                 index++;
