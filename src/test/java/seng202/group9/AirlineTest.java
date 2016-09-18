@@ -123,7 +123,9 @@ public class AirlineTest extends TestCase {
     	//324,"All Nippon Airways","ANA All Nippon Airways","NH","ANA","ALL NIPPON","Japan","Y"
     	Airline allNipponAirways = new Airline(324, "All Nippon Airways", "ANA All Nippon Airways",
     			"NH", "ANA", "ALL NIPPON", "Japan", "Y");
-    	assertTrue(allNipponAirways.toString() == "All Nippon Airways");
-    	assertEquals(allNipponAirways + "" ,"All Nippon Airways");
+		//name + ", IATA:" + IATA + ", ICAO: " + ICAO
+		System.out.println(allNipponAirways.toString());
+    	assertTrue(allNipponAirways.toString().equals("All Nippon Airways, IATA: NH, ICAO: ANA"));
+    	assertEquals(allNipponAirways + "" ,"All Nippon Airways, IATA: NH, ICAO: ANA");
     }
 }
