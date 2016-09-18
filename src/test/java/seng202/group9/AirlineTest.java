@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import seng202.group9.Controller.DataException;
 import seng202.group9.Core.Airline;
+import seng202.group9.Core.Country;
 import seng202.group9.Core.Route;
 
 import static org.junit.Assert.assertEquals;
@@ -174,6 +175,23 @@ public class AirlineTest{
 				"NH", "ANP", "ALL NIPPON", "Japan", "Y");//duplicate name should be thrown
 
 		allNipponAirways.hasDuplicate(allNipponAirway);
+	}
+
+	@Test
+	public void testCountry(){
+		Airline allNipponAirways = new Airline(324, "All Nippon Airways", "ANA All Nippon Airways",
+				"NH", "ANA", "ALL NIPPON", "Japan", "Y");
+		//,9,"U","Asia/Tokyo"
+		Country japan = new Country("U", "Japan");
+		allNipponAirways.setCountry(japan);
+		assertEquals(japan, allNipponAirways.getCountry());
+	}
+
+	@Test(expected = DataException.class)
+	public void getIDNullError() throws DataException{
+		Airline allNipponAirways = new Airline("All Nippon Airways", "ANA All Nippon Airways",
+				"NH", "ANA", "ALL NIPPON", "Japan", "Y");
+		allNipponAirways.getID();
 	}
 
 	@Test
