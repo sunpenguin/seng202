@@ -16,8 +16,6 @@
                   <MenuItem mnemonicParsing="false" onAction="#importAirlines" text="Import Airlines" />
                   <MenuItem mnemonicParsing="false" onAction="#importRoutes" text="Import Routes" />
                   <MenuItem mnemonicParsing="false" onAction="#importFlightData" text="Import Flight Data" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
-              <MenuItem mnemonicParsing="false" text="Close" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="View">
@@ -44,12 +42,6 @@
                      <items>
                         <MenuItem mnemonicParsing="false" onAction="#viewFlightSummary" text="Summary" />
                         <MenuItem mnemonicParsing="false" onAction="#viewFlightRawData" text="Raw Data" />
-                     </items>
-                  </Menu>
-                  <Menu mnemonicParsing="false" text="Maps">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Equipment" />
-                        <MenuItem mnemonicParsing="false" text="Airport" />
                      </items>
                   </Menu>
                </items></Menu>
