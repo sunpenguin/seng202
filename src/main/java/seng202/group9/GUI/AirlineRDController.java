@@ -8,13 +8,15 @@ import seng202.group9.Controller.AirlineFilter;
 import seng202.group9.Controller.Dataset;
 import seng202.group9.Core.Airline;
 
+import javax.swing.*;
+
 /**
  * The GUI controller class for airline_raw_data.fxml.
  * Extends from the abstract class {@link Controller}.
- * Created by Sunguin on 2016/09/13.
+ * Created by Sunguin
  */
 public class AirlineRDController extends Controller {
-
+    //Setting up the table from the FXML file
     @FXML
     private TableView<Airline> tableViewAirlineRD;
     @FXML
@@ -34,6 +36,7 @@ public class AirlineRDController extends Controller {
     @FXML
     private TableColumn<Airline, String> airlActivecol;
 
+    //Setting up text fields for adding data
     @FXML
     private TextField airlNameBox;
     @FXML
@@ -49,6 +52,7 @@ public class AirlineRDController extends Controller {
     @FXML
     private ComboBox<String> airlActiveCBox;
 
+    //Setting up text fields for filtering data
     @FXML
     private TextField airlNameFilter;
     @FXML
@@ -64,6 +68,7 @@ public class AirlineRDController extends Controller {
     @FXML
     private TextField airlActiveFilter;
 
+    //Set an empty Dataset to be assigned later.
     private Dataset theDataSet = null;
 
     /**
@@ -71,6 +76,7 @@ public class AirlineRDController extends Controller {
      * Also sets up the dropdown menu options.
      */
     public void load() {
+        //Sets up the table columns to be ready for use for Airline data
         airlIDcol.setCellValueFactory(new PropertyValueFactory<Airline, String>("ID"));
         airlNamecol.setCellValueFactory(new PropertyValueFactory<Airline, String>("Name"));
         airlAliascol.setCellValueFactory(new PropertyValueFactory<Airline, String>("Alias"));
@@ -80,9 +86,11 @@ public class AirlineRDController extends Controller {
         airlCountrycol.setCellValueFactory(new PropertyValueFactory<Airline, String>("CountryName"));
         airlActivecol.setCellValueFactory(new PropertyValueFactory<Airline, String>("Active"));
 
+        //Assigning the Dataset to the current Dataset's airlines and displaying it in a table
         theDataSet = getParent().getCurrentDataset();
         tableViewAirlineRD.setItems(FXCollections.observableArrayList(theDataSet.getAirlines()));
 
+        //Initializes the value for the drop-down menu for Active for adding a new Airline
         airlActiveCBox.setValue("Y");
         airlActiveCBox.getItems().addAll("Y", "N");
     }
@@ -93,6 +101,8 @@ public class AirlineRDController extends Controller {
      * @see Dataset
      */
     public void addAirlineSingle() {
+        //Tries to add a new airline and clears the fields to their initial state if successful.
+        //Otherwise an error message will pop up with what is wrong with the manual data.
         try {
             theDataSet.addAirline(
                     airlNameBox.getText(),
@@ -126,6 +136,7 @@ public class AirlineRDController extends Controller {
      * @see Dataset
      */
     public void deleteAirline() {
+        //Gets an airline from the table and deletes it before updating the table
         Airline toDelete = tableViewAirlineRD.getSelectionModel().getSelectedItem();
         theDataSet.deleteAirline(toDelete);
         tableViewAirlineRD.setItems(FXCollections.observableArrayList(theDataSet.getAirlines()));
@@ -138,6 +149,7 @@ public class AirlineRDController extends Controller {
      * @see AirlineFilter
      */
     public void filterAirlines() {
+        //The filter function also operates like a search function
         AirlineFilter filter = new AirlineFilter(theDataSet.getAirlines());
         if (airlNameFilter.getText() != null) {
             filter.filterName(airlNameFilter.getText());
@@ -160,6 +172,15 @@ public class AirlineRDController extends Controller {
         if (airlActiveFilter.getText() != null) {
             filter.filterActive(airlActiveFilter.getText());
         }
+        //Sets the data according to the criteria specified by the user.
         tableViewAirlineRD.setItems(FXCollections.<Airline>observableArrayList(filter.getFilteredData()));
+    }
+
+    /**
+     * Analyses the current data and creates a graph based on the data.
+     * Currently not implemented yet.
+     */
+    public void analyse_Button() {
+        JOptionPane.showMessageDialog(null, "This is not Implemented yet");
     }
 }

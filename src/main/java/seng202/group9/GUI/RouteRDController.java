@@ -12,10 +12,10 @@ import seng202.group9.Core.Route;
 /**
  * The GUI controller class for route_raw_data.fxml.
  * Extends from the abstract class {@link Controller}.
- * Created by Sunguin on 2016/09/14.
+ * Created by Sunguin
  */
 public class RouteRDController extends Controller {
-
+    //Setting up the table from the FXML file
     @FXML
     private TableView<Route> tableViewRouteRD;
     @FXML
@@ -37,6 +37,7 @@ public class RouteRDController extends Controller {
     @FXML
     private TableColumn<Route, String> rEquipmentCol;
 
+    //Setting up text fields for adding data
     @FXML
     private TextField rAirlineBox;
     @FXML
@@ -50,6 +51,7 @@ public class RouteRDController extends Controller {
     @FXML
     private TextField rEquipmentBox;
 
+    //Setting up text fields for filtering data
     @FXML
     private TextField rAirlineFilter;
     @FXML
@@ -63,6 +65,7 @@ public class RouteRDController extends Controller {
     @FXML
     private TextField rEquipmentFilter;
 
+    //Set an empty Dataset to be assigned later
     private Dataset theDataSet = null;
 
     /**
@@ -70,6 +73,7 @@ public class RouteRDController extends Controller {
      * Also sets up the dropdown menu options.
      */
     public void load() {
+        //Sets up the table columns to be ready for use for Route data
         rAirlineCol.setCellValueFactory(new PropertyValueFactory<Route, String>("AirlineName"));
         rAirlineIDCol.setCellValueFactory(new PropertyValueFactory<Route, String>("AirlineID"));
         rSourceCol.setCellValueFactory(new PropertyValueFactory<Route, String>("DepartureAirport"));
@@ -80,9 +84,11 @@ public class RouteRDController extends Controller {
         rStopsCol.setCellValueFactory(new PropertyValueFactory<Route, String>("Stops"));
         rEquipmentCol.setCellValueFactory(new PropertyValueFactory<Route, String>("Equipment"));
 
+        //Assigning the Dataset to the current Dataset's routes and displaying it in a table
         theDataSet = getParent().getCurrentDataset();
         tableViewRouteRD.setItems(FXCollections.observableArrayList(theDataSet.getRoutes()));
 
+        //Initializes the value for the drop-down menu for Codeshare for adding a new Route
         rCodeshareCBox.setValue("");
         rCodeshareCBox.getItems().addAll("Y", "");
     }
@@ -93,6 +99,8 @@ public class RouteRDController extends Controller {
      * @see Dataset
      */
     public void addRouteSingle() {
+        //Tries to add a new route and clears the fields to their initial state if successful.
+        //Otherwise an error message will pop up with what is wrong with the manual data.
         try {
             theDataSet.addRoute(
                     rAirlineBox.getText(),
@@ -125,6 +133,7 @@ public class RouteRDController extends Controller {
      * @see Dataset
      */
     public void deleteRoute(){
+        //Gets a route from the table and deletes it before updating the table
         Route toDelete = tableViewRouteRD.getSelectionModel().getSelectedItem();
         theDataSet.deleteRoute(toDelete);
         tableViewRouteRD.setItems(FXCollections.observableArrayList(theDataSet.getRoutes()));
@@ -137,6 +146,7 @@ public class RouteRDController extends Controller {
      * @see RouteFilter
      */
     public void filterRoutes(){
+        //The filter function also operates like a search function
         RouteFilter filter = new RouteFilter(theDataSet.getRoutes());
         if (rAirlineFilter.getText() != null) {
             filter.filterAirline(rAirlineFilter.getText());
@@ -156,9 +166,14 @@ public class RouteRDController extends Controller {
         if (rEquipmentFilter.getText() != null) {
             filter.filterEquipment(rEquipmentFilter.getText());
         }
+        //Sets the data according to the criteria specified by the user
         tableViewRouteRD.setItems(FXCollections.<Route>observableArrayList(filter.getFilteredData()));
     }
 
+    /**
+     * Analyses the current data and creates a graph based on the data.
+     * @see RouteAnalyser
+     */
     public void analyse_Button() {
         replaceSceneContent(SceneCode.ROUTE_ANALYSER);
     }
