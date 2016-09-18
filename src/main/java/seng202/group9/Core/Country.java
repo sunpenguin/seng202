@@ -1,5 +1,7 @@
 package seng202.group9.Core;
 
+import seng202.group9.Controller.DataException;
+
 import java.util.ArrayList;
 
 public class Country {
@@ -99,8 +101,12 @@ public class Country {
 	 * deletes an Airline in this country.
 	 * @param index
 	 */
-	public void delAirline(int index){
-		airlines.remove(index);
+	public void delAirline(int index) throws DataException{
+		if (airlines.size() > index && index >= 0) {
+			airlines.remove(index);
+		}else{
+			throw new DataException("Index " + index + " does not exist in list of Airlines in this Country.");
+		}
 	}
 
 	/**
@@ -144,8 +150,12 @@ public class Country {
 	 * Deletes Cities in this Country
 	 * @param index
 	 */
-	public void delCities(int index){
-		this.cities.remove(index);
+	public void delCities(int index) throws DataException{
+		if (cities.size() > index && index >= 0) {
+			this.cities.remove(index);
+		}else{
+			throw new DataException("City at Index "+ index + " does not exist.");
+		}
 	}
 
 	/**
