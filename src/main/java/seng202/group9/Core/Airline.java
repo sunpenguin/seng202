@@ -285,7 +285,7 @@ public class Airline{
 	 */
 	@Override
 	public String toString(){
-		return name + ", IATA:" + IATA + ", ICAO: " + ICAO;
+		return name + ", IATA: " + IATA + ", ICAO: " + ICAO;
 	}
 	
 }

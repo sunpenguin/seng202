@@ -16,19 +16,19 @@ public class Dataset {
 
     String name;
     public static boolean getExisting = true;//constructor variables for action
-    static boolean createNew = false;//constructor variables for action
-    ArrayList<Airline> airlines;
-    ArrayList<Airport> airports;
-    ArrayList<Route> routes;
-    ArrayList<FlightPath> flightPaths;
-    ArrayList<Country> countries;
-    ArrayList<City> cities;
-    LinkedHashMap<String, Airline> airlineDictionary;
-    LinkedHashMap<String, Airport> airportDictionary;
-    LinkedHashMap<String, Route> routeDictionary;
-    LinkedHashMap<Integer, FlightPath> flightPathDictionary;
-    LinkedHashMap<String, Country> countryDictionary;
-    LinkedHashMap<String, City> cityDictionary;
+    public static boolean createNew = false;//constructor variables for action
+    private ArrayList<Airline> airlines;
+    private ArrayList<Airport> airports;
+    private ArrayList<Route> routes;
+    private ArrayList<FlightPath> flightPaths;
+    private ArrayList<Country> countries;
+    private ArrayList<City> cities;
+    private LinkedHashMap<String, Airline> airlineDictionary;
+    private LinkedHashMap<String, Airport> airportDictionary;
+    private LinkedHashMap<String, Route> routeDictionary;
+    private LinkedHashMap<Integer, FlightPath> flightPathDictionary;
+    private LinkedHashMap<String, Country> countryDictionary;
+    private LinkedHashMap<String, City> cityDictionary;
 
     /**
      *
