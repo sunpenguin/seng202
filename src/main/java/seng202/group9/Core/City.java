@@ -1,7 +1,12 @@
 package seng202.group9.Core;
 
+import seng202.group9.Controller.DataException;
+
 import java.util.ArrayList;
 
+/**
+ * Created By Fan-Wu Yang.
+ */
 public class City {
 	private String name;
 	private String country;
@@ -137,8 +142,12 @@ public class City {
 	 * Deletes an Airport by Index from this City.
 	 * @param index
 	 */
-	public void delAirport(int index) {
-		airports.remove(index);
+	public void delAirport(int index) throws DataException{
+		if (airports.size() > index && index >= 0) {
+			airports.remove(index);
+		}else{
+			throw new DataException("Index "+index+" is out of number of City Airports array size.");
+		}
 	}
 	@Override
 	public String toString(){

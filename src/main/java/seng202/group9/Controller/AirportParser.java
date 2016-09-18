@@ -11,12 +11,19 @@ import java.io.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+/**
+ * created by Fan-Wu Yang(fwy13)
+ */
 public class AirportParser extends Parser {
     String filePath = "";
     ArrayList<Airport> parsedAirports;
     ArrayList<City> parsedCities;
     ArrayList<Country> parsedCountries;
 
+    /**
+     * Constructer is passed a file path which is then ready for the parse() call.
+     * @param filePath
+     */
     public AirportParser(String filePath){
         this.filePath = filePath;
         parsedAirports = new ArrayList<Airport>();
@@ -24,6 +31,11 @@ public class AirportParser extends Parser {
         parsedCountries = new ArrayList<Country>();
     }
 
+    /**
+     * Parses the given file and returns a succession message of how many entries were successfully parsed.
+     * @return
+     * @throws DataException
+     */
     public String parse() throws DataException{
         int successful = 0;
         int error = 0;
@@ -173,14 +185,26 @@ public class AirportParser extends Parser {
                 "Airports With Errors: %2$d", successful, error);
     }
 
+    /**
+     * gets the parsed Airport results
+     * @return
+     */
     public ArrayList<Airport> getResult(){
         return parsedAirports;
     }
 
+    /**
+     * gets the parsed City restuls
+     * @return
+     */
     public ArrayList<City> getCityResult(){
         return parsedCities;
     }
 
+    /**
+     * gets the parsed COuntry results
+     * @return
+     */
     public ArrayList<Country> getCountryResult(){
         return parsedCountries;
     }

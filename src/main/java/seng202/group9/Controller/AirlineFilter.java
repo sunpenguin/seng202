@@ -12,6 +12,10 @@ public class AirlineFilter extends Filter{
     private ArrayList<Airline> baseArray;
     private ArrayList<Airline> filteredList;
 
+    /**
+     * Constructor of the class sets the base array that will be used for filtering
+     * @param baseList
+     */
     public AirlineFilter(ArrayList<Airline> baseList){
         filteredList = new ArrayList<Airline>();
         baseArray = new ArrayList<Airline>();
@@ -21,6 +25,10 @@ public class AirlineFilter extends Filter{
         }
     }
 
+    /**
+     * filters the list base by name case insensitive.
+     * @param name
+     */
     public void filterName(String name){
         String regexCode = "(?i).*"+name+".*";
         int index = 0;
@@ -33,6 +41,10 @@ public class AirlineFilter extends Filter{
         }
     }
 
+    /**
+     * filters list based on alias case insensitive.
+     * @param alias
+     */
     public void filterAlias(String alias){
         String regexCode = "(?i).*"+alias+".*";
         int index = 0;
@@ -45,6 +57,10 @@ public class AirlineFilter extends Filter{
         }
     }
 
+    /**
+     * Filters the list based on IATA code Case Insensitive.
+     * @param IATA
+     */
     public void filterIATA(String IATA){
         String regexCode = "(?i).*"+IATA+".*";
         int index = 0;
@@ -57,6 +73,10 @@ public class AirlineFilter extends Filter{
         }
     }
 
+    /**
+     * Filters the list based on ICAO code Case Insensitive.
+     * @param ICAO
+     */
     public void filterICAO(String ICAO){
         String regexCode = "(?i).*"+ICAO+".*";
         int index = 0;
@@ -69,6 +89,10 @@ public class AirlineFilter extends Filter{
         }
     }
 
+    /**
+     * FIlters the list based on Callsign case Insensitive.
+     * @param callsign
+     */
     public void filterCallsign(String callsign){
         String regexCode = "(?i).*"+callsign+".*";
         int index = 0;
@@ -81,6 +105,10 @@ public class AirlineFilter extends Filter{
         }
     }
 
+    /**
+     * Filters the list based on the country case insensitive.
+     * @param country
+     */
     public void filterCountry(String country){
         String regexCode = "(?i).*"+country+".*";
         int index = 0;
@@ -93,6 +121,10 @@ public class AirlineFilter extends Filter{
         }
     }
 
+    /**
+     * Filters the list by activity.
+     * @param active
+     */
     public void filterActive(String active){
         String regexCode = "(?i).*"+active+".*";
         int index = 0;
@@ -105,6 +137,9 @@ public class AirlineFilter extends Filter{
         }
     }
 
+    /**
+     * resets the filtered list back to the original list.
+     */
     public void reset() {
         filteredList = new ArrayList<Airline>();
         for (Airline airline: filteredList){
@@ -112,17 +147,29 @@ public class AirlineFilter extends Filter{
         }
     }
 
+    /**
+     * gets the filtered list.
+     * @return
+     */
     public ArrayList getFilteredData() {
         return filteredList;
     }
 
+    /**
+     * sets a new base list of the filter.
+     * @param arrayList
+     */
     public void setBaseList(ArrayList<Airline> arrayList) {
         baseArray = new ArrayList<Airline>();
         for (Airline airline: arrayList){
             baseArray.add(airline);
         }
+        reset();
     }
 
+    /**
+     * prints the filter to the console.
+     */
     public void printFilter(){
         for (Airline airline: filteredList){
             System.out.println(airline);

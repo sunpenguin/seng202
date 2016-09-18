@@ -7,15 +7,27 @@ import seng202.group9.Core.Airline;
 import java.io.*;
 import java.util.ArrayList;
 
+/**
+ * Created By Fan-Wu Yang (fwy13)
+ */
 public class AirlineParser extends Parser {
     String filePath = "";
     ArrayList<Airline> parsedAirline;
 
+    /**
+     * Constructor takes in a filepath and waits for the parse() call.
+     * @param filePath
+     */
     public AirlineParser(String filePath){
         this.filePath = filePath;
         parsedAirline = new ArrayList<Airline>();
     }
 
+    /**
+     * Parses data and then returns a message of number of successful parses.
+     * @return
+     * @throws DataException
+     */
     public String parse() throws DataException{
         int successful = 0;
         int error = 0;
@@ -122,6 +134,10 @@ public class AirlineParser extends Parser {
                 "Airlines With Errors: %2$d", successful, error);
     }
 
+    /**
+     * Returns the result of the Parse.
+     * @return
+     */
     public ArrayList<Airline> getResult(){
         return parsedAirline;
     }

@@ -5,15 +5,27 @@ import seng202.group9.Core.FlightPoint;
 import java.io.*;
 import java.util.ArrayList;
 
+/**
+ * Created by Fan-Wu Yang(fwy13)
+ */
 public class FlightPathParser extends Parser {
     String filePath = "";
     ArrayList<FlightPoint> parsedPoints;
 
+    /**
+     * Constructor for parsing flight paths, reads in a file and gets it ready for the parse() call.
+     * @param filePath
+     */
     public FlightPathParser(String filePath){
         this.filePath = filePath;
         parsedPoints = new ArrayList<FlightPoint>();
     }
 
+    /**
+     * Parses the file that and returns a success message.
+     * @return
+     * @throws DataException
+     */
     public String parse() throws DataException{
         int successful = 0;
         int error = 0;
@@ -151,6 +163,10 @@ public class FlightPathParser extends Parser {
                 "Flight Points With Errors: %2$d", successful, error);
     }
 
+    /**
+     * returns the resultant Flight points that are successfully parsed.
+     * @return
+     */
     public ArrayList<FlightPoint> getResult(){
         return parsedPoints;
     }

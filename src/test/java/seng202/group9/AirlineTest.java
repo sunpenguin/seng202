@@ -2,12 +2,16 @@ package seng202.group9;
 
 import java.util.ArrayList;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import seng202.group9.Controller.DataException;
 import seng202.group9.Core.Airline;
+import seng202.group9.Core.Country;
 import seng202.group9.Core.Route;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * Test the functions for the Airline
@@ -16,30 +20,13 @@ import seng202.group9.Core.Route;
  * @author Fan-Wu Yang
  *
  */
-public class AirlineTest extends TestCase {
-
-    /**
-     * Create the test case
-     *
-     * @param testName name of the test case
-     */
-	public AirlineTest(String testName){
-		super(testName);
-	}
-	
-
-    /**
-     * @return the suite of tests being tested
-     */
-    public static Test suite()
-    {
-        return new TestSuite( AirlineTest.class );
-    }
+public class AirlineTest{
 	
     /**
      * Test for Airline get and setting methods
      * (Currently missing ADD ROUTES)
      */
+    @Test
     public void testAirlineGetSet(){
     	//ID, Name, Alias, IATA, ICAO, CallSign, Country, Active
     	//324,"All Nippon Airways","ANA All Nippon Airways","NH","ANA","ALL NIPPON","Japan","Y"
@@ -116,8 +103,119 @@ public class AirlineTest extends TestCase {
     	assertEquals(allNipponAirways.getRoutes().get(1), route2);
     	assertEquals(allNipponAirways.getRoutes().get(2), route1);
     	assertEquals(allNipponAirways.getRoutes().get(3), route2);
+		try {
+			allNipponAirways.delRoutes(3);
+		}catch (DataException e){
+			fail("3 is a valid deletable index.");
+		}
+		assertTrue(allNipponAirways.getRoutes().size() == 3);
+
+		allNipponAirways.delRoutes(route2);
+		assertTrue(allNipponAirways.getRoutes().size() == 2);
     }
-    
+
+    @Test(expected = DataException.class)
+    public void testInvalidRouteDelete() throws DataException{
+		//ID, Name, Alias, IATA, ICAO, CallSign, Country, Active
+		//324,"All Nippon Airways","ANA All Nippon Airways","NH","ANA","ALL NIPPON","Japan","Y"
+		Airline allNipponAirways = new Airline(324, "All Nippon Airways", "ANA All Nippon Airways",
+				"NH", "ANA", "ALL NIPPON", "Japan", "Y");
+		allNipponAirways.delRoutes(0);
+	}
+
+	@Test(expected = DataException.class)
+	public void testInvalidIndexRouteDelete() throws DataException{
+		//ID, Name, Alias, IATA, ICAO, CallSign, Country, Active
+		//324,"All Nippon Airways","ANA All Nippon Airways","NH","ANA","ALL NIPPON","Japan","Y"
+		Airline allNipponAirways = new Airline(324, "All Nippon Airways", "ANA All Nippon Airways",
+				"NH", "ANA", "ALL NIPPON", "Japan", "Y");
+		allNipponAirways.delRoutes(-1);
+	}
+
+    @Test(expected = DataException.class)
+	public void hasDuplicateNameTest() throws DataException {
+		Airline allNipponAirways = new Airline(324, "All Nippon Airways", "ANA All Nippon Airways",
+				"NH", "ANA", "ALL NIPPON", "Japan", "Y");
+
+		Airline allNipponAirway = new Airline(325, "All Nippon Airways", "ANA All Nippon Airway",
+				"NP", "ANP", "ALL NIPPONP", "Japan", "Y");//duplicate name should be thrown
+
+		allNipponAirways.hasDuplicate(allNipponAirway);
+	}
+
+	@Test(expected = DataException.class)
+	public void hasDuplicateMissingNameTest() throws DataException {
+		Airline allNipponAirways = new Airline(324, "All Nippon Airways", "ANA All Nippon Airways",
+				"NH", "ANA", "ALL NIPPON", "Japan", "Y");
+
+		Airline allNipponAirway = new Airline(325, "", "ANA All Nippon Airway",
+				"NP", "ANP", "ALL NIPPONP", "Japan", "Y");//duplicate name should be thrown
+
+		allNipponAirways.hasDuplicate(allNipponAirway);
+	}
+
+	@Test(expected = DataException.class)
+	public void hasDuplicateIATATest() throws DataException {
+		Airline allNipponAirways = new Airline(324, "All Nippon Airways", "ANA All Nippon Airways",
+				"NH", "ANA", "ALL NIPPON", "Japan", "Y");
+
+		Airline allNipponAirway = new Airline(325, "All Nippon Airway", "ANA All Nippon Airway",
+				"NH", "ANP", "ALL NIPPONP", "Japan", "Y");//duplicate name should be thrown
+
+		allNipponAirways.hasDuplicate(allNipponAirway);
+	}
+
+	@Test(expected = DataException.class)
+	public void hasDuplicateICAOTest() throws DataException {
+		Airline allNipponAirways = new Airline(324, "All Nippon Airways", "ANA All Nippon Airways",
+				"NH", "ANA", "ALL NIPPON", "Japan", "Y");
+
+		Airline allNipponAirway = new Airline(325, "All Nippon Airway", "ANA All Nippon Airway",
+				"NP", "ANA", "ALL NIPPONP", "Japan", "Y");//duplicate name should be thrown
+
+		allNipponAirways.hasDuplicate(allNipponAirway);
+	}
+
+	@Test(expected = DataException.class)
+	public void hasDuplicateAliasTest() throws DataException {
+		Airline allNipponAirways = new Airline(324, "All Nippon Airways", "ANA All Nippon Airways",
+				"NH", "ANA", "ALL NIPPON", "Japan", "Y");
+
+		Airline allNipponAirway = new Airline(325, "All Nippon Airway", "ANA All Nippon Airways",
+				"NH", "ANA", "ALL NIPPONP", "Japan", "Y");//duplicate name should be thrown
+
+		allNipponAirways.hasDuplicate(allNipponAirway);
+	}
+
+	@Test(expected = DataException.class)
+	public void hasDuplicateCallTest() throws DataException {
+		Airline allNipponAirways = new Airline(324, "All Nippon Airways", "ANA All Nippon Airways",
+				"NH", "ANA", "ALL NIPPON", "Japan", "Y");
+
+		Airline allNipponAirway = new Airline(325, "All Nippon Airway", "ANA All Nippon Airway",
+				"NH", "ANP", "ALL NIPPON", "Japan", "Y");//duplicate name should be thrown
+
+		allNipponAirways.hasDuplicate(allNipponAirway);
+	}
+
+	@Test
+	public void testCountry(){
+		Airline allNipponAirways = new Airline(324, "All Nippon Airways", "ANA All Nippon Airways",
+				"NH", "ANA", "ALL NIPPON", "Japan", "Y");
+		//,9,"U","Asia/Tokyo"
+		Country japan = new Country("U", "Japan");
+		allNipponAirways.setCountry(japan);
+		assertEquals(japan, allNipponAirways.getCountry());
+	}
+
+	@Test(expected = DataException.class)
+	public void getIDNullError() throws DataException{
+		Airline allNipponAirways = new Airline("All Nippon Airways", "ANA All Nippon Airways",
+				"NH", "ANA", "ALL NIPPON", "Japan", "Y");
+		allNipponAirways.getID();
+	}
+
+	@Test
     public void testToString(){
     	//ID, Name, Alias, IATA, ICAO, CallSign, Country, Active
     	//324,"All Nippon Airways","ANA All Nippon Airways","NH","ANA","ALL NIPPON","Japan","Y"

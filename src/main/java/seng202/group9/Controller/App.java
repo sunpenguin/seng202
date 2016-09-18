@@ -18,16 +18,16 @@ import seng202.group9.GUI.*;
 
 /**
  * Main Application frame of the Flight Data Analyser.
- *
+ * Created By Fan-Wu Yang (fwy13)
  */
 public class App extends Application
 {
 	private ArrayList<Dataset> datasets = new ArrayList<Dataset>();
 	private Dataset currentDataset = null;
 	private Stage primaryStage = null;
-	private VBox mainContainer;
-	private Session session;
-	private MenuController menuController;
+	private VBox mainContainer = null;
+	private Session session = null;
+	private MenuController menuController = null;
 	
     public static void main( String[] args )
     {
@@ -65,60 +65,10 @@ public class App extends Application
 		//testing out dataset
 		try {
 			currentDataset = new Dataset("test's", Dataset.getExisting);
-		}catch (DataException e){
-			e.printStackTrace();
-
-		}
-
-/*
-		AirlineFilter filter = new AirlineFilter(currentDataset.getAirlines());
-		filter.filterName("NZ");
-		filter.filterAlias("flight");
-		filter.printFilter();
-
-		//testout single route adding
-		try {
-			currentDataset.addRoute("D2", "MAC", "WIN", "Y", "0", "NOW");
+			datasets.add(currentDataset);
 		}catch (DataException e){
 			e.printStackTrace();
 		}
-		//testout single airport adding
-		try {
-			currentDataset.addAirport("Windows 10", "PC", "Windows", "WIN", "WIND", "0.0", "0.0", "0.0", "0.0", "U", "PC/Windows");
-		}catch (DataException e){
-			e.printStackTrace();
-		}
-		//testout single airline adding
-		try {
-			currentDataset.addAirline("Dota2", "Valve", "D2", "DOT", "Defence of the Ancients", "Steam", "Y");
-		}catch (DataException e){
-			e.printStackTrace();
-		}
-		//testing out airport parser
-		try {
-			System.out.println(currentDataset.importAirport("res/Samples/Airports.txt"));
-		} catch (DataException e) {
-			e.printStackTrace();
-		}
-		//testing out airline parser
-		try{
-			System.out.println(currentDataset.importAirline("res/Samples/Airlines.txt"));
-		} catch (DataException e){
-			e.printStackTrace();
-		}
-		//testing out route parser
-		try {
-			System.out.println(currentDataset.importRoute("res/Samples/Routes.txt"));
-		} catch (DataException e) {
-			e.printStackTrace();
-		}
-
-		//testing out flight parser
-        try {
-            System.out.println(currentDataset.importFlight("res/Samples/NZCH-WSSS.csv"));
-        } catch (DataException e) {
-            e.printStackTrace();
-        }*/
 		//after all loading then load the previous session
 		try{
 			FileInputStream fileIn = new FileInputStream("res/session.ser");
@@ -181,16 +131,54 @@ public class App extends Application
 		return (Initializable) loader.getController();
 	}
 
+	/**
+	 * Returns the Menu COntroller of the App.
+	 * @return
+	 */
 	public MenuController getMenuController() {
 		return menuController;
 	}
 
+	/**
+	 * returns the current dataset that the user is using.
+	 * @return
+	 */
 	public Dataset getCurrentDataset(){
 		return currentDataset;
 	}
 
+	/**
+	 * Creates new dataset.
+	 * @param datasetName
+	 * @throws DataException
+	 */
+	public void createDataset(String datasetName) throws DataException{
+		Dataset newDataset = new Dataset(datasetName, Dataset.createNew);
+		datasets.add(newDataset);
+		currentDataset = newDataset;
+	}
+
+	/**
+	 * gets the amount of datasets the user has.
+	 * @return
+	 */
+	public ArrayList<Dataset> getDatasets() {
+		return datasets;
+	}
+
+	/**
+	 * deletes a dataset.
+	 * @param dataset
+	 */
 	public void deleteDataset(Dataset dataset){
 		dataset.deleteDataset();
 		datasets.remove(dataset);
+		if (dataset == currentDataset){
+			if (datasets.size() > 0){
+				currentDataset = datasets.get(0);
+			}else{
+				currentDataset = null;
+			}
+		}
 	}
 }
