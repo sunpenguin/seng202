@@ -376,8 +376,10 @@ public class Airport {
 		double distance = 0;
 		double dLong = this.longitude - airport.getLongitude();
 		double dLat = this.latitude - airport.getLatitude();
-		double a = Math.pow((Math.sin(dLat/2)), 2) + Math.cos(this.latitude) * Math.cos(airport.getLatitude()) * Math.pow(Math.sin(dLong/2), 2);
-		double c = a * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+		dLong = Math.toRadians(dLong);
+		dLat = Math.toRadians(dLat);
+		double a = Math.pow((Math.sin(dLat/2)), 2) + Math.cos(Math.toRadians(this.latitude)) * Math.cos(Math.toRadians(airport.getLatitude())) * Math.pow(Math.sin(dLong/2), 2);
+		double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 		distance = 6371 * c;
 		return distance;
 	}
@@ -388,13 +390,16 @@ public class Airport {
 	 * @throws DataException
 	 */
 	public void hasDuplicate(Airport airport) throws DataException{
-		if (airport.getName().equals("") || airport.getName().equals(this.name)){
+		if (airport.getName().equals(this.name)){
 			throw new DataException("Airport Name already Exists, Please Choose Another.");
 		}
-		if (!airport.getIATA_FFA().equals("") && airport.getIATA_FFA().equals(this.name)){
+		if (airport.getName().equals("")){
+			throw new DataException("Airport name cannot be Empty. Please Choose Another.");
+		}
+		if (!airport.getIATA_FFA().equals("") && airport.getIATA_FFA().equals(this.IATA_FFA)){
 			throw new DataException("Airport IATA/FFA already Exists, Please Choose Another.");
 		}
-		if (!airport.getICAO().equals("") && airport.getICAO().equals(this.name)){
+		if (!airport.getICAO().equals("") && airport.getICAO().equals(this.ICAO)){
 			throw new DataException("Airport ICAO already Exists, Please Choose Another.");
 		}
 	}
