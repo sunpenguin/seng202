@@ -204,7 +204,14 @@ public class FlightRDController extends Controller {
      */
     public void deletePoint() {
         FlightPoint toDelete = flightTableView.getSelectionModel().getSelectedItem();
-        int pathID = toDelete.getIndex();
+        int pathID = 0;
+        try {
+            pathID = toDelete.getIndex();
+        } catch (DataException e) {
+            e.printStackTrace();
+            System.out.println("Point is Undeletable as the Index ID is not set.");
+            return;
+        }
         LinkedHashMap<Integer, FlightPath> flightPathDict = theDataSet.getFlightPathDictionary();
         FlightPath toDeletesPath = flightPathDict.get(pathID);
         theDataSet.deleteFlightPoint(toDelete, toDeletesPath);
