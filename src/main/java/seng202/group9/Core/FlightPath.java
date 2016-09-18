@@ -1,5 +1,7 @@
 package seng202.group9.Core;
 
+import seng202.group9.Controller.DataException;
+
 import java.util.ArrayList;
 
 public class FlightPath {
@@ -49,7 +51,7 @@ public class FlightPath {
 	public void setFlightPoints(ArrayList<FlightPoint> flightPoints) {
 		this.flightPoints = new ArrayList<FlightPoint>();
 		for (int i = 0; i < flightPoints.size(); i ++) {
-			this.flightPoints = flightPoints;
+			this.flightPoints.add(flightPoints.get(i));
 		}
 	}
 
@@ -82,7 +84,10 @@ public class FlightPath {
 	 * gets the ID of the Flight Path.
 	 * @return
 	 */
-	public int getID(){
+	public int getID() throws DataException{
+		if (ID == -1){
+			throw new DataException("This Flight Path has no ID set yet");
+		}
 		return ID;
 	}
 
@@ -125,7 +130,11 @@ public class FlightPath {
 	 * @param index
 	 */
 	public void addFlightPoint(FlightPoint flightPoint, int index){
-		flightPoints.add(index, flightPoint);
+		if (index >= flightPoints.size() || index < 0){
+			flightPoints.add(flightPoint);
+		}else {
+			flightPoints.add(index, flightPoint);
+		}
 	}
 
 	/**
@@ -140,8 +149,12 @@ public class FlightPath {
 	 * delets a point from the flight at a specific index.
 	 * @param index
 	 */
-	public void delFlightPoint(int index){
-		flightPoints.remove(index);
+	public void delFlightPoint(int index) throws DataException{
+		if (flightPoints.size() > index && index >= 0) {
+			flightPoints.remove(index);
+		}else{
+			throw new DataException("Flight Point at Index " + index + " does not exist for this flight Path.");
+		}
 	}
 
 	/**

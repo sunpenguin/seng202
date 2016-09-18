@@ -1,38 +1,32 @@
 package seng202.group9;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.junit.Test;
+import seng202.group9.Controller.App;
+import seng202.group9.Controller.DataException;
+
+import static org.junit.Assert.*;
 
 /**
  * Unit test for simple App.
  */
-public class AppTest 
-    extends TestCase
-{
-    /**
-     * Create the test case
-     *
-     * @param testName name of the test case
-     */
-    public AppTest( String testName )
-    {
-        super( testName );
-    }
+public class AppTest {
+    @Test
+    public void testApp(){
+        App app = new App();
+        assertTrue(app.getMenuController() == null);
+        assertTrue(app.getPrimaryStage() == null);
+        try {
+            app.createDataset("FORUNITTESTINGDATASET");
+        } catch (DataException e) {
+            e.printStackTrace();
+        }
+        assertEquals(app.getCurrentDataset().getName(), "FORUNITTESTINGDATASET");
 
-    /**
-     * @return the suite of tests being tested
-     */
-    public static Test suite()
-    {
-        return new TestSuite( AppTest.class );
-    }
+        app.deleteDataset(app.getCurrentDataset());
 
-    /**
-     * Rigourous Test :-)
-     */
-    public void testApp()
-    {
-        assertTrue( true );
+        for (int i = 0; i < app.getDatasets().size(); i++){
+            assertTrue(!app.getDatasets().get(i).getName().equals("FORUNITTESTINGDATASET"));
+        }
+        //more to come as the program upgrades for for as of now this is the limit.
     }
 }

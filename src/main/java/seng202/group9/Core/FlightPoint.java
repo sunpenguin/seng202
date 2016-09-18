@@ -197,7 +197,10 @@ public class FlightPoint {
 	 * gets the Path Index ID at this point.
 	 * @return
 	 */
-	public int getIndex(){
+	public int getIndex() throws DataException{
+		if (indexID == -1){
+			throw new DataException("Index ID is not set.");
+		}
 		return indexID;
 	}
 
