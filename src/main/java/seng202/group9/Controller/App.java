@@ -64,7 +64,7 @@ public class App extends Application
 
 		//testing out dataset
 		try {
-			currentDataset = new Dataset("test's", Dataset.createNew);
+			currentDataset = new Dataset("test's", Dataset.getExisting);
 			datasets.add(currentDataset);
 		}catch (DataException e){
 			e.printStackTrace();
