@@ -4,6 +4,9 @@ import seng202.group9.Controller.DataException;
 
 import java.util.ArrayList;
 
+/**
+ * Created By Fan-Wu Yang.
+ */
 public class City {
 	private String name;
 	private String country;

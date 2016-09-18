@@ -13,6 +13,10 @@ public class AirportFilter extends Filter{
     private ArrayList<Airport> baseArray;
     private ArrayList<Airport> filteredList;
 
+    /**
+     * Constructor of the Airport FIlter.
+     * @param baseList
+     */
     public AirportFilter(ArrayList<Airport> baseList){
         filteredList = new ArrayList<Airport>();
         baseArray = new ArrayList<Airport>();
@@ -22,6 +26,10 @@ public class AirportFilter extends Filter{
         }
     }
 
+    /**
+     * Filters the list by name Case Insensitive.
+     * @param name
+     */
     public void filterName(String name){
         String regexCode = "(?i).*"+name+".*";
         int index = 0;
@@ -34,6 +42,10 @@ public class AirportFilter extends Filter{
         }
     }
 
+    /**
+     * filters the list by the city Case Insensitive.
+     * @param city
+     */
     public void filterCity(String city){
         String regexCode = "(?i).*"+city+".*";
         int index = 0;
@@ -46,6 +58,10 @@ public class AirportFilter extends Filter{
         }
     }
 
+    /**
+     * Filters the list by Country  Case Insensitive.
+     * @param country
+     */
     public void filterCountry(String country){
         String regexCode = "(?i).*"+country+".*";
         int index = 0;
@@ -58,6 +74,10 @@ public class AirportFilter extends Filter{
         }
     }
 
+    /**
+     * FIlters list by IATA/FFA  Case Insensitive.
+     * @param IATA_FFA
+     */
     public void filterIATA_FFA(String IATA_FFA){
         String regexCode = "(?i).*"+IATA_FFA+".*";
         int index = 0;
@@ -70,6 +90,10 @@ public class AirportFilter extends Filter{
         }
     }
 
+    /**
+     * Filters the list by ICAO Case Insensitive.
+     * @param ICAO
+     */
     public void filterICAO(String ICAO){
         String regexCode = "(?i).*"+ICAO+".*";
         int index = 0;
@@ -82,6 +106,10 @@ public class AirportFilter extends Filter{
         }
     }
 
+    /**
+     * FIlters the list by latitude Case Insensitive.
+     * @param latitude
+     */
     public void filterLatitude(String latitude){
         String regexCode = ".*"+latitude+".*";
         int index = 0;
@@ -94,6 +122,10 @@ public class AirportFilter extends Filter{
         }
     }
 
+    /**
+     * Filters the list by longitude Case Insensitive.
+     * @param longitude
+     */
     public void filterLongitude(String longitude){
         String regexCode = ".*"+longitude+".*";
         int index = 0;
@@ -106,6 +138,10 @@ public class AirportFilter extends Filter{
         }
     }
 
+    /**
+     * FIlters the list by Altitude Case Insensitive.
+     * @param altitude
+     */
     public void filterAltitude(String altitude){
         String regexCode = ".*"+altitude+".*";
         int index = 0;
@@ -118,6 +154,10 @@ public class AirportFilter extends Filter{
         }
     }
 
+    /**
+     * FIlters the list by Timezeon  Case Insensitive.
+     * @param timezone
+     */
     public void filterTimezone(String timezone){
         String regexCode = "(?i).*"+timezone+".*";
         int index = 0;
@@ -130,6 +170,10 @@ public class AirportFilter extends Filter{
         }
     }
 
+    /**
+     * Filters the list by Olson Timezone format Case Insensitive.
+     * @param olson
+     */
     public void filterOlson(String olson){
         String regexCode = "(?i).*"+olson+".*";
         int index = 0;
@@ -142,6 +186,10 @@ public class AirportFilter extends Filter{
         }
     }
 
+    /**
+     * Filters the list by DST Case Insensitive.
+     * @param DST
+     */
     public void filterDST(String DST){
         String regexCode = "(?i).*"+DST+".*";
         int index = 0;
@@ -154,6 +202,9 @@ public class AirportFilter extends Filter{
         }
     }
 
+    /**
+     * Resets the list to it original state before filter
+     */
     public void reset() {
         filteredList = new ArrayList<Airport>();
         for (Airport airport: filteredList){
@@ -161,6 +212,10 @@ public class AirportFilter extends Filter{
         }
     }
 
+    /**
+     * gets the filtered list
+     * @return
+     */
     public ArrayList getFilteredData() {
         return filteredList;
     }
@@ -170,8 +225,12 @@ public class AirportFilter extends Filter{
         for (Airport airport: arrayList){
             baseArray.add(airport);
         }
+        reset();
     }
 
+    /**
+     * prints the filtered list to console.
+     */
     public void printFilter(){
         for (Airport airport: filteredList){
             System.out.println(airport);

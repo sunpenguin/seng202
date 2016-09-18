@@ -18,7 +18,7 @@ import seng202.group9.GUI.*;
 
 /**
  * Main Application frame of the Flight Data Analyser.
- *
+ * Created By Fan-Wu Yang (fwy13)
  */
 public class App extends Application
 {
@@ -132,24 +132,45 @@ public class App extends Application
 		return (Initializable) loader.getController();
 	}
 
+	/**
+	 * Returns the Menu COntroller of the App.
+	 * @return
+	 */
 	public MenuController getMenuController() {
 		return menuController;
 	}
 
+	/**
+	 * returns the current dataset that the user is using.
+	 * @return
+	 */
 	public Dataset getCurrentDataset(){
 		return currentDataset;
 	}
 
+	/**
+	 * Creates new dataset.
+	 * @param datasetName
+	 * @throws DataException
+	 */
 	public void createDataset(String datasetName) throws DataException{
 		Dataset newDataset = new Dataset(datasetName, Dataset.createNew);
 		datasets.add(newDataset);
 		currentDataset = newDataset;
 	}
 
+	/**
+	 * gets the amount of datasets the user has.
+	 * @return
+	 */
 	public ArrayList<Dataset> getDatasets() {
 		return datasets;
 	}
 
+	/**
+	 * deletes a dataset.
+	 * @param dataset
+	 */
 	public void deleteDataset(Dataset dataset){
 		dataset.deleteDataset();
 		datasets.remove(dataset);

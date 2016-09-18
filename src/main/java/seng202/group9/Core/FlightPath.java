@@ -4,6 +4,9 @@ import seng202.group9.Controller.DataException;
 
 import java.util.ArrayList;
 
+/**
+ * Created By Fan-Wu Yang
+ */
 public class FlightPath {
 	private int ID;
 	private ArrayList<FlightPoint> flightPoints;

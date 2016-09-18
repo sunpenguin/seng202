@@ -2,6 +2,7 @@ package seng202.group9.Controller;
 
 /**
  * Created by fwy13 on 16/09/16.
+ * SceneCode enum is used for Serialization of sessions as well as changing the GUI state from one to the other.
  */
 public enum SceneCode {
     INITIAL(""), AIRLINE_SUMMARY("airline_summary.fxml"), AIRLINE_RAW_DATA("airline_raw_data.fxml"),
@@ -12,10 +13,16 @@ public enum SceneCode {
 
     private String filePath;
 
+    /**
+     * COnstructor for Scene
+     * @param filePath
+     */
     SceneCode(String filePath){
         this.filePath = filePath;
     }
-
+    /**
+     * gets the filepath of the specific scene
+     */
     public String getFilePath(){
         return filePath;
     }

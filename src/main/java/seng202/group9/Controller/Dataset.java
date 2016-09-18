@@ -819,6 +819,11 @@ public class Dataset {
         addAirline(airlineToAdd);
     }
 
+    /**
+     * Adds a Single Airline from the Program to the Database
+     * @param airlineToAdd
+     * @throws DataException
+     */
     public void addAirline(Airline airlineToAdd) throws DataException{
         if (airlineToAdd.getIATA().length() != 0 && airlineToAdd.getIATA().length() != 2){
             throw new DataException("IATA is either empty or length of 2 Letters.");
@@ -866,6 +871,21 @@ public class Dataset {
         createDataLinks();
     }
 
+    /**
+     * Adds a single Airport from the Program to the Database
+     * @param name
+     * @param city
+     * @param country
+     * @param IATA_FFA
+     * @param ICAO
+     * @param latitude
+     * @param longitude
+     * @param altitude
+     * @param timezone
+     * @param DST
+     * @param olsonTz
+     * @throws DataException
+     */
     public void addAirport(String name, String city, String country, String IATA_FFA, String ICAO, String latitude, String longitude,
                            String altitude, String timezone, String DST, String olsonTz) throws DataException{
         try{
@@ -892,10 +912,19 @@ public class Dataset {
         }
     }
 
+    /**
+     * gets the name of the dataset.
+     * @return
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Adds an Airport to the database and dataset.
+     * @param airportToAdd
+     * @throws DataException
+     */
     private void addAirport(Airport airportToAdd) throws DataException{
         if (airportToAdd.getIATA_FFA().length() != 0 && airportToAdd.getIATA_FFA().length() != 3){
             throw new DataException("IATA/FFA either empty or 3 letters");
@@ -945,7 +974,11 @@ public class Dataset {
         }
     }
 
-    public void addCity(City city){
+    /**
+     * Adds a city to the dataset and database
+     * @param city
+     */
+    private void addCity(City city){
         if (!cityDictionary.containsKey(city.getName())){
             Connection c = null;
             Statement stmt = null;
@@ -971,7 +1004,11 @@ public class Dataset {
         }
     }
 
-    public void addCountry(Country country){
+    /**
+     * Adds a Country to the dataset and database
+     * @param country
+     */
+    private void addCountry(Country country){
         if (!countryDictionary.containsKey(country.getName())){
             Connection c = null;
             Statement stmt = null;
@@ -1020,6 +1057,11 @@ public class Dataset {
         addRoute(routeToAdd);
     }
 
+    /**
+     * Adds a single route the dataset and database.
+     * @param routeToAdd
+     * @throws DataException
+     */
     public void addRoute(Route routeToAdd) throws DataException{
         if (routeToAdd.getAirlineName().length() != 2 && routeToAdd.getAirlineName().length() != 3){
             throw new DataException("Airline ICAO code must be 2 or 3 letters.");
@@ -1198,17 +1240,42 @@ public class Dataset {
         flightPathDictionary.get(Integer.valueOf(id)).addFlightPoint(pointToAdd, index);
     }
 
+    /***
+     * Adds a single flight Point to an Existing FLight Path.
+     * @param point
+     * @param index
+     * @throws DataException
+     */
     public void addFlightPointToPath(FlightPoint point, int index) throws DataException{
         addFlightPointToPath(point.getIndex(), point.getName(), point.getType(), point.getVia(), String.valueOf(point.getAltitude()),
                 String.valueOf( point.getLatitude()),String.valueOf(point.getLongitude()),
                 String.valueOf(point.getHeading()), String.valueOf(point.getLegDistance()), String.valueOf(point.getTotalDistance()), index);
     }
-
+    /***
+     * Adds a single flight Point to an Existing FLight Path appended on the end of the list.
+     * @param point
+     * @throws DataException
+     */
     public void addFlightPointToPath(FlightPoint point) throws DataException{
         addFlightPointToPath(point.getIndex(), point.getName(), point.getType(), point.getVia(), String.valueOf(point.getAltitude()),
                 String.valueOf( point.getLatitude()),String.valueOf(point.getLongitude()),
                 String.valueOf(point.getHeading()), String.valueOf(point.getLegDistance()), String.valueOf(point.getTotalDistance()), -1);
     }
+
+    /**
+     * Adds a single flight Point to an Existing FLight Path appended on the end of the list.
+     * @param id
+     * @param name
+     * @param type
+     * @param via
+     * @param altitude
+     * @param latitude
+     * @param longitude
+     * @param heading
+     * @param legDist
+     * @param totDist
+     * @throws DataException
+     */
 
     public void addFlightPointToPath(int id, String name, String type, String via, String altitude, String latitude, String longitude,
                                      String heading, String legDist, String totDist) throws DataException{
@@ -1302,6 +1369,10 @@ public class Dataset {
         createDataLinks();
     }
 
+    /**
+     * Deletes an AIrline from the dataset and database based on it index
+     * @param index
+     */
     public void deleteAirline(int index){
         deleteAirline(airlines.get(index));
     }
@@ -1381,6 +1452,10 @@ public class Dataset {
         createDataLinks();
     }
 
+    /**
+     * Deletes an Airport from the dataset and database based on it index.
+     * @param index
+     */
     public void deleteAirport(int index){
         deleteAirport(airports.get(index));
     }
@@ -1410,6 +1485,10 @@ public class Dataset {
         createDataLinks();
     }
 
+    /**
+     * Deletes a Route from the dataset and database based on its index
+     * @param index
+     */
     public void deleteRoute(int index){
         deleteRoute(routes.get(index));
     }
@@ -1428,6 +1507,10 @@ public class Dataset {
         try {
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
+            stmt = c.createStatement();
+            String deletePointsQuery = "DELETE FROM `"+this.name+"_FlightPoints` WHERE `Index_ID` = "+flightPath.getID()+ ";";
+            stmt.execute(deletePointsQuery);
+            stmt.close();
             String deleteQuery = "DELETE FROM `"+this.name+"_Flight_Path` WHERE `Path_ID` = " + flightPath.getID() + ";";
             stmt = c.createStatement();
             stmt.execute(deleteQuery);
@@ -1444,6 +1527,10 @@ public class Dataset {
         }
     }
 
+    /**
+     * Deletes a flight path from the database based on its index.
+     * @param index
+     */
     public void deleteFlightPath(int index){
         deleteFlightPath(flightPaths.get(index));
     }
@@ -1470,54 +1557,107 @@ public class Dataset {
         flightPath.getFlightPoints().remove(flightPoint);
     }
 
+    /**
+     * deletes a single flight point from a given path.
+     * @param pathIndex
+     * @param pointIndex
+     */
     public void deleteFlightPoint(int pathIndex, int pointIndex){
         deleteFlightPoint(flightPathDictionary.get(pathIndex).getFlightPoints().get(pointIndex), flightPathDictionary.get(pathIndex));
     }
 
+    /**
+     * returns the airlines that are part of this dataset.
+     * @return
+     */
     public ArrayList<Airline> getAirlines() {
         return airlines;
     }
 
+    /**
+     * returns the airports that are associated with this dataset.
+     * @return
+     */
     public ArrayList<Airport> getAirports() {
         return airports;
     }
 
+    /**
+     * returns the routes that are associated with this dataset.
+     * @return
+     */
     public ArrayList<Route> getRoutes() {
         return routes;
     }
 
+    /**
+     * returns the flight paths that are associated with this dataset.
+     * @return
+     */
     public ArrayList<FlightPath> getFlightPaths() {
         return flightPaths;
     }
 
+    /**
+     * returns the countries that are associated with this dataset.
+     * @return
+     */
     public ArrayList<Country> getCountries() {
         return countries;
     }
 
+    /**
+     * returns the cities that are associate wit hthis dataset.
+     * @return
+     */
     public ArrayList<City> getCities() {
         return cities;
     }
 
+    /**
+     * returns a dictionary with the airlines that are associated with this datatset.
+     * @return
+     */
     public LinkedHashMap<String, Airline> getAirlineDictionary() {
         return airlineDictionary;
     }
 
+    /**
+     * returns a dictionary with the airports that are associated with this dataset.
+     * @return
+     */
     public LinkedHashMap<String, Airport> getAirportDictionary() {
         return airportDictionary;
     }
 
+    /**
+     * returns a route dictionary with the routes that are associated wit hthis dataset.
+     * @return
+     */
     public LinkedHashMap<String, Route> getRouteDictionary() {
         return routeDictionary;
     }
 
+    /**
+     * returns a flightpath dictionary with the flights that are associated with this dataset.
+     * @return
+     */
     public LinkedHashMap<Integer, FlightPath> getFlightPathDictionary() {
         return flightPathDictionary;
     }
 
+    /**
+     * returns a Country Dictionary with the COuntries that are associated with this dataset.
+     * @return
+     */
     public LinkedHashMap<String, Country> getCountryDictionary() {
         return countryDictionary;
     }
 
+    /**
+     * returns a City Dictionary with the Cities that are associated with this datatset.
+     * @return
+     */
     public LinkedHashMap<String, City> getCityDictionary() {
         return cityDictionary;
     }

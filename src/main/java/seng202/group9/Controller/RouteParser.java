@@ -5,15 +5,27 @@ import seng202.group9.Core.Route;
 import java.io.*;
 import java.util.ArrayList;
 
+/**
+ * Created By Fan-Wu Yang(fwy13)
+ */
 public class RouteParser extends Parser {
     String filePath = "";
     ArrayList<Route> parsedRoutes;
 
+    /**
+     * Constructor for Route Parser takes in a file and gets ready for the parse() call.
+     * @param filePath
+     */
     public RouteParser(String filePath){
         this.filePath = filePath;
         parsedRoutes = new ArrayList<Route>();
     }
 
+    /**
+     * parses the given file for ROutes.
+     * @return
+     * @throws DataException
+     */
     public String parse() throws DataException{
         int successful = 0;
         int error = 0;
@@ -153,6 +165,10 @@ public class RouteParser extends Parser {
                 "Routes With Errors: %2$d", successful, error);
     }
 
+    /**
+     * returns the final successful results.
+     * @return
+     */
     public ArrayList<Route> getResult(){
         return parsedRoutes;
     }

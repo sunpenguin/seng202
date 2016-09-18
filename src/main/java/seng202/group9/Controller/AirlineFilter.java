@@ -164,6 +164,7 @@ public class AirlineFilter extends Filter{
         for (Airline airline: arrayList){
             baseArray.add(airline);
         }
+        reset();
     }
 
     /**
