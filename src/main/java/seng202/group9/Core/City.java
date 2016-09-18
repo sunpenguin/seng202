@@ -138,7 +138,9 @@ public class City {
 	 * @param index
 	 */
 	public void delAirport(int index) {
-		airports.remove(index);
+		if (airports.size() > index) {
+			airports.remove(index);
+		}
 	}
 	@Override
 	public String toString(){
