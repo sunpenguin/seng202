@@ -40,7 +40,7 @@ public class AirportSummaryController extends Controller{
     private Map map;
 
     public void airportRawDataButton() {
-        replaceSceneContent(SceneCode.AIRLINE_RAW_DATA);
+        replaceSceneContent(SceneCode.AIRPORT_RAW_DATA);
     }
     public void flightSummaryButton() {
         replaceSceneContent(SceneCode.FLIGHT_SUMMARY);
