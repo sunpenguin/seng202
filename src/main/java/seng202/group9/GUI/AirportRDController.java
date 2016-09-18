@@ -216,4 +216,5 @@ public class AirportRDController extends Controller{
         }
         tableViewAirportRD.setItems(FXCollections.<Airport>observableArrayList(filter.getFilteredData()));
     }
+    public void analyse_Button(){ replaceSceneContent(SceneCode.AIRPORT_ANALYSER);}
 }
