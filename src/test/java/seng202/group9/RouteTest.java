@@ -8,6 +8,7 @@ import seng202.group9.Controller.DataException;
 import seng202.group9.Core.Airline;
 import seng202.group9.Core.Airport;
 import seng202.group9.Core.Route;
+import seng202.group9.Core.RoutePath;
 
 import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -143,7 +144,8 @@ public class RouteTest{
 		route.hasDuplicate(route1);
 	}
 
-	public void testToString(){
+	@Test
+	public void testGetPath(){
 		//sample entry
 		//BA,1355,SIN,3316,LHR,507,,0,744 777
 		//airline, airline ID (This is not parsed as this will be different
@@ -151,6 +153,24 @@ public class RouteTest{
 		//destination airport, destination ID (not parsed), Codeshare, stops, Equipment
 		//should only be a duplicate if every entry is the same
 		Route route = new Route("BA", "SIN", "LHR", "", 0, "744 777");
-		assertEquals(route.toString(), "BA files from SIN to LHR on a 744 777 stopping 0 amount of times");
+		Airport sourceAirport = new Airport(3316,"Changi Intl","Singapore","Singapore","SIN","WSSS",1.350189,103.994433,22);
+		Airport destAirport = new Airport(507,"Heathrow","London","United Kingdom","LHR","EGLL",51.4775,-0.461389,83);
+		assertTrue(route.getRoutePath().getRoute().size() == 0);
+		route.setSourceAirport(sourceAirport);
+		assertTrue(route.getRoutePath().getRoute().size() == 0);
+		route.setDestinationAirport(destAirport);
+		assertTrue(route.getRoutePath().getRoute().size() == 2);
+	}
+
+	@Test
+	public void testToString() {
+		//sample entry
+		//BA,1355,SIN,3316,LHR,507,,0,744 777
+		//airline, airline ID (This is not parsed as this will be different
+		//from our database id for this route), source Aiport, source Airport ID (not parsed),
+		//destination airport, destination ID (not parsed), Codeshare, stops, Equipment
+		//should only be a duplicate if every entry is the same
+		Route route = new Route("BA", "SIN", "LHR", "", 0, "744 777");
+		assertEquals(route.toString(), "BA flies from SIN to LHR on a 744 777 stopping 0 amount of times");
 	}
 }

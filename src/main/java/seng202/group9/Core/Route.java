@@ -268,6 +268,9 @@ public class Route {
 	 * @return
 	 */
 	public RoutePath getRoutePath(){
+		if (getSourceAirport() == null || getDestinationAirport() == null){
+			return new RoutePath();
+		}
 		if (routePath == null) {
 			routePath = new RoutePath(
 					new Position(getSourceAirport().getLatitude(), getSourceAirport().getLongitude()),
