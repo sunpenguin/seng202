@@ -2,7 +2,6 @@ package seng202.group9;
 
 import java.util.ArrayList;
 
-import javafx.scene.chart.PieChart;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import seng202.group9.Controller.DataException;
@@ -20,8 +19,6 @@ import static org.junit.Assert.assertTrue;
  *
  */
 public class AirlineTest{
-
-	public ExpectedException thrown = ExpectedException.none();
 	
     /**
      * Test for Airline get and setting methods
