@@ -5,6 +5,12 @@ To Import this project:
 git clone https://eng-git.canterbury.ac.nz/fwy13/SENG202.git
 Open your preferred IDE and then Import Maven Project.
 
+To Run:
+Double click seng202_2016_team9_phase2.jar this will run the Application.
+
+Necessary Files:
+/res/userdb.db
+
 Getting started:
 The application is shipped with all the example data files pre loaded into the database. If the user wants add more data
 from a file then they can select a file to import using File -> Import <data> where data is the type of data you are
