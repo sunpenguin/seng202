@@ -19,9 +19,11 @@ import seng202.group9.Core.RoutePath;
 import seng202.group9.Map.Map;
 
 /**
+ * Controller for the Airline summary scene.
  * Created by michael on 14/09/2016.
  */
 public class AirlineSummaryController extends Controller{
+    //links the fxml to the controller.
     @FXML
     private TableView<Airline> tableView;
     @FXML
@@ -37,11 +39,16 @@ public class AirlineSummaryController extends Controller{
     @FXML
     private TableColumn<Airline, String> columnIATA;
 
+    //Holds data used for the table.
     private Dataset currentData = null;
 
     private Map map;
 
+    /**
+     * Loads initial state of the scene.
+     */
     public void load() {
+        //Fills the table.
         columnName.setCellValueFactory(new PropertyValueFactory<Airline, String>("Name"));
         columnAlias.setCellValueFactory(new PropertyValueFactory<Airline, String>("Alias"));
         columnCountry.setCellValueFactory(new PropertyValueFactory<Airline, String>("CountryName"));
@@ -49,6 +56,7 @@ public class AirlineSummaryController extends Controller{
         columnActive.setCellValueFactory(new PropertyValueFactory<Airline, String>("Active"));
         currentData = getParent().getCurrentDataset();
         tableView.setItems(FXCollections.observableArrayList(currentData.getAirlines()));
+        //Sets up map.
         map = new Map(mapView, new RoutePath());
         tableView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Airline>() {
             public void changed(ObservableValue<? extends Airline> observable, Airline oldValue, Airline newValue) {
@@ -63,15 +71,30 @@ public class AirlineSummaryController extends Controller{
         });
     }
 
+    /**
+     * Changes the scene to the Airline raw data scene.
+     */
     public void airlineRawDataButton() {
         replaceSceneContent(SceneCode.AIRLINE_RAW_DATA);
     }
+
+    /**
+     * Changes the scene to the Flight summary scene.
+     */
     public void flightSummaryButton() {
         replaceSceneContent(SceneCode.FLIGHT_SUMMARY);
     }
+
+    /**
+     * Changes the scene to the Airport summary scene.
+     */
     public void airportSummaryButton() {
         replaceSceneContent(SceneCode.AIRPORT_SUMMARY);
     }
+
+    /**
+     * Changes the scene to the Route summary scene.
+     */
     public void routeSummaryButton() {
         replaceSceneContent(SceneCode.ROUTE_SUMMARY);
     }

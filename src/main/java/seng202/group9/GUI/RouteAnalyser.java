@@ -12,20 +12,28 @@ import java.util.HashMap;
 
 
 /**
+ * Gui controller class currently for creating the bar graph of routes arriving and departing from airports.
+ * Extend the class. {@link Controller}
  * Created by michael on 16/09/2016.
  */
 public class RouteAnalyser extends Controller {
+    //Links fxml to the controller.
     @FXML
     private BarChart analyserGraph;
 
+    //Used to store the data needed for making the tables.
     private ArrayList<Route> current_routes;
-
     private Dataset currentdata = null;
     private HashMap<String, ArrayList> useddata = new HashMap<String, ArrayList>();
 
+    /**
+     * Takes data from the current dataset and places it into the displayed bar graph.
+     */
     public void build_graph(){
+        //Takes routes from the full dataset.
         current_routes = currentdata.getRoutes();
         datasetup(current_routes);
+        //Builds series needed for the graph.
         XYChart.Series seriesArivals = new XYChart.Series();
         XYChart.Series seriesDeparts = new XYChart.Series();
         seriesArivals.setName("Arriving routes");
@@ -36,10 +44,17 @@ public class RouteAnalyser extends Controller {
             seriesArivals.getData().add(new XYChart.Data(airport,temp.get(0)));
             seriesDeparts.getData().add(new XYChart.Data(airport,temp.get(1)));
         }
+        //Gives the formatted data to the graph.
         analyserGraph.getData().addAll(seriesArivals,seriesDeparts);
     }
 
+    /**
+     * Takes the raw list of routes and fills the used data dictionary with the appropriate data to be displayed
+     * @param current_routes
+     */
+
     private void datasetup(ArrayList<Route> current_routes){
+        //Takes out the specified field (Currently departure airport and arrival airport) then adds to the used data dict.
         for (Route entry : current_routes){
             String departs = entry.getDepartureAirport();
             String arives = entry.getArrivalAirport();
@@ -66,6 +81,9 @@ public class RouteAnalyser extends Controller {
         }
     }
 
+    /**
+     * Takes the current dataset then loads the data to the graph using build graph.
+     */
     public void load() {
         currentdata = getParent().getCurrentDataset();
         build_graph();

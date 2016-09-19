@@ -23,7 +23,6 @@ public class Airport {
 	private Country country;
 	private ArrayList<Route> departureRoutes = new ArrayList<Route>();
 	private ArrayList<Route> arrivalRoutes = new ArrayList<Route>();
-	
 	/**
 	 * Constructor
 	 * @param ID from the database

@@ -39,6 +39,9 @@ public class RouteSummaryController extends Controller{
 
     private Dataset currentData = null;
 
+    /**
+     * Loads initial state of the scene.
+     */
     public void load() {
         columnAirline.setCellValueFactory(new PropertyValueFactory<Route, String>("AirlineName"));
         columnDepart.setCellValueFactory(new PropertyValueFactory<Route, String>("DepartureAirport"));
@@ -69,15 +72,31 @@ public class RouteSummaryController extends Controller{
             }
         });
     }
+
+    /**
+     * Changes the scene to the route raw data scene.
+     */
     public void routeRawDataButton() {
         replaceSceneContent(SceneCode.ROUTE_RAW_DATA);
     }
+
+    /**
+     * Changes the scene to the flight summary scene.
+     */
     public void flightSummaryButton() {
         replaceSceneContent(SceneCode.FLIGHT_SUMMARY);
     }
+
+    /**
+     * Changes the scene to the airport summary scene.
+     */
     public void airportSummaryButton() {
         replaceSceneContent(SceneCode.AIRPORT_SUMMARY);
     }
+
+    /**
+     * Changes the scene to the airline summary scene.
+     */
     public void airlineSummaryButton() {
         replaceSceneContent(SceneCode.AIRLINE_SUMMARY);
     }

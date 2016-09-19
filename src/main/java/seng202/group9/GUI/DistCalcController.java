@@ -21,9 +21,11 @@ import javafx.scene.chart.*;
 import javafx.scene.Group;
 
 /**
+ * Controls the calculate airport distance scene and extends {@link Controller}
  * Created by michael on 17/09/2016.
  */
 public class DistCalcController extends Controller {
+    //Connects controller to fxml.
     @FXML
     ListView<String> airportOne;
     @FXML
@@ -31,10 +33,14 @@ public class DistCalcController extends Controller {
     @FXML
     Label answerBox;
 
+    //Stores requsite data for calulating and populating tables.
     Dataset currentData = null;
     HashMap<String, Airport> current_Airports;
     SimpleStringProperty bound = new SimpleStringProperty("Answer");
 
+    /**
+     * Fills the list views with the current airports.
+     */
     private void fill_boxes(){
         HashMap<String, Airport> current_Airports = currentData.getAirportDictionary();
         ArrayList<String> names = new ArrayList<String>();
@@ -46,6 +52,9 @@ public class DistCalcController extends Controller {
         airportTwo.setItems(usablenames);
     }
 
+    /**
+     * Takes thetwo selected airports from the list views and calculated the distance between.
+     */
     public void calculateButton(){
         Airport airport1 = currentData.getAirports().get((airportOne.getSelectionModel().getSelectedIndices().get(0)));
         Airport airport2 = currentData.getAirports().get((airportTwo.getSelectionModel().getSelectedIndices().get(0)));
@@ -54,6 +63,9 @@ public class DistCalcController extends Controller {
         System.out.println(bound);
     }
 
+    /**
+     * Sets the initial state of the scene.
+     */
     public void load(){
         currentData = getParent().getCurrentDataset();
         answerBox.textProperty().bind(bound);
