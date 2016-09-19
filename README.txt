@@ -6,12 +6,15 @@ git clone https://eng-git.canterbury.ac.nz/fwy13/SENG202.git
 Open your preferred IDE and then Import Maven Project.
 
 Getting started:
-If there is no data in the database, you can select a file to import using File -> Import <data> for which type of data you are choosing to import.
+The application is shipped with all the example data files pre loaded into the database. If the user wants add more data
+from a file then they can select a file to import using File -> Import <data> where data is the type of data you are
+choosing to import. ie Airline, Airport, Route or Flight data.
 This will automatically take you to the summary page for the type of data imported.
 Also, all buttons will work without any data loaded except the tables will be empty.
 
 Each page will also have buttons leading to other summary pages of different data types.
-The raw data can add data by filling in the fields and pressing Add.
-The raw data can also filter/search through the data by typing in the fields needed and pressing Go.
+The raw data pages has the ability to add data by filling in the fields and pressing Add.
+The raw data pages for Airline, Airport and Routes can also filter/search through the data by typing in the fields needed
+and pressing Go.
 The Analyse button in the raw data will take you to a graph if it has been implemented.
 There is only one option currently in the Analysis tab, which calculates the distance between two airports in the database.
