@@ -8,6 +8,11 @@ Open your preferred IDE and then Import Maven Project.
 To Run:
 Double click seng202_2016_team9_phase2.jar this will run the Application.
 
+Alternatively:
+
+Open the terminal and locate the file that seng202_2016_team9_phase2.jar located in.
+Run java -jar seng202_2016_team9_phase2.jar
+
 Necessary Files:
 /res/userdb.db
 
