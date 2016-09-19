@@ -49,11 +49,6 @@
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#veiwDistCalc" text="Calculate distance between Airports" />
                </items></Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Getting Started" />
-            </items>
-          </Menu>
         </menus>
       </MenuBar>
    </children>
