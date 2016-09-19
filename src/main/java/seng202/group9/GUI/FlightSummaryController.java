@@ -117,8 +117,9 @@ public class FlightSummaryController extends Controller {
         }
         flightPathListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if(newValue.equals(Worker.State.SUCCEEDED)) {
-                    map.displayRoute(theDataSet.getFlightPaths().get(flightPathListView.getSelectionModel().getSelectedIndices().get(0)).getRoutePath());
+                int index = flightPathListView.getSelectionModel().getSelectedIndices().get(0);
+                if (index != -1) {
+                    map.displayRoute(theDataSet.getFlightPaths().get(index).getRoutePath());
                 }
             }
         });
