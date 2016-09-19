@@ -4,6 +4,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Worker;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -116,7 +117,9 @@ public class FlightSummaryController extends Controller {
         }
         flightPathListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                map.displayRoute(theDataSet.getFlightPaths().get(flightPathListView.getSelectionModel().getSelectedIndices().get(0)).getRoutePath());
+                if(newValue.equals(Worker.State.SUCCEEDED)) {
+                    map.displayRoute(theDataSet.getFlightPaths().get(flightPathListView.getSelectionModel().getSelectedIndices().get(0)).getRoutePath());
+                }
             }
         });
     }

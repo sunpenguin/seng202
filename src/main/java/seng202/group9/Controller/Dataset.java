@@ -1508,7 +1508,7 @@ public class Dataset {
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
             stmt = c.createStatement();
-            String deletePointsQuery = "DELETE FROM `"+this.name+"_FlightPoints` WHERE `Index_ID` = "+flightPath.getID()+ ";";
+            String deletePointsQuery = "DELETE FROM `"+this.name+"_Flight_Points` WHERE `Index_ID` = "+flightPath.getID()+ ";";
             stmt.execute(deletePointsQuery);
             stmt.close();
             String deleteQuery = "DELETE FROM `"+this.name+"_Flight_Path` WHERE `Path_ID` = " + flightPath.getID() + ";";
