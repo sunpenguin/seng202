@@ -1661,4 +1661,128 @@ public class Dataset {
     public LinkedHashMap<String, City> getCityDictionary() {
         return cityDictionary;
     }
+
+    /**
+     * Edits Airline and commits them to the database.
+     * @param index
+     * @param name
+     * @param alias
+     * @param IATA
+     * @param ICAO
+     * @param callsign
+     * @param country
+     * @param active
+     * @throws DataException
+     */
+    public void editAirline(int index, String name, String alias, String IATA, String ICAO, String callsign, String country, String active ) throws DataException {
+        editAirline(airlines.get(index), name, alias, IATA, ICAO, callsign, country, active);
+    }
+    /**
+     * Edits Airline and commits them to the database.
+     * @param airline
+     * @param name
+     * @param alias
+     * @param IATA
+     * @param ICAO
+     * @param callsign
+     * @param country
+     * @param active
+     * @throws DataException
+     */
+    public void editAirline(Airline airline, String name, String alias, String IATA, String ICAO, String callsign, String country, String active ) throws DataException {
+        //check the data errors
+        EntryParser parser = new EntryParser();
+        parser.parseAirline(name, alias, IATA,ICAO, callsign, country, active);
+        airline.setName(name);
+        airline.setAlias(name);
+        airline.setIATA(IATA);
+        airline.setICAO(ICAO);
+        airline.setCallSign(callsign);
+        airline.setCountryName(country);
+        airline.setActive(active);
+        Connection c = null;
+        Statement stmt = null;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
+            String query = "UPDATE `"+this.name+"_Airline` SET `Name` = \""+airline.getName()+"\", `Alias` = \""+airline.getActive()+"\", " +
+                    "`IATA` = \""+airline.getIATA()+"\", `ICAO` = \""+airline.getICAO()+"\" , `Callsign` = \""+airline.getCallSign()+"\", " +
+                    "`Country` = \""+airline.getCountryName()+"\", `Active` = \""+airline.getActive()+"\" WHERE `Airline_ID` = "+airline.getID();
+            stmt.execute(query);
+            c.close();
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        }
+        createDataLinks();
+    }
+
+    /**
+     * Edits the Airport in the dataset then commits it to the database.
+     * @param index
+     * @param name
+     * @param city
+     * @param country
+     * @param IATA_FFA
+     * @param ICAO
+     * @param lat
+     * @param lng
+     * @param alt
+     * @param timezone
+     * @param DST
+     * @param olson
+     * @throws DataException
+     */
+    public void editAirport(int index, String name, String city, String country, String IATA_FFA, String ICAO, String lat, String lng, String alt, String timezone, String DST, String olson) throws DataException {
+        editAirport(airports.get(index), name, city, country, IATA_FFA, ICAO, lat, lng, alt, timezone, DST, olson);
+    }
+
+    /**
+     * Edits the Airport in the dataset then commits it to the database.
+     * @param airport
+     * @param name
+     * @param city
+     * @param country
+     * @param IATA_FFA
+     * @param ICAO
+     * @param lat
+     * @param lng
+     * @param alt
+     * @param timezone
+     * @param DST
+     * @param olson
+     * @throws DataException
+     */
+    public void editAirport(Airport airport, String name, String city, String country, String IATA_FFA, String ICAO, String lat, String lng, String alt, String timezone, String DST, String olson) throws DataException {
+        EntryParser parser = new EntryParser();
+        Airport newAirport = parser.parseAirport(name, city, country, IATA_FFA, ICAO, lat, lng, alt, timezone, DST, olson);
+        airport.setName(name);
+        airport.setCityName(city);
+        airport.getCity().setName(city);
+        airport.setCountryName(country);
+        airport.getCountry().setName(country);
+        airport.setIATA_FFA(IATA_FFA);
+        airport.setICAO(ICAO);
+        airport.setLatitude(newAirport.getLatitude());
+        airport.setLongitude(newAirport.getLongitude());
+        airport.getCity().setTimezone(Double.parseDouble(timezone));
+        airport.getCountry().setDST(DST);
+        airport.getCity().setTimeOlson(olson);
+
+        Connection c = null;
+        Statement stmt = null;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
+            String query = "UPDATE `"+this.name+"_Airport` SET `Name` = \""+airport.getName()+"\", `City` = \""+airport.getCityName()+"\", " +
+                    "`Country` = \""+airport.getCountryName()+"\", `IATA/FFA` = \""+airport.getIATA_FFA()+"\", " +
+                    "`ICAO` = \""+airport.getICAO()+"\", `Latitude` = "+airport.getLatitude() + ", `Longitude` = "+airport.getLongitude()+", " +
+                    "`Altitude` = "+airport.getAltitude() + " WHERE `Airport_ID` = "+airport.getID();
+            stmt.execute(query);
+            c.close();
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        }
+    }
+
+    
 }
