@@ -1782,6 +1782,59 @@ public class Dataset {
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         }
+        createDataLinks();
+    }
+
+    /**
+     * Edits the ROutes in the dataset and commits it to the database.
+     * @param index
+     * @param airline
+     * @param source
+     * @param dest
+     * @param code
+     * @param stops
+     * @param equip
+     * @throws DataException
+     */
+    public void editRoute(int index, String airline, String source, String dest, String code, String stops, String equip) throws DataException {
+        editRoute(routes.get(index), airline, source, dest, code, stops, equip);
+    }
+
+    /**
+     * Edits the ROutes in the dataset and then commits it to the database.
+     * @param route
+     * @param airline
+     * @param source
+     * @param dest
+     * @param code
+     * @param stops
+     * @param equip
+     * @throws DataException
+     */
+    public void editRoute(Route route, String airline, String source, String dest, String code, String stops, String equip) throws DataException {
+        EntryParser entryParser = new EntryParser();
+        Route newRoute = entryParser.parseRoute(airline, source, dest, code, stops, equip);
+        route.setAirlineName(newRoute.getAirlineName());
+        route.setDepartureAirport(newRoute.getDepartureAirport());
+        route.setArrivalAirport(newRoute.getArrivalAirport());
+        route.setCode(newRoute.getCode());
+        route.setEquipment(equip);
+
+        Connection c = null;
+        Statement stmt = null;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
+            String query = "UPDATE `"+this.name+"_Routes` SET `Airline` = \""+route.getAirlineName()+"\", " +
+                    "`Source_Airport` = \""+route.getDepartureAirport()+"\", `Destination_Airport` = \""+route.getArrivalAirport()+"\", " +
+                    "`Codeshare` = \""+route.getCode()+"\", `Stops` = "+route.getStops()+", `Equipment` = \""+route.getEquipment()+"\" " +
+                    "WHERE `Route_ID` = "+route.getID();
+            stmt.execute(query);
+            c.close();
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        }
+        createDataLinks();
     }
 
     
