@@ -1706,9 +1706,9 @@ public class Dataset {
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
             stmt = c.createStatement();
-            String query = "UPDATE `"+this.name+"_Airline` SET `Name` = \""+airline.getName()+"\", `Alias` = \""+airline.getActive()+"\", " +
-                    "`IATA` = \""+airline.getIATA()+"\", `ICAO` = \""+airline.getICAO()+"\" , `Callsign` = \""+airline.getCallSign()+"\", " +
-                    "`Country` = \""+airline.getCountryName()+"\", `Active` = \""+airline.getActive()+"\" WHERE `Airline_ID` = "+airline.getID();
+            String query = "UPDATE `"+this.name+"_Airline` SET `Name` = \""+airline.getName().replace("\"", "\"\"")+"\", `Alias` = \""+airline.getActive().replace("\"", "\"\"")+"\", " +
+                    "`IATA` = \""+airline.getIATA().replace("\"", "\"\"")+"\", `ICAO` = \""+airline.getICAO().replace("\"", "\"\"")+"\" , `Callsign` = \""+airline.getCallSign().replace("\"", "\"\"")+"\", " +
+                    "`Country` = \""+airline.getCountryName().replace("\"", "\"\"")+"\", `Active` = \""+airline.getActive().replace("\"", "\"\"")+"\" WHERE `Airline_ID` = "+airline.getID();
             stmt.execute(query);
             stmt.close();
             c.close();
@@ -1776,9 +1776,9 @@ public class Dataset {
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
             stmt = c.createStatement();
-            String query = "UPDATE `"+this.name+"_Airport` SET `Name` = \""+airport.getName()+"\", `City` = \""+airport.getCityName()+"\", " +
-                    "`Country` = \""+airport.getCountryName()+"\", `IATA/FFA` = \""+airport.getIATA_FFA()+"\", " +
-                    "`ICAO` = \""+airport.getICAO()+"\", `Latitude` = "+airport.getLatitude() + ", `Longitude` = "+airport.getLongitude()+", " +
+            String query = "UPDATE `"+this.name+"_Airport` SET `Name` = \""+airport.getName().replace("\"", "\"\"")+"\", `City` = \""+airport.getCityName().replace("\"", "\"\"")+"\", " +
+                    "`Country` = \""+airport.getCountryName().replace("\"", "\"\"")+"\", `IATA/FFA` = \""+airport.getIATA_FFA().replace("\"", "\"\"")+"\", " +
+                    "`ICAO` = \""+airport.getICAO().replace("\"", "\"\"")+"\", `Latitude` = "+airport.getLatitude() + ", `Longitude` = "+airport.getLongitude()+", " +
                     "`Altitude` = "+airport.getAltitude() + " WHERE `Airport_ID` = "+airport.getID();
             stmt.execute(query);
             stmt.close();
@@ -1830,9 +1830,9 @@ public class Dataset {
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
             stmt = c.createStatement();
-            String query = "UPDATE `"+this.name+"_Routes` SET `Airline` = \""+route.getAirlineName()+"\", " +
-                    "`Source_Airport` = \""+route.getDepartureAirport()+"\", `Destination_Airport` = \""+route.getArrivalAirport()+"\", " +
-                    "`Codeshare` = \""+route.getCode()+"\", `Stops` = "+route.getStops()+", `Equipment` = \""+route.getEquipment()+"\" " +
+            String query = "UPDATE `"+this.name+"_Routes` SET `Airline` = \""+route.getAirlineName().replace("\"", "\"\"")+"\", " +
+                    "`Source_Airport` = \""+route.getDepartureAirport().replace("\"", "\"\"")+"\", `Destination_Airport` = \""+route.getArrivalAirport().replace("\"", "\"\"")+"\", " +
+                    "`Codeshare` = \""+route.getCode().replace("\"", "\"\"")+"\", `Stops` = "+route.getStops()+", `Equipment` = \""+route.getEquipment().replace("\"", "\"\"")+"\" " +
                     "WHERE `Route_ID` = "+route.getID();
             stmt.execute(query);
             stmt.close();
@@ -1884,8 +1884,8 @@ public class Dataset {
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
             stmt = c.createStatement();
-            String query = "UPDATE `"+this.name+"_Flight_Points` SET `Name` = \""+flightPoint.getName()+"\", " +
-                    "`Type` = \""+flightPoint.getType()+"\", `Altitude` = "+flightPoint.getAltitude()+", " +
+            String query = "UPDATE `"+this.name+"_Flight_Points` SET `Name` = \""+flightPoint.getName().replace("\"", "\"\"")+"\", " +
+                    "`Type` = \""+flightPoint.getType().replace("\"", "\"\"")+"\", `Altitude` = "+flightPoint.getAltitude()+", " +
                     "`Latitude` = "+flightPoint.getLatitude()+", `Longitude` = "+flightPoint.getLongitude()+" WHERE " +
                     "`POINT_ID` = "+flightPoint.getID();
             stmt.execute(query);
@@ -1901,7 +1901,7 @@ public class Dataset {
         if (indexOf == 0){
             try {
                 stmt = c.createStatement();
-                String query = "UPDATE `"+this.name+"_Flight_Path` SET `Source_Airport` = \""+flightPoint.getName()+"\" " +
+                String query = "UPDATE `"+this.name+"_Flight_Path` SET `Source_Airport` = \""+flightPoint.getName().replace("\"", "\"\"")+"\" " +
                         "WHERE `Path_ID` = "+flightPoint.getIndexID();
                 stmt.execute(query);
                 c.close();
@@ -1911,7 +1911,7 @@ public class Dataset {
         }else if (indexOf == flightPath.getFlightPoints().size() - 1){
             try {
                 stmt = c.createStatement();
-                String query = "UPDATE `"+this.name+"_Flight_Path` SET `Destination_Airport` = \""+flightPoint.getName()+"\" " +
+                String query = "UPDATE `"+this.name+"_Flight_Path` SET `Destination_Airport` = \""+flightPoint.getName().replace("\"", "\"\"")+"\" " +
                         "WHERE `Path_ID` = "+flightPoint.getIndexID();
                 stmt.execute(query);
                 c.close();
