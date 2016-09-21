@@ -1705,10 +1705,12 @@ public class Dataset {
         try {
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
+            stmt = c.createStatement();
             String query = "UPDATE `"+this.name+"_Airline` SET `Name` = \""+airline.getName()+"\", `Alias` = \""+airline.getActive()+"\", " +
                     "`IATA` = \""+airline.getIATA()+"\", `ICAO` = \""+airline.getICAO()+"\" , `Callsign` = \""+airline.getCallSign()+"\", " +
                     "`Country` = \""+airline.getCountryName()+"\", `Active` = \""+airline.getActive()+"\" WHERE `Airline_ID` = "+airline.getID();
             stmt.execute(query);
+            stmt.close();
             c.close();
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -1773,11 +1775,13 @@ public class Dataset {
         try {
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
+            stmt = c.createStatement();
             String query = "UPDATE `"+this.name+"_Airport` SET `Name` = \""+airport.getName()+"\", `City` = \""+airport.getCityName()+"\", " +
                     "`Country` = \""+airport.getCountryName()+"\", `IATA/FFA` = \""+airport.getIATA_FFA()+"\", " +
                     "`ICAO` = \""+airport.getICAO()+"\", `Latitude` = "+airport.getLatitude() + ", `Longitude` = "+airport.getLongitude()+", " +
                     "`Altitude` = "+airport.getAltitude() + " WHERE `Airport_ID` = "+airport.getID();
             stmt.execute(query);
+            stmt.close();
             c.close();
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -1825,11 +1829,13 @@ public class Dataset {
         try {
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
+            stmt = c.createStatement();
             String query = "UPDATE `"+this.name+"_Routes` SET `Airline` = \""+route.getAirlineName()+"\", " +
                     "`Source_Airport` = \""+route.getDepartureAirport()+"\", `Destination_Airport` = \""+route.getArrivalAirport()+"\", " +
                     "`Codeshare` = \""+route.getCode()+"\", `Stops` = "+route.getStops()+", `Equipment` = \""+route.getEquipment()+"\" " +
                     "WHERE `Route_ID` = "+route.getID();
             stmt.execute(query);
+            stmt.close();
             c.close();
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -1837,5 +1843,83 @@ public class Dataset {
         createDataLinks();
     }
 
-    
+    /**
+     * Edits a flight Point in the dataset then commits it to the database.
+     * @param flightPath
+     * @param index
+     * @param name
+     * @param type
+     * @param altitude
+     * @param latitude
+     * @param longitude
+     * @throws DataException
+     */
+    public void editFlight(FlightPath flightPath, int index, String name, String type, String altitude, String latitude, String longitude) throws DataException{
+        editFlight(flightPath.getFlightPoints().get(index), name, type, altitude, latitude, longitude);
+    }
+
+    /**
+     * Edits a flight Point in the dataset then commits it to the database.
+     * @param flightPoint
+     * @param name
+     * @param type
+     * @param altitude
+     * @param latitude
+     * @param longitude
+     * @throws DataException
+     */
+    public void editFlight(FlightPoint flightPoint, String name, String type, String altitude, String latitude, String longitude) throws DataException{
+        EntryParser entryParser = new EntryParser();
+        FlightPoint flightPoint1 = entryParser.parsePoint(name, type, altitude, latitude, longitude);
+        flightPoint.setName(flightPoint1.getName());
+        flightPoint.setType(flightPoint1.getType());
+        flightPoint.setAltitude(flightPoint1.getAltitude());
+        flightPoint.setLatitude(flightPoint1.getLatitude());
+        flightPoint.setLongitude(flightPoint1.getLongitude());
+
+
+        Connection c = null;
+        Statement stmt = null;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
+            stmt = c.createStatement();
+            String query = "UPDATE `"+this.name+"_Flight_Points` SET `Name` = \""+flightPoint.getName()+"\", " +
+                    "`Type` = \""+flightPoint.getType()+"\", `Altitude` = "+flightPoint.getAltitude()+", " +
+                    "`Latitude` = "+flightPoint.getLatitude()+", `Longitude` = "+flightPoint.getLongitude()+" WHERE " +
+                    "`POINT_ID` = "+flightPoint.getID();
+            stmt.execute(query);
+            stmt.close();
+            c.close();
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        }
+
+        FlightPath flightPath = flightPathDictionary.get(flightPoint.getIndexID());
+        int indexOf = flightPath.getFlightPoints().indexOf(flightPoint);
+
+        if (indexOf == 0){
+            try {
+                stmt = c.createStatement();
+                String query = "UPDATE `"+this.name+"_Flight_Path` SET `Source_Airport` = \""+flightPoint.getName()+"\" " +
+                        "WHERE `Path_ID` = "+flightPoint.getIndexID();
+                stmt.execute(query);
+                c.close();
+            } catch ( Exception e ) {
+                System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            }
+        }else if (indexOf == flightPath.getFlightPoints().size() - 1){
+            try {
+                stmt = c.createStatement();
+                String query = "UPDATE `"+this.name+"_Flight_Path` SET `Destination_Airport` = \""+flightPoint.getName()+"\" " +
+                        "WHERE `Path_ID` = "+flightPoint.getIndexID();
+                stmt.execute(query);
+                c.close();
+            } catch ( Exception e ) {
+                System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            }
+        }
+
+        createDataLinks();
+    }
 }
