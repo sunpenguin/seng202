@@ -47,40 +47,11 @@ public class AirlineRDController extends Controller {
     @FXML
     private TableColumn<Airline, String> airlActiveCol;
 
-    //Setting up text fields for adding data
-    @FXML
-    private TextField airlNameAdd;
-    @FXML
-    private TextField airlAliasAdd;
-    @FXML
-    private TextField airlIATAAdd;
-    @FXML
-    private TextField airlICAOAdd;
-    @FXML
-    private TextField airlCallsignAdd;
-    @FXML
-    private TextField airlCountryAdd;
-    @FXML
-    private TextField airlActiveAdd;
-
-    //Setting up text fields for filtering data
-    @FXML
-    private TextField airlNameFilter;
-    @FXML
-    private TextField airlAliasFilter;
-    @FXML
-    private TextField airlIATAFilter;
-    @FXML
-    private TextField airlICAOFilter;
-    @FXML
-    private TextField airlCallsignFilter;
-    @FXML
-    private TextField airlCountryFilter;
-    @FXML
-    private TextField airlActiveFilter;
 
     //Set an empty Dataset to be assigned later.
     private Dataset theDataSet = null;
+
+    private ObservableList dataL = null;
 
     /**
      * Loads the initial airline data to the GUI table.
@@ -102,6 +73,7 @@ public class AirlineRDController extends Controller {
         tableViewAirlineRD.setItems(FXCollections.observableArrayList(theDataSet.getAirlines()));
     }
 
+
     /**
      * Opens the Airline add form.
      */
@@ -118,92 +90,9 @@ public class AirlineRDController extends Controller {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-    }
-
-    /**
-     * Adds a single airline entry to the database.
-     * Takes in values from the GUI the user has typed in.
-     * @see Dataset
-     */
-    public void addAirlineSingle() {
-        //Tries to add a new airline and clears the fields to their initial state if successful.
-        //Otherwise an error message will pop up with what is wrong with the manual data.
-
-        //How to get this dataset into here to show data?
-        try {
-            theDataSet.addAirline(
-                    airlNameAdd.getText(),
-                    airlAliasAdd.getText(),
-                    airlIATAAdd.getText(),
-                    airlICAOAdd.getText(),
-                    airlCallsignAdd.getText(),
-                    airlCountryAdd.getText(),
-                    airlActiveAdd.getText());
-            airlNameAdd.clear();
-            airlAliasAdd.clear();
-            airlIATAAdd.clear();
-            airlICAOAdd.clear();
-            airlCallsignAdd.clear();
-            airlCountryAdd.clear();
-            airlActiveAdd.getText();
-            tableViewAirlineRD.setItems(FXCollections.observableArrayList(theDataSet.getAirlines()));
-        } catch (Exception e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Airline Data Error");
-            alert.setHeaderText("Error adding a custom airline entry.");
-            System.out.println(e);
-            alert.setContentText(e.getMessage());
-            alert.showAndWait();
-        }
-    }
-
-    /**
-     * Filters airlines by any field.
-     * These are specified by what the user has typed in the filter boxes.
-     * Updates the GUI accordingly.
-     * @see AirlineFilter
-     */
-    public void filterAirlines() {
-        //The filter function also operates like a search function
-        //theDataSet = getParent().getCurrentDataset();
-        AirlineFilter filter = new AirlineFilter(theDataSet.getAirlines());
-        if (airlNameFilter.getText() != null) {
-            filter.filterName(airlNameFilter.getText());
-        }
-        if (airlAliasFilter.getText() != null) {
-            filter.filterAlias(airlAliasFilter.getText());
-        }
-        if (airlIATAFilter.getText() != null) {
-            filter.filterIATA(airlIATAFilter.getText());
-        }
-        if (airlICAOFilter.getText() != null) {
-            filter.filterICAO(airlICAOFilter.getText());
-        }
-        if (airlCallsignFilter.getText() != null) {
-            filter.filterCallsign(airlCallsignFilter.getText());
-        }
-        if (airlCountryFilter.getText() != null) {
-            filter.filterCountry(airlCountryFilter.getText());
-        }
-        if (airlActiveFilter.getText() != null) {
-            filter.filterActive(airlActiveFilter.getText());
-        }
-        //Sets the data according to the criteria specified by the user.
-        tableViewAirlineRD.setItems(FXCollections.<Airline>observableArrayList(filter.getFilteredData()));
-    }
-
-    /**
-     * Deletes a single selected airline entry from the database.
-     * Updates the GUI accordingly.
-     * @see Dataset
-     */
-    public void deleteAirline() {
-        //Gets an airline from the table and deletes it before updating the table
-        Airline toDelete = tableViewAirlineRD.getSelectionModel().getSelectedItem();
-        theDataSet.deleteAirline(toDelete);
         tableViewAirlineRD.setItems(FXCollections.observableArrayList(theDataSet.getAirlines()));
     }
+
 
     /**
      * Opens the Airline Filter form.
@@ -220,6 +109,32 @@ public class AirlineRDController extends Controller {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        tableViewAirlineRD.setItems(FXCollections.<Airline>observableArrayList(theDataSet.getAirlines()));
+    }
+
+//    public void setData(Dataset data) {
+//        this.theDataSet = data;
+//    }
+//
+//    public Dataset getData() {
+//        return theDataSet;
+//    }
+//
+//    public void setDataL(ObservableList re) {
+//        this.dataL = re;
+//    }
+
+
+    /**
+     * Deletes a single selected airline entry from the database.
+     * Updates the GUI accordingly.
+     * @see Dataset
+     */
+    public void deleteAirline() {
+        //Gets an airline from the table and deletes it before updating the table
+        Airline toDelete = tableViewAirlineRD.getSelectionModel().getSelectedItem();
+        theDataSet.deleteAirline(toDelete);
+        tableViewAirlineRD.setItems(FXCollections.observableArrayList(theDataSet.getAirlines()));
     }
 
 
