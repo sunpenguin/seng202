@@ -168,7 +168,7 @@ public class Dataset {
             //get all Flight Path//
             /////////////////////*/
             stmt = c.createStatement();
-            String queryFlightPath = "SELECT * FROM `"+this.name+"_Flight_Path`";
+            String queryFlightPath = "SELECT * FROM `"+this.name+"_Flight_Path` ORDER BY `Index_ID` ASC, `Order` ASC";
             rs = stmt.executeQuery(queryFlightPath);
             while ( rs.next() ){
                 //FlightPath(int ID, String departureAirport, String arrivalAirport)
@@ -690,7 +690,7 @@ public class Dataset {
             flightPathToAdd.setID(flightPathId);
             //ADDED
             String insertFlightPointQuery = "INSERT INTO `" + this.name + "_Flight_Points` (`Index_ID`, `Name`, `Type`," +
-                    " `Altitude`, `Latitude`, `Longitude`) VALUES ";
+                    " `Altitude`, `Latitude`, `Longitude`, `Order`) VALUES ";
             int numOfFlights = 0;
             for (int i = 0; i < flightPointsToImport.size(); i ++){
                 String flightPointIdentifier = flightPointsToImport.get(i).getType() + flightPointsToImport.get(i).getName() +
@@ -707,7 +707,7 @@ public class Dataset {
                     insertFlightPointQuery += ",";
                 }
                 insertFlightPointQuery += "(" + flightPathId +", \""+ flightName +"\", \"" + flightType + "\",  "+ flightAltitude + ", " +
-                        "" + flightLatitude + ", " + flightLongitude + ")";
+                        "" + flightLatitude + ", " + flightLongitude + ", "+numOfFlights+")";
                 flightPointsToImport.get(i).setID(nextID);
                 flightPointsToImport.get(i).setIndexID(flightPathId);
                 //add data to dataset array.
@@ -1229,16 +1229,24 @@ public class Dataset {
 
             stmt = c.createStatement();
             String insertFlightPointQuery = "INSERT INTO `" + this.name + "_Flight_Points` (`Index_ID`, `Name`, `Type`," +
-                    " `Altitude`, `Latitude`, `Longitude`, `Heading`, `Tot_Dist`, `Leg_Dist`, `Via`) VALUES ";
+                    " `Altitude`, `Latitude`, `Longitude`, `Heading`, `Tot_Dist`, `Leg_Dist`, `Via`, `Order`) VALUES ";
             String flightType = type.replace("\"", "\"\"");
             String flightName = name.replace("\"", "\"\"");
             insertFlightPointQuery += "(" + id +", \""+ flightName +"\", \"" + flightType + "\",  "+ altitudeVal + ", " +
                     "" + latitudeVal + ", " + longitudeVal + ", " + headingVal + ", " + totalDistVal + ", " + legDistVal +
-                    ", \"" + via + "\")";
+                    ", \"" + via + "\", "+index+")";
             stmt.execute(insertFlightPointQuery);
             stmt.close();
-
-
+            //move all the points after this forward
+            stmt = c.createStatement();
+            String updatePointOrderQuery = "";
+            FlightPath flightPath = flightPathDictionary.get(Integer.valueOf(id));
+            for (int i = index + 1; i < flightPath.getFlightPoints().size(); i ++){
+                updatePointOrderQuery += "UPDATE `"+this.name+"_Flight_Points` SET `Order` = "+i+" WHERE `Point_ID` = "+flightPath.getFlightPoints().get(i).getID()+";";
+            }
+            stmt.execute(updatePointOrderQuery);
+            stmt.close();
+            c.close();
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
             System.exit(0);
@@ -1930,5 +1938,35 @@ public class Dataset {
         }
 
         createDataLinks();
+    }
+
+    public void moveFlightPoint(FlightPoint flightPoint, int index) throws DataException {
+        //remove and add it to the arraylist first
+        FlightPath flightPath = flightPathDictionary.get(flightPoint.getIndexID());
+        int curIndex = flightPath.getFlightPoints().indexOf(flightPoint);
+        flightPath.getFlightPoints().remove(flightPoint);
+        int indexToAdd = index;
+        if (curIndex > index){
+            indexToAdd --;
+        }
+        flightPath.getFlightPoints().add(indexToAdd, flightPoint);
+
+        Connection c = null;
+        Statement stmt;
+        try {
+            c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
+            //move all the points after this forward
+            stmt = c.createStatement();
+            String updatePointOrderQuery = "";
+            for (int i = index; i < flightPath.getFlightPoints().size(); i ++){
+                updatePointOrderQuery += "UPDATE `"+this.name+"_Flight_Points` SET `Order` = "+i+" WHERE `Point_ID` = "+flightPath.getFlightPoints().get(i).getID()+";";
+            }
+            stmt.execute(updatePointOrderQuery);
+            stmt.close();
+            c.close();
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            System.exit(0);
+        }
     }
 }
