@@ -1,5 +1,8 @@
 package seng202.group9.GUI;
 
+import seng202.group9.Controller.DataException;
+import seng202.group9.Controller.EntryParser;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -29,40 +32,28 @@ public class NewPathPopUp {
         if (result == JOptionPane.OK_OPTION) {
                 sourceAirport = field1.getText().toUpperCase();
                 destinationAirport = field2.getText().toUpperCase();
-            if (validate(sourceAirport) != true && validate(destinationAirport) != true){
+            try{
+                EntryParser parser = new EntryParser();
+                parser.parsePointName(sourceAirport);
+            }catch (DataException e){
                 sourceAirport = null;
                 destinationAirport = null;
-                JOptionPane.showMessageDialog(null, "Enter a vaild ICAO Code!");
+                JOptionPane.showMessageDialog(null, "Source " + e.getMessage());
+                return;
+            }
+            try{
+                EntryParser parser = new EntryParser();
+                parser.parsePointName(destinationAirport);
+            }catch (DataException e){
+                sourceAirport = null;
+                destinationAirport = null;
+                JOptionPane.showMessageDialog(null, "Destination " + e.getMessage());
                 return;
             }
         } else {
             sourceAirport = null;
             destinationAirport = null;
         }
-    }
-
-    // Checks the users entered string to make sure it is a 4 letter valid code.
-    private static boolean validate(String airportCode){
-        if(airportCode == ""){
-            return false;
-        } else if(airportCode.length() != 4){
-            return false;
-        } else if(!isLetter(airportCode)){
-            return false;
-        }
-        return true;
-    }
-
-    // Used by the validate() method to cycle through the string looking for non letter characters.
-    private static boolean isLetter(String airportCode){
-        char[] chars = airportCode.toCharArray();
-
-        for (char element : chars) {
-            if(!Character.isLetter(element)) {
-                return false;
-            }
-        }
-        return true;
     }
 
     public String getSourceAirport() {
