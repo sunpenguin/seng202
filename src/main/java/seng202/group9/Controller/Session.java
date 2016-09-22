@@ -1,8 +1,10 @@
 package seng202.group9.Controller;
 
 import javafx.collections.ObservableList;
+import seng202.group9.Core.Airline;
 
 import java.io.Serializable;
+import java.util.HashMap;
 
 /**
  * Created by fwy13 on 16/09/16.
@@ -10,7 +12,7 @@ import java.io.Serializable;
  */
 public class Session implements Serializable {
     private SceneCode sceneDisplayed;
-    private ObservableList filteredAirlines;
+    private HashMap<String, Airline> filteredAirlines;
 
     /**
      * Constructor for a new session
@@ -44,7 +46,11 @@ public class Session implements Serializable {
         return sceneDisplayed;
     }
 
-//    public void setFilteredAirlines(ObservableList airlines) {
-//        this.filteredAirlines = airlines;
-//    }
+    public void setFilteredAirlines(HashMap airlines) {
+        this.filteredAirlines = airlines;
+    }
+
+    public HashMap<String, Airline> getFilteredAirlines() {
+        return filteredAirlines;
+    }
 }

@@ -3,7 +3,9 @@ package seng202.group9.GUI;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import seng202.group9.Controller.Dataset;
 
 /**
@@ -25,6 +27,8 @@ public class AirlineAddController extends Controller {
     private TextField airlCountryAdd;
     @FXML
     private TextField airlActiveAdd;
+    @FXML
+    private Button addButton;
 
     private Dataset theDataSet = null;
 
@@ -53,6 +57,16 @@ public class AirlineAddController extends Controller {
             airlCallsignAdd.clear();
             airlCountryAdd.clear();
             airlActiveAdd.clear();
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Airline Add Successful");
+            alert.setHeaderText("New Airline added!");
+            alert.setContentText("Your new airline has been successfully added into the database.");
+            alert.showAndWait();
+
+            Stage stage = (Stage) addButton.getScene().getWindow();
+            stage.close();
+
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Airline Data Error");
@@ -60,6 +74,7 @@ public class AirlineAddController extends Controller {
             alert.setContentText(e.getMessage());
             alert.showAndWait();
         }
+
     }
 
     public void load() {

@@ -3,10 +3,18 @@ package seng202.group9.GUI;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import seng202.group9.Controller.AirlineFilter;
 import seng202.group9.Controller.Dataset;
+import seng202.group9.Controller.Session;
 import seng202.group9.Core.Airline;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Sunguin on 2016/09/22.
@@ -28,8 +36,11 @@ public class AirlineFilterController extends Controller {
     private TextField airlCountryFilter;
     @FXML
     private TextField airlActiveFilter;
+    @FXML
+    private Button applyButton;
 
     private Dataset theDataSet = null;
+    private Session currentSession = null;
 
     /**
      * Filters airlines by any field.
@@ -61,10 +72,29 @@ public class AirlineFilterController extends Controller {
         if (airlActiveFilter.getText() != null) {
             filter.filterActive(airlActiveFilter.getText());
         }
-        //session.setFilteredAirlines(FXCollections.observableArrayList(filter.getFilteredData()));
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Airline Filter Successful");
+        alert.setHeaderText("Airline data filtered!");
+        alert.setContentText("Your airline data has been successfully filtered.");
+        alert.showAndWait();
+
+        //currentSession.setFilteredAirlines(FXCollections.observableArrayList(filter.getFilteredData()));
+
+        HashMap<String, Airline> airlinesHM = new HashMap<String, Airline>();
+        ArrayList<Airline> airlines = filter.getFilteredData();
+        for (Airline airline: airlines) {
+            airlinesHM.put(airline.getName(), airline);
+        }
+        currentSession.setFilteredAirlines(airlinesHM);
+
+        Stage stage = (Stage) applyButton.getScene().getWindow();
+        stage.close();
+
     }
 
     public void load() {
         theDataSet = getParent().getCurrentDataset();
+        currentSession = getParent().getSession();
     }
 }

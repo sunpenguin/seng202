@@ -12,10 +12,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import seng202.group9.Controller.AirlineFilter;
-import seng202.group9.Controller.App;
-import seng202.group9.Controller.Dataset;
-import seng202.group9.Controller.SceneCode;
+import seng202.group9.Controller.*;
 import seng202.group9.Core.Airline;
 
 import javax.swing.*;
@@ -47,11 +44,9 @@ public class AirlineRDController extends Controller {
     @FXML
     private TableColumn<Airline, String> airlActiveCol;
 
-
     //Set an empty Dataset to be assigned later.
     private Dataset theDataSet = null;
-
-    private ObservableList dataL = null;
+    private Session currentSession = null;
 
     /**
      * Loads the initial airline data to the GUI table.
@@ -71,6 +66,8 @@ public class AirlineRDController extends Controller {
         //Assigning the Dataset to the current Dataset's airlines and displaying it in a table
         theDataSet = getParent().getCurrentDataset();
         tableViewAirlineRD.setItems(FXCollections.observableArrayList(theDataSet.getAirlines()));
+
+        currentSession = getParent().getSession();
     }
 
 
@@ -87,7 +84,7 @@ public class AirlineRDController extends Controller {
      */
     public void openFilter() {
         createPopUpStage(SceneCode.AIRLINE_FILTER, 600, 370);
-        //tableViewAirlineRD.setItems(FXCollections.observableArrayList(theDataSet.getAirlines()));
+        tableViewAirlineRD.setItems(FXCollections.observableArrayList(currentSession.getFilteredAirlines().values()));
     }
 
 

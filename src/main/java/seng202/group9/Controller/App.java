@@ -131,8 +131,16 @@ public class App extends Application
 		return (Initializable) loader.getController();
 	}
 
+    /**
+     * Gets the current session.
+     * @return
+     */
+	public Session getSession() {
+		return this.session;
+	}
+
 	/**
-	 * Returns the Menu COntroller of the App.
+	 * Returns the Menu Controller of the App.
 	 * @return
 	 */
 	public MenuController getMenuController() {
