@@ -210,6 +210,7 @@ public class Dataset {
                 }
                 rs.close();
                 stmt.close();
+                flightPaths.get(i).updateFlightPointInfo();
             }
             /*////////////////
             //Get all Routes//
@@ -239,6 +240,10 @@ public class Dataset {
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
             System.exit(0);
+        }
+        //update all flightpaths
+        for (FlightPath flightPath: flightPaths){
+            //updateFlightPointInfo(flightPath);
         }
         createDataLinks();
     }
@@ -720,9 +725,12 @@ public class Dataset {
             }
             if (numOfFlights > 0){
                 stmt.execute(insertFlightPointQuery);
-                stmt.close();
             }
+            stmt.close();
+            c.close();
+
             flightPaths.add(flightPathToAdd);
+            updateFlightPointInfo(flightPathToAdd);
             flightPathDictionary.put(flightPathToAdd.getID(), flightPathToAdd);
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -1278,6 +1286,7 @@ public class Dataset {
 
         FlightPoint pointToAdd = new FlightPoint(name, pointID+1, id, type, via, headingVal, altitudeVal, legDistVal,
                 totalDistVal,latitudeVal, longitudeVal);
+        updateFlightPointInfo(flightPathDictionary.get(Integer.valueOf(id)));
         flightPathDictionary.get(Integer.valueOf(id)).addFlightPoint(pointToAdd, index);
     }
 
@@ -1962,7 +1971,7 @@ public class Dataset {
             }
             flightPath.setArrivalAirport(flightPoint.getName());
         }
-
+        updateFlightPointInfo(flightPath);
         createDataLinks();
     }
 
@@ -2023,6 +2032,34 @@ public class Dataset {
             c.close();
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            System.exit(0);
+        }
+        updateFlightPointInfo(flightPath);
+    }
+
+    /**
+     * Updates the Leg Distance, Total Distance and Bearing(Heading) of the Flight points in the flight path.
+     * @param flightPath
+     */
+    public void updateFlightPointInfo(FlightPath flightPath){
+        flightPath.updateFlightPointInfo();
+        Connection c = null;
+        Statement stmt;
+        try {
+            c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
+            //move all the points after this forward
+            for (FlightPoint flightPoint: flightPath.getFlightPoints()){
+                stmt = c.createStatement();
+                String updatePointQuery = "UPDATE `"+this.name+"_Flight_Points` SET `Heading` = "+flightPoint.getHeading()+", " +
+                        "`Tot_Dist` = "+flightPoint.getTotalDistance()+", `Leg_Dist` = "+flightPoint.getLegDistance()+" WHERE `POINT_ID` = " +
+                        "" + flightPoint.getID();
+                stmt.execute(updatePointQuery);
+                stmt.close();
+            }
+            c.close();
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            e.printStackTrace();
             System.exit(0);
         }
     }
