@@ -210,7 +210,6 @@ public class Dataset {
                 }
                 rs.close();
                 stmt.close();
-                flightPaths.get(i).updateFlightPointInfo();
             }
             /*////////////////
             //Get all Routes//
