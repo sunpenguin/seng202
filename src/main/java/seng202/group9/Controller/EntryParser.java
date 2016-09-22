@@ -132,6 +132,14 @@ public class EntryParser {
     }
 
     public FlightPoint parsePoint(String name, String type, String altitude, String latitude, String longitude) throws DataException{
+        //(airport) name (first and last point)
+        if (!isLetter(name)) {
+            throw new DataException("Airport ICAO code must contain only letters");
+        }
+        if (name.length() != 4) {
+            throw new DataException("Aiport ICAO code must be of length four");
+        }
+        //type
         type = type.toUpperCase();
         if (!type.equals("APT") && !type.equals("VOR") && !type.equals("FIX") && !type.equals("NDB") && !type.equals("LATLON")){
             throw new DataException("Type of flight must be either APT, VOR, FIX, NDB or LATLON");
@@ -165,6 +173,33 @@ public class EntryParser {
         }
         FlightPoint parseSuccess = new FlightPoint(type, name, alt, lat, lng);
         return parseSuccess;
+    }
+
+    /**
+     * Throws an exception if the point name is not a valid AIRPORT ICAO code.
+     * @param name
+     * @throws DataException
+     */
+    public void parsePointName(String name)throws DataException{
+        if (!isLetter(name)){
+            throw new DataException("Airport ICAO code must contain only letters!");
+        }
+        if (name.length() != 4) {
+            throw new DataException("Aiport ICAO code must be of length four!");
+        }
+    }
+    /*
+     * Cycles through a string to make sure all the characters are letters
+     */
+    private static boolean isLetter(String string){
+        char[] chars = string.toCharArray();
+
+        for (char element : chars) {
+            if(!Character.isLetter(element)) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }

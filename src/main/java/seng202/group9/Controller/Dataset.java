@@ -1150,6 +1150,15 @@ public class Dataset {
         newPath.setID(pathID);
         flightPathDictionary.put(pathID, newPath);
         flightPaths.add(newPath);
+        FlightPoint sourcePoint = new FlightPoint(sourceAirport, pathID);
+        FlightPoint destinationPoint = new FlightPoint(sourceAirport, pathID);
+        try{
+            addFlightPointToPath(sourcePoint);
+            addFlightPointToPath(destinationPoint);
+        } catch (DataException e){
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            System.exit(0);
+        }
     }
 
     /**

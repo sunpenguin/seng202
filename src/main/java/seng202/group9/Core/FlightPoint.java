@@ -16,7 +16,26 @@ public class FlightPoint {
 	private double longitude;
 
 	/**
-	 * Constructor for FLight POint before set by the database.
+	 * Constructor for Flight Point when creating a new path
+	 * @param name
+	 * @param indexID
+	 */
+	public FlightPoint(String name, int indexID) {
+		this.name = name;
+		this.ID = -1;
+		this.indexID = indexID;
+		this.type = "";
+		this.via = "";
+		this.heading = 0;
+		this.altitude = 0.0;
+		this.legDistance = 0;
+		this.totalDistance = 0;
+		this.latitude = 0.0;
+		this.longitude = 0.0;
+	}
+
+	/**
+	 * Constructor for Flight Point before set by the database.
 	 * @param type
 	 * @param name
 	 * @param altitude

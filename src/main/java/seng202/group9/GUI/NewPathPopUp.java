@@ -1,5 +1,10 @@
 package seng202.group9.GUI;
 
+import javafx.scene.control.Alert;
+import seng202.group9.Controller.DataException;
+import seng202.group9.Controller.EntryParser;
+import seng202.group9.Core.FlightPoint;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -14,7 +19,6 @@ public class NewPathPopUp {
 
     private String sourceAirport = null;
     private String destinationAirport = null;
-
     // Creates and displays the pop up box for the user to input data.
     public void display() {
         JTextField field1 = new JTextField();
@@ -29,40 +33,34 @@ public class NewPathPopUp {
         if (result == JOptionPane.OK_OPTION) {
                 sourceAirport = field1.getText().toUpperCase();
                 destinationAirport = field2.getText().toUpperCase();
-            if (validate(sourceAirport) != true && validate(destinationAirport) != true){
+            try{
+                EntryParser parser = new EntryParser();
+                parser.parsePointName(sourceAirport);
+            }catch (DataException e){
                 sourceAirport = null;
                 destinationAirport = null;
-                JOptionPane.showMessageDialog(null, "Enter a vaild ICAO Code!");
-                return;
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Flight Path Name Error");
+                alert.setHeaderText("Error adding the Source airport ICAO code.");
+                alert.setContentText(e.getMessage());
+                alert.showAndWait();
+            }
+            try{
+                EntryParser parser = new EntryParser();
+                parser.parsePointName(destinationAirport);
+            }catch (DataException e){
+                sourceAirport = null;
+                destinationAirport = null;
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Flight Path Name Error");
+                alert.setHeaderText("Error adding the Destination airport ICAO code.");
+                alert.setContentText(e.getMessage());
+                alert.showAndWait();
             }
         } else {
             sourceAirport = null;
             destinationAirport = null;
         }
-    }
-
-    // Checks the users entered string to make sure it is a 4 letter valid code.
-    private static boolean validate(String airportCode){
-        if(airportCode == ""){
-            return false;
-        } else if(airportCode.length() != 4){
-            return false;
-        } else if(!isLetter(airportCode)){
-            return false;
-        }
-        return true;
-    }
-
-    // Used by the validate() method to cycle through the string looking for non letter characters.
-    private static boolean isLetter(String airportCode){
-        char[] chars = airportCode.toCharArray();
-
-        for (char element : chars) {
-            if(!Character.isLetter(element)) {
-                return false;
-            }
-        }
-        return true;
     }
 
     public String getSourceAirport() {

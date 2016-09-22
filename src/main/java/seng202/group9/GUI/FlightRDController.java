@@ -4,22 +4,17 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import seng202.group9.Controller.App;
 import seng202.group9.Controller.DataException;
 import seng202.group9.Controller.Dataset;
 import seng202.group9.Core.FlightPath;
 import seng202.group9.Core.FlightPoint;
 
 import javax.swing.*;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
-import java.util.ResourceBundle;
 
 /**
  * Controller for the Flights Raw Data Scene.
@@ -57,7 +52,7 @@ public class FlightRDController extends Controller {
 
     @FXML
     ListView<String> flightPathListView;
-    final ObservableList<String> flightList = FXCollections.observableArrayList();
+    private ObservableList<String> flightList = FXCollections.observableArrayList();
 
     @FXML
     private TextField flightNameBox;
@@ -82,7 +77,7 @@ public class FlightRDController extends Controller {
      * Loads the Flight paths into the List View and waits for a mouse clicked event for which it will update the table
      * to display the selected Flight paths points. Called from the MenuController.
      */
-    public void flightPathListView() {
+    private void flightPathListView() {
         try {
             ArrayList<FlightPath> flightPaths;
             flightPaths = theDataSet.getFlightPaths();
@@ -135,8 +130,8 @@ public class FlightRDController extends Controller {
         flightLatCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("Latitude"));
         flightLongCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("Longitude"));
         flightHeadCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("Heading"));
-        flightLegDisCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("Leg_Dist"));
-        flightTotDisCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("Tot_Dist"));
+        flightLegDisCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("LegDistance"));
+        flightTotDisCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("totalDistance"));
 
         ArrayList<FlightPath> flightPaths;
         flightPaths = theDataSet.getFlightPaths();
@@ -175,7 +170,6 @@ public class FlightRDController extends Controller {
                 ArrayList<FlightPoint> flightPoints = flightPaths.get(currentPathIndex).getFlight();
                 flightTableView.setItems(FXCollections.observableArrayList(flightPoints));
         } catch ( Exception e ) {
-            //e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Flight Point Data Error");
             alert.setHeaderText("Error adding a custom flight point entry.");
@@ -204,7 +198,7 @@ public class FlightRDController extends Controller {
      */
     public void deletePoint() {
         FlightPoint toDelete = flightTableView.getSelectionModel().getSelectedItem();
-        int pathID = 0;
+        int pathID;
         try {
             pathID = toDelete.getIndex();
         } catch (DataException e) {
