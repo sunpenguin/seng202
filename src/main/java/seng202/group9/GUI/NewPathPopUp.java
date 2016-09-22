@@ -1,7 +1,9 @@
 package seng202.group9.GUI;
 
+import javafx.scene.control.Alert;
 import seng202.group9.Controller.DataException;
 import seng202.group9.Controller.EntryParser;
+import seng202.group9.Core.FlightPoint;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +19,6 @@ public class NewPathPopUp {
 
     private String sourceAirport = null;
     private String destinationAirport = null;
-
     // Creates and displays the pop up box for the user to input data.
     public void display() {
         JTextField field1 = new JTextField();
@@ -38,8 +39,11 @@ public class NewPathPopUp {
             }catch (DataException e){
                 sourceAirport = null;
                 destinationAirport = null;
-                JOptionPane.showMessageDialog(null, "Source " + e.getMessage());
-                return;
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Flight Path Name Error");
+                alert.setHeaderText("Error adding the Source airport ICAO code.");
+                alert.setContentText(e.getMessage());
+                alert.showAndWait();
             }
             try{
                 EntryParser parser = new EntryParser();
@@ -47,8 +51,11 @@ public class NewPathPopUp {
             }catch (DataException e){
                 sourceAirport = null;
                 destinationAirport = null;
-                JOptionPane.showMessageDialog(null, "Destination " + e.getMessage());
-                return;
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Flight Path Name Error");
+                alert.setHeaderText("Error adding the Destination airport ICAO code.");
+                alert.setContentText(e.getMessage());
+                alert.showAndWait();
             }
         } else {
             sourceAirport = null;

@@ -124,7 +124,6 @@ public class FlightSummaryController extends Controller {
             }
         });
     }
-
     /**
      *  Removes the selected path from the list view of paths and from the database.
      */
