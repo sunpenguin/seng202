@@ -183,6 +183,22 @@ public class App extends Application
 	}
 
 	/**
+	 * Sets the current Dataset to another Dataset by its index in the datasets arraylist
+	 * @param index
+     */
+	public void setCurrentDataset(int index){
+		currentDataset = datasets.get(index);
+	}
+
+	/**
+	 * Sets the current Dataset to another Dataset.
+	 * @param dataset
+     */
+	public void setCurrentDataset(Dataset dataset){
+		currentDataset = dataset;
+	}
+
+	/**
 	 * Creates new dataset.
 	 * @param datasetName
 	 * @throws DataException
