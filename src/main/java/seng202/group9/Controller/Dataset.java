@@ -1966,6 +1966,12 @@ public class Dataset {
         createDataLinks();
     }
 
+    /**
+     * moves a flight point to another place in the Flight.
+     * @param flightPoint
+     * @param index
+     * @throws DataException
+     */
     public void moveFlightPoint(FlightPoint flightPoint, int index) throws DataException {
         //remove and add it to the arraylist first
         System.out.println(flightPoint.getIndex());
