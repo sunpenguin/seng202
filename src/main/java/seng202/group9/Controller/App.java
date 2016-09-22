@@ -1,6 +1,10 @@
 package seng202.group9.Controller;
 
 import java.io.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import javafx.application.Application;
@@ -62,11 +66,15 @@ public class App extends Application
 			e.printStackTrace();
 		}
 		primaryStage.show();
-
+		//load all datasets
+		try{
+			loadAllDatasets();
+		} catch (Exception e){
+			e.printStackTrace();
+		}
 		//testing out dataset
 		try {
 			currentDataset = new Dataset("test's", Dataset.getExisting);
-			datasets.add(currentDataset);
 		}catch (DataException e){
 			e.printStackTrace();
 		}
@@ -108,6 +116,32 @@ public class App extends Application
 			e.printStackTrace();
 		}
 	}
+
+	/**
+	 * Loads all dataset in the current User Database.
+	 */
+	public void loadAllDatasets(){
+		Connection c = null;
+		Statement stmt = null;
+		try {
+			Class.forName("org.sqlite.JDBC");
+			c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
+			stmt = c.createStatement();
+			String loadAllDatasetsQuery = "SELECT * FROM `Datasets`";
+			ResultSet datasetsLoaded = stmt.executeQuery(loadAllDatasetsQuery);
+			while (datasetsLoaded.next()){
+				Dataset newDataset = new Dataset(datasetsLoaded.getString("Dataset_Name"), Dataset.getExisting);
+				System.out.println("Loaded Dataset "+ datasetsLoaded.getString("Dataset_Name"));
+				datasets.add(newDataset);
+			}
+			datasetsLoaded.close();
+			stmt.close();
+			c.close();
+		} catch ( Exception e ) {
+			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+		}
+	}
+
 	/**
 	 * Replace Scene Content with fxml file code from oracle.
 	 * @param fxml
