@@ -168,7 +168,7 @@ public class Dataset {
             //get all Flight Path//
             /////////////////////*/
             stmt = c.createStatement();
-            String queryFlightPath = "SELECT * FROM `"+this.name+"_Flight_Path` ORDER BY `Index_ID` ASC, `Order` ASC";
+            String queryFlightPath = "SELECT * FROM `"+this.name+"_Flight_Path`";
             rs = stmt.executeQuery(queryFlightPath);
             while ( rs.next() ){
                 //FlightPath(int ID, String departureAirport, String arrivalAirport)
@@ -187,7 +187,7 @@ public class Dataset {
             ///////////////////////*/
             for (int i = 0; i < flightPaths.size(); i++){
                 stmt = c.createStatement();
-                String queryFlightPoints = "SELECT * FROM `" + this.name + "_Flight_Points` WHERE `Index_ID` = "+flightPaths.get(i).getID() + " ORDER BY `Order` ASC";
+                String queryFlightPoints = "SELECT * FROM `" + this.name + "_Flight_Points` WHERE `Index_ID` = "+flightPaths.get(i).getID() + "  ORDER BY `Index_ID` ASC, `Order` ASC";
                 rs = stmt.executeQuery(queryFlightPoints);
                 while (rs.next()) {
                     //FlightPoint(String name, int ID, int indexID, String type, String via,
@@ -1242,10 +1242,34 @@ public class Dataset {
             String updatePointOrderQuery = "";
             FlightPath flightPath = flightPathDictionary.get(Integer.valueOf(id));
             for (int i = index + 1; i < flightPath.getFlightPoints().size(); i ++){
-                updatePointOrderQuery += "UPDATE `"+this.name+"_Flight_Points` SET `Order` = "+i+" WHERE `Point_ID` = "+flightPath.getFlightPoints().get(i).getID()+";";
+                updatePointOrderQuery = "UPDATE `"+this.name+"_Flight_Points` SET `Order` = "+i+" WHERE `Point_ID` = "+flightPath.getFlightPoints().get(i).getID()+";";
+                stmt.execute(updatePointOrderQuery);
             }
-            stmt.execute(updatePointOrderQuery);
             stmt.close();
+            //if the index is the first or last we need to update the flight
+            if (index == 0){
+                try {
+                    stmt = c.createStatement();
+                    String query = "UPDATE `"+this.name+"_Flight_Path` SET `Source_Airport` = \""+flightName+"\" " +
+                            "WHERE `Path_ID` = "+flightPath.getID();
+                    stmt.execute(query);
+                    c.close();
+                } catch ( Exception e ) {
+                    System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+                }
+                flightPath.setDepartureAirport(flightName);
+            }else if (index == flightPath.getFlightPoints().size() - 1){
+                try {
+                    stmt = c.createStatement();
+                    String query = "UPDATE `"+this.name+"_Flight_Path` SET `Destination_Airport` = \""+flightName+"\" " +
+                            "WHERE `Path_ID` = "+flightPath.getID();
+                    stmt.execute(query);
+                    c.close();
+                } catch ( Exception e ) {
+                    System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+                }
+                flightPath.setArrivalAirport(flightName);
+            }
             c.close();
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -1925,6 +1949,7 @@ public class Dataset {
             } catch ( Exception e ) {
                 System.err.println( e.getClass().getName() + ": " + e.getMessage() );
             }
+            flightPath.setDepartureAirport(flightPoint.getName());
         }else if (indexOf == flightPath.getFlightPoints().size() - 1){
             try {
                 stmt = c.createStatement();
@@ -1935,6 +1960,7 @@ public class Dataset {
             } catch ( Exception e ) {
                 System.err.println( e.getClass().getName() + ": " + e.getMessage() );
             }
+            flightPath.setArrivalAirport(flightPoint.getName());
         }
 
         createDataLinks();
@@ -1942,11 +1968,12 @@ public class Dataset {
 
     public void moveFlightPoint(FlightPoint flightPoint, int index) throws DataException {
         //remove and add it to the arraylist first
-        FlightPath flightPath = flightPathDictionary.get(flightPoint.getIndexID());
+        System.out.println(flightPoint.getIndex());
+        FlightPath flightPath = flightPathDictionary.get(flightPoint.getIndex());
         int curIndex = flightPath.getFlightPoints().indexOf(flightPoint);
         flightPath.getFlightPoints().remove(flightPoint);
         int indexToAdd = index;
-        if (curIndex > index){
+        if (curIndex < index){
             indexToAdd --;
         }
         flightPath.getFlightPoints().add(indexToAdd, flightPoint);
@@ -1959,10 +1986,34 @@ public class Dataset {
             stmt = c.createStatement();
             String updatePointOrderQuery = "";
             for (int i = index; i < flightPath.getFlightPoints().size(); i ++){
-                updatePointOrderQuery += "UPDATE `"+this.name+"_Flight_Points` SET `Order` = "+i+" WHERE `Point_ID` = "+flightPath.getFlightPoints().get(i).getID()+";";
+                updatePointOrderQuery = "UPDATE `"+this.name+"_Flight_Points` SET `Order` = "+i+" WHERE `Point_ID` = "+flightPath.getFlightPoints().get(i).getID()+";";
+                stmt.execute(updatePointOrderQuery);
             }
-            stmt.execute(updatePointOrderQuery);
             stmt.close();
+
+            if (index == 0){
+                try {
+                    stmt = c.createStatement();
+                    String query = "UPDATE `"+this.name+"_Flight_Path` SET `Source_Airport` = \""+flightPoint.getName().replace("\"", "\"\"")+"\" " +
+                            "WHERE `Path_ID` = "+flightPoint.getIndex();
+                    stmt.execute(query);
+                    c.close();
+                } catch ( Exception e ) {
+                    System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+                }
+                flightPath.setDepartureAirport(flightPoint.getName());
+            }else if (index == flightPath.getFlightPoints().size() - 1){
+                try {
+                    stmt = c.createStatement();
+                    String query = "UPDATE `"+this.name+"_Flight_Path` SET `Destination_Airport` = \""+flightPoint.getName().replace("\"", "\"\"")+"\" " +
+                            "WHERE `Path_ID` = "+flightPoint.getIndex();
+                    stmt.execute(query);
+                    c.close();
+                } catch ( Exception e ) {
+                    System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+                }
+                flightPath.setArrivalAirport(flightPoint.getName());
+            }
             c.close();
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
