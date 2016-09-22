@@ -1,5 +1,7 @@
 package seng202.group9.Controller;
 
+import javafx.collections.ObservableList;
+
 import java.io.Serializable;
 
 /**
@@ -8,6 +10,7 @@ import java.io.Serializable;
  */
 public class Session implements Serializable {
     private SceneCode sceneDisplayed;
+    private ObservableList filteredAirlines;
 
     /**
      * Constructor for a new session
@@ -40,4 +43,8 @@ public class Session implements Serializable {
     public SceneCode getSceneDisplayed() {
         return sceneDisplayed;
     }
+
+//    public void setFilteredAirlines(ObservableList airlines) {
+//        this.filteredAirlines = airlines;
+//    }
 }

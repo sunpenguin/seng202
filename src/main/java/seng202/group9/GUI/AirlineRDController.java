@@ -79,57 +79,16 @@ public class AirlineRDController extends Controller {
      */
     public void openAdd() {
         createPopUpStage(SceneCode.AIRLINE_ADD, 600, 370);
-/*
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            Parent root = loader.load(getClass().getClassLoader().getResource("airline_add_form.fxml"));
-            Stage filter = new Stage();
-            filter.initModality(Modality.APPLICATION_MODAL);
-            filter.setResizable(false);
-            filter.setTitle("Add New Airline");
-            filter.setScene(new Scene(root, 600, 370));
-            filter.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-
-        }
         tableViewAirlineRD.setItems(FXCollections.observableArrayList(theDataSet.getAirlines()));
-
-        }*/
-
-
     }
-
 
     /**
      * Opens the Airline Filter form.
      */
     public void openFilter() {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/airline_filter_form.fxml"));
-            final Stage filter = new Stage();
-            filter.initModality(Modality.APPLICATION_MODAL);
-            filter.setResizable(false);
-            filter.setTitle("Airline Filter");
-            filter.setScene(new Scene(root, 600, 370));
-            filter.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        tableViewAirlineRD.setItems(FXCollections.<Airline>observableArrayList(theDataSet.getAirlines()));
+        createPopUpStage(SceneCode.AIRLINE_FILTER, 600, 370);
+        //tableViewAirlineRD.setItems(FXCollections.observableArrayList(theDataSet.getAirlines()));
     }
-
-//    public void setData(Dataset data) {
-//        this.theDataSet = data;
-//    }
-//
-//    public Dataset getData() {
-//        return theDataSet;
-//    }
-//
-//    public void setDataL(ObservableList re) {
-//        this.dataL = re;
-//    }
 
 
     /**

@@ -1,6 +1,7 @@
 package seng202.group9.GUI;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import seng202.group9.Controller.AirlineFilter;
@@ -10,7 +11,7 @@ import seng202.group9.Core.Airline;
 /**
  * Created by Sunguin on 2016/09/22.
  */
-public class AirlineFilterController extends AirlineRDController{
+public class AirlineFilterController extends Controller {
 
     //Setting up text fields for filtering data
     @FXML
@@ -28,8 +29,7 @@ public class AirlineFilterController extends AirlineRDController{
     @FXML
     private TextField airlActiveFilter;
 
-    Dataset theDataSet = null;
-
+    private Dataset theDataSet = null;
 
     /**
      * Filters airlines by any field.
@@ -38,9 +38,7 @@ public class AirlineFilterController extends AirlineRDController{
      * @see AirlineFilter
      */
     public void filterAirlines() {
-        //System.out.println(getData());
         //The filter function also operates like a search function
-        //theDataSet = getParent().getCurrentDataset();
         AirlineFilter filter = new AirlineFilter(theDataSet.getAirlines());
         if (airlNameFilter.getText() != null) {
             filter.filterName(airlNameFilter.getText());
@@ -63,7 +61,10 @@ public class AirlineFilterController extends AirlineRDController{
         if (airlActiveFilter.getText() != null) {
             filter.filterActive(airlActiveFilter.getText());
         }
-        //Sets the data according to the criteria specified by the user.
-        //setDataL(FXCollections.<Airline>observableArrayList(filter.getFilteredData()));
+        //session.setFilteredAirlines(FXCollections.observableArrayList(filter.getFilteredData()));
+    }
+
+    public void load() {
+        theDataSet = getParent().getCurrentDataset();
     }
 }

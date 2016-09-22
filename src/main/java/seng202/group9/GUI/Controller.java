@@ -80,7 +80,7 @@ public abstract class Controller implements Initializable{
             }
         }
         //set contorller and call default calls
-        Controller controller = loader.getController();
+        Controller controller = (Controller) loader.getController();
         controller.setApp(parent);
         controller.load();
         controller.loadOnce();
@@ -96,6 +96,7 @@ public abstract class Controller implements Initializable{
         popupStage.showAndWait();
         return popupStage;
     }
+
     /**
      * Functions here will only load once and after the load function.
      */

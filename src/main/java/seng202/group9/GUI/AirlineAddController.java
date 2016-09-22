@@ -9,7 +9,7 @@ import seng202.group9.Controller.Dataset;
 /**
  * Created by Sunguin on 2016/09/22.
  */
-public class AirlineAddController extends AirlineRDController{
+public class AirlineAddController extends Controller {
     //Setting up text fields for adding data
     @FXML
     private TextField airlNameAdd;
@@ -26,7 +26,7 @@ public class AirlineAddController extends AirlineRDController{
     @FXML
     private TextField airlActiveAdd;
 
-    Dataset theDataSet = null;
+    private Dataset theDataSet = null;
 
     /**
      * Adds a single airline entry to the database.
@@ -52,15 +52,17 @@ public class AirlineAddController extends AirlineRDController{
             airlICAOAdd.clear();
             airlCallsignAdd.clear();
             airlCountryAdd.clear();
-            airlActiveAdd.getText();
-            //setData(theDataSet);
+            airlActiveAdd.clear();
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Airline Data Error");
             alert.setHeaderText("Error adding a custom airline entry.");
-            System.out.println(e);
             alert.setContentText(e.getMessage());
             alert.showAndWait();
         }
+    }
+
+    public void load() {
+        theDataSet = getParent().getCurrentDataset();
     }
 }
