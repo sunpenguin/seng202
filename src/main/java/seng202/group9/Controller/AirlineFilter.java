@@ -155,6 +155,10 @@ public class AirlineFilter extends Filter{
         return filteredList;
     }
 
+//    public ArrayList getBaseList(){
+//        return baseArray;
+//    }
+
     /**
      * sets a new base list of the filter.
      * @param arrayList

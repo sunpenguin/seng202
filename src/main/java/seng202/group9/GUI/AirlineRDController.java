@@ -17,6 +17,7 @@ import seng202.group9.Core.Airline;
 
 import javax.swing.*;
 import java.io.IOException;
+import java.util.ArrayList;
 //make a class for the scenes to get the data I guess
 /**
  * The GUI controller class for airline_raw_data.fxml.
@@ -84,7 +85,14 @@ public class AirlineRDController extends Controller {
      */
     public void openFilter() {
         createPopUpStage(SceneCode.AIRLINE_FILTER, 600, 370);
-        tableViewAirlineRD.setItems(FXCollections.observableArrayList(currentSession.getFilteredAirlines().values()));
+        ArrayList<Airline> d = new ArrayList();
+        for(int i = 0; i < theDataSet.getAirlines().size(); i++) {
+            if (currentSession.getFilteredAirlines().containsValue(theDataSet.getAirlines().get(i).getName())
+                    && currentSession.getFilteredAirlines().containsKey(i)) {
+                d.add(theDataSet.getAirlines().get(i));
+            }
+        }
+        tableViewAirlineRD.setItems(FXCollections.observableArrayList(d));
     }
 
 

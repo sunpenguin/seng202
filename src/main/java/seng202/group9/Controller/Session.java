@@ -12,7 +12,7 @@ import java.util.HashMap;
  */
 public class Session implements Serializable {
     private SceneCode sceneDisplayed;
-    private HashMap<String, Airline> filteredAirlines;
+    private HashMap<String, Integer> filteredAirlines;
 
     /**
      * Constructor for a new session
@@ -50,7 +50,7 @@ public class Session implements Serializable {
         this.filteredAirlines = airlines;
     }
 
-    public HashMap<String, Airline> getFilteredAirlines() {
+    public HashMap<String, Integer> getFilteredAirlines() {
         return filteredAirlines;
     }
 }

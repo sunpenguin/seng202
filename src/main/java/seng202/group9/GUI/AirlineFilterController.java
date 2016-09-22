@@ -81,16 +81,16 @@ public class AirlineFilterController extends Controller {
 
         //currentSession.setFilteredAirlines(FXCollections.observableArrayList(filter.getFilteredData()));
 
-        HashMap<String, Airline> airlinesHM = new HashMap<String, Airline>();
+        HashMap<Integer, String> airlinesHM = new HashMap<Integer, String>();
         ArrayList<Airline> airlines = filter.getFilteredData();
-        for (Airline airline: airlines) {
-            airlinesHM.put(airline.getName(), airline);
+        //for (Airline airline: airlines) {
+        for (int index = 0; index < airlines.size(); index++) {
+            airlinesHM.put(index, airlines.get(index).getName());
         }
         currentSession.setFilteredAirlines(airlinesHM);
 
         Stage stage = (Stage) applyButton.getScene().getWindow();
         stage.close();
-
     }
 
     public void load() {
