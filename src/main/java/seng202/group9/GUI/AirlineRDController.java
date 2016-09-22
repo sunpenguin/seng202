@@ -106,6 +106,8 @@ public class AirlineRDController extends Controller {
      * Opens the Airline add form.
      */
     public void openAdd() {
+        createPopUpStage(SceneCode.AIRLINE_ADD, 600, 370);
+/*
         try {
             FXMLLoader loader = new FXMLLoader();
             Parent root = loader.load(getClass().getClassLoader().getResource("airline_add_form.fxml"));
@@ -117,7 +119,7 @@ public class AirlineRDController extends Controller {
             filter.show();
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
 
     }
 
