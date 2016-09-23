@@ -1,5 +1,6 @@
 package seng202.group9.GUI;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
@@ -66,5 +67,6 @@ public class FlightEditorController extends Controller{
     public void load() {
         theDataSet = getParent().getCurrentDataset();
     }
+
 }
 
