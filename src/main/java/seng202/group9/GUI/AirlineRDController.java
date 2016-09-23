@@ -18,6 +18,7 @@ import seng202.group9.Core.Airline;
 import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Optional;
 //make a class for the scenes to get the data I guess
 /**
  * The GUI controller class for airline_raw_data.fxml.
@@ -67,6 +68,7 @@ public class AirlineRDController extends Controller {
         //Assigning the Dataset to the current Dataset's airlines and displaying it in a table
         theDataSet = getParent().getCurrentDataset();
         tableViewAirlineRD.setItems(FXCollections.observableArrayList(theDataSet.getAirlines()));
+        tableViewAirlineRD.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         currentSession = getParent().getSession();
     }
@@ -103,9 +105,21 @@ public class AirlineRDController extends Controller {
      */
     public void deleteAirline() {
         //Gets an airline from the table and deletes it before updating the table
-        Airline toDelete = tableViewAirlineRD.getSelectionModel().getSelectedItem();
-        theDataSet.deleteAirline(toDelete);
-        tableViewAirlineRD.setItems(FXCollections.observableArrayList(theDataSet.getAirlines()));
+        ObservableList<Airline> toDelete = tableViewAirlineRD.getSelectionModel().getSelectedItems();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Airline Delete Confirmation");
+        alert.setHeaderText("You are about to delete some data.");
+        alert.setContentText("Are you sure you want to delete the selected airline(s)?");
+        //alert.showAndWait();
+        Optional<ButtonType> result = alert.showAndWait();
+        Airline air = null;
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            for (int i = 0; i < toDelete.size(); i++) {
+                air = toDelete.get(i);
+                theDataSet.deleteAirline(air);
+            }
+            tableViewAirlineRD.setItems(FXCollections.observableArrayList(theDataSet.getAirlines()));
+        }
     }
 
 
