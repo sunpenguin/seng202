@@ -654,7 +654,6 @@ public class Dataset {
         String message = parser.parse();
         ArrayList<FlightPoint> flightPointsToImport = parser.getResult();
         //check for dup
-        int numOfDuplicates = 0;
         int nextID = -1;
         //query database.
         Connection c = null;
@@ -735,7 +734,6 @@ public class Dataset {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
             System.exit(0);
         }
-        message += "\nDuplicates ommitted: "+numOfDuplicates;
         createDataLinks();
         return message;
     }
