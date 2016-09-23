@@ -132,17 +132,24 @@ public class EntryParser {
     }
 
     public FlightPoint parsePoint(String name, String type, String altitude, String latitude, String longitude) throws DataException{
-        //(airport) name (first and last point)
+        //name
         if (!isLetter(name)) {
-            throw new DataException("Airport ICAO code must contain only letters");
-        }
-        if (name.length() != 4) {
-            throw new DataException("Aiport ICAO code must be of length four");
+            throw new DataException("ICAO code must contain only letters");
         }
         //type
         type = type.toUpperCase();
         if (!type.equals("APT") && !type.equals("VOR") && !type.equals("FIX") && !type.equals("NDB") && !type.equals("LATLON")){
             throw new DataException("Type of flight must be either APT, VOR, FIX, NDB or LATLON");
+        }
+        //altitude
+        double alt;
+        try{
+            alt = Double.parseDouble(altitude);
+        }catch (NumberFormatException e){
+            throw new DataException ("Altitude must be a number");
+        }
+        if (alt < 0 || alt > 50000){
+            throw new DataException("Altitude must be between 0 and 50000ft inclusive.");
         }
         //latitude
         double lat;
@@ -164,13 +171,7 @@ public class EntryParser {
         if (lng > 180 || lng < -180){
             throw new DataException("Longitude must be between -180 and 180 inclusive.");
         }
-        //altitude
-        double alt;
-        try{
-            alt = Double.parseDouble(altitude);
-        }catch (NumberFormatException e){
-            throw new DataException ("Altitude must be a number");
-        }
+
         FlightPoint parseSuccess = new FlightPoint(type, name, alt, lat, lng);
         return parseSuccess;
     }

@@ -154,6 +154,7 @@
                                           <ContextMenu>
                                             <items>
                                               <MenuItem mnemonicParsing="false" onAction="#deletePoint" text="Delete" />
+                                                <MenuItem mnemonicParsing="false" onAction="#editPoint" text="Edit" />
                                             </items>
                                           </ContextMenu>
                                        </contextMenu>

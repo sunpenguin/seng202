@@ -9,6 +9,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import seng202.group9.Controller.DataException;
 import seng202.group9.Controller.Dataset;
+import seng202.group9.Controller.SceneCode;
 import seng202.group9.Core.FlightPath;
 import seng202.group9.Core.FlightPoint;
 
@@ -174,7 +175,6 @@ public class FlightRDController extends Controller {
             alert.setTitle("Flight Point Data Error");
             alert.setHeaderText("Error adding a custom flight point entry.");
             alert.setContentText(e.getMessage());
-
         }
     }
 
@@ -218,6 +218,21 @@ public class FlightRDController extends Controller {
         flightTableView.setItems(FXCollections.observableArrayList(flightPoints));
     }
 
+    public void editPoint() {
+        FlightPoint toEdit = flightTableView.getSelectionModel().getSelectedItem();
+        int pathID;
+        try {
+            pathID = toEdit.getIndex();
+        } catch (DataException e) {
+            e.printStackTrace();
+            System.out.println("Point is Uneditable as the Index ID is not set.");
+            return;
+        }
+        ArrayList<FlightPath> flightPaths = theDataSet.getFlightPaths();
+        createPopUpStage(SceneCode.FLIGHT_EDITOR, 600, 289);
+        flightTableView.setItems(FXCollections.observableArrayList(flightPaths.get(currentPathIndex).getFlight()));
+
+    }
     /**
      *  Removes the selected path from the list view of paths and from the database.
      */

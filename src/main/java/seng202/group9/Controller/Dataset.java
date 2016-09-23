@@ -1863,8 +1863,9 @@ public class Dataset {
      * @param longitude
      * @throws DataException
      */
-    public void editFlight(FlightPath flightPath, int index, String name, String type, String altitude, String latitude, String longitude) throws DataException{
-        editFlight(flightPath.getFlightPoints().get(index), name, type, altitude, latitude, longitude);
+    public void editFlightPath(FlightPath flightPath, int index, String name, String type, String altitude, String latitude,
+                               String longitude) throws DataException{
+        editFlightPoint(flightPath.getFlightPoints().get(index), name, type, altitude, latitude, longitude);
     }
 
     /**
@@ -1877,7 +1878,8 @@ public class Dataset {
      * @param longitude
      * @throws DataException
      */
-    public void editFlight(FlightPoint flightPoint, String name, String type, String altitude, String latitude, String longitude) throws DataException{
+    public void editFlightPoint(FlightPoint flightPoint, String name, String type, String altitude, String latitude,
+                                String longitude) throws DataException{
         EntryParser entryParser = new EntryParser();
         FlightPoint flightPoint1 = entryParser.parsePoint(name, type, altitude, latitude, longitude);
         flightPoint.setName(flightPoint1.getName());
