@@ -9,7 +9,8 @@ public enum SceneCode {
     AIRPORT_SUMMARY("airport_summary.fxml"), AIRPORT_RAW_DATA("airport_raw_data.fxml"),
     ROUTE_SUMMARY("routes_summary.fxml"), ROUTE_RAW_DATA("route_raw_data.fxml"), FLIGHT_SUMMARY("flight_data_summary.fxml"),
     FLIGHT_RAW_DATA("flight_raw_data.fxml"), AIRPORT_ANALYSER("airport_analyser.fxml"), ROUTE_ANALYSER("route_analyser.fxml"),
-    AIRPORT_DIST_CALC("airport_dist_calc.fxml");
+    AIRPORT_DIST_CALC("airport_dist_calc.fxml"), ANALYSER_TAB("analyser_main_page.fxml"),
+    BAR_GRAPH_CHOOSER("bar_graph_chooser.fxml"), PIE_GRAPH_CHOOSER("pie_graph_chooser.fxml");
 
     private String filePath;
 
