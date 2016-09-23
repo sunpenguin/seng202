@@ -1,13 +1,18 @@
 package seng202.group9.GUI;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import seng202.group9.Controller.AirportFilter;
 import seng202.group9.Controller.Dataset;
 import seng202.group9.Controller.SceneCode;
+import seng202.group9.Controller.Session;
 import seng202.group9.Core.Airport;
+
+import java.util.ArrayList;
+import java.util.Optional;
 
 import static javafx.collections.FXCollections.observableArrayList;
 
@@ -47,6 +52,8 @@ public class AirportRDController extends Controller{
 
     //Set an empty Dataset to be assigned later
     private Dataset theDataSet = null;
+    //Set an empty session to be assigned to the current session.
+    private Session currentSession = null;
 
     /**
      * Loads the initial airport data to the GUI table.
@@ -69,7 +76,10 @@ public class AirportRDController extends Controller{
 
         //Assigning the Dataset to the current Dataset's airports and displaying it in a table
         theDataSet = getParent().getCurrentDataset();
+        currentSession = getParent().getSession();
+
         tableViewAirportRD.setItems(observableArrayList(theDataSet.getAirports()));
+        tableViewAirportRD.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 
     public void openAdd() {
@@ -79,6 +89,14 @@ public class AirportRDController extends Controller{
 
     public void openFilter() {
         createPopUpStage(SceneCode.AIRPORT_FILTER, 600, 480);
+        ArrayList<Airport> d = new ArrayList();
+        for(int i = 0; i < theDataSet.getAirports().size(); i++) {
+            if (currentSession.getFilteredAirports().containsValue(theDataSet.getAirports().get(i).getName())
+                    && currentSession.getFilteredAirports().containsKey(i)) {
+                d.add(theDataSet.getAirports().get(i));
+            }
+        }
+        tableViewAirportRD.setItems(FXCollections.observableArrayList(d));
     }
 
     /**
@@ -88,9 +106,25 @@ public class AirportRDController extends Controller{
      */
     public void deleteAirport(){
         //Gets an airport from the table and deletes it before updating the table
-        Airport toDelete = tableViewAirportRD.getSelectionModel().getSelectedItem();
-        theDataSet.deleteAirport(toDelete);
-        tableViewAirportRD.setItems(observableArrayList(theDataSet.getAirports()));
+//        Airport toDelete = tableViewAirportRD.getSelectionModel().getSelectedItem();
+//        theDataSet.deleteAirport(toDelete);
+//        tableViewAirportRD.setItems(observableArrayList(theDataSet.getAirports()));
+
+        ObservableList<Airport> toDelete = tableViewAirportRD.getSelectionModel().getSelectedItems();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Airport Delete Confirmation");
+        alert.setHeaderText("You are about to delete some data.");
+        alert.setContentText("Are you sure you want to delete the selected airport(s)?");
+        //alert.showAndWait();
+        Optional<ButtonType> result = alert.showAndWait();
+        Airport air = null;
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            for (int i = 0; i < toDelete.size(); i++) {
+                air = toDelete.get(i);
+                theDataSet.deleteAirport(air);
+            }
+            tableViewAirportRD.setItems(FXCollections.observableArrayList(theDataSet.getAirports()));
+        }
     }
 
 

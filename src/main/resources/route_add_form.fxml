@@ -63,7 +63,7 @@
             <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
          </GridPane.margin>
       </Label>
-      <Button mnemonicParsing="false" onAction="#addRouteSingle" text="Add Route" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="7" />
+      <Button fx:id="addButton" mnemonicParsing="false" onAction="#addRouteSingle" text="Add Route" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="7" />
       <TextField fx:id="rAirlineAdd" prefHeight="31.0" prefWidth="432.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
       <TextField fx:id="rSourceAdd" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
       <TextField fx:id="rDestAdd" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />

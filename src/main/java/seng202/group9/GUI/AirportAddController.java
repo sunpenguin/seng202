@@ -5,7 +5,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import seng202.group9.Controller.Dataset;
+import seng202.group9.Controller.Session;
 
 /**
  * Created by Sunguin on 2016/09/22.
@@ -34,6 +36,8 @@ public class AirportAddController extends Controller {
     private TextField airpDSTAdd;
     @FXML
     private TextField airpTzAdd;
+    @FXML
+    private TextField addButton;
 
     //Set an empty Dataset to be assigned later
     private Dataset theDataSet = null;
@@ -70,6 +74,16 @@ public class AirportAddController extends Controller {
             airpTimezoneAdd.clear();
             airpDSTAdd.clear();
             airpTzAdd.clear();
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Airport Add Successful");
+            alert.setHeaderText("New Airport added!");
+            alert.setContentText("Your new airport has been successfully added into the database.");
+            alert.showAndWait();
+
+            Stage stage = (Stage) addButton.getScene().getWindow();
+            stage.close();
+
         } catch ( Exception e ) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Airport Data Error");

@@ -3,23 +3,16 @@ package seng202.group9.GUI;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.Pane;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import seng202.group9.Controller.*;
 import seng202.group9.Core.Airline;
 
 import javax.swing.*;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
-//make a class for the scenes to get the data I guess
+
+
 /**
  * The GUI controller class for airline_raw_data.fxml.
  * Extends from the abstract class {@link Controller}.
@@ -46,8 +39,9 @@ public class AirlineRDController extends Controller {
     @FXML
     private TableColumn<Airline, String> airlActiveCol;
 
-    //Set an empty Dataset to be assigned later.
+    //Set an empty Dataset to be assigned to the current dataset.
     private Dataset theDataSet = null;
+    //Set an empty session to be assigned to the current session.
     private Session currentSession = null;
 
     /**
@@ -67,10 +61,10 @@ public class AirlineRDController extends Controller {
 
         //Assigning the Dataset to the current Dataset's airlines and displaying it in a table
         theDataSet = getParent().getCurrentDataset();
+        currentSession = getParent().getSession();
+
         tableViewAirlineRD.setItems(FXCollections.observableArrayList(theDataSet.getAirlines()));
         tableViewAirlineRD.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-
-        currentSession = getParent().getSession();
     }
 
 

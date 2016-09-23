@@ -3,8 +3,10 @@ package seng202.group9.GUI;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import seng202.group9.Controller.Dataset;
 
 /**
@@ -24,6 +26,8 @@ public class RouteAddController extends Controller {
     private TextField rStopsAdd;
     @FXML
     private TextField rEquipmentAdd;
+    @FXML
+    private Button addButton;
 
     private Dataset theDataSet = null;
 
@@ -50,6 +54,16 @@ public class RouteAddController extends Controller {
             rCodeshareAdd.clear();
             rStopsAdd.clear();
             rEquipmentAdd.clear();
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Route Add Successful");
+            alert.setHeaderText("New Route added!");
+            alert.setContentText("Your new route has been successfully added into the database.");
+            alert.showAndWait();
+
+            Stage stage = (Stage) addButton.getScene().getWindow();
+            stage.close();
+
         } catch ( Exception e ) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Route Data Error");

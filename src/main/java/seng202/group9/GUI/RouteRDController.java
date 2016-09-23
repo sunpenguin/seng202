@@ -1,13 +1,18 @@
 package seng202.group9.GUI;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import seng202.group9.Controller.Dataset;
 import seng202.group9.Controller.SceneCode;
 import seng202.group9.Controller.RouteFilter;
+import seng202.group9.Controller.Session;
 import seng202.group9.Core.Route;
+
+import java.util.ArrayList;
+import java.util.Optional;
 
 /**
  * The GUI controller class for route_raw_data.fxml.
@@ -39,6 +44,8 @@ public class RouteRDController extends Controller {
 
     //Set an empty Dataset to be assigned later
     private Dataset theDataSet = null;
+    //Set an empty session to be assigned to the current session.
+    private Session currentSession = null;
 
     /**
      * Loads the initial route data to the GUI table.
@@ -58,7 +65,10 @@ public class RouteRDController extends Controller {
 
         //Assigning the Dataset to the current Dataset's routes and displaying it in a table
         theDataSet = getParent().getCurrentDataset();
+        currentSession = getParent().getSession();
+
         tableViewRouteRD.setItems(FXCollections.observableArrayList(theDataSet.getRoutes()));
+        tableViewRouteRD.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 
     public void openAdd() {
@@ -68,6 +78,14 @@ public class RouteRDController extends Controller {
 
     public void openFilter() {
         createPopUpStage(SceneCode.ROUTE_FILTER, 600, 330);
+        ArrayList<Route> d = new ArrayList();
+        for(int i = 0; i < theDataSet.getRoutes().size(); i++) {
+            if (currentSession.getFilteredRoutes().containsValue(theDataSet.getRoutes().get(i).getAirlineName())
+                    && currentSession.getFilteredRoutes().containsKey(i)) {
+                d.add(theDataSet.getRoutes().get(i));
+            }
+        }
+        tableViewRouteRD.setItems(FXCollections.observableArrayList(d));
     }
 
     /**
@@ -77,9 +95,21 @@ public class RouteRDController extends Controller {
      */
     public void deleteRoute() {
         //Gets a route from the table and deletes it before updating the table
-        Route toDelete = tableViewRouteRD.getSelectionModel().getSelectedItem();
-        theDataSet.deleteRoute(toDelete);
-        tableViewRouteRD.setItems(FXCollections.observableArrayList(theDataSet.getRoutes()));
+        ObservableList<Route> toDelete = tableViewRouteRD.getSelectionModel().getSelectedItems();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Route Delete Confirmation");
+        alert.setHeaderText("You are about to delete some data.");
+        alert.setContentText("Are you sure you want to delete the selected route(s)?");
+        //alert.showAndWait();
+        Optional<ButtonType> result = alert.showAndWait();
+        Route air = null;
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            for (int i = 0; i < toDelete.size(); i++) {
+                air = toDelete.get(i);
+                theDataSet.deleteRoute(air);
+            }
+            tableViewRouteRD.setItems(FXCollections.observableArrayList(theDataSet.getRoutes()));
+        }
     }
 
 
@@ -93,5 +123,6 @@ public class RouteRDController extends Controller {
 
     public void routeSummaryButton() {
         replaceSceneContent(SceneCode.ROUTE_SUMMARY);
+        currentSession = getParent().getSession();
     }
 }

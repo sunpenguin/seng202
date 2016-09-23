@@ -12,7 +12,9 @@ import java.util.HashMap;
  */
 public class Session implements Serializable {
     private SceneCode sceneDisplayed;
-    private HashMap<String, Integer> filteredAirlines;
+    private HashMap<Integer, String> filteredAirlines;
+    private HashMap<Integer, String> filteredAirports;
+    private HashMap<Integer, String> filteredRoutes;
 
     /**
      * Constructor for a new session
@@ -50,7 +52,23 @@ public class Session implements Serializable {
         this.filteredAirlines = airlines;
     }
 
-    public HashMap<String, Integer> getFilteredAirlines() {
+    public HashMap<Integer, String> getFilteredAirlines() {
         return filteredAirlines;
+    }
+
+    public void setFilteredAirports(HashMap airports) {
+        this.filteredAirports = airports;
+    }
+
+    public HashMap<Integer, String> getFilteredAirports() {
+        return filteredAirports;
+    }
+
+    public void setFilteredRoutes(HashMap routes) {
+        this.filteredRoutes = routes;
+    }
+
+    public HashMap<Integer, String> getFilteredRoutes() {
+        return filteredRoutes;
     }
 }
