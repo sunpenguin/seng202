@@ -104,7 +104,6 @@ public class AirlineRDController extends Controller {
         alert.setTitle("Airline Delete Confirmation");
         alert.setHeaderText("You are about to delete some data.");
         alert.setContentText("Are you sure you want to delete the selected airline(s)?");
-        //alert.showAndWait();
         Optional<ButtonType> result = alert.showAndWait();
         Airline air = null;
         if (result.isPresent() && result.get() == ButtonType.OK) {
@@ -116,6 +115,11 @@ public class AirlineRDController extends Controller {
         }
     }
 
+    public void editAirline() {
+        Airline toEdit = tableViewAirlineRD.getSelectionModel().getSelectedItem();
+        currentSession.setAirlineToEdit(toEdit.getName());
+        createPopUpStage(SceneCode.AIRLINE_EDIT, 600, 370);
+    }
 
     /**
      * Analyses the current data and creates a graph based on the data.

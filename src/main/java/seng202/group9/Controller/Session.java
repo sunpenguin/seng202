@@ -12,9 +12,13 @@ import java.util.HashMap;
  */
 public class Session implements Serializable {
     private SceneCode sceneDisplayed;
+
     private HashMap<Integer, String> filteredAirlines;
     private HashMap<Integer, String> filteredAirports;
     private HashMap<Integer, String> filteredRoutes;
+
+    private String airlineToEdit;
+
 
     /**
      * Constructor for a new session
@@ -70,5 +74,13 @@ public class Session implements Serializable {
 
     public HashMap<Integer, String> getFilteredRoutes() {
         return filteredRoutes;
+    }
+
+    public void setAirlineToEdit(String name) {
+        this.airlineToEdit = name;
+    }
+
+    public String getAirlineToEdit() {
+        return airlineToEdit;
     }
 }
