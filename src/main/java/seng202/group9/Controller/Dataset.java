@@ -23,12 +23,12 @@ public class Dataset {
     private ArrayList<FlightPath> flightPaths;
     private ArrayList<Country> countries;
     private ArrayList<City> cities;
-    private LinkedHashMap<String, Airline> airlineDictionary;
-    private LinkedHashMap<String, Airport> airportDictionary;
-    private LinkedHashMap<String, Route> routeDictionary;
-    private LinkedHashMap<Integer, FlightPath> flightPathDictionary;
-    private LinkedHashMap<String, Country> countryDictionary;
-    private LinkedHashMap<String, City> cityDictionary;
+    private LinkedHashMap<String, Airline> airlineDictionary;//key name
+    private LinkedHashMap<String, Airport> airportDictionary;//key name
+    private LinkedHashMap<String, Route> routeDictionary;//key routeAirline + routeSourceAirport + routeArrvAirport + routeCodeShare + routeStops + routeEquip
+    private LinkedHashMap<Integer, FlightPath> flightPathDictionary;//key path id
+    private LinkedHashMap<String, Country> countryDictionary;//key name
+    private LinkedHashMap<String, City> cityDictionary;//key city name
 
     /**
      *
@@ -1763,6 +1763,8 @@ public class Dataset {
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         }
+        airlineDictionary.remove(airline);
+        airlineDictionary.put(airline.getName(), airline);
         createDataLinks();
     }
 
@@ -1877,6 +1879,7 @@ public class Dataset {
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         }
+
         createDataLinks();
     }
 
