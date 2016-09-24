@@ -3,6 +3,8 @@ package seng202.group9.Controller;
 import javafx.collections.ObservableList;
 import seng202.group9.Core.Airline;
 
+import seng202.group9.Core.FlightPoint;
+
 import java.io.Serializable;
 import java.util.HashMap;
 
@@ -13,6 +15,8 @@ import java.util.HashMap;
 public class Session implements Serializable {
     private SceneCode sceneDisplayed;
 
+    private int currentFlightPointID;
+    private int currentFlightPathID;
     private HashMap<Integer, String> filteredAirlines;
     private HashMap<Integer, String> filteredAirports;
     private HashMap<Integer, String> filteredRoutes;
@@ -78,6 +82,7 @@ public class Session implements Serializable {
         return filteredRoutes;
     }
 
+
     public void setAirlineToEdit(String name) {
         this.airlineToEdit = name;
     }
@@ -101,4 +106,36 @@ public class Session implements Serializable {
     public void setRouteToEdit(String route) {
         this.routeToEdit = route;
     }
+
+    /**
+     * sets the current flight point
+     * @param currentFlightPointID
+     */
+    public void setCurrentFlightPointID(int currentFlightPointID) {
+        this.currentFlightPointID = currentFlightPointID;
+    }
+
+    /**
+     * gets the current flight point
+     * @return
+     */
+    public int getCurrentFlightPointID() {
+        return currentFlightPointID;
+    }
+    /**
+     * sets the current flight point
+     * @param currentFlightPathID
+     */
+    public void setCurrentFlightPathtID(int currentFlightPathID) {
+        this.currentFlightPathID = currentFlightPathID;
+    }
+
+    /**
+     * gets the current flight point
+     * @return
+     */
+    public int getCurrentFlightPathID() {
+        return currentFlightPathID;
+    }
+
 }
