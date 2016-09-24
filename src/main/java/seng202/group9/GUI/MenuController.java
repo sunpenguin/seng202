@@ -60,6 +60,8 @@ public class MenuController extends Controller{
 		replaceSceneContent(SceneCode.ROUTE_SUMMARY);
 	}
 
+	public void viewAnalyserMain() { replaceSceneContent(SceneCode.ANALYSER_TAB);}
+
 	/**
 	 * Load Flight Summary Function.
 	 */
