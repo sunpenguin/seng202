@@ -1806,23 +1806,66 @@ public class Dataset {
         EntryParser parser = new EntryParser();
         Airport newAirport = parser.parseAirport(name, city, country, IATA_FFA, ICAO, lat, lng, alt, timezone, DST, olson);
         airport.setName(name);
-        airport.setCityName(city);
-        airport.getCity().setName(city);
-        airport.setCountryName(country);
-        airport.getCountry().setName(country);
         airport.setIATA_FFA(IATA_FFA);
         airport.setICAO(ICAO);
         airport.setLatitude(newAirport.getLatitude());
         airport.setLongitude(newAirport.getLongitude());
-        airport.getCity().setTimezone(Double.parseDouble(timezone));
-        airport.getCountry().setDST(DST);
-        airport.getCity().setTimeOlson(olson);
 
         Connection c = null;
         Statement stmt = null;
+
         try {
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
+            /*
+            //UPDATE CITY AND COUNTRIES
+             */
+            if (cityDictionary.containsKey(city) && cityDictionary.get(city) != null){
+                airport.setCity(cityDictionary.get(city));
+                airport.getCity().setCountry(country);
+                airport.getCity().setTimezone(Double.parseDouble(timezone));
+                airport.getCity().setTimeOlson(olson);
+                //update city in database
+                stmt = c.createStatement();
+                String updateCityQuery = "UPDATE `"+this.name+"_City` SET `Country_Name` = \""+country+"\", " +
+                        "`Timezone` = "+timezone+", `Olson_Timezone` = \""+olson+"\" WHERE `City_Name` = \""+city+"\"";
+                stmt.execute(updateCityQuery);
+                stmt.close();
+            }else {
+                City newCity = new City(city, country, Double.parseDouble(timezone), olson);
+                airport.setCity(newCity);
+                airport.setCityName(city);
+                cities.add(newCity);
+                cityDictionary.put(city, newCity);
+                //add new City to database
+                stmt = c.createStatement();
+                String addNewCity = "INSERT INTO `"+this.name+"_City` (`City_Name`, `Country_name`, `Timezone`, `Olson_Timezone`) VALUES " +
+                        "(\""+city+"\", \""+country+"\", "+timezone+", \""+olson+"\")";
+                stmt.execute(addNewCity);
+                stmt.close();
+            }
+
+            if (countryDictionary.containsKey(country) && countryDictionary.get(country) != null){
+                airport.setCountry(countryDictionary.get(country));
+                airport.getCountry().setDST(DST);
+                //update country in database
+                stmt = c.createStatement();
+                String updateCountryQuery = "UPDATE `"+this.name+"_Country` SET `DST` = "+DST+" WHERE `Country_Name` = \""+country+"\"";
+                stmt.execute(updateCountryQuery);
+                stmt.close();
+            }else{
+                Country newCountry = new Country(DST, name);
+                airport.setCountry(newCountry);
+                airport.setCountryName(country);
+                countries.add(newCountry);
+                countryDictionary.put(country, newCountry);
+                //add new COuntry to database
+                stmt = c.createStatement();
+                String createCountryQuery = "INSERT INTO `"+this.name+"_Country` (`Country_Name`, `DST`) VALUES (\""+country+"\", \""+DST+"\")";
+                stmt.execute(createCountryQuery);
+                stmt.close();
+            }
+
             stmt = c.createStatement();
             String query = "UPDATE `"+this.name+"_Airport` SET `Name` = \""+airport.getName().replace("\"", "\"\"")+"\", `City` = \""+airport.getCityName().replace("\"", "\"\"")+"\", " +
                     "`Country` = \""+airport.getCountryName().replace("\"", "\"\"")+"\", `IATA/FFA` = \""+airport.getIATA_FFA().replace("\"", "\"\"")+"\", " +
