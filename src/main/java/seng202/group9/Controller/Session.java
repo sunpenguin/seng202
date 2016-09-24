@@ -1,5 +1,7 @@
 package seng202.group9.Controller;
 
+import seng202.group9.Core.FlightPoint;
+
 import java.io.Serializable;
 
 /**
@@ -8,6 +10,8 @@ import java.io.Serializable;
  */
 public class Session implements Serializable {
     private SceneCode sceneDisplayed;
+    private int currentFlightPointID;
+    private int currentFlightPathID;
 
     /**
      * Constructor for a new session
@@ -40,4 +44,36 @@ public class Session implements Serializable {
     public SceneCode getSceneDisplayed() {
         return sceneDisplayed;
     }
+
+    /**
+     * sets the current flight point
+     * @param currentFlightPointID
+     */
+    public void setCurrentFlightPointID(int currentFlightPointID) {
+        this.currentFlightPointID = currentFlightPointID;
+    }
+
+    /**
+     * gets the current flight point
+     * @return
+     */
+    public int getCurrentFlightPointID() {
+        return currentFlightPointID;
+    }
+    /**
+     * sets the current flight point
+     * @param currentFlightPathID
+     */
+    public void setCurrentFlightPathtID(int currentFlightPathID) {
+        this.currentFlightPathID = currentFlightPathID;
+    }
+
+    /**
+     * gets the current flight point
+     * @return
+     */
+    public int getCurrentFlightPathID() {
+        return currentFlightPathID;
+    }
+
 }

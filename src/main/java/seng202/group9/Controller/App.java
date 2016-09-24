@@ -1,6 +1,10 @@
 package seng202.group9.Controller;
 
 import java.io.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import javafx.application.Application;
@@ -14,6 +18,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import seng202.group9.Core.FlightPath;
 import seng202.group9.GUI.*;
 
 /**
@@ -28,20 +33,20 @@ public class App extends Application
 	private VBox mainContainer = null;
 	private Session session = null;
 	private MenuController menuController = null;
-	
-    public static void main( String[] args )
-    {
-        launch(args);
-    }
+
+	public static void main( String[] args )
+	{
+		launch(args);
+	}
 
 	public Stage getPrimaryStage() {
 		return primaryStage;
 	}
 
 	/**
-     * Starts the application
-     * @param primaryStage main "stage" of the program
-     */
+	 * Starts the application
+	 * @param primaryStage main "stage" of the program
+	 */
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
@@ -61,11 +66,15 @@ public class App extends Application
 			e.printStackTrace();
 		}
 		primaryStage.show();
-
+		//load all datasets
+		try{
+			loadAllDatasets();
+		} catch (Exception e){
+			e.printStackTrace();
+		}
 		//testing out dataset
 		try {
 			currentDataset = new Dataset("test's", Dataset.getExisting);
-			datasets.add(currentDataset);
 		}catch (DataException e){
 			e.printStackTrace();
 		}
@@ -107,6 +116,32 @@ public class App extends Application
 			e.printStackTrace();
 		}
 	}
+
+	/**
+	 * Loads all dataset in the current User Database.
+	 */
+	public void loadAllDatasets(){
+		Connection c = null;
+		Statement stmt = null;
+		try {
+			Class.forName("org.sqlite.JDBC");
+			c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
+			stmt = c.createStatement();
+			String loadAllDatasetsQuery = "SELECT * FROM `Datasets`";
+			ResultSet datasetsLoaded = stmt.executeQuery(loadAllDatasetsQuery);
+			while (datasetsLoaded.next()){
+				Dataset newDataset = new Dataset(datasetsLoaded.getString("Dataset_Name"), Dataset.getExisting);
+				System.out.println("Loaded Dataset "+ datasetsLoaded.getString("Dataset_Name"));
+				datasets.add(newDataset);
+			}
+			datasetsLoaded.close();
+			stmt.close();
+			c.close();
+		} catch ( Exception e ) {
+			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+		}
+	}
+
 	/**
 	 * Replace Scene Content with fxml file code from oracle.
 	 * @param fxml
@@ -132,7 +167,15 @@ public class App extends Application
 	}
 
 	/**
-	 * Returns the Menu COntroller of the App.
+	 * Gets the current session.
+	 * @return
+	 */
+	public Session getSession() {
+		return this.session;
+	}
+
+	/**
+	 * Returns the Menu Controller of the App.
 	 * @return
 	 */
 	public MenuController getMenuController() {
@@ -145,6 +188,22 @@ public class App extends Application
 	 */
 	public Dataset getCurrentDataset(){
 		return currentDataset;
+	}
+
+	/**
+	 * Sets the current Dataset to another Dataset by its index in the datasets arraylist
+	 * @param index
+	 */
+	public void setCurrentDataset(int index){
+		currentDataset = datasets.get(index);
+	}
+
+	/**
+	 * Sets the current Dataset to another Dataset.
+	 * @param dataset
+	 */
+	public void setCurrentDataset(Dataset dataset){
+		currentDataset = dataset;
 	}
 
 	/**

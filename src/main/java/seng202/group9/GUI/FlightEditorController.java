@@ -3,8 +3,11 @@ package seng202.group9.GUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import seng202.group9.Controller.Dataset;
+import seng202.group9.Controller.Session;
 import seng202.group9.Core.FlightPoint;
 
 /**
@@ -22,7 +25,8 @@ public class FlightEditorController extends Controller{
     TextField fLatitudeEdit;
     @FXML
     TextField fLongitudeEdit;
-
+    @FXML
+    private Button flightEditButton;
 
     //Set an empty Dataset to be assigned later
     private Dataset theDataSet = null;
@@ -32,30 +36,41 @@ public class FlightEditorController extends Controller{
      * Takes in values from the GUI the user has typed in.
      * @see Dataset
      */
-    public void editFlight(FlightPoint flightPoint) {
+    public void editFlight() {
         //Tries to add a new airport and clears the fields to their initial state if successful.
         //Otherwise an error message will pop up with what is wrong with the manual data.
         try {
-            fNameEdit.setText(flightPoint.getName());
-            fTypeEdit.setText(flightPoint.getType());
-            fAltitudeEdit.setText(Double.toString(flightPoint.getAltitude()));
-            fLatitudeEdit.setText(Double.toString(flightPoint.getLatitude()));
-            fLongitudeEdit.setText(Double.toString(flightPoint.getLongitude()));
+            Session session = getParent().getSession();
+            int flightPointID = session.getCurrentFlightPointID();
+            int flightPathID = session.getCurrentFlightPathID();
 
-            theDataSet.editFlightPoint(
-                    flightPoint,
+            theDataSet.editFlight(
+                    theDataSet.getFlightPointDictionary().get(flightPointID),
                     fNameEdit.getText(),
                     fTypeEdit.getText(),
                     fAltitudeEdit.getText(),
                     fLatitudeEdit.getText(),
                     fLongitudeEdit.getText()
             );
+            session.setCurrentFlightPointID(flightPointID);
+
             fNameEdit.clear();
             fTypeEdit.clear();
             fAltitudeEdit.clear();
             fLatitudeEdit.clear();
             fLongitudeEdit.clear();
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Flight Path Edit Successful");
+            alert.setHeaderText("Flight Point Edited!");
+            alert.setContentText("Your flight point has been updated in the database.");
+            alert.showAndWait();
+
+            Stage stage = (Stage) flightEditButton.getScene().getWindow();
+            stage.close();
+
         } catch ( Exception e ) {
+            e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Flight Data Error");
             alert.setHeaderText("Error editing a flight point.");
@@ -64,8 +79,22 @@ public class FlightEditorController extends Controller{
         }
     }
 
+    public void loadValues(){
+
+    }
+
     public void load() {
         theDataSet = getParent().getCurrentDataset();
+
+        Session session = getParent().getSession();
+        int flightPointID = session.getCurrentFlightPointID();
+        FlightPoint flightPoint = theDataSet.getFlightPointDictionary().get(flightPointID);
+
+        fNameEdit.setText(flightPoint.getName());
+        fTypeEdit.setText(flightPoint.getType());
+        fAltitudeEdit.setText(Double.toString(flightPoint.getAltitude()));
+        fLatitudeEdit.setText(Double.toString(flightPoint.getLatitude()));
+        fLongitudeEdit.setText(Double.toString(flightPoint.getLongitude()));
     }
 
 }

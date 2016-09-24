@@ -183,4 +183,37 @@ public class FlightPath {
 		}
 		return routePath;
 	}
+	public void updateFlightPointInfo(){
+		if (flightPoints.size() == 0){
+			return;
+		}
+		FlightPoint startPoint = flightPoints.get(0);
+		startPoint.setLegDistance(0);
+		startPoint.setTotalDistance(0);
+		startPoint.setHeading(0);
+		for (int i = 1; i < flightPoints.size(); i ++){
+			double distance = 0;
+			double dLong = flightPoints.get(i - 1).getLongitude() - flightPoints.get(i).getLongitude();
+			double dLat = flightPoints.get(i - 1).getLatitude() - flightPoints.get(i).getLatitude();
+			dLong = Math.toRadians(dLong);
+			dLat = Math.toRadians(dLat);
+			double a = Math.pow((Math.sin(dLat/2)), 2) + Math.cos(Math.toRadians(flightPoints.get(i).getLatitude())) * Math.cos(Math.toRadians(flightPoints.get(i - 1).getLatitude())) * Math.pow(Math.sin(dLong/2), 2);
+			double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+			distance = 6371 * c;
+			//convert distance from km to nautical mile
+			distance = distance * 0.53995680345572;
+			flightPoints.get(i).setLegDistance(distance);
+			flightPoints.get(i).setTotalDistance(distance + flightPoints.get(i).getTotalDistance());
+			//calculate bearing
+			double lat1 = Math.toRadians(flightPoints.get(i - 1).getLatitude());
+			double lat2 = Math.toRadians(flightPoints.get(i).getLatitude());
+			double lng1 = Math.toRadians(flightPoints.get(i - 1).getLongitude());
+			double lng2 = Math.toRadians(flightPoints.get(i).getLongitude());
+			double y = Math.sin(dLong) * Math.cos(lat2);
+			double x = Math.cos(lat1) * Math.sin(lat2);
+			x -= Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLong);
+			double heading = 360 - Math.toDegrees(Math.atan2(y, x));
+			flightPoints.get(i).setHeading((int)heading);
+		}
+	}
 }

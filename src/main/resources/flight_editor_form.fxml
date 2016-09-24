@@ -57,7 +57,7 @@
             <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
          </GridPane.margin>
       </Label>
-      <Button fx:id="editButton" mnemonicParsing="false" onAction="#editFlight" text="Edit Flight" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="6" />
+      <Button fx:id="flightEditButton" mnemonicParsing="false" onAction="#editFlight" text="Edit Flight" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="6" />
       <TextField fx:id="fNameEdit" prefHeight="31.0" prefWidth="432.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
       <TextField fx:id="fTypeEdit" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
       <TextField fx:id="fAltitudeEdit" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />

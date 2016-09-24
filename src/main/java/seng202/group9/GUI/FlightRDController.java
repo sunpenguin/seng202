@@ -10,6 +10,7 @@ import javafx.scene.input.MouseEvent;
 import seng202.group9.Controller.DataException;
 import seng202.group9.Controller.Dataset;
 import seng202.group9.Controller.SceneCode;
+import seng202.group9.Controller.Session;
 import seng202.group9.Core.FlightPath;
 import seng202.group9.Core.FlightPoint;
 
@@ -144,8 +145,6 @@ public class FlightRDController extends Controller {
      *  Will take the inputs from the text fields and adds the point to the current flight path.
      */
     public void addFlightPoint() {
-        ArrayList<FlightPath> flightPaths;
-        flightPaths = theDataSet.getFlightPaths();
 
             try {
                 theDataSet.addFlightPointToPath(currentPathId,
@@ -168,8 +167,7 @@ public class FlightRDController extends Controller {
                 flightLegDistBox.clear();
                 flightTotDistBox.clear();
 
-                ArrayList<FlightPoint> flightPoints = flightPaths.get(currentPathIndex).getFlight();
-                flightTableView.setItems(FXCollections.observableArrayList(flightPoints));
+                updateTable(currentPathIndex);
         } catch ( Exception e ) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Flight Point Data Error");
@@ -212,25 +210,22 @@ public class FlightRDController extends Controller {
 
         currentPathIndex = theDataSet.getFlightPaths().indexOf(theDataSet.getFlightPathDictionary().get(pathID));
 
-        ArrayList<FlightPath> flightPaths;
-        flightPaths = theDataSet.getFlightPaths();
-        ArrayList<FlightPoint> flightPoints = flightPaths.get(currentPathIndex).getFlight();
-        flightTableView.setItems(FXCollections.observableArrayList(flightPoints));
+        updateTable(currentPathIndex);
     }
 
     public void editPoint() {
         FlightPoint toEdit = flightTableView.getSelectionModel().getSelectedItem();
-        int pathID;
         try {
-            pathID = toEdit.getIndex();
+            Session session = getParent().getSession();
+            session.setCurrentFlightPointID(toEdit.getID());
+            session.setCurrentFlightPathtID(currentPathId);
         } catch (DataException e) {
             e.printStackTrace();
             System.out.println("Point is Uneditable as the Index ID is not set.");
             return;
         }
-        ArrayList<FlightPath> flightPaths = theDataSet.getFlightPaths();
         createPopUpStage(SceneCode.FLIGHT_EDITOR, 600, 289);
-        flightTableView.setItems(FXCollections.observableArrayList(flightPaths.get(currentPathIndex).getFlight()));
+        updateTable(currentPathIndex);
 
     }
     /**
@@ -247,6 +242,14 @@ public class FlightRDController extends Controller {
         theDataSet.deleteFlightPath(toDeleteIndex);
         flightPathListView.getItems().clear();
         flightPathListView();
+    }
+
+    public void updateTable(int currentPathIndex) {
+        ArrayList<FlightPath> flightPaths;
+        flightPaths = theDataSet.getFlightPaths();
+        ArrayList<FlightPoint> flightPoints = flightPaths.get(currentPathIndex).getFlight();
+        flightTableView.setItems(FXCollections.observableArrayList(flightPoints));
+        flightTableView.refresh();
     }
 
     /**
