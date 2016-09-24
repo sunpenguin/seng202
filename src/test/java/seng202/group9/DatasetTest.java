@@ -220,6 +220,15 @@ public class DatasetTest {
         assertEquals(dataset.getFlightPaths().get(0).getFlightPoints().get(5).getName(), flightPoint1.getName());
         assertEquals(dataset.getFlightPaths().get(0).getFlightPoints().get(6).getName(), flightPoint.getName());
 
+        //edit order
+        FlightPoint wasLast = dataset.getFlightPaths().get(0).getFlightPoints().get(dataset.getFlightPaths().get(0).getFlightPoints().size() - 1);
+        FlightPoint wasSecondToLast = dataset.getFlightPaths().get(0).getFlightPoints().get(dataset.getFlightPaths().get(0).getFlightPoints().size() - 2);
+        FlightPoint wasFirst = dataset.getFlightPaths().get(0).getFlightPoints().get(0);
+        dataset.moveFlightPoint(wasLast, 0);
+        assertTrue(dataset.getFlightPaths().get(0).getFlightPoints().indexOf(wasLast) == 0);
+        assertTrue(dataset.getFlightPaths().get(0).getFlightPoints().indexOf(wasSecondToLast) == dataset.getFlightPaths().get(0).getFlightPoints().size() - 1);
+        assertTrue(dataset.getFlightPaths().get(0).getFlightPoints().indexOf(wasFirst) == 1);
+
         app.deleteDataset(app.getCurrentDataset());
     }
 

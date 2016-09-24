@@ -668,7 +668,6 @@ public class Dataset {
             while(IDResult.next()){
                 nextID = Integer.parseInt(IDResult.getString("seq")) + 1;//for some reason sqlite3 stores incremental values as a string...
             }
-            System.out.println(nextID);
             stmt.close();
             stmt = c.createStatement();
             //ADDED
@@ -729,7 +728,6 @@ public class Dataset {
             c.close();
 
             flightPaths.add(flightPathToAdd);
-            System.out.println(flightPathToAdd.getFlightPoints().get(0).getID());
             updateFlightPointInfo(flightPathToAdd);
             flightPathDictionary.put(flightPathToAdd.getID(), flightPathToAdd);
         } catch ( Exception e ) {
