@@ -6,10 +6,12 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import seng202.group9.Controller.SceneCode;
+import seng202.group9.Controller.Session;
 
 import java.util.ArrayList;
 
@@ -24,6 +26,8 @@ public class BarChooserController extends Controller{
     ListView graph_against;
     @FXML
     ListView graph_options;
+    @FXML
+    CheckBox usefilter;
 
     ObservableList airportOptions = FXCollections.observableArrayList("ID", "Name", "ICAO", "IATA FFA", "Altitude",
             "Latitude", "Longitude", "City", "Country");
@@ -37,10 +41,17 @@ public class BarChooserController extends Controller{
     ArrayList<ObservableList> allOptions = new ArrayList<ObservableList>();
 
     public void buildGraph() {
-
+        Session currentsession = this.getParent().getSession();
+        ArrayList<String> temp = new ArrayList<String>();
+        temp.addAll(graph_options.getSelectionModel().getSelectedItems());
+        currentsession.setSelectedgraphoptions(temp);
+        currentsession.setUsefilter(usefilter.isSelected());
+        currentsession.setSelectedgraphagainst(graph_options.getSelectionModel().getSelectedItem().toString());
+        currentsession.setUsefilter(usefilter.isSelected());
+        replaceSceneContent(SceneCode.ROUTE_ANALYSER);
     }
 
-    public void returnToSelection(){replaceSceneContent(SceneCode.ANALYSER_TAB);}
+    public void returnToSelection(){replaceSceneContent(SceneCode.PIE_GRAPH_CHOOSER);}
 
     public void changeTables(){
         int temp = datatypechooser.getSelectionModel().getSelectedIndex();

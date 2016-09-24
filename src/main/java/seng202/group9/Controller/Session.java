@@ -1,9 +1,10 @@
 package seng202.group9.Controller;
 
-import javafx.collections.ObservableList;
+
 import seng202.group9.Core.Airline;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -11,10 +12,38 @@ import java.util.HashMap;
  * Users last session state is store here.
  */
 public class Session implements Serializable {
+
     private SceneCode sceneDisplayed;
     private HashMap<Integer, String> filteredAirlines;
     private HashMap<Integer, String> filteredAirports;
     private HashMap<Integer, String> filteredRoutes;
+    private String selectedgraphagainst;
+    private ArrayList<String> selectedgraphoptions;
+    private Boolean usefilter;
+
+    public String getSelectedgraphagainst() {
+        return selectedgraphagainst;
+    }
+
+    public void setSelectedgraphagainst(String selectedgraphagainst) {
+        this.selectedgraphagainst = selectedgraphagainst;
+    }
+
+    public ArrayList<String> getSelectedgraphoptions() {
+        return selectedgraphoptions;
+    }
+
+    public void setSelectedgraphoptions(ArrayList<String> selectedgraphoptions) {
+        this.selectedgraphoptions = selectedgraphoptions;
+    }
+
+    public Boolean getUsefilter() {
+        return usefilter;
+    }
+
+    public void setUsefilter(Boolean usefilter) {
+        this.usefilter = usefilter;
+    }
 
     /**
      * Constructor for a new session
@@ -71,4 +100,5 @@ public class Session implements Serializable {
     public HashMap<Integer, String> getFilteredRoutes() {
         return filteredRoutes;
     }
+
 }

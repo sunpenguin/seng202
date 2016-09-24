@@ -6,10 +6,12 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import seng202.group9.Controller.SceneCode;
+import seng202.group9.Controller.Session;
 
 import java.util.ArrayList;
 
@@ -22,6 +24,9 @@ public class PieChooserController extends Controller{
     ChoiceBox datatypechooser;
     @FXML
     ListView graph_options;
+    @FXML
+    CheckBox usefilter;
+
 
     ObservableList airportOptions = FXCollections.observableArrayList("ID", "Name", "ICAO", "IATA FFA", "Altitude",
             "Latitude", "Longitude", "City", "Country");
@@ -34,11 +39,16 @@ public class PieChooserController extends Controller{
 
     ArrayList<ObservableList> allOptions = new ArrayList<ObservableList>();
 
+
+    public void toBarGraphChooser(){replaceSceneContent(SceneCode.BAR_GRAPH_CHOOSER);}
+
     public void buildGraph() {
-
+        Session currentsession = this.getParent().getSession();
+        ArrayList<String> temp = new ArrayList<String>();
+        currentsession.setSelectedgraphagainst(graph_options.getSelectionModel().getSelectedItem().toString());
+        currentsession.setUsefilter(usefilter.isSelected());
+        replaceSceneContent(SceneCode.AIRPORT_ANALYSER);
     }
-
-    public void returnToSelection(){replaceSceneContent(SceneCode.ANALYSER_TAB);}
 
     public void changeTables(){
         int temp = datatypechooser.getSelectionModel().getSelectedIndex();

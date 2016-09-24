@@ -43,6 +43,7 @@ public class RouteAnalyser extends Controller {
             seriesArivals.getData().add(new XYChart.Data(airport,temp.get(0)));
             seriesDeparts.getData().add(new XYChart.Data(airport,temp.get(1)));
         }
+        System.out.println(useddata.keySet().size());
         //Gives the formatted data to the graph.
         analyserGraph.getData().addAll(seriesArivals,seriesDeparts);
     }
