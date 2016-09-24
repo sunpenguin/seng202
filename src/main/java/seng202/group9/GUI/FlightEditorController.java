@@ -1,6 +1,5 @@
 package seng202.group9.GUI;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -11,6 +10,7 @@ import seng202.group9.Controller.Session;
 import seng202.group9.Core.FlightPoint;
 
 /**
+ * Controller for the Flights Edit Point Pop up Scene.
  * Created by Liam Beckett on 23/09/2016.
  */
 public class FlightEditorController extends Controller{
@@ -32,17 +32,16 @@ public class FlightEditorController extends Controller{
     private Dataset theDataSet = null;
 
     /**
-     * Adds a single airport entry in the database.
-     * Takes in values from the GUI the user has typed in.
+     * Edits a single flight entry in the database.
+     * Takes in values from the field the user right clicked.
      * @see Dataset
      */
     public void editFlight() {
-        //Tries to add a new airport and clears the fields to their initial state if successful.
-        //Otherwise an error message will pop up with what is wrong with the manual data.
+        //Data is pre-loaded into the text fields and any accepted changes will be implemented.
+        //Otherwise an error message will pop up with what is wrong with edit
         try {
             Session session = getParent().getSession();
             int flightPointID = session.getCurrentFlightPointID();
-            int flightPathID = session.getCurrentFlightPathID();
 
             theDataSet.editFlight(
                     theDataSet.getFlightPointDictionary().get(flightPointID),
@@ -79,10 +78,9 @@ public class FlightEditorController extends Controller{
         }
     }
 
-    public void loadValues(){
-
-    }
-
+    /**
+     * Loader which is used to load the selected information into the text fields for editing.
+     */
     public void load() {
         theDataSet = getParent().getCurrentDataset();
 

@@ -22,7 +22,6 @@ import java.util.LinkedHashMap;
  * Controller for the Flights Raw Data Scene.
  * Created by Liam Beckett on 13/09/2016.
  */
-
 public class FlightRDController extends Controller {
 
     private Dataset theDataSet = null;
@@ -201,7 +200,7 @@ public class FlightRDController extends Controller {
             pathID = toDelete.getIndex();
         } catch (DataException e) {
             e.printStackTrace();
-            System.out.println("Point is Undeletable as the Index ID is not set.");
+            System.err.println("Point is Undeletable as the Index ID is not set.");
             return;
         }
         LinkedHashMap<Integer, FlightPath> flightPathDict = theDataSet.getFlightPathDictionary();
@@ -213,6 +212,9 @@ public class FlightRDController extends Controller {
         updateTable(currentPathIndex);
     }
 
+    /**
+     * Loads the pop up for the edit data scene and updates the table when the window is closed.
+     */
     public void editPoint() {
         FlightPoint toEdit = flightTableView.getSelectionModel().getSelectedItem();
         try {
@@ -221,7 +223,7 @@ public class FlightRDController extends Controller {
             session.setCurrentFlightPathtID(currentPathId);
         } catch (DataException e) {
             e.printStackTrace();
-            System.out.println("Point is Uneditable as the Index ID is not set.");
+            System.err.println("Point is Uneditable as the Index ID is not set.");
             return;
         }
         createPopUpStage(SceneCode.FLIGHT_EDITOR, 600, 289);
@@ -244,7 +246,11 @@ public class FlightRDController extends Controller {
         flightPathListView();
     }
 
-    public void updateTable(int currentPathIndex) {
+    /**
+     * Updates the table so that when the database is changed (deleted or edited) it still shows the correct data values.
+     * @param currentPathIndex The index of the current path in the Path array list.
+     */
+    private void updateTable(int currentPathIndex) {
         ArrayList<FlightPath> flightPaths;
         flightPaths = theDataSet.getFlightPaths();
         ArrayList<FlightPoint> flightPoints = flightPaths.get(currentPathIndex).getFlight();
@@ -255,7 +261,7 @@ public class FlightRDController extends Controller {
     /**
      * Will link to the flight analyser when implemented.
      */
-    public void flightAnalyser(){
+    private void flightAnalyser(){
         JOptionPane.showMessageDialog(null, "This is not Implemented yet");
     }
 
