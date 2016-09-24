@@ -1744,7 +1744,7 @@ public class Dataset {
         EntryParser parser = new EntryParser();
         parser.parseAirline(name, alias, IATA,ICAO, callsign, country, active);
         airline.setName(name);
-        airline.setAlias(name);
+        airline.setAlias(alias);
         airline.setIATA(IATA);
         airline.setICAO(ICAO);
         airline.setCallSign(callsign);
@@ -1756,7 +1756,7 @@ public class Dataset {
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
             stmt = c.createStatement();
-            String query = "UPDATE `"+this.name+"_Airline` SET `Name` = \""+airline.getName().replace("\"", "\"\"")+"\", `Alias` = \""+airline.getActive().replace("\"", "\"\"")+"\", " +
+            String query = "UPDATE `"+this.name+"_Airline` SET `Name` = \""+airline.getName().replace("\"", "\"\"")+"\", `Alias` = \""+airline.getAlias().replace("\"", "\"\"")+"\", " +
                     "`IATA` = \""+airline.getIATA().replace("\"", "\"\"")+"\", `ICAO` = \""+airline.getICAO().replace("\"", "\"\"")+"\" , `Callsign` = \""+airline.getCallSign().replace("\"", "\"\"")+"\", " +
                     "`Country` = \""+airline.getCountryName().replace("\"", "\"\"")+"\", `Active` = \""+airline.getActive().replace("\"", "\"\"")+"\" WHERE `Airline_ID` = "+airline.getID();
             stmt.execute(query);

@@ -81,14 +81,17 @@ public class AirlineRDController extends Controller {
      */
     public void openFilter() {
         createPopUpStage(SceneCode.AIRLINE_FILTER, 600, 370);
-        ArrayList<Airline> d = new ArrayList();
-        for(int i = 0; i < theDataSet.getAirlines().size(); i++) {
-            if (currentSession.getFilteredAirlines().containsValue(theDataSet.getAirlines().get(i).getName())
-                    && currentSession.getFilteredAirlines().containsKey(i)) {
-                d.add(theDataSet.getAirlines().get(i));
+
+        if (currentSession.getFilteredAirlines() != null) {
+            ArrayList<Airline> d = new ArrayList();
+            for (int i = 0; i < theDataSet.getAirlines().size(); i++) {
+                if (currentSession.getFilteredAirlines().containsValue(theDataSet.getAirlines().get(i).getName())
+                        && currentSession.getFilteredAirlines().containsKey(i)) {
+                    d.add(theDataSet.getAirlines().get(i));
+                }
             }
+            tableViewAirlineRD.setItems(FXCollections.observableArrayList(d));
         }
-        tableViewAirlineRD.setItems(FXCollections.observableArrayList(d));
     }
 
 
@@ -119,6 +122,11 @@ public class AirlineRDController extends Controller {
         Airline toEdit = tableViewAirlineRD.getSelectionModel().getSelectedItem();
         currentSession.setAirlineToEdit(toEdit.getName());
         createPopUpStage(SceneCode.AIRLINE_EDIT, 600, 370);
+
+        System.out.println(toEdit.getName() + "," + toEdit.getAlias() + "," + toEdit.getIATA() + "," + toEdit.getICAO()
+        + "," + toEdit.getCallSign() + "," + toEdit.getCountryName() + "," + toEdit.getActive());
+
+        tableViewAirlineRD.refresh();
     }
 
     /**
