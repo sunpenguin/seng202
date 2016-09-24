@@ -1946,12 +1946,12 @@ public class Dataset {
      */
     public void editFlight(FlightPoint flightPoint, String name, String type, String altitude, String latitude, String longitude) throws DataException {
         EntryParser entryParser = new EntryParser();
-        FlightPoint flightPoint1 = entryParser.parsePoint(name, type, altitude, latitude, longitude);
-        flightPoint.setName(flightPoint1.getName());
-        flightPoint.setType(flightPoint1.getType());
-        flightPoint.setAltitude(flightPoint1.getAltitude());
-        flightPoint.setLatitude(flightPoint1.getLatitude());
-        flightPoint.setLongitude(flightPoint1.getLongitude());
+        FlightPoint parsedFlightPoint = entryParser.parsePoint(name, type, altitude, latitude, longitude);
+        flightPoint.setName(parsedFlightPoint.getName());
+        flightPoint.setType(parsedFlightPoint.getType());
+        flightPoint.setAltitude(parsedFlightPoint.getAltitude());
+        flightPoint.setLatitude(parsedFlightPoint.getLatitude());
+        flightPoint.setLongitude(parsedFlightPoint.getLongitude());
 
 
         Connection c = null;

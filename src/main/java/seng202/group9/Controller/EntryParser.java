@@ -133,6 +133,7 @@ public class EntryParser {
 
     public FlightPoint parsePoint(String name, String type, String altitude, String latitude, String longitude) throws DataException{
         //name
+        name = name.toUpperCase();
         if (!isLetter(name)) {
             throw new DataException("ICAO code must contain only letters");
         }
