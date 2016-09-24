@@ -1545,7 +1545,12 @@ public class Dataset {
     public void deleteFlightPath(FlightPath flightPath){
         //delete all flight points with the id
         while(flightPath.getFlightPoints().size() > 0){
-            deleteFlightPoint(flightPath.getFlightPoints().get(0), flightPath);
+            try {
+                flightPointDictionary.remove(flightPath.getFlightPoints().get(0).getID());
+                flightPath.getFlightPoints().remove(0);
+            } catch (DataException e) {
+                e.printStackTrace();
+            }
         }
         //drop the entries
         Connection c = null;
@@ -1605,6 +1610,7 @@ public class Dataset {
             stmt.close();
 
             int index = flightPath.getFlightPoints().indexOf(flightPoint);
+            System.out.println(index);
 
             if (index == 0){
                 try {

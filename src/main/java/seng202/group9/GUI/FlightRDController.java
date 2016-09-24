@@ -261,7 +261,7 @@ public class FlightRDController extends Controller {
     /**
      * Will link to the flight analyser when implemented.
      */
-    private void flightAnalyser(){
+    public void flightAnalyser(){
         JOptionPane.showMessageDialog(null, "This is not Implemented yet");
     }
 
