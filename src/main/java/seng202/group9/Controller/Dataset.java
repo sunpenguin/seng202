@@ -1752,6 +1752,7 @@ public class Dataset {
     public void editAirline(Airline airline, String name, String alias, String IATA, String ICAO, String callsign, String country, String active ) throws DataException {
         //check the data errors
         EntryParser parser = new EntryParser();
+        airlineDictionary.remove(airline);
         parser.parseAirline(name, alias, IATA,ICAO, callsign, country, active);
         airline.setName(name);
         airline.setAlias(alias);
@@ -1775,7 +1776,6 @@ public class Dataset {
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         }
-        airlineDictionary.remove(airline);
         airlineDictionary.put(airline.getName(), airline);
         createDataLinks();
     }
@@ -1818,6 +1818,7 @@ public class Dataset {
      */
     public void editAirport(Airport airport, String name, String city, String country, String IATA_FFA, String ICAO, String lat, String lng, String alt, String timezone, String DST, String olson) throws DataException {
         EntryParser parser = new EntryParser();
+        airportDictionary.remove(airport.getName());
         Airport newAirport = parser.parseAirport(name, city, country, IATA_FFA, ICAO, lat, lng, alt, timezone, DST, olson);
         airport.setName(name);
         airport.setCityName(city);
@@ -1899,7 +1900,7 @@ public class Dataset {
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         }
-
+        airportDictionary.put(airport.getName(), airport);
         createDataLinks();
     }
 
@@ -1931,6 +1932,8 @@ public class Dataset {
      */
     public void editRoute(Route route, String airline, String source, String dest, String code, String stops, String equip) throws DataException {
         EntryParser entryParser = new EntryParser();
+        //routeAirline + routeSourceAirport + routeArrvAirport + routeCodeShare + routeStops + routeEquip
+        routeDictionary.remove(route.getAirlineName()+route.getDepartureAirport()+route.getArrivalAirport()+route.getCode()+route.getStops() + route.getEquipment());
         Route newRoute = entryParser.parseRoute(airline, source, dest, code, stops, equip);
         route.setAirlineName(newRoute.getAirlineName());
         route.setDepartureAirport(newRoute.getDepartureAirport());
@@ -1954,6 +1957,8 @@ public class Dataset {
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         }
+        //routeAirline + routeSourceAirport + routeArrvAirport + routeCodeShare + routeStops + routeEquip
+        routeDictionary.put(route.getAirlineName()+route.getDepartureAirport()+route.getArrivalAirport()+route.getCode()+route.getStops() + route.getEquipment(), route);
         createDataLinks();
     }
 
