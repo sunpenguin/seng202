@@ -375,7 +375,7 @@ public class Dataset {
         ArrayList<Airline> airlinesToImport = parser.getResult();
         //check for dup
         int numOfDuplicates = 0;
-        int nextID = -1;
+        int nextID = 1;
         //query database.
         Connection c = null;
         Statement stmt = null;
@@ -448,7 +448,7 @@ public class Dataset {
         ArrayList<Country> countriesToImport = parser.getCountryResult();
         //check for dup
         int numOfDuplicates = 0;
-        int nextID = -1;
+        int nextID = 1;
         //query database.
         Connection c = null;
         Statement stmt = null;
@@ -580,7 +580,7 @@ public class Dataset {
         ArrayList<Route> routesToImport = parser.getResult();
         //check for dup
         int numOfDuplicates = 0;
-        int nextID = -1;
+        int nextID = 1;
         //query database.
         Connection c = null;
         Statement stmt = null;
@@ -654,7 +654,7 @@ public class Dataset {
         String message = parser.parse();
         ArrayList<FlightPoint> flightPointsToImport = parser.getResult();
         //check for dup
-        int nextID = -1;
+        int nextID = 1;
         //query database.
         Connection c = null;
         Statement stmt = null;
@@ -662,12 +662,13 @@ public class Dataset {
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
             stmt = c.createStatement();
-            String queryName = this.name.replace("'", "''");
-            String IDQuery = "SELECT * FROM `sqlite_sequence` WHERE `name` = '"+queryName+"_Flight_Points' LIMIT 1;";
+            String queryName = this.name.replace("\"", "\"\"");
+            String IDQuery = "SELECT * FROM `sqlite_sequence` WHERE `name` = \""+queryName+"_Flight_Points\" LIMIT 1;";
             ResultSet IDResult = stmt.executeQuery(IDQuery);
             while(IDResult.next()){
                 nextID = Integer.parseInt(IDResult.getString("seq")) + 1;//for some reason sqlite3 stores incremental values as a string...
             }
+            System.out.println(nextID);
             stmt.close();
             stmt = c.createStatement();
             //ADDED
@@ -728,10 +729,12 @@ public class Dataset {
             c.close();
 
             flightPaths.add(flightPathToAdd);
+            System.out.println(flightPathToAdd.getFlightPoints().get(0).getID());
             updateFlightPointInfo(flightPathToAdd);
             flightPathDictionary.put(flightPathToAdd.getID(), flightPathToAdd);
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            e.printStackTrace();
             System.exit(0);
         }
         createDataLinks();
@@ -1225,7 +1228,7 @@ public class Dataset {
             c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
 
             stmt = c.createStatement();
-            String flightPointIDQuery = "SELECT * FROM `sqlite_sequence` WHERE `name` = \""+this.name+"_Flight_Points\" LIMIT 1;";
+            String flightPointIDQuery = "SELECT * FROM `sqlite_sequence` WHERE `name` = \""+this.name.replace("\"", "\"\"")+"_Flight_Points\" LIMIT 1;";
             ResultSet pointIDRes= stmt.executeQuery(flightPointIDQuery);
             while (pointIDRes.next()){
                 pointID = Integer.parseInt(pointIDRes.getString("seq"));
