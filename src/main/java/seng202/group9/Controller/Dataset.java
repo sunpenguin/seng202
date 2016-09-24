@@ -51,6 +51,7 @@ public class Dataset {
         this.countryDictionary = new LinkedHashMap<String, Country>();;
         this.cityDictionary = new LinkedHashMap<String, City>();;
         this.flightPathDictionary = new LinkedHashMap<Integer, FlightPath>();
+        this.flightPointDictionary = new LinkedHashMap<Integer, FlightPoint>();
         if (action == getExisting){
             updateDataset();
             //after this make connections. ie filling in the country.cities airports.routes etc
@@ -711,17 +712,19 @@ public class Dataset {
                     insertFlightPointQuery += ",";
                 }
                 insertFlightPointQuery += "(" + flightPathId +", \""+ flightName +"\", \"" + flightType + "\",  "+ flightAltitude + ", " +
-                        "" + flightLatitude + ", " + flightLongitude + ", "+numOfFlights+")";
+                        "" + flightLatitude + ", " + flightLongitude + ")";
                 flightPointsToImport.get(i).setID(nextID);
                 flightPointsToImport.get(i).setIndexID(flightPathId);
                 //add data to dataset array.
                 //this is placed after incase the database messes up
                 flightPathToAdd.addFlightPoint(flightPointsToImport.get(i));
                 //routeDictionary.put(routeIdentifier, flightsToImport.get(i));
+                flightPointDictionary.put(nextID, flightPointsToImport.get(i));
                 nextID++;
                 numOfFlights++;
                 //}
             }
+            System.out.println(insertFlightPointQuery);
             if (numOfFlights > 0){
                 stmt.execute(insertFlightPointQuery);
             }
