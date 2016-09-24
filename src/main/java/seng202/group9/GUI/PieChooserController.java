@@ -65,6 +65,7 @@ public class PieChooserController extends Controller{
         });
 
         graph_options.setItems(airportOptions);
+        graph_options.getSelectionModel().selectFirst();
         allOptions.add(airportOptions);
         allOptions.add(airlineOptions);
         allOptions.add(routeOptions);

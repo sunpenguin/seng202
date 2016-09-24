@@ -68,8 +68,10 @@ public class BarChooserController extends Controller{
             }
         });
         graph_against.setItems(airportOptions);
+        graph_against.getSelectionModel().selectFirst();
         graph_options.setItems(airportOptions);
         graph_options.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        graph_options.getSelectionModel().selectFirst();
         allOptions.add(airportOptions);
         allOptions.add(airlineOptions);
         allOptions.add(routeOptions);
