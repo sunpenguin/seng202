@@ -39,6 +39,7 @@
          <contextMenu>
             <ContextMenu>
                <items>
+                  <MenuItem mnemonicParsing="false" onAction="#editRoute" text="Edit" />
                   <MenuItem mnemonicParsing="false" onAction="#deleteRoute" text="Delete" />
                </items>
             </ContextMenu>

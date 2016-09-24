@@ -5,7 +5,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import seng202.group9.Controller.AirportFilter;
 import seng202.group9.Controller.Dataset;
 import seng202.group9.Controller.SceneCode;
 import seng202.group9.Controller.Session;
@@ -89,14 +88,17 @@ public class AirportRDController extends Controller{
 
     public void openFilter() {
         createPopUpStage(SceneCode.AIRPORT_FILTER, 600, 480);
-        ArrayList<Airport> d = new ArrayList();
-        for(int i = 0; i < theDataSet.getAirports().size(); i++) {
-            if (currentSession.getFilteredAirports().containsValue(theDataSet.getAirports().get(i).getName())
-                    && currentSession.getFilteredAirports().containsKey(i)) {
-                d.add(theDataSet.getAirports().get(i));
+
+        if (currentSession.getFilteredAirports() != null) {
+            ArrayList<Airport> d = new ArrayList();
+            for (int i = 0; i < theDataSet.getAirports().size(); i++) {
+                if (currentSession.getFilteredAirports().containsValue(theDataSet.getAirports().get(i).getName())
+                        && currentSession.getFilteredAirports().containsKey(i)) {
+                    d.add(theDataSet.getAirports().get(i));
+                }
             }
+            tableViewAirportRD.setItems(FXCollections.observableArrayList(d));
         }
-        tableViewAirportRD.setItems(FXCollections.observableArrayList(d));
     }
 
     /**
@@ -127,6 +129,17 @@ public class AirportRDController extends Controller{
         }
     }
 
+    public void editAirport() {
+        Airport toEdit = tableViewAirportRD.getSelectionModel().getSelectedItem();
+        currentSession.setAirportToEdit(toEdit.getName());
+        createPopUpStage(SceneCode.AIRPORT_EDIT, 600, 480);
+
+//        System.out.println(toEdit.getName() + "," + toEdit.getCity() + "," + toEdit.getCountry() + "," + toEdit.getIATA_FFA()
+//                + "," + toEdit.getICAO() + "," + toEdit.getLatitude() + "," + toEdit.getLongitude() + "," + toEdit.getAltitude()
+//                + "," + toEdit.getTimezone() + "," + toEdit.getDST() + "," + toEdit.getTz());
+
+        tableViewAirportRD.refresh();
+    }
 
     /**
      * Analyses the current data and creates a graph based on the data.

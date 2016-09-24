@@ -18,6 +18,8 @@ public class Session implements Serializable {
     private HashMap<Integer, String> filteredRoutes;
 
     private String airlineToEdit;
+    private String airportToEdit;
+    private String routeToEdit;
 
 
     /**
@@ -82,5 +84,21 @@ public class Session implements Serializable {
 
     public String getAirlineToEdit() {
         return airlineToEdit;
+    }
+
+    public String getAirportToEdit() {
+        return airportToEdit;
+    }
+
+    public void setAirportToEdit(String airport) {
+        this.airportToEdit = airport;
+    }
+
+    public String getRouteToEdit() {
+        return routeToEdit;
+    }
+
+    public void setRouteToEdit(String route) {
+        this.routeToEdit = route;
     }
 }

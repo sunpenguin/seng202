@@ -78,14 +78,16 @@ public class RouteRDController extends Controller {
 
     public void openFilter() {
         createPopUpStage(SceneCode.ROUTE_FILTER, 600, 330);
-        ArrayList<Route> d = new ArrayList();
-        for(int i = 0; i < theDataSet.getRoutes().size(); i++) {
-            if (currentSession.getFilteredRoutes().containsValue(theDataSet.getRoutes().get(i).getAirlineName())
-                    && currentSession.getFilteredRoutes().containsKey(i)) {
-                d.add(theDataSet.getRoutes().get(i));
+        if (currentSession.getFilteredRoutes() != null) {
+            ArrayList<Route> d = new ArrayList();
+            for (int i = 0; i < theDataSet.getRoutes().size(); i++) {
+                if (currentSession.getFilteredRoutes().containsValue(theDataSet.getRoutes().get(i).getAirlineName())
+                        && currentSession.getFilteredRoutes().containsKey(i)) {
+                    d.add(theDataSet.getRoutes().get(i));
+                }
             }
+            tableViewRouteRD.setItems(FXCollections.observableArrayList(d));
         }
-        tableViewRouteRD.setItems(FXCollections.observableArrayList(d));
     }
 
     /**
@@ -112,6 +114,18 @@ public class RouteRDController extends Controller {
         }
     }
 
+    public void editRoute() {
+        Route toEdit = tableViewRouteRD.getSelectionModel().getSelectedItem();
+        currentSession.setRouteToEdit(toEdit.getAirlineName() + toEdit.getDepartureAirport() + toEdit.getArrivalAirport() +
+        toEdit.getCode() + toEdit.getStops() + toEdit.getEquipment());
+        createPopUpStage(SceneCode.ROUTE_EDIT, 600, 330);
+
+//        System.out.println(toEdit.getName() + "," + toEdit.getCity() + "," + toEdit.getCountry() + "," + toEdit.getIATA_FFA()
+//                + "," + toEdit.getICAO() + "," + toEdit.getLatitude() + "," + toEdit.getLongitude() + "," + toEdit.getAltitude()
+//                + "," + toEdit.getTimezone() + "," + toEdit.getDST() + "," + toEdit.getTz());
+
+        tableViewRouteRD.refresh();
+    }
 
     /**
      * Analyses the current data and creates a graph based on the data.

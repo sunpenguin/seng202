@@ -1809,13 +1809,14 @@ public class Dataset {
         Airport newAirport = parser.parseAirport(name, city, country, IATA_FFA, ICAO, lat, lng, alt, timezone, DST, olson);
         airport.setName(name);
         airport.setCityName(city);
-        airport.getCity().setName(city);
+        //airport.getCity().setName(city);
         airport.setCountryName(country);
-        airport.getCountry().setName(country);
+        //airport.getCountry().setName(country);
         airport.setIATA_FFA(IATA_FFA);
         airport.setICAO(ICAO);
         airport.setLatitude(newAirport.getLatitude());
         airport.setLongitude(newAirport.getLongitude());
+        airport.setAltitude(newAirport.getAltitude());
         airport.getCity().setTimezone(Double.parseDouble(timezone));
         airport.getCountry().setDST(DST);
         airport.getCity().setTimeOlson(olson);

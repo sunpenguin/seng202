@@ -7,6 +7,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import seng202.group9.Controller.DataException;
 import seng202.group9.Controller.Dataset;
+import seng202.group9.Controller.EntryParser;
 import seng202.group9.Controller.Session;
 import seng202.group9.Core.Airline;
 
@@ -42,6 +43,9 @@ public class AirlineEditController extends Controller {
 
     public void editAirline() {
         try {
+            EntryParser parser = new EntryParser();
+            parser.parseAirline(airlNameEdit.getText(), airlAliasEdit.getText(), airlIATAEdit.getText(),
+                    airlICAOEdit.getText(), airlCallsignEdit.getText(), airlCountryEdit.getText(), airlActiveEdit.getText());
             theDataSet.editAirline(toEdit, airlNameEdit.getText(), airlAliasEdit.getText(), airlIATAEdit.getText(),
                     airlICAOEdit.getText(), airlCallsignEdit.getText(), airlCountryEdit.getText(), airlActiveEdit.getText());
 
@@ -54,9 +58,8 @@ public class AirlineEditController extends Controller {
             Stage stage = (Stage) applyButton.getScene().getWindow();
             stage.close();
         } catch (DataException e) {
-            System.err.println("Harambe: " + e.getMessage());
+            System.err.println("RIP Harambe: " + e.getMessage() + "IT WAS TOO SOON");
         }
-
     }
 
     public void load() {
