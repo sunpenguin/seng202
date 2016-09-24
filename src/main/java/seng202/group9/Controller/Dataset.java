@@ -1595,17 +1595,49 @@ public class Dataset {
             String deleteQuery = "DELETE FROM `"+this.name+"_Flight_Points` WHERE `Point_ID` = " + flightPoint.getID() + ";";
             stmt = c.createStatement();
             stmt.execute(deleteQuery);
+
+            stmt = c.createStatement();
+            String updatePointOrderQuery = "";
+            for (int i = 0; i < flightPath.getFlightPoints().size(); i ++){
+                updatePointOrderQuery = "UPDATE `"+this.name+"_Flight_Points` SET `Order` = "+i+" WHERE `Point_ID` = "+flightPath.getFlightPoints().get(i).getID()+";";
+                stmt.execute(updatePointOrderQuery);
+            }
+            stmt.close();
+
+            int index = flightPath.getFlightPoints().indexOf(flightPoint);
+
+            if (index == 0){
+                try {
+                    stmt = c.createStatement();
+                    String query = "UPDATE `"+this.name+"_Flight_Path` SET `Source_Airport` = \""+flightPoint.getName().replace("\"", "\"\"")+"\" " +
+                            "WHERE `Path_ID` = "+flightPoint.getIndex();
+                    stmt.execute(query);
+                    c.close();
+                } catch ( Exception e ) {
+                    System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+                }
+                flightPath.setDepartureAirport(flightPoint.getName());
+            }else if (index == flightPath.getFlightPoints().size() - 1){
+                try {
+                    stmt = c.createStatement();
+                    String query = "UPDATE `"+this.name+"_Flight_Path` SET `Destination_Airport` = \""+flightPoint.getName().replace("\"", "\"\"")+"\" " +
+                            "WHERE `Path_ID` = "+flightPoint.getIndex();
+                    stmt.execute(query);
+                    c.close();
+                } catch ( Exception e ) {
+                    System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+                }
+                flightPath.setArrivalAirport(flightPoint.getName());
+            }
+
             c.close();
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
             System.exit(0);
         }
         flightPath.getFlightPoints().remove(flightPoint);
-        try {
-            flightPointDictionary.remove(flightPoint.getID());
-        } catch (DataException e) {
-            e.printStackTrace();
-        }
+        flightPointDictionary.remove(flightPoint);
+        updateFlightPointInfo(flightPath);
     }
 
     /**
