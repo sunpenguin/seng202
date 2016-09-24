@@ -139,6 +139,7 @@ public class App extends Application
 			c.close();
 		} catch ( Exception e ) {
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+			e.printStackTrace();
 		}
 	}
 
@@ -166,10 +167,10 @@ public class App extends Application
 		return (Initializable) loader.getController();
 	}
 
-	/**
-	 * Gets the current session.
-	 * @return
-	 */
+    /**
+     * Gets the current session.
+     * @return
+     */
 	public Session getSession() {
 		return this.session;
 	}
@@ -193,7 +194,7 @@ public class App extends Application
 	/**
 	 * Sets the current Dataset to another Dataset by its index in the datasets arraylist
 	 * @param index
-	 */
+     */
 	public void setCurrentDataset(int index){
 		currentDataset = datasets.get(index);
 	}
@@ -201,7 +202,7 @@ public class App extends Application
 	/**
 	 * Sets the current Dataset to another Dataset.
 	 * @param dataset
-	 */
+     */
 	public void setCurrentDataset(Dataset dataset){
 		currentDataset = dataset;
 	}
