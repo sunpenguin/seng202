@@ -39,6 +39,7 @@
          <contextMenu>
             <ContextMenu>
                <items>
+                  <MenuItem mnemonicParsing="false" onAction="#editAirport" text="Edit" />
                   <MenuItem mnemonicParsing="false" onAction="#deleteAirport" text="Delete" />
                </items>
             </ContextMenu>
