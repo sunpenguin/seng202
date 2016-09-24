@@ -9,6 +9,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import seng202.group9.Controller.DataException;
 import seng202.group9.Controller.Dataset;
+import seng202.group9.Controller.SceneCode;
+import seng202.group9.Controller.Session;
 import seng202.group9.Core.FlightPath;
 import seng202.group9.Core.FlightPoint;
 
@@ -20,7 +22,6 @@ import java.util.LinkedHashMap;
  * Controller for the Flights Raw Data Scene.
  * Created by Liam Beckett on 13/09/2016.
  */
-
 public class FlightRDController extends Controller {
 
     private Dataset theDataSet = null;
@@ -143,8 +144,6 @@ public class FlightRDController extends Controller {
      *  Will take the inputs from the text fields and adds the point to the current flight path.
      */
     public void addFlightPoint() {
-        ArrayList<FlightPath> flightPaths;
-        flightPaths = theDataSet.getFlightPaths();
 
             try {
                 theDataSet.addFlightPointToPath(currentPathId,
@@ -167,14 +166,12 @@ public class FlightRDController extends Controller {
                 flightLegDistBox.clear();
                 flightTotDistBox.clear();
 
-                ArrayList<FlightPoint> flightPoints = flightPaths.get(currentPathIndex).getFlight();
-                flightTableView.setItems(FXCollections.observableArrayList(flightPoints));
+                updateTable(currentPathIndex);
         } catch ( Exception e ) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Flight Point Data Error");
             alert.setHeaderText("Error adding a custom flight point entry.");
             alert.setContentText(e.getMessage());
-
         }
     }
 
@@ -203,7 +200,7 @@ public class FlightRDController extends Controller {
             pathID = toDelete.getIndex();
         } catch (DataException e) {
             e.printStackTrace();
-            System.out.println("Point is Undeletable as the Index ID is not set.");
+            System.err.println("Point is Undeletable as the Index ID is not set.");
             return;
         }
         LinkedHashMap<Integer, FlightPath> flightPathDict = theDataSet.getFlightPathDictionary();
@@ -212,12 +209,27 @@ public class FlightRDController extends Controller {
 
         currentPathIndex = theDataSet.getFlightPaths().indexOf(theDataSet.getFlightPathDictionary().get(pathID));
 
-        ArrayList<FlightPath> flightPaths;
-        flightPaths = theDataSet.getFlightPaths();
-        ArrayList<FlightPoint> flightPoints = flightPaths.get(currentPathIndex).getFlight();
-        flightTableView.setItems(FXCollections.observableArrayList(flightPoints));
+        updateTable(currentPathIndex);
     }
 
+    /**
+     * Loads the pop up for the edit data scene and updates the table when the window is closed.
+     */
+    public void editPoint() {
+        FlightPoint toEdit = flightTableView.getSelectionModel().getSelectedItem();
+        try {
+            Session session = getParent().getSession();
+            session.setCurrentFlightPointID(toEdit.getID());
+            session.setCurrentFlightPathtID(currentPathId);
+        } catch (DataException e) {
+            e.printStackTrace();
+            System.err.println("Point is Uneditable as the Index ID is not set.");
+            return;
+        }
+        createPopUpStage(SceneCode.FLIGHT_EDITOR, 600, 289);
+        updateTable(currentPathIndex);
+
+    }
     /**
      *  Removes the selected path from the list view of paths and from the database.
      */
@@ -235,9 +247,21 @@ public class FlightRDController extends Controller {
     }
 
     /**
+     * Updates the table so that when the database is changed (deleted or edited) it still shows the correct data values.
+     * @param currentPathIndex The index of the current path in the Path array list.
+     */
+    private void updateTable(int currentPathIndex) {
+        ArrayList<FlightPath> flightPaths;
+        flightPaths = theDataSet.getFlightPaths();
+        ArrayList<FlightPoint> flightPoints = flightPaths.get(currentPathIndex).getFlight();
+        flightTableView.setItems(FXCollections.observableArrayList(flightPoints));
+        flightTableView.refresh();
+    }
+
+    /**
      * Will link to the flight analyser when implemented.
      */
-    public void flightAnalyser(){
+    private void flightAnalyser(){
         JOptionPane.showMessageDialog(null, "This is not Implemented yet");
     }
 

@@ -33,20 +33,20 @@ public class App extends Application
 	private VBox mainContainer = null;
 	private Session session = null;
 	private MenuController menuController = null;
-	
-    public static void main( String[] args )
-    {
-        launch(args);
-    }
+
+	public static void main( String[] args )
+	{
+		launch(args);
+	}
 
 	public Stage getPrimaryStage() {
 		return primaryStage;
 	}
 
 	/**
-     * Starts the application
-     * @param primaryStage main "stage" of the program
-     */
+	 * Starts the application
+	 * @param primaryStage main "stage" of the program
+	 */
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;

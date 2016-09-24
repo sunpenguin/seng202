@@ -153,6 +153,7 @@
                                        <contextMenu>
                                           <ContextMenu>
                                             <items>
+                                                <MenuItem mnemonicParsing="false" onAction="#editPoint" text="Edit" />
                                               <MenuItem mnemonicParsing="false" onAction="#deletePoint" text="Delete" />
                                             </items>
                                           </ContextMenu>
