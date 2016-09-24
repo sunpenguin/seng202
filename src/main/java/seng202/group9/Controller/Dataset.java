@@ -377,7 +377,7 @@ public class Dataset {
         ArrayList<Airline> airlinesToImport = parser.getResult();
         //check for dup
         int numOfDuplicates = 0;
-        int nextID = -1;
+        int nextID = 1;
         //query database.
         Connection c = null;
         Statement stmt = null;
@@ -450,7 +450,7 @@ public class Dataset {
         ArrayList<Country> countriesToImport = parser.getCountryResult();
         //check for dup
         int numOfDuplicates = 0;
-        int nextID = -1;
+        int nextID = 1;
         //query database.
         Connection c = null;
         Statement stmt = null;
@@ -582,7 +582,7 @@ public class Dataset {
         ArrayList<Route> routesToImport = parser.getResult();
         //check for dup
         int numOfDuplicates = 0;
-        int nextID = -1;
+        int nextID = 1;
         //query database.
         Connection c = null;
         Statement stmt = null;
@@ -724,7 +724,6 @@ public class Dataset {
                 numOfFlights++;
                 //}
             }
-            System.out.println(insertFlightPointQuery);
             if (numOfFlights > 0){
                 stmt.execute(insertFlightPointQuery);
             }
