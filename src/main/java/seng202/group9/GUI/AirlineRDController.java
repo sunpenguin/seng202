@@ -69,7 +69,7 @@ public class AirlineRDController extends Controller {
 
 
     /**
-     * Opens the Airline add form.
+     * Opens the Airline Add form.
      */
     public void openAdd() {
         createPopUpStage(SceneCode.AIRLINE_ADD, 600, 370);
@@ -118,6 +118,9 @@ public class AirlineRDController extends Controller {
         }
     }
 
+    /**
+     * Opens the Airline Edit form.
+     */
     public void editAirline() {
         Airline toEdit = tableViewAirlineRD.getSelectionModel().getSelectedItem();
         currentSession.setAirlineToEdit(toEdit.getName());
@@ -137,6 +140,9 @@ public class AirlineRDController extends Controller {
         JOptionPane.showMessageDialog(null, "This is not Implemented yet");
     }
 
+    /**
+     * Goes to the airline summary page.
+     */
     public void airlineSummaryButton() {
         replaceSceneContent(SceneCode.AIRLINE_SUMMARY);
     }

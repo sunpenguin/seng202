@@ -11,14 +11,14 @@ import seng202.group9.Controller.EntryParser;
 import seng202.group9.Controller.Session;
 import seng202.group9.Core.Airline;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
- * Created by Sunguin on 2016/09/24.
+ * The GUI controller class for airline_edit_form.fxml.
+ * Extends from the abstract class {@link Controller}.
+ * Created by Sunguin
  */
 public class AirlineEditController extends Controller {
-    //Setting up text fields for editing data
+    //Setting up text fields for editing data.
     @FXML
     private TextField airlNameEdit;
     @FXML
@@ -36,12 +36,43 @@ public class AirlineEditController extends Controller {
     @FXML
     private Button applyButton;
 
+    //Sets up an empty Dataset to be assigned to the current dataset.
     private Dataset theDataSet = null;
+    //Sets up an empty session to be assigned to the current session.
     private Session currentSession = null;
-
+    //Sets up an empty airline to be assigned to the airline being edited.
     private Airline toEdit = null;
 
+
+    /**
+     * Loads up the current dataset and current session.
+     * Also gets the airline to be edited from the table.
+     * Sets the text fields as the airline selected.
+     */
+    public void load() {
+        theDataSet = getParent().getCurrentDataset();
+        currentSession = getParent().getSession();
+
+        toEdit = theDataSet.getAirlineDictionary().get(currentSession.getAirlineToEdit());
+
+        airlNameEdit.setText(toEdit.getName());
+        airlAliasEdit.setText(toEdit.getAlias());
+        airlIATAEdit.setText(toEdit.getIATA());
+        airlICAOEdit.setText(toEdit.getICAO());
+        airlCallsignEdit.setText(toEdit.getCallSign());
+        airlCountryEdit.setText(toEdit.getCountryName());
+        airlActiveEdit.setText(toEdit.getActive());
+    }
+
+
+    /**
+     * Edits the current airline and closes the popup window.
+     * Takes in the values from the text fields.
+     * @see Dataset
+     */
     public void editAirline() {
+        //Tries to edit an airport and comes up with a popup if successful and exits the popup.
+        //Otherwise an error message will pop up with what is wrong.
         try {
             EntryParser parser = new EntryParser();
             parser.parseAirline(airlNameEdit.getText(), airlAliasEdit.getText(), airlIATAEdit.getText(),
@@ -60,20 +91,5 @@ public class AirlineEditController extends Controller {
         } catch (DataException e) {
             System.err.println("RIP Harambe: " + e.getMessage() + "IT WAS TOO SOON");
         }
-    }
-
-    public void load() {
-        theDataSet = getParent().getCurrentDataset();
-        currentSession = getParent().getSession();
-
-        toEdit = theDataSet.getAirlineDictionary().get(currentSession.getAirlineToEdit());
-
-        airlNameEdit.setText(toEdit.getName());
-        airlAliasEdit.setText(toEdit.getAlias());
-        airlIATAEdit.setText(toEdit.getIATA());
-        airlICAOEdit.setText(toEdit.getICAO());
-        airlCallsignEdit.setText(toEdit.getCallSign());
-        airlCountryEdit.setText(toEdit.getCountryName());
-        airlActiveEdit.setText(toEdit.getActive());
     }
 }

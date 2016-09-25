@@ -278,7 +278,7 @@ public class Airline{
 		if (!this.ICAO.equals("") && this.ICAO.equals(airline.getICAO())){
 			throw new DataException("This ICAO Code already Exists, Please Choose Another.");
 		}
-		if (!this.alias.equals("") && this.alias.equals(airline.getAlias())){
+		if (!this.alias.equals("") && !this.alias.equals("\\N") && !this.alias.equals("\\n") && this.alias.equals(airline.getAlias())){
 			throw new DataException("This Alias already Exists, Please Choose Another.");
 		}
 		if (!this.callSign.equals("") && this.callSign.equals(airline.getCallSign())){
