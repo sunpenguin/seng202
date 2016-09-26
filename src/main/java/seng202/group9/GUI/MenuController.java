@@ -74,6 +74,10 @@ public class MenuController extends Controller{
 		replaceSceneContent(SceneCode.FLIGHT_RAW_DATA);
 	}
 
+	public void goToGettingStarted() {
+		replaceSceneContent(SceneCode.INITIAL);
+	}
+
 	public void load() {
 		//nothing to load
 	}
