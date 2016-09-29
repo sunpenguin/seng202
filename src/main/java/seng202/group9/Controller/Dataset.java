@@ -206,9 +206,11 @@ public class Dataset {
                     double flightPtTotDist = rs.getDouble("Tot_Dist");
                     double flightPtLatitude = rs.getDouble("Latitude");
                     double flightPtLongitude = rs.getDouble("Longitude");
-                    flightPaths.get(i).addFlightPoint(new FlightPoint(flightPtName, flightPtID, flightPtInd
-                    , flightPtType, flightPtVia, flightPtheading, flightPtAltitude, flightPtLegDistance, flightPtTotDist,
-                            flightPtLatitude, flightPtLongitude));
+                    FlightPoint flightPoint = new FlightPoint(flightPtName, flightPtID, flightPtInd
+                            , flightPtType, flightPtVia, flightPtheading, flightPtAltitude, flightPtLegDistance, flightPtTotDist,
+                            flightPtLatitude, flightPtLongitude);
+                    flightPaths.get(i).addFlightPoint(flightPoint);
+                    flightPointDictionary.put(flightPtID, flightPoint);
                 }
                 rs.close();
                 stmt.close();
