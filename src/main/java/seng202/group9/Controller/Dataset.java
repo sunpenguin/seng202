@@ -2053,15 +2053,16 @@ public class Dataset {
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         }
-
-        FlightPath flightPath = flightPathDictionary.get(flightPoint.getIndexID());
+        FlightPath flightPath = flightPathDictionary.get(flightPoint.getIndex());
         int indexOf = flightPath.getFlightPoints().indexOf(flightPoint);
 
         if (indexOf == 0){
             try {
+                Class.forName("org.sqlite.JDBC");
+                c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
                 stmt = c.createStatement();
                 String query = "UPDATE `"+this.name+"_Flight_Path` SET `Source_Airport` = \""+flightPoint.getName().replace("\"", "\"\"")+"\" " +
-                        "WHERE `Path_ID` = "+flightPoint.getIndexID();
+                        "WHERE `Path_ID` = "+flightPoint.getIndex();
                 stmt.execute(query);
                 c.close();
             } catch ( Exception e ) {
@@ -2070,9 +2071,11 @@ public class Dataset {
             flightPath.setDepartureAirport(flightPoint.getName());
         } else if (indexOf == flightPath.getFlightPoints().size() - 1) {
             try {
+                Class.forName("org.sqlite.JDBC");
+                c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
                 stmt = c.createStatement();
                 String query = "UPDATE `"+this.name+"_Flight_Path` SET `Destination_Airport` = \""+flightPoint.getName().replace("\"", "\"\"")+"\" " +
-                        "WHERE `Path_ID` = "+flightPoint.getIndexID();
+                        "WHERE `Path_ID` = "+flightPoint.getIndex();
                 stmt.execute(query);
                 c.close();
             } catch ( Exception e ) {
