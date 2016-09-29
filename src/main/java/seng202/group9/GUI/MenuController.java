@@ -78,6 +78,10 @@ public class MenuController extends Controller{
 		replaceSceneContent(SceneCode.INITIAL);
 	}
 
+	public void goToHelp() {
+        createPopUpStage(SceneCode.HELP, 600, 400);
+    }
+
 	public void load() {
 		//nothing to load
 	}

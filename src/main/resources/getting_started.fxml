@@ -40,7 +40,7 @@
             <Insets bottom="15.0" />
          </GridPane.margin>
       </Button>
-      <Label text="Welcome to this screen!" GridPane.columnSpan="5" GridPane.halignment="CENTER">
+      <Label text="Welcome!" GridPane.columnSpan="5" GridPane.halignment="CENTER">
          <font>
             <Font size="36.0" />
          </font>
