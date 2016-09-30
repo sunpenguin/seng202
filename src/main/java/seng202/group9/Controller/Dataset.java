@@ -2175,4 +2175,12 @@ public class Dataset {
             System.exit(0);
         }
     }
+
+    /**
+     * Name of the dataset in the database
+     */
+    @Override
+    public String toString(){
+        return this.name;
+    }
 }
