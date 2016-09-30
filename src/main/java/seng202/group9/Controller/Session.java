@@ -25,6 +25,8 @@ public class Session implements Serializable {
     private String airportToEdit;
     private String routeToEdit;
 
+    private String currentDataset;
+
 
     /**
      * Constructor for a new session
@@ -40,6 +42,14 @@ public class Session implements Serializable {
      */
     public Session(SceneCode scene){
         this.sceneDisplayed = scene;
+    }
+
+    public String getCurrentDataset(){
+        return this.currentDataset;
+    }
+
+    public void setCurrentDataset(String currentDataset){
+        this.currentDataset = currentDataset;
     }
 
     /**

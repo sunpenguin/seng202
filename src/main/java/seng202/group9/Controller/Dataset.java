@@ -697,7 +697,7 @@ public class Dataset {
             flightPathToAdd.setID(flightPathId);
 
             String insertFlightPointQuery = "INSERT INTO `" + this.name + "_Flight_Points` (`Index_ID`, `Name`, `Type`," +
-                    " `Altitude`, `Latitude`, `Longitude`) VALUES ";
+                    " `Altitude`, `Latitude`, `Longitude`, `Order`) VALUES ";
             int numOfFlights = 0;
             for (int i = 0; i < flightPointsToImport.size(); i ++){
                 String flightPointIdentifier = flightPointsToImport.get(i).getType() + flightPointsToImport.get(i).getName() +
@@ -714,7 +714,7 @@ public class Dataset {
                     insertFlightPointQuery += ",";
                 }
                 insertFlightPointQuery += "(" + flightPathId +", \""+ flightName +"\", \"" + flightType + "\",  "+ flightAltitude + ", " +
-                        "" + flightLatitude + ", " + flightLongitude + ")";
+                        "" + flightLatitude + ", " + flightLongitude + ", "+numOfFlights+")";
                 flightPointsToImport.get(i).setID(nextID);
                 flightPointsToImport.get(i).setIndexID(flightPathId);
                 //add data to dataset array.
@@ -1239,12 +1239,12 @@ public class Dataset {
 
             stmt = c.createStatement();
             String insertFlightPointQuery = "INSERT INTO `" + this.name + "_Flight_Points` (`Index_ID`, `Name`, `Type`," +
-                    " `Altitude`, `Latitude`, `Longitude`, `Heading`, `Tot_Dist`, `Leg_Dist`, `Via`) VALUES ";
+                    " `Altitude`, `Latitude`, `Longitude`, `Heading`, `Tot_Dist`, `Leg_Dist`, `Via`, `Order`) VALUES ";
             String flightType = type.replace("\"", "\"\"");
             String flightName = name.replace("\"", "\"\"");
             insertFlightPointQuery += "(" + id +", \""+ flightName +"\", \"" + flightType + "\",  "+ altitudeVal + ", " +
                     "" + latitudeVal + ", " + longitudeVal + ", " + headingVal + ", " + totalDistVal + ", " + legDistVal +
-                    ", \"" + via + "\")";
+                    ", \"" + via + "\", "+index+")";
             stmt.execute(insertFlightPointQuery);
             stmt.close();
             //move all the points after this forward
@@ -1263,7 +1263,6 @@ public class Dataset {
                     String query = "UPDATE `"+this.name+"_Flight_Path` SET `Source_Airport` = \""+flightName+"\" " +
                             "WHERE `Path_ID` = "+flightPath.getID();
                     stmt.execute(query);
-                    c.close();
                 } catch ( Exception e ) {
                     System.err.println( e.getClass().getName() + ": " + e.getMessage() );
                 }
@@ -1274,7 +1273,6 @@ public class Dataset {
                     String query = "UPDATE `"+this.name+"_Flight_Path` SET `Destination_Airport` = \""+flightName+"\" " +
                             "WHERE `Path_ID` = "+flightPath.getID();
                     stmt.execute(query);
-                    c.close();
                 } catch ( Exception e ) {
                     System.err.println( e.getClass().getName() + ": " + e.getMessage() );
                 }
@@ -2115,7 +2113,7 @@ public class Dataset {
             }
             stmt.close();
 
-            if (index == 0){
+            if (index == 0 || curIndex == 0){
                 try {
                     stmt = c.createStatement();
                     String query = "UPDATE `"+this.name+"_Flight_Path` SET `Source_Airport` = \""+flightPoint.getName().replace("\"", "\"\"")+"\" " +
@@ -2126,7 +2124,7 @@ public class Dataset {
                     System.err.println( e.getClass().getName() + ": " + e.getMessage() );
                 }
                 flightPath.setDepartureAirport(flightPoint.getName());
-            }else if (index == flightPath.getFlightPoints().size() - 1){
+            }else if (index == flightPath.getFlightPoints().size() - 1 || curIndex == flightPath.getFlightPoints().size() - 1){
                 try {
                     stmt = c.createStatement();
                     String query = "UPDATE `"+this.name+"_Flight_Path` SET `Destination_Airport` = \""+flightPoint.getName().replace("\"", "\"\"")+"\" " +
@@ -2171,5 +2169,13 @@ public class Dataset {
             e.printStackTrace();
             System.exit(0);
         }
+    }
+
+    /**
+     * Name of the dataset in the database
+     */
+    @Override
+    public String toString(){
+        return this.name;
     }
 }

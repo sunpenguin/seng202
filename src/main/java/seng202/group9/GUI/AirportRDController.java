@@ -88,17 +88,11 @@ public class AirportRDController extends Controller{
 
     public void openFilter() {
         createPopUpStage(SceneCode.AIRPORT_FILTER, 600, 480);
-
-        if (currentSession.getFilteredAirports() != null) {
-            ArrayList<Airport> d = new ArrayList();
-            for (int i = 0; i < theDataSet.getAirports().size(); i++) {
-                if (currentSession.getFilteredAirports().containsValue(theDataSet.getAirports().get(i).getName())
-                        && currentSession.getFilteredAirports().containsKey(i)) {
-                    d.add(theDataSet.getAirports().get(i));
-                }
-            }
-            tableViewAirportRD.setItems(FXCollections.observableArrayList(d));
+        ArrayList<Airport> d = new ArrayList();
+        for (int key: currentSession.getFilteredAirports().keySet()){
+            d.add(theDataSet.getAirportDictionary().get(currentSession.getFilteredAirports().get(key)));
         }
+        tableViewAirportRD.setItems(FXCollections.observableArrayList(d));
     }
 
     /**

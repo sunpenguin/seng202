@@ -17,6 +17,7 @@ import javafx.scene.control.Menu;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import seng202.group9.Core.FlightPath;
 import seng202.group9.GUI.*;
@@ -50,6 +51,23 @@ public class App extends Application
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
+		//after all loading then load the previous session
+		try{
+			FileInputStream fileIn = new FileInputStream("res/session.ser");
+			ObjectInputStream objectIn = new ObjectInputStream(fileIn);
+			session = (Session) objectIn.readObject();
+			objectIn.close();
+			fileIn.close();
+		}catch(IOException e){
+			session = new Session();
+			System.out.println("New Session File Created");
+		}catch(ClassNotFoundException e){
+			System.out.println("Missing Session Class");
+			System.exit(1);
+		} catch (Exception e) {
+			session = new Session();
+			e.printStackTrace();
+		}
 		//load the menu and the first container
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -74,30 +92,23 @@ public class App extends Application
 		}
 		//testing out dataset
 		try {
-			currentDataset = new Dataset("test's", Dataset.getExisting);
+			if (session.getCurrentDataset() != null) {
+				currentDataset = new Dataset(session.getCurrentDataset(), Dataset.getExisting);
+			}else{
+				createPopUpStage(SceneCode.DATASET_CONTROLLER, 600, 400);
+			}
 		}catch (DataException e){
-			e.printStackTrace();
+			createPopUpStage(SceneCode.DATASET_CONTROLLER, 600, 400);
+		}catch (NullPointerException e){
+			createPopUpStage(SceneCode.DATASET_CONTROLLER, 600, 400);
+		}catch (Exception e){
+			createPopUpStage(SceneCode.DATASET_CONTROLLER, 600, 400);
 		}
 		//after all loading then load the previous session
-		try{
-			FileInputStream fileIn = new FileInputStream("res/session.ser");
-			ObjectInputStream objectIn = new ObjectInputStream(fileIn);
-			session = (Session) objectIn.readObject();
-			Controller controller = (Controller) replaceSceneContent(session.getSceneDisplayed());
-			controller.setApp(this);
-			controller.load();
-			controller.loadOnce();
-			objectIn.close();
-			fileIn.close();
-		}catch(IOException e){
-			session = new Session();
-			System.out.println("New Session File Created");
-		}catch(ClassNotFoundException e){
-			System.out.println("Missing Session Class");
-			System.exit(1);
-		} catch (Exception e) {
-			session = new Session();
-			e.printStackTrace();
+		if (session.getSceneDisplayed() != null) {
+			menuController.replaceSceneContent(session.getSceneDisplayed());
+		}else{
+			menuController.replaceSceneContent(SceneCode.INITIAL);
 		}
 	}
 
@@ -197,6 +208,7 @@ public class App extends Application
      */
 	public void setCurrentDataset(int index){
 		currentDataset = datasets.get(index);
+		session.setCurrentDataset(currentDataset.getName());
 	}
 
 	/**
@@ -205,6 +217,7 @@ public class App extends Application
      */
 	public void setCurrentDataset(Dataset dataset){
 		currentDataset = dataset;
+		session.setCurrentDataset(currentDataset.getName());
 	}
 
 	/**
@@ -240,5 +253,38 @@ public class App extends Application
 				currentDataset = null;
 			}
 		}
+	}
+
+	public Stage createPopUpStage(SceneCode scene, int width, int height) {
+		FXMLLoader loader = new FXMLLoader();
+		InputStream in = getClass().getClassLoader().getResourceAsStream(scene.getFilePath());
+		Parent page = null;
+		try {
+			page = loader.load(in);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				in.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		//set contorller and call default calls
+		Controller controller = (Controller) loader.getController();
+		controller.setApp(this);
+		controller.load();
+		controller.loadOnce();
+		//create a new stage to popup
+		Stage popupStage = new Stage();
+		popupStage.initModality(Modality.WINDOW_MODAL);
+		//inner layout constraints
+		VBox container = new VBox();
+		container.getChildren().add(page);
+		Scene popupScene = new Scene(container, width, height);
+		//show
+		popupStage.setScene(popupScene);
+		popupStage.showAndWait();
+		return popupStage;
 	}
 }

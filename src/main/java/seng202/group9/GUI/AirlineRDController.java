@@ -81,17 +81,11 @@ public class AirlineRDController extends Controller {
      */
     public void openFilter() {
         createPopUpStage(SceneCode.AIRLINE_FILTER, 600, 370);
-
-        if (currentSession.getFilteredAirlines() != null) {
-            ArrayList<Airline> d = new ArrayList();
-            for (int i = 0; i < theDataSet.getAirlines().size(); i++) {
-                if (currentSession.getFilteredAirlines().containsValue(theDataSet.getAirlines().get(i).getName())
-                        && currentSession.getFilteredAirlines().containsKey(i)) {
-                    d.add(theDataSet.getAirlines().get(i));
-                }
-            }
-            tableViewAirlineRD.setItems(FXCollections.observableArrayList(d));
+        ArrayList<Airline> d = new ArrayList();
+        for (int key: currentSession.getFilteredAirlines().keySet()){
+            d.add(theDataSet.getAirlineDictionary().get(currentSession.getFilteredAirlines().get(key)));
         }
+        tableViewAirlineRD.setItems(FXCollections.observableArrayList(d));
     }
 
 

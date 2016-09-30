@@ -78,16 +78,12 @@ public class RouteRDController extends Controller {
 
     public void openFilter() {
         createPopUpStage(SceneCode.ROUTE_FILTER, 600, 330);
-        if (currentSession.getFilteredRoutes() != null) {
-            ArrayList<Route> d = new ArrayList();
-            for (int i = 0; i < theDataSet.getRoutes().size(); i++) {
-                if (currentSession.getFilteredRoutes().containsValue(theDataSet.getRoutes().get(i).getAirlineName())
-                        && currentSession.getFilteredRoutes().containsKey(i)) {
-                    d.add(theDataSet.getRoutes().get(i));
-                }
-            }
-            tableViewRouteRD.setItems(FXCollections.observableArrayList(d));
+
+        ArrayList<Route> d = new ArrayList();
+        for (int key: currentSession.getFilteredRoutes().keySet()){
+            d.add(theDataSet.getRouteDictionary().get(currentSession.getFilteredRoutes().get(key)));
         }
+        tableViewRouteRD.setItems(FXCollections.observableArrayList(d));
     }
 
     /**
