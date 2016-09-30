@@ -55,24 +55,24 @@ public class FlightRDController extends Controller {
     ListView<String> flightPathListView;
     private ObservableList<String> flightList = FXCollections.observableArrayList();
 
-    @FXML
-    private TextField flightNameBox;
-    @FXML
-    private TextField flightTypeBox;
-    @FXML
-    private TextField flightViaBox;
-    @FXML
-    private TextField flightAltitudeBox;
-    @FXML
-    private TextField flightLatitudeBox;
-    @FXML
-    private TextField flightLongitudeBox;
-    @FXML
-    private TextField flightHeadingBox;
-    @FXML
-    private TextField flightLegDistBox;
-    @FXML
-    private TextField flightTotDistBox;
+//    @FXML
+//    private TextField flightNameBox;
+//    @FXML
+//    private TextField flightTypeBox;
+//    @FXML
+//    private TextField flightViaBox;
+//    @FXML
+//    private TextField flightAltitudeBox;
+//    @FXML
+//    private TextField flightLatitudeBox;
+//    @FXML
+//    private TextField flightLongitudeBox;
+//    @FXML
+//    private TextField flightHeadingBox;
+//    @FXML
+//    private TextField flightLegDistBox;
+//    @FXML
+//    private TextField flightTotDistBox;
 
     /**
      * Loads the Flight paths into the List View and waits for a mouse clicked event for which it will update the table
@@ -143,36 +143,44 @@ public class FlightRDController extends Controller {
     /**
      *  Will take the inputs from the text fields and adds the point to the current flight path.
      */
-    public void addFlightPoint() {
+//    public void addFlightPoint() {
+//
+//            try {
+//                theDataSet.addFlightPointToPath(currentPathId,
+//                    flightNameBox.getText(),
+//                    flightTypeBox.getText(),
+//                    flightViaBox.getText(),
+//                    flightAltitudeBox.getText(),
+//                    flightLatitudeBox.getText(),
+//                    flightLongitudeBox.getText(),
+//                    flightHeadingBox.getText(),
+//                    flightLegDistBox.getText(),
+//                    flightTotDistBox.getText());
+//                flightNameBox.clear();
+//                flightTypeBox.clear();
+//                flightViaBox.clear();
+//                flightAltitudeBox.clear();
+//                flightLatitudeBox.clear();
+//                flightLongitudeBox.clear();
+//                flightHeadingBox.clear();
+//                flightLegDistBox.clear();
+//                flightTotDistBox.clear();
+//
+//                updateTable(currentPathIndex);
+//        } catch ( Exception e ) {
+//            Alert alert = new Alert(Alert.AlertType.ERROR);
+//            alert.setTitle("Flight Point Data Error");
+//            alert.setHeaderText("Error adding a custom flight point entry.");
+//            alert.setContentText(e.getMessage());
+//        }
+//    }
 
-            try {
-                theDataSet.addFlightPointToPath(currentPathId,
-                    flightNameBox.getText(),
-                    flightTypeBox.getText(),
-                    flightViaBox.getText(),
-                    flightAltitudeBox.getText(),
-                    flightLatitudeBox.getText(),
-                    flightLongitudeBox.getText(),
-                    flightHeadingBox.getText(),
-                    flightLegDistBox.getText(),
-                    flightTotDistBox.getText());
-                flightNameBox.clear();
-                flightTypeBox.clear();
-                flightViaBox.clear();
-                flightAltitudeBox.clear();
-                flightLatitudeBox.clear();
-                flightLongitudeBox.clear();
-                flightHeadingBox.clear();
-                flightLegDistBox.clear();
-                flightTotDistBox.clear();
-
-                updateTable(currentPathIndex);
-        } catch ( Exception e ) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Flight Point Data Error");
-            alert.setHeaderText("Error adding a custom flight point entry.");
-            alert.setContentText(e.getMessage());
-        }
+    public void openAdd() {
+        Session session = getParent().getSession();
+        session.setCurrentFlightPathtID(currentPathId);
+        createPopUpStage(SceneCode.FLIGHT_ADD, 600, 400);
+        //flightTableView.setItems(FXCollections.observableArrayList(theDataSet.getAirports()));
+        updateTable(currentPathIndex);
     }
 
     /**
@@ -268,6 +276,10 @@ public class FlightRDController extends Controller {
     @Override
     public void loadOnce(){
         flightPathListView();
+    }
+
+    public void flightSummaryButton() {
+        replaceSceneContent(SceneCode.FLIGHT_SUMMARY);
     }
 
 }
