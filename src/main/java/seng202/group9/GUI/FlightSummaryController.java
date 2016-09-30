@@ -77,6 +77,10 @@ public class FlightSummaryController extends Controller {
         replaceSceneContent(SceneCode.AIRLINE_SUMMARY);
     }
 
+    /**
+     * Loads the current flight paths summary information into the ListView panel. The summary data includes the distance
+     * and the name of the source and destination airports pulled from the Airport array list.
+     */
     public void flightSummaryListView() {
         try {
             currentPathId = theDataSet.getFlightPaths().get(0).getID(); //Sets the default to the 1st Path
