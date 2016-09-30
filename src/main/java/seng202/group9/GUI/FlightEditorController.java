@@ -69,7 +69,6 @@ public class FlightEditorController extends Controller{
             stage.close();
 
         } catch ( Exception e ) {
-            e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Flight Data Error");
             alert.setHeaderText("Error editing a flight point.");
