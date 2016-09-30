@@ -72,12 +72,6 @@ public class App extends Application
 		} catch (Exception e){
 			e.printStackTrace();
 		}
-		//testing out dataset
-		try {
-			currentDataset = new Dataset("test's", Dataset.getExisting);
-		}catch (DataException e){
-			e.printStackTrace();
-		}
 		//after all loading then load the previous session
 		try{
 			FileInputStream fileIn = new FileInputStream("res/session.ser");
@@ -99,7 +93,20 @@ public class App extends Application
 			session = new Session();
 			e.printStackTrace();
 		}
-		//menuController.createPopUpStage(SceneCode.DATASET_CONTROLLER, 600, 400);
+		//testing out dataset
+		try {
+			if (session.getCurrentDataset() != null) {
+				currentDataset = new Dataset(session.getCurrentDataset(), Dataset.getExisting);
+			}else{
+				menuController.createPopUpStage(SceneCode.DATASET_CONTROLLER, 600, 400);
+			}
+		}catch (DataException e){
+			menuController.createPopUpStage(SceneCode.DATASET_CONTROLLER, 600, 400);
+		}catch (NullPointerException e){
+			menuController.createPopUpStage(SceneCode.DATASET_CONTROLLER, 600, 400);
+		}catch (Exception e){
+			menuController.createPopUpStage(SceneCode.DATASET_CONTROLLER, 600, 400);
+		}
 	}
 
 	/**
@@ -198,6 +205,7 @@ public class App extends Application
      */
 	public void setCurrentDataset(int index){
 		currentDataset = datasets.get(index);
+		session.setCurrentDataset(currentDataset.getName());
 	}
 
 	/**
@@ -206,6 +214,7 @@ public class App extends Application
      */
 	public void setCurrentDataset(Dataset dataset){
 		currentDataset = dataset;
+		session.setCurrentDataset(currentDataset.getName());
 	}
 
 	/**
