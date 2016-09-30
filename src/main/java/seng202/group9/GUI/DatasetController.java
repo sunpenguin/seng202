@@ -27,13 +27,17 @@ public class DatasetController extends Controller{
 
     public void load() {
         curDataset = getParent().getCurrentDataset();
+    }
+
+    public void loadTable(){
         ArrayList<Dataset> datasets = getParent().getDatasets();
         datasetList = observableArrayList(datasets);
         datasetView.setItems(datasetList);
     }
 
     public void deleteDataset(){
-
+        Dataset datasetToDelete = (Dataset) datasetView.getSelectionModel().getSelectedItem();
+        getParent().deleteDataset(datasetToDelete);
     }
 
     public void addDataset(){

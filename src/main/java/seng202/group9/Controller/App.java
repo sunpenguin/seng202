@@ -99,7 +99,7 @@ public class App extends Application
 			session = new Session();
 			e.printStackTrace();
 		}
-		menuController.createPopUpStage(SceneCode.DATASET_CONTROLLER, 600, 400);
+		//menuController.createPopUpStage(SceneCode.DATASET_CONTROLLER, 600, 400);
 	}
 
 	/**
