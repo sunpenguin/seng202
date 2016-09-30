@@ -2098,11 +2098,6 @@ public class Dataset {
         int curIndex = flightPath.getFlightPoints().indexOf(flightPoint);
         flightPath.getFlightPoints().remove(flightPoint);
         int indexToAdd = index;
-        if (curIndex < index){
-            indexToAdd --;
-        }else{
-            indexToAdd ++;
-        }
         flightPath.getFlightPoints().add(indexToAdd, flightPoint);
 
         Connection c = null;
@@ -2118,7 +2113,7 @@ public class Dataset {
             }
             stmt.close();
 
-            if (index == 0){
+            if (index == 0 || curIndex == 0){
                 try {
                     stmt = c.createStatement();
                     String query = "UPDATE `"+this.name+"_Flight_Path` SET `Source_Airport` = \""+flightPoint.getName().replace("\"", "\"\"")+"\" " +
@@ -2129,7 +2124,7 @@ public class Dataset {
                     System.err.println( e.getClass().getName() + ": " + e.getMessage() );
                 }
                 flightPath.setDepartureAirport(flightPoint.getName());
-            }else if (index == flightPath.getFlightPoints().size() - 1){
+            }else if (index == flightPath.getFlightPoints().size() - 1 || curIndex == flightPath.getFlightPoints().size() - 1){
                 try {
                     stmt = c.createStatement();
                     String query = "UPDATE `"+this.name+"_Flight_Path` SET `Destination_Airport` = \""+flightPoint.getName().replace("\"", "\"\"")+"\" " +
