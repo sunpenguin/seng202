@@ -96,12 +96,8 @@ public class FlightSummaryController extends Controller {
             Airport sourceAirport = null;
             Airport destinationAirport = null;
 
-            System.out.println(firstPointICAO);
-            System.out.println(lastPointICAO);
-
             for (int i=0; i < airportList.size(); i++){
                 Airport current = airportList.get(i);
-                System.out.println(current.getICAO());
                 if(current.getICAO().equals(firstPointICAO)){
                     sourceAirport = current;
                 }

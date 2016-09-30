@@ -155,6 +155,8 @@
                                             <items>
                                                 <MenuItem mnemonicParsing="false" onAction="#editPoint" text="Edit" />
                                               <MenuItem mnemonicParsing="false" onAction="#deletePoint" text="Delete" />
+                                                <MenuItem mnemonicParsing="false" onAction="#movePointUp" text="Move Up" />
+                                                <MenuItem mnemonicParsing="false" onAction="#movePointDown" text="Move Down" />
                                             </items>
                                           </ContextMenu>
                                        </contextMenu>

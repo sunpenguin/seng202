@@ -246,6 +246,29 @@ public class FlightRDController extends Controller {
         flightPathListView();
     }
 
+    public void movePointUp(){
+        FlightPoint toMove = flightTableView.getSelectionModel().getSelectedItem();
+        int toMoveIndex = flightTableView.getSelectionModel().getSelectedIndex();
+        try{
+            theDataSet.moveFlightPoint(toMove, toMoveIndex-1);
+        } catch (DataException e) {
+            e.printStackTrace();
+        }
+        updateTable(currentPathIndex);
+
+    }
+
+    public void movePointDown(){
+        FlightPoint toMove = flightTableView.getSelectionModel().getSelectedItem();
+        int toMoveIndex = flightTableView.getSelectionModel().getSelectedIndex();
+        try{
+            theDataSet.moveFlightPoint(toMove, toMoveIndex+1);
+        } catch (DataException e) {
+            e.printStackTrace();
+        }
+        updateTable(currentPathIndex);
+    }
+
     /**
      * Updates the table so that when the database is changed (deleted or edited) it still shows the correct data values.
      * @param currentPathIndex The index of the current path in the Path array list.

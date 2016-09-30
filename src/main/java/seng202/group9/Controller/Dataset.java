@@ -2100,9 +2100,6 @@ public class Dataset {
         int curIndex = flightPath.getFlightPoints().indexOf(flightPoint);
         flightPath.getFlightPoints().remove(flightPoint);
         int indexToAdd = index;
-        if (curIndex < index){
-            indexToAdd --;
-        }
         flightPath.getFlightPoints().add(indexToAdd, flightPoint);
 
         Connection c = null;
