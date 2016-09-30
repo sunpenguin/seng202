@@ -31,6 +31,10 @@ public class FilterUnitTest {
 
         int size = airlineFilter.getFilteredData().size();
 
+        airlineFilter.filterCountry("New Zealand");
+        assertTrue(airlineFilter.getFilteredData().size() == 25);
+        airlineFilter.reset();
+
         airlineFilter.filterActive("Y");
 
         assertTrue(size != airlineFilter.getFilteredData().size());
