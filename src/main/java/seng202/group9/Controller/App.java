@@ -50,6 +50,23 @@ public class App extends Application
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
+		//after all loading then load the previous session
+		try{
+			FileInputStream fileIn = new FileInputStream("res/session.ser");
+			ObjectInputStream objectIn = new ObjectInputStream(fileIn);
+			session = (Session) objectIn.readObject();
+			objectIn.close();
+			fileIn.close();
+		}catch(IOException e){
+			session = new Session();
+			System.out.println("New Session File Created");
+		}catch(ClassNotFoundException e){
+			System.out.println("Missing Session Class");
+			System.exit(1);
+		} catch (Exception e) {
+			session = new Session();
+			e.printStackTrace();
+		}
 		//load the menu and the first container
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -61,6 +78,9 @@ public class App extends Application
 			primaryStage.sizeToScene();
 			menuController = (MenuController) loader.getController();
 			menuController.setApp(this);
+
+            menuController.replaceSceneContent(SceneCode.INITIAL);
+
 			in.close();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -78,25 +98,13 @@ public class App extends Application
 		}catch (DataException e){
 			e.printStackTrace();
 		}
-		//after all loading then load the previous session
-		try{
-			FileInputStream fileIn = new FileInputStream("res/session.ser");
-			ObjectInputStream objectIn = new ObjectInputStream(fileIn);
-			session = (Session) objectIn.readObject();
-			Controller controller = (Controller) replaceSceneContent(session.getSceneDisplayed());
+		Controller controller = null;
+		try {
+			controller = (Controller) replaceSceneContent(session.getSceneDisplayed());
 			controller.setApp(this);
 			controller.load();
 			controller.loadOnce();
-			objectIn.close();
-			fileIn.close();
-		}catch(IOException e){
-			session = new Session();
-			System.out.println("New Session File Created");
-		}catch(ClassNotFoundException e){
-			System.out.println("Missing Session Class");
-			System.exit(1);
 		} catch (Exception e) {
-			session = new Session();
 			e.printStackTrace();
 		}
 	}
