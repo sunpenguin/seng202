@@ -250,7 +250,9 @@ public class FlightRDController extends Controller {
         FlightPoint toMove = flightTableView.getSelectionModel().getSelectedItem();
         int toMoveIndex = flightTableView.getSelectionModel().getSelectedIndex();
         try{
-            theDataSet.moveFlightPoint(toMove, toMoveIndex-1);
+            if (toMoveIndex != 0) {
+                theDataSet.moveFlightPoint(toMove, toMoveIndex - 1);
+            }
         } catch (DataException e) {
             e.printStackTrace();
         }
@@ -263,7 +265,9 @@ public class FlightRDController extends Controller {
         FlightPoint toMove = flightTableView.getSelectionModel().getSelectedItem();
         int toMoveIndex = flightTableView.getSelectionModel().getSelectedIndex();
         try{
-            theDataSet.moveFlightPoint(toMove, toMoveIndex+1);
+            if (toMoveIndex != flightTableView.getItems().size()-1) {
+                theDataSet.moveFlightPoint(toMove, toMoveIndex + 1);
+            }
         } catch (DataException e) {
             e.printStackTrace();
         }
