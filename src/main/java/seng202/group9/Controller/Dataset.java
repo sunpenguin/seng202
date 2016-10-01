@@ -787,13 +787,25 @@ public class Dataset {
         for (Route route: routes){
             if (route.getDepartureAirport().length() > 3){
                 route.setSourceAirport(airportsByICAO.get(route.getDepartureAirport()));
+                if (airportsByICAO.get(route.getDepartureAirport()) != null) {
+                    airportsByICAO.get(route.getDepartureAirport()).addDepartureRoutes(route);
+                }
             }else{
                 route.setSourceAirport(airportsByIATA.get(route.getDepartureAirport()));
+                if (airportsByIATA.get(route.getDepartureAirport()) != null){
+                    airportsByIATA.get(route.getDepartureAirport()).addDepartureRoutes(route);
+                }
             }
             if (route.getArrivalAirport().length() > 3){
                 route.setDestinationAirport(airportsByICAO.get(route.getArrivalAirport()));
+                if (airportsByICAO.get(route.getArrivalAirport()) != null) {
+                    airportsByICAO.get(route.getArrivalAirport()).addArrivalRoutes(route);
+                }
             }else{
                 route.setDestinationAirport(airportsByIATA.get(route.getArrivalAirport()));
+                if (airportsByIATA.get(route.getArrivalAirport()) != null) {
+                    airportsByIATA.get(route.getArrivalAirport()).addArrivalRoutes(route);
+                }
             }
             route.setAirline(airlineByIATA.get(route.getAirlineName()));
             Airline airline = airlineByIATA.get(route.getAirlineName());
@@ -2039,6 +2051,10 @@ public class Dataset {
         createDataLinks();
     }
 
+    /**
+     * Updates the flight path to the first Point and the last point
+     * @param flightPath
+     */
     private void updateFlightPath(FlightPath flightPath){
         Connection c = null;
         Statement stmt = null;

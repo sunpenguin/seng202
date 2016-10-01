@@ -1,5 +1,6 @@
 package seng202.group9.GUI;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -33,9 +34,7 @@ public class AirportSummaryController extends Controller{
     @FXML
     private TableColumn<Airport, String> columnCountry;
     @FXML
-    private TableColumn<Airport, String> columnAltitude;
-    @FXML
-    private TableColumn<Airport, String> columnIATA;
+    private TableColumn<Airport, String> columnTotalRoutes;
 
     //Stores required data.
     private Dataset currentData = null;
@@ -77,8 +76,7 @@ public class AirportSummaryController extends Controller{
         columnName.setCellValueFactory(new PropertyValueFactory<Airport, String>("Name"));
         columnCity.setCellValueFactory(new PropertyValueFactory<Airport, String>("CityName"));
         columnCountry.setCellValueFactory(new PropertyValueFactory<Airport, String>("CountryName"));
-        columnIATA.setCellValueFactory(new PropertyValueFactory<Airport, String>("IATA_FFA"));
-        columnAltitude.setCellValueFactory(new PropertyValueFactory<Airport, String>("Altitude"));
+        columnTotalRoutes.setCellValueFactory(new PropertyValueFactory<Airport, String>("TotalRoutes"));
         currentData = getParent().getCurrentDataset();
         tableView.setItems(FXCollections.observableArrayList(currentData.getAirports()));
         map = new Map(mapView, new RoutePath());
@@ -89,5 +87,7 @@ public class AirportSummaryController extends Controller{
                 map.displayAirport(new RoutePath( new Position(selectedAirport.getLatitude(), selectedAirport.getLongitude())));
             }
         });
+
+
     }
 }
