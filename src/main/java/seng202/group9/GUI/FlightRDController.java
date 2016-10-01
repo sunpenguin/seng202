@@ -92,17 +92,19 @@ public class FlightRDController extends Controller {
             flightPathListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 public void handle(MouseEvent event) {
                     String flightPathDisplayNameClicked = flightPathListView.getSelectionModel().getSelectedItem();
-                    String[] segments = flightPathDisplayNameClicked.split("_");
-                    String pathIdClicked = segments[0];
+                    if (flightPathDisplayNameClicked!=null) {
+                        String[] segments = flightPathDisplayNameClicked.split("_");
+                        String pathIdClicked = segments[0];
 
-                    currentPathIndex = theDataSet.getFlightPaths().indexOf(theDataSet.getFlightPathDictionary()
-                            .get(Integer.parseInt(pathIdClicked)));
-                    currentPathId = Integer.parseInt(pathIdClicked);
+                        currentPathIndex = theDataSet.getFlightPaths().indexOf(theDataSet.getFlightPathDictionary()
+                                .get(Integer.parseInt(pathIdClicked)));
+                        currentPathId = Integer.parseInt(pathIdClicked);
 
-                    ArrayList<FlightPath> flightPaths;
-                    flightPaths = theDataSet.getFlightPaths();
-                    ArrayList<FlightPoint> flightPoints = flightPaths.get(currentPathIndex).getFlight();
-                    flightTableView.setItems(FXCollections.observableArrayList(flightPoints));
+                        ArrayList<FlightPath> flightPaths;
+                        flightPaths = theDataSet.getFlightPaths();
+                        ArrayList<FlightPoint> flightPoints = flightPaths.get(currentPathIndex).getFlight();
+                        flightTableView.setItems(FXCollections.observableArrayList(flightPoints));
+                    }
 
                 }
             });
@@ -246,6 +248,9 @@ public class FlightRDController extends Controller {
         flightPathListView();
     }
 
+    /**
+     * Function for the 'Move Up' right click option on the points in the flight table.
+     */
     public void movePointUp(){
         FlightPoint toMove = flightTableView.getSelectionModel().getSelectedItem();
         int toMoveIndex = flightTableView.getSelectionModel().getSelectedIndex();
@@ -258,9 +263,11 @@ public class FlightRDController extends Controller {
         }
         updateTable(currentPathIndex);
         updatePaths();
-
     }
 
+    /**
+     * Function for the 'Move Down' right click option on the points in the flight table.
+     */
     public void movePointDown(){
         FlightPoint toMove = flightTableView.getSelectionModel().getSelectedItem();
         int toMoveIndex = flightTableView.getSelectionModel().getSelectedIndex();
@@ -287,6 +294,9 @@ public class FlightRDController extends Controller {
         flightTableView.refresh();
     }
 
+    /**
+     * Updates the flight path list view so that it displays the correct names for the paths
+     */
     private void updatePaths(){
         try {
             flightPathListView.getItems().clear();

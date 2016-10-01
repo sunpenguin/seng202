@@ -158,12 +158,14 @@ public class FlightSummaryController extends Controller {
             flightPathListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
                  public void handle(MouseEvent event) {
                      String flightPathDisplayNameClicked = flightPathListView.getSelectionModel().getSelectedItem();
-                     String[] segments = flightPathDisplayNameClicked.split("_");
-                     String pathIdClicked = segments[0];
+                     if (flightPathDisplayNameClicked!=null) {
+                         String[] segments = flightPathDisplayNameClicked.split("_");
+                         String pathIdClicked = segments[0];
 
-                     currentPathIndex = theDataSet.getFlightPaths().indexOf(theDataSet.getFlightPathDictionary()
-                             .get(Integer.parseInt(pathIdClicked)));
-                     currentPathId = Integer.parseInt(pathIdClicked);
+                         currentPathIndex = theDataSet.getFlightPaths().indexOf(theDataSet.getFlightPathDictionary()
+                                 .get(Integer.parseInt(pathIdClicked)));
+                         currentPathId = Integer.parseInt(pathIdClicked);
+                     }
                  }
             });
             flightPathListView.setItems(flightList);
