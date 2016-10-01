@@ -37,8 +37,6 @@ public class FlightRDController extends Controller {
     @FXML
     private TableColumn<FlightPoint, String> flightTypeCol;
     @FXML
-    private TableColumn<FlightPoint, String> flightViaCol;
-    @FXML
     private TableColumn<FlightPoint, String> flightAltitudeCol;
     @FXML
     private TableColumn<FlightPoint, String> flightLatCol;
@@ -92,17 +90,19 @@ public class FlightRDController extends Controller {
             flightPathListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 public void handle(MouseEvent event) {
                     String flightPathDisplayNameClicked = flightPathListView.getSelectionModel().getSelectedItem();
-                    String[] segments = flightPathDisplayNameClicked.split("_");
-                    String pathIdClicked = segments[0];
+                    if (flightPathDisplayNameClicked!=null) {
+                        String[] segments = flightPathDisplayNameClicked.split("_");
+                        String pathIdClicked = segments[0];
 
-                    currentPathIndex = theDataSet.getFlightPaths().indexOf(theDataSet.getFlightPathDictionary()
-                            .get(Integer.parseInt(pathIdClicked)));
-                    currentPathId = Integer.parseInt(pathIdClicked);
+                        currentPathIndex = theDataSet.getFlightPaths().indexOf(theDataSet.getFlightPathDictionary()
+                                .get(Integer.parseInt(pathIdClicked)));
+                        currentPathId = Integer.parseInt(pathIdClicked);
 
-                    ArrayList<FlightPath> flightPaths;
-                    flightPaths = theDataSet.getFlightPaths();
-                    ArrayList<FlightPoint> flightPoints = flightPaths.get(currentPathIndex).getFlight();
-                    flightTableView.setItems(FXCollections.observableArrayList(flightPoints));
+                        ArrayList<FlightPath> flightPaths;
+                        flightPaths = theDataSet.getFlightPaths();
+                        ArrayList<FlightPoint> flightPoints = flightPaths.get(currentPathIndex).getFlight();
+                        flightTableView.setItems(FXCollections.observableArrayList(flightPoints));
+                    }
 
                 }
             });
@@ -117,27 +117,28 @@ public class FlightRDController extends Controller {
      * Used to load the table for the Flight points initially from the MenuController
      */
     public void load() {
-        theDataSet = getParent().getCurrentDataset();
-        try {
-            currentPathId = theDataSet.getFlightPaths().get(0).getID(); //Sets the default to the 1st Path
-        } catch (DataException e) {
-            e.printStackTrace();
-        }
-        flightIdCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("ID"));
-        flightNameCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("Name"));
-        flightTypeCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("Type"));
-        flightViaCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("Via"));
-        flightAltitudeCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("Altitude"));
-        flightLatCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("Latitude"));
-        flightLongCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("Longitude"));
-        flightHeadCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("Heading"));
-        flightLegDisCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("LegDistance"));
-        flightTotDisCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("totalDistance"));
+        if (theDataSet != null) {
+            theDataSet = getParent().getCurrentDataset();
+            try {
+                currentPathId = theDataSet.getFlightPaths().get(0).getID(); //Sets the default to the 1st Path
+            } catch (DataException e) {
+                e.printStackTrace();
+            }
+            flightIdCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("ID"));
+            flightNameCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("Name"));
+            flightTypeCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("Type"));
+            flightAltitudeCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("Altitude"));
+            flightLatCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("Latitude"));
+            flightLongCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("Longitude"));
+            flightHeadCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("Heading"));
+            flightLegDisCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("LegDistance"));
+            flightTotDisCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("totalDistance"));
 
-        ArrayList<FlightPath> flightPaths;
-        flightPaths = theDataSet.getFlightPaths();
-        ArrayList<FlightPoint> flightPoints = flightPaths.get(0).getFlight();
-        flightTableView.setItems(FXCollections.observableArrayList(flightPoints));
+            ArrayList<FlightPath> flightPaths;
+            flightPaths = theDataSet.getFlightPaths();
+            ArrayList<FlightPoint> flightPoints = flightPaths.get(0).getFlight();
+            flightTableView.setItems(FXCollections.observableArrayList(flightPoints));
+        }
     }
 
     /**
@@ -222,27 +223,38 @@ public class FlightRDController extends Controller {
         flightPathListView();
     }
 
+    /**
+     * Function for the 'Move Up' right click option on the points in the flight table.
+     */
     public void movePointUp(){
         FlightPoint toMove = flightTableView.getSelectionModel().getSelectedItem();
         int toMoveIndex = flightTableView.getSelectionModel().getSelectedIndex();
         try{
-            theDataSet.moveFlightPoint(toMove, toMoveIndex-1);
+            if (toMoveIndex != 0) {
+                theDataSet.moveFlightPoint(toMove, toMoveIndex - 1);
+            }
         } catch (DataException e) {
             e.printStackTrace();
         }
         updateTable(currentPathIndex);
-
+        updatePaths();
     }
 
+    /**
+     * Function for the 'Move Down' right click option on the points in the flight table.
+     */
     public void movePointDown(){
         FlightPoint toMove = flightTableView.getSelectionModel().getSelectedItem();
         int toMoveIndex = flightTableView.getSelectionModel().getSelectedIndex();
         try{
-            theDataSet.moveFlightPoint(toMove, toMoveIndex+1);
+            if (toMoveIndex != flightTableView.getItems().size()-1) {
+                theDataSet.moveFlightPoint(toMove, toMoveIndex + 1);
+            }
         } catch (DataException e) {
             e.printStackTrace();
         }
         updateTable(currentPathIndex);
+        updatePaths();
     }
 
     /**
@@ -258,6 +270,27 @@ public class FlightRDController extends Controller {
     }
 
     /**
+     * Updates the flight path list view so that it displays the correct names for the paths
+     */
+    private void updatePaths(){
+        try {
+            flightPathListView.getItems().clear();
+            ArrayList<FlightPath> flightPaths;
+            flightPaths = theDataSet.getFlightPaths();
+            for(int i = 0; i<flightPaths.size(); i++ ) {
+                int pathID = flightPaths.get(i).getID();
+                String pathSource = flightPaths.get(i).departsFrom();
+                String pathDestin = flightPaths.get(i).arrivesAt();
+                String flightPathDisplayName = Integer.toString(pathID) + "_" + pathSource + "_" + pathDestin;
+                flightList.add(flightPathDisplayName);
+            }
+            flightPathListView.setItems(flightList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * Will link to the flight analyser when implemented.
      */
     public void flightAnalyser(){
@@ -266,7 +299,9 @@ public class FlightRDController extends Controller {
 
     @Override
     public void loadOnce(){
-        flightPathListView();
+        if (theDataSet != null) {
+            flightPathListView();
+        }
     }
 
     public void flightSummaryButton() {

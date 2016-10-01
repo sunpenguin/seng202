@@ -28,7 +28,7 @@ public class FlightPath {
 	}
 
 	/**
-	 * COnstructor for FlightPath from dataset add later the ID needs to be set from database.
+	 * Constructor for FlightPath from dataset add later the ID needs to be set from database.
 	 * @param departureAirport
 	 * @param arrivalAirport
 	 */
