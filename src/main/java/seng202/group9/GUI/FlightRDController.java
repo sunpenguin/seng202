@@ -195,6 +195,7 @@ public class FlightRDController extends Controller {
             currentPathIndex = theDataSet.getFlightPaths().indexOf(theDataSet.getFlightPathDictionary().get(pathID));
 
             updateTable(currentPathIndex);
+            updatePaths();
         }
     }
 
@@ -214,6 +215,7 @@ public class FlightRDController extends Controller {
         }
         createPopUpStage(SceneCode.FLIGHT_EDITOR, 600, 289);
         updateTable(currentPathIndex);
+        updatePaths();
 
     }
     /**
@@ -230,6 +232,8 @@ public class FlightRDController extends Controller {
         theDataSet.deleteFlightPath(toDeleteIndex);
         flightPathListView.getItems().clear();
         flightPathListView();
+        updatePaths();
+        updateTable(0);
     }
 
     /**
@@ -273,9 +277,14 @@ public class FlightRDController extends Controller {
     private void updateTable(int currentPathIndex) {
         ArrayList<FlightPath> flightPaths;
         flightPaths = theDataSet.getFlightPaths();
-        ArrayList<FlightPoint> flightPoints = flightPaths.get(currentPathIndex).getFlight();
-        flightTableView.setItems(FXCollections.observableArrayList(flightPoints));
-        flightTableView.refresh();
+        if (flightPaths.size() != 0) {
+            ArrayList<FlightPoint> flightPoints = flightPaths.get(currentPathIndex).getFlight();
+            flightTableView.setItems(FXCollections.observableArrayList(flightPoints));
+            flightTableView.refresh();
+        }else{
+            flightTableView.getItems().clear();
+            flightTableView.refresh();
+        }
     }
 
     /**

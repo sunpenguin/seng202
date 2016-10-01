@@ -19,6 +19,7 @@ public class MenuController extends Controller{
 
 	public void importAirports(){
 		Importer importer = new Importer(SceneCode.AIRPORT_RAW_DATA, getParent(), getParent().getPrimaryStage());
+
 	}
 	
 	public void importAirlines(){
