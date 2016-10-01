@@ -32,6 +32,9 @@ public class FlightAddController extends Controller {
     private Session currentSession = null;
 
     public void load() {
+        if (!checkDataset()){
+            return;
+        }
         theDataSet = getParent().getCurrentDataset();
         currentSession = getParent().getSession();
     }

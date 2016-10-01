@@ -52,6 +52,9 @@ public class RouteRDController extends Controller {
      * Also sets up the dropdown menu options.
      */
     public void load() {
+        if (!checkDataset()){
+            return;
+        }
         //Sets up the table columns to be ready for use for Route data
         rAirlineCol.setCellValueFactory(new PropertyValueFactory<Route, String>("AirlineName"));
         rAirlineIDCol.setCellValueFactory(new PropertyValueFactory<Route, String>("AirlineID"));

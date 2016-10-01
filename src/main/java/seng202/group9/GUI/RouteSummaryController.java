@@ -43,6 +43,9 @@ public class RouteSummaryController extends Controller{
      * Loads initial state of the scene.
      */
     public void load() {
+        if (!checkDataset()){
+            return;
+        }
         columnAirline.setCellValueFactory(new PropertyValueFactory<Route, String>("AirlineName"));
         columnDepart.setCellValueFactory(new PropertyValueFactory<Route, String>("DepartureAirport"));
         columnArrive.setCellValueFactory(new PropertyValueFactory<Route, String>("ArrivalAirport"));

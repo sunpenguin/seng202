@@ -90,20 +90,6 @@ public class App extends Application
 		} catch (Exception e){
 			e.printStackTrace();
 		}
-		//testing out dataset
-		try {
-			if (session.getCurrentDataset() != null) {
-				currentDataset = new Dataset(session.getCurrentDataset(), Dataset.getExisting);
-			}else{
-				createPopUpStage(SceneCode.DATASET_CONTROLLER, 600, 400);
-			}
-		}catch (DataException e){
-			createPopUpStage(SceneCode.DATASET_CONTROLLER, 600, 400);
-		}catch (NullPointerException e){
-			createPopUpStage(SceneCode.DATASET_CONTROLLER, 600, 400);
-		}catch (Exception e){
-			createPopUpStage(SceneCode.DATASET_CONTROLLER, 600, 400);
-		}
 		//after all loading then load the previous session
 		if (session.getSceneDisplayed() != null) {
 			menuController.replaceSceneContent(session.getSceneDisplayed());
@@ -255,36 +241,4 @@ public class App extends Application
 		}
 	}
 
-	public Stage createPopUpStage(SceneCode scene, int width, int height) {
-		FXMLLoader loader = new FXMLLoader();
-		InputStream in = getClass().getClassLoader().getResourceAsStream(scene.getFilePath());
-		Parent page = null;
-		try {
-			page = loader.load(in);
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				in.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		//set contorller and call default calls
-		Controller controller = (Controller) loader.getController();
-		controller.setApp(this);
-		controller.load();
-		controller.loadOnce();
-		//create a new stage to popup
-		Stage popupStage = new Stage();
-		popupStage.initModality(Modality.WINDOW_MODAL);
-		//inner layout constraints
-		VBox container = new VBox();
-		container.getChildren().add(page);
-		Scene popupScene = new Scene(container, width, height);
-		//show
-		popupStage.setScene(popupScene);
-		popupStage.showAndWait();
-		return popupStage;
-	}
 }

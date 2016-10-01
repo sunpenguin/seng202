@@ -81,6 +81,9 @@ public class FlightEditorController extends Controller{
      * Loader which is used to load the selected information into the text fields for editing.
      */
     public void load() {
+        if (!checkDataset()){
+            return;
+        }
         theDataSet = getParent().getCurrentDataset();
 
         Session session = getParent().getSession();

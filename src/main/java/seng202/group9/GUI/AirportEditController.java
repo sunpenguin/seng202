@@ -72,6 +72,9 @@ public class AirportEditController extends Controller {
     }
 
     public void load() {
+        if (!checkDataset()){
+            return;
+        }
         theDataSet = getParent().getCurrentDataset();
         currentSession = getParent().getSession();
 

@@ -71,6 +71,9 @@ public class AirportAnalyser extends Controller {
      * Takes the current dataset then loads the data to the graph using build graph.
      */
     public void load() {
+        if (!checkDataset()){
+            return;
+        }
         currentdata = getParent().getCurrentDataset();
         build_graph();
     }

@@ -67,6 +67,9 @@ public class DistCalcController extends Controller {
      * Sets the initial state of the scene.
      */
     public void load(){
+        if (!checkDataset()){
+            return;
+        }
         currentData = getParent().getCurrentDataset();
         answerBox.textProperty().bind(bound);
         fill_boxes();

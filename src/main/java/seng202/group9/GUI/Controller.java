@@ -4,6 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -55,6 +56,23 @@ public abstract class Controller implements Initializable{
             controller.loadOnce();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public boolean checkDataset(){
+        //if the dataset is null then we want to change to the initial and give a warning.
+        //Also then let them selecthe data set
+        if (getParent().getCurrentDataset() == null) {
+            replaceSceneContent(SceneCode.INITIAL);
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Missing Dataset");
+            alert.setHeaderText("No Dataset is currently selected.");
+            alert.setContentText("Please Create a Dataset to store your Information in.");
+            alert.showAndWait();
+            createPopUpStage(SceneCode.DATASET_CONTROLLER, 600, 400);
+            return false;
+        }else{
+            return true;
         }
     }
 

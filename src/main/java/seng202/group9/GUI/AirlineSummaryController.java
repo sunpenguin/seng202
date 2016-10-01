@@ -48,6 +48,9 @@ public class AirlineSummaryController extends Controller{
      * Loads initial state of the scene.
      */
     public void load() {
+        if (!checkDataset()){
+            return;
+        }
         //Fills the table.
         columnName.setCellValueFactory(new PropertyValueFactory<Airline, String>("Name"));
         columnAlias.setCellValueFactory(new PropertyValueFactory<Airline, String>("Alias"));

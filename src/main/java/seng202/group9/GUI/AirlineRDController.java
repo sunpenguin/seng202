@@ -49,6 +49,9 @@ public class AirlineRDController extends Controller {
      * Also sets up the dropdown menu options.
      */
     public void load() {
+        if (!checkDataset()){
+            return;
+        }
         //Sets up the table columns to be ready for use for Airline data
         airlIDCol.setCellValueFactory(new PropertyValueFactory<Airline, String>("ID"));
         airlNameCol.setCellValueFactory(new PropertyValueFactory<Airline, String>("Name"));

@@ -72,6 +72,9 @@ public class AirportSummaryController extends Controller{
      * Loads initial state of the scene.
      */
     public void load() {
+        if (!checkDataset()){
+            return;
+        }
         currentData = getParent().getCurrentDataset();
         columnName.setCellValueFactory(new PropertyValueFactory<Airport, String>("Name"));
         columnCity.setCellValueFactory(new PropertyValueFactory<Airport, String>("CityName"));
