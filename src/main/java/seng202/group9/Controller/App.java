@@ -1,6 +1,8 @@
 package seng202.group9.Controller;
 
 import java.io.*;
+import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -13,6 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Menu;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -95,6 +98,14 @@ public class App extends Application
 			menuController.replaceSceneContent(session.getSceneDisplayed());
 		}else{
 			menuController.replaceSceneContent(SceneCode.INITIAL);
+		}
+		//check if there is internet connectivity
+		if (!testInet("maps.google.com")){
+			Alert alert = new Alert(Alert.AlertType.WARNING);
+			alert.setTitle("No Internet Connection.");
+			alert.setHeaderText("Unable to Connect to Google Maps");
+			alert.setContentText("As we are unable to connect to Google Maps all applications which are supposed to display maps may not work as intended.");
+			alert.showAndWait();
 		}
 	}
 
@@ -241,4 +252,22 @@ public class App extends Application
 		}
 	}
 
+	/**
+	 * Inet test to check if there internet connectivity
+	 * @param site
+	 * @return
+     */
+	public boolean testInet(String site){
+		Socket sock = new Socket();
+		InetSocketAddress addr = new InetSocketAddress(site,80);
+		try {
+			sock.connect(addr,3000);
+			return true;
+		} catch (IOException e) {
+			return false;
+		} finally {
+			try {sock.close();}
+			catch (IOException e) {}
+		}
+	}
 }
