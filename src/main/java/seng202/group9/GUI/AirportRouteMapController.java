@@ -53,19 +53,15 @@ public class AirportRouteMapController extends Controller{
         airportsTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Airport>() {
             public void changed(ObservableValue<? extends Airport> observable, Airport oldValue, Airport newValue) {
                 Airport selectedAirport= (Airport) airportsTable.getSelectionModel().getSelectedItems().get(0);
-                for (int i = 0 ; i < currentDataset.getAirports().size(); i ++){
-                    if (currentDataset.getAirports().get(i).equals(selectedAirport)){
-                        ArrayList<RoutePath> routePaths = new ArrayList<RoutePath>();
-                        for (Route route:currentDataset.getAirports().get(i).getArrivalRoutes()){
-                            routePaths.add(route.getRoutePath());
-                        }
-                        for (Route route:currentDataset.getAirports().get(i).getDepartureRoutes()){
-                            routePaths.add(route.getRoutePath());
-                        }
-                        map.displayRoutes(routePaths);
-                        break;
-                    }
+
+                ArrayList<RoutePath> routePaths = new ArrayList<RoutePath>();
+                for (Route route:selectedAirport.getArrivalRoutes()){
+                    routePaths.add(route.getRoutePath());
                 }
+                for (Route route:selectedAirport.getDepartureRoutes()){
+                    routePaths.add(route.getRoutePath());
+                }
+                map.displayRoutes(routePaths);
             }
         });
     }
