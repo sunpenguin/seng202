@@ -67,6 +67,9 @@ public class MenuController extends Controller{
 		replaceSceneContent(SceneCode.ROUTE_SUMMARY);
 	}
 
+	public void viewRouteByAirport(){
+		replaceSceneContent(SceneCode.ROUTE_BY_AIRPORT);
+	}
 	/**
 	 * Load Flight Summary Function.
 	 */

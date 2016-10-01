@@ -49,6 +49,12 @@
                         <MenuItem mnemonicParsing="false" onAction="#viewFlightRawData" text="Raw Data" />
                      </items>
                   </Menu>
+                  <Menu mnemonicParsing="false" text="Maps">
+                    <items>
+                      <MenuItem mnemonicParsing="false" onAction="#viewRouteByAirport" text="Route By Airport" />
+                        <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+                    </items>
+                  </Menu>
                </items></Menu>
             <Menu mnemonicParsing="false" text="Analysis">
                <items>
