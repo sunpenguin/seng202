@@ -57,7 +57,7 @@ public class RouteSummaryController extends Controller{
         tableView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Route>() {
             public void changed(ObservableValue<? extends Route> observable, Route oldValue, Route newValue) {
                 System.out.println("loading");
-                Route selectedRoute= currentData.getRoutes().get(tableView.getSelectionModel().getSelectedIndices().get(0));
+                Route selectedRoute= tableView.getSelectionModel().getSelectedItems().get(0);
                 if (selectedRoute.getSourceAirport() != null && selectedRoute.getDestinationAirport() != null) {
                     map.displayRoute(new RoutePath(
                             new Position(selectedRoute.getSourceAirport().getLatitude(), selectedRoute.getSourceAirport().getLongitude()),

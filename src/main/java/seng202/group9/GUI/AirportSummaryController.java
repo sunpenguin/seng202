@@ -86,7 +86,7 @@ public class AirportSummaryController extends Controller{
         tableView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Airport>() {
             public void changed(ObservableValue<? extends Airport> observable, Airport oldValue, Airport newValue) {
                 System.out.println("loading");
-                Airport selectedAirport= currentData.getAirports().get(tableView.getSelectionModel().getSelectedIndices().get(0));
+                Airport selectedAirport= tableView.getSelectionModel().getSelectedItems().get(0);
                 map.displayAirport(new RoutePath( new Position(selectedAirport.getLatitude(), selectedAirport.getLongitude())));
             }
         });

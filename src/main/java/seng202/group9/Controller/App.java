@@ -93,6 +93,13 @@ public class App extends Application
 		} catch (Exception e){
 			e.printStackTrace();
 		}
+		if (session.getCurrentDataset() != null){
+			for (int i = 0; i < datasets.size(); i ++) {
+				if (datasets.get(i).getName().equals(session.getCurrentDataset())) {
+					currentDataset = datasets.get(i);
+				}
+			}
+		}
 		//after all loading then load the previous session
 		if (session.getSceneDisplayed() != null) {
 			menuController.replaceSceneContent(session.getSceneDisplayed());
