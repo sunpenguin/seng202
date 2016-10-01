@@ -255,6 +255,7 @@ public class FlightRDController extends Controller {
             e.printStackTrace();
         }
         updateTable(currentPathIndex);
+        updatePaths();
 
     }
 
@@ -267,6 +268,7 @@ public class FlightRDController extends Controller {
             e.printStackTrace();
         }
         updateTable(currentPathIndex);
+        updatePaths();
     }
 
     /**
@@ -279,6 +281,24 @@ public class FlightRDController extends Controller {
         ArrayList<FlightPoint> flightPoints = flightPaths.get(currentPathIndex).getFlight();
         flightTableView.setItems(FXCollections.observableArrayList(flightPoints));
         flightTableView.refresh();
+    }
+
+    private void updatePaths(){
+        try {
+            flightPathListView.getItems().clear();
+            ArrayList<FlightPath> flightPaths;
+            flightPaths = theDataSet.getFlightPaths();
+            for(int i = 0; i<flightPaths.size(); i++ ) {
+                int pathID = flightPaths.get(i).getID();
+                String pathSource = flightPaths.get(i).departsFrom();
+                String pathDestin = flightPaths.get(i).arrivesAt();
+                String flightPathDisplayName = Integer.toString(pathID) + "_" + pathSource + "_" + pathDestin;
+                flightList.add(flightPathDisplayName);
+            }
+            flightPathListView.setItems(flightList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**

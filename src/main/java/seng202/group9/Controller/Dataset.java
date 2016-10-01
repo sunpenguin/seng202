@@ -467,7 +467,6 @@ public class Dataset {
             while (IDResult.next()) {
                 nextID = Integer.parseInt(IDResult.getString("seq")) + 1;//for some reason sqlite3 stores incremental values as a string...
             }
-            System.out.println(nextID);
             stmt.close();
             stmt = c.createStatement();
             String insertAirportQuery = "INSERT INTO `" + this.name + "_Airport` (`Name`, `City`, `Country`, `IATA/FFA`," +
@@ -1610,7 +1609,6 @@ public class Dataset {
             stmt.close();
 
             int index = flightPath.getFlightPoints().indexOf(flightPoint);
-            System.out.println(index);
 
             if (index == 0){
                 try {
