@@ -92,25 +92,6 @@ public class FlightRDController extends Controller {
                 flightList.add(flightPathDisplayName);
             }
 
-            flightPathListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>(){
-                public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                    String flightPathDisplayNameClicked = flightPathListView.getSelectionModel().getSelectedItem();
-                    if (flightPathDisplayNameClicked!=null) {
-                        String[] segments = flightPathDisplayNameClicked.split("_");
-                        String pathIdClicked = segments[0];
-
-                        currentPathIndex = theDataSet.getFlightPaths().indexOf(theDataSet.getFlightPathDictionary()
-                                .get(Integer.parseInt(pathIdClicked)));
-                        currentPathId = Integer.parseInt(pathIdClicked);
-
-                        ArrayList<FlightPath> flightPaths;
-                        flightPaths = theDataSet.getFlightPaths();
-                        ArrayList<FlightPoint> flightPoints = flightPaths.get(currentPathIndex).getFlight();
-                        flightTableView.setItems(FXCollections.observableArrayList(flightPoints));
-                    }
-                }
-            });
-
             flightPathListView.setItems(flightList);
         } catch (Exception e) {
             e.printStackTrace();
@@ -147,6 +128,24 @@ public class FlightRDController extends Controller {
                 System.out.println("There is no Paths to show");
             }
         }
+        flightPathListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>(){
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                String flightPathDisplayNameClicked = flightPathListView.getSelectionModel().getSelectedItem();
+                if (flightPathDisplayNameClicked!=null) {
+                    String[] segments = flightPathDisplayNameClicked.split("_");
+                    String pathIdClicked = segments[0];
+
+                    currentPathIndex = theDataSet.getFlightPaths().indexOf(theDataSet.getFlightPathDictionary()
+                            .get(Integer.parseInt(pathIdClicked)));
+                    currentPathId = Integer.parseInt(pathIdClicked);
+
+                    ArrayList<FlightPath> flightPaths;
+                    flightPaths = theDataSet.getFlightPaths();
+                    ArrayList<FlightPoint> flightPoints = flightPaths.get(currentPathIndex).getFlight();
+                    flightTableView.setItems(FXCollections.observableArrayList(flightPoints));
+                }
+            }
+        });
     }
 
     /**
