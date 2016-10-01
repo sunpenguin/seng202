@@ -69,12 +69,7 @@ public class HelpController extends Controller {
 
         text = new Text("Please select an option on the left side menu to display its contents.");
         textArea.getChildren().add(text);
-    }
 
-    /**
-     * Changes the text in the TextFlow depending on which option has been selected in the TreeView.
-     */
-    public void changeView() {
         treeView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
 
             public void changed(ObservableValue observable, Object oldValue,
@@ -83,7 +78,7 @@ public class HelpController extends Controller {
                 String menuValue = selectedItem.getValue();
 
                 if ( menuValue != null ){
-                textArea.getChildren().clear();
+                    textArea.getChildren().clear();
                     if (menuValue.equals("Importing on Startup")) {
                         text = new Text("Importing on Startup\n" + "You can import data from the first start up of the application." +
                                 "\nTo import data, select the type of data you wish to import along the bottom of the screen." +
@@ -170,5 +165,4 @@ public class HelpController extends Controller {
             }
         });
     }
-
 }
