@@ -82,14 +82,13 @@ public class AirportSummaryController extends Controller{
         columnTotalRoutes.setCellValueFactory(new PropertyValueFactory<Airport, String>("TotalRoutes"));
         currentData = getParent().getCurrentDataset();
         tableView.setItems(FXCollections.observableArrayList(currentData.getAirports()));
-        map = new Map(mapView, new RoutePath());
         tableView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Airport>() {
             public void changed(ObservableValue<? extends Airport> observable, Airport oldValue, Airport newValue) {
-                System.out.println("loading");
                 Airport selectedAirport= tableView.getSelectionModel().getSelectedItems().get(0);
                 map.displayAirport(new RoutePath( new Position(selectedAirport.getLatitude(), selectedAirport.getLongitude())));
             }
         });
+        map = new Map(mapView, new RoutePath(), tableView);
 
 
     }

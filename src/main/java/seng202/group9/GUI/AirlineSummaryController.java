@@ -60,7 +60,6 @@ public class AirlineSummaryController extends Controller{
         currentData = getParent().getCurrentDataset();
         tableView.setItems(FXCollections.observableArrayList(currentData.getAirlines()));
         //Sets up map.
-        map = new Map(mapView, new RoutePath());
         tableView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Airline>() {
             public void changed(ObservableValue<? extends Airline> observable, Airline oldValue, Airline newValue) {
                 Airline selectedAirline= tableView.getSelectionModel().getSelectedItems().get(0);
@@ -72,6 +71,7 @@ public class AirlineSummaryController extends Controller{
                 }
             }
         });
+        map = new Map(mapView, new RoutePath(), tableView);
     }
 
     /**
