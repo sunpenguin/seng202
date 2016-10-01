@@ -113,5 +113,9 @@ public class MenuController extends Controller{
 			createPopUpStage(SceneCode.DATASET_CONTROLLER, 600, 400);
 		}
 	}
+
+	public void openDataset(){
+		createPopUpStage(SceneCode.DATASET_CONTROLLER, 600, 400);
+	}
 	
 }

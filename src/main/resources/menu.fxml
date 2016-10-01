@@ -15,6 +15,8 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
+                  <MenuItem mnemonicParsing="false" onAction="#openDataset" text="New/Open Dataset" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem mnemonicParsing="false" onAction="#importAirports" text="Import Airports" />
                   <MenuItem mnemonicParsing="false" onAction="#importAirlines" text="Import Airlines" />
                   <MenuItem mnemonicParsing="false" onAction="#importRoutes" text="Import Routes" />
