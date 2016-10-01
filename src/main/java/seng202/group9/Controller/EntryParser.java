@@ -135,7 +135,7 @@ public class EntryParser {
         //name
         name = name.toUpperCase();
         if (!isLetter(name)) {
-            throw new DataException("ICAO code must contain only letters");
+            throw new DataException("ICAO code (name field) must contain only letters");
         }
         //type
         type = type.toUpperCase();
