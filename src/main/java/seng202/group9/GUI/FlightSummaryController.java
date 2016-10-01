@@ -177,36 +177,37 @@ public class FlightSummaryController extends Controller {
      * Used to load the page from the MenuController.
      */
     public void load() {
-        try {
-            theDataSet = getParent().getCurrentDataset();
-            ArrayList<FlightPath> flightPaths;
-            flightPaths = theDataSet.getFlightPaths();
-            for(int i = 0; i<flightPaths.size(); i++ ){
-                int pathID = flightPaths.get(i).getID();
-                String pathSource = flightPaths.get(i).departsFrom();
-                String pathDestin = flightPaths.get(i).arrivesAt();
-                String flightPathDisplayName = Integer.toString(pathID) + "_" + pathSource + "_" + pathDestin;
-                flightList.add(flightPathDisplayName);
-            }
-            flightPathListView.setItems(flightList);
-            flightSummaryListView();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (theDataSet.getFlightPaths().size() > 0){
-            map = new Map(mapView, theDataSet.getFlightPaths().get(0).getRoutePath());
-        }else{
-            map = new Map(mapView, new RoutePath());
-        }
-        flightPathListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                int index = flightPathListView.getSelectionModel().getSelectedIndices().get(0);
-                if (index != -1) {
-                    map.displayRoute(theDataSet.getFlightPaths().get(index).getRoutePath());
+        if (theDataSet != null) {
+            try {
+                theDataSet = getParent().getCurrentDataset();
+                ArrayList<FlightPath> flightPaths;
+                flightPaths = theDataSet.getFlightPaths();
+                for (int i = 0; i < flightPaths.size(); i++) {
+                    int pathID = flightPaths.get(i).getID();
+                    String pathSource = flightPaths.get(i).departsFrom();
+                    String pathDestin = flightPaths.get(i).arrivesAt();
+                    String flightPathDisplayName = Integer.toString(pathID) + "_" + pathSource + "_" + pathDestin;
+                    flightList.add(flightPathDisplayName);
                 }
+                flightPathListView.setItems(flightList);
+                flightSummaryListView();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        });
+            if (theDataSet.getFlightPaths().size() > 0) {
+                map = new Map(mapView, theDataSet.getFlightPaths().get(0).getRoutePath());
+            } else {
+                map = new Map(mapView, new RoutePath());
+            }
+            flightPathListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+                public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                    int index = flightPathListView.getSelectionModel().getSelectedIndices().get(0);
+                    if (index != -1) {
+                        map.displayRoute(theDataSet.getFlightPaths().get(index).getRoutePath());
+                    }
+                }
+            });
+        }
     }
     /**
      *  Removes the selected path from the list view of paths and from the database.

@@ -115,26 +115,28 @@ public class FlightRDController extends Controller {
      * Used to load the table for the Flight points initially from the MenuController
      */
     public void load() {
-        theDataSet = getParent().getCurrentDataset();
-        try {
-            currentPathId = theDataSet.getFlightPaths().get(0).getID(); //Sets the default to the 1st Path
-        } catch (DataException e) {
-            e.printStackTrace();
-        }
-        flightIdCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("ID"));
-        flightNameCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("Name"));
-        flightTypeCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("Type"));
-        flightAltitudeCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("Altitude"));
-        flightLatCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("Latitude"));
-        flightLongCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("Longitude"));
-        flightHeadCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("Heading"));
-        flightLegDisCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("LegDistance"));
-        flightTotDisCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("totalDistance"));
+        if (theDataSet != null) {
+            theDataSet = getParent().getCurrentDataset();
+            try {
+                currentPathId = theDataSet.getFlightPaths().get(0).getID(); //Sets the default to the 1st Path
+            } catch (DataException e) {
+                e.printStackTrace();
+            }
+            flightIdCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("ID"));
+            flightNameCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("Name"));
+            flightTypeCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("Type"));
+            flightAltitudeCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("Altitude"));
+            flightLatCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("Latitude"));
+            flightLongCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("Longitude"));
+            flightHeadCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("Heading"));
+            flightLegDisCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("LegDistance"));
+            flightTotDisCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("totalDistance"));
 
-        ArrayList<FlightPath> flightPaths;
-        flightPaths = theDataSet.getFlightPaths();
-        ArrayList<FlightPoint> flightPoints = flightPaths.get(0).getFlight();
-        flightTableView.setItems(FXCollections.observableArrayList(flightPoints));
+            ArrayList<FlightPath> flightPaths;
+            flightPaths = theDataSet.getFlightPaths();
+            ArrayList<FlightPoint> flightPoints = flightPaths.get(0).getFlight();
+            flightTableView.setItems(FXCollections.observableArrayList(flightPoints));
+        }
     }
 
     /**
@@ -318,7 +320,9 @@ public class FlightRDController extends Controller {
 
     @Override
     public void loadOnce(){
-        flightPathListView();
+        if (theDataSet != null) {
+            flightPathListView();
+        }
     }
 
 }
