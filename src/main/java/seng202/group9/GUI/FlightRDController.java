@@ -17,6 +17,7 @@ import seng202.group9.Core.FlightPoint;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.Optional;
 
 /**
  * Controller for the Flights Raw Data Scene.
@@ -117,8 +118,8 @@ public class FlightRDController extends Controller {
      * Used to load the table for the Flight points initially from the MenuController
      */
     public void load() {
+        theDataSet = getParent().getCurrentDataset();
         if (theDataSet != null) {
-            theDataSet = getParent().getCurrentDataset();
             try {
                 currentPathId = theDataSet.getFlightPaths().get(0).getID(); //Sets the default to the 1st Path
             } catch (DataException e) {
@@ -172,21 +173,29 @@ public class FlightRDController extends Controller {
      */
     public void deletePoint() {
         FlightPoint toDelete = flightTableView.getSelectionModel().getSelectedItem();
-        int pathID;
-        try {
-            pathID = toDelete.getIndex();
-        } catch (DataException e) {
-            e.printStackTrace();
-            System.err.println("Point is Undeletable as the Index ID is not set.");
-            return;
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Flight Point Delete Confirmation");
+        alert.setHeaderText("You are about to delete some data.");
+        alert.setContentText("Are you sure you want to delete the selected flight point?");
+        //alert.showAndWait();
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            int pathID;
+            try {
+                pathID = toDelete.getIndex();
+            } catch (DataException e) {
+                e.printStackTrace();
+                System.err.println("Point is Undeletable as the Index ID is not set.");
+                return;
+            }
+            LinkedHashMap<Integer, FlightPath> flightPathDict = theDataSet.getFlightPathDictionary();
+            FlightPath toDeletesPath = flightPathDict.get(pathID);
+            theDataSet.deleteFlightPoint(toDelete, toDeletesPath);
+
+            currentPathIndex = theDataSet.getFlightPaths().indexOf(theDataSet.getFlightPathDictionary().get(pathID));
+
+            updateTable(currentPathIndex);
         }
-        LinkedHashMap<Integer, FlightPath> flightPathDict = theDataSet.getFlightPathDictionary();
-        FlightPath toDeletesPath = flightPathDict.get(pathID);
-        theDataSet.deleteFlightPoint(toDelete, toDeletesPath);
-
-        currentPathIndex = theDataSet.getFlightPaths().indexOf(theDataSet.getFlightPathDictionary().get(pathID));
-
-        updateTable(currentPathIndex);
     }
 
     /**

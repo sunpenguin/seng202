@@ -175,9 +175,9 @@ public class FlightSummaryController extends Controller {
      * Used to load the page from the MenuController.
      */
     public void load() {
+        theDataSet = getParent().getCurrentDataset();
         if (theDataSet != null) {
             try {
-                theDataSet = getParent().getCurrentDataset();
                 ArrayList<FlightPath> flightPaths;
                 flightPaths = theDataSet.getFlightPaths();
                 for (int i = 0; i < flightPaths.size(); i++) {
