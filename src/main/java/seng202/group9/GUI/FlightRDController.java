@@ -1,5 +1,7 @@
 package seng202.group9.GUI;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -81,6 +83,7 @@ public class FlightRDController extends Controller {
         try {
             ArrayList<FlightPath> flightPaths;
             flightPaths = theDataSet.getFlightPaths();
+
             for(int i = 0; i<flightPaths.size(); i++ ) {
                 int pathID = flightPaths.get(i).getID();
                 String pathSource = flightPaths.get(i).departsFrom();
@@ -88,8 +91,9 @@ public class FlightRDController extends Controller {
                 String flightPathDisplayName = Integer.toString(pathID) + "_" + pathSource + "_" + pathDestin;
                 flightList.add(flightPathDisplayName);
             }
-            flightPathListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                public void handle(MouseEvent event) {
+
+            flightPathListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>(){
+                public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                     String flightPathDisplayNameClicked = flightPathListView.getSelectionModel().getSelectedItem();
                     if (flightPathDisplayNameClicked!=null) {
                         String[] segments = flightPathDisplayNameClicked.split("_");
@@ -104,7 +108,6 @@ public class FlightRDController extends Controller {
                         ArrayList<FlightPoint> flightPoints = flightPaths.get(currentPathIndex).getFlight();
                         flightTableView.setItems(FXCollections.observableArrayList(flightPoints));
                     }
-
                 }
             });
 
