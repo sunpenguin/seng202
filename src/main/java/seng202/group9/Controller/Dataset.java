@@ -1153,19 +1153,20 @@ public class Dataset {
             String insertPathQuery = "INSERT INTO `" + this.name + "_Flight_Path` (`Path_ID`, `Source_Airport`, " +
                     "`Destination_Airport`) VALUES ("+pathID+", \""+sourceAirport+"\", \""+destAirport+"\" )";
             stmt.execute(insertPathQuery);
-        } catch (Exception e){
-            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-            System.exit(0);
-        }
-        newPath.setID(pathID);
-        flightPathDictionary.put(pathID, newPath);
-        flightPaths.add(newPath);
-        FlightPoint sourcePoint = new FlightPoint(sourceAirport, pathID);
-        FlightPoint destinationPoint = new FlightPoint(destAirport, pathID);
-        try{
+            newPath.setID(pathID);
+
+            flightPathDictionary.put(pathID, newPath);
+            flightPaths.add(newPath);
+            FlightPoint sourcePoint = new FlightPoint(sourceAirport, pathID);
+            FlightPoint destinationPoint = new FlightPoint(destAirport, pathID);
+
             addFlightPointToPath(sourcePoint);
             addFlightPointToPath(destinationPoint);
+            updateFlightPath(newPath);
         } catch (DataException e){
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            System.exit(0);
+        }catch (Exception e){
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
             System.exit(0);
         }
@@ -2047,13 +2048,10 @@ public class Dataset {
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
             stmt = c.createStatement();
-            String querySource = "UPDATE `"+this.name+"_Flight_Path` SET `Source_Airport` = \""+startPoint.getName().replace("\"", "\"\"")+"\" " +
+            String query= "UPDATE `"+this.name+"_Flight_Path` SET `Source_Airport` = \""+startPoint.getName().replace("\"", "\"\"")+"\", " +
+                    "`Destination_Airport` = \""+endPoint.getName().replace("\"", "\"\"") + "\" " +
                     "WHERE `Path_ID` = "+startPoint.getIndex();
-            stmt.execute(querySource);
-            stmt = c.createStatement();
-            String queryDest = "UPDATE `"+this.name+"_Flight_Path` SET `Destination_Airport` = \""+endPoint.getName().replace("\"", "\"\"")+"\" " +
-                    "WHERE `Path_ID` = "+endPoint.getIndex();
-            stmt.execute(queryDest);
+            stmt.execute(query);
             c.close();
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -2089,30 +2087,7 @@ public class Dataset {
                 stmt.execute(updatePointOrderQuery);
             }
             stmt.close();
-
-            if (index == 0 || curIndex == 0){
-                try {
-                    stmt = c.createStatement();
-                    String query = "UPDATE `"+this.name+"_Flight_Path` SET `Source_Airport` = \""+flightPoint.getName().replace("\"", "\"\"")+"\" " +
-                            "WHERE `Path_ID` = "+flightPoint.getIndex();
-                    stmt.execute(query);
-                    c.close();
-                } catch ( Exception e ) {
-                    System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-                }
-                flightPath.setDepartureAirport(flightPoint.getName());
-            }else if (index == flightPath.getFlightPoints().size() - 1 || curIndex == flightPath.getFlightPoints().size() - 1){
-                try {
-                    stmt = c.createStatement();
-                    String query = "UPDATE `"+this.name+"_Flight_Path` SET `Destination_Airport` = \""+flightPoint.getName().replace("\"", "\"\"")+"\" " +
-                            "WHERE `Path_ID` = "+flightPoint.getIndex();
-                    stmt.execute(query);
-                    c.close();
-                } catch ( Exception e ) {
-                    System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-                }
-                flightPath.setArrivalAirport(flightPoint.getName());
-            }
+            updateFlightPath(flightPath);
             c.close();
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
