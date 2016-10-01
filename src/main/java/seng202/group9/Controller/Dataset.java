@@ -1288,6 +1288,7 @@ public class Dataset {
                 totalDistVal,latitudeVal, longitudeVal);
         updateFlightPointInfo(flightPathDictionary.get(Integer.valueOf(id)));
         flightPathDictionary.get(Integer.valueOf(id)).addFlightPoint(pointToAdd, index);
+        flightPointDictionary.put(pointID + 1, pointToAdd);
     }
 
     /***

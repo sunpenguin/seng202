@@ -1,27 +1,27 @@
 package seng202.group9.GUI;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
 /**
- * Created by spe76 on 30/09/16.
+ * The GUI controller class for help.fxml.
+ * Extends from the abstract class {@link Controller}.
+ * Created by Sunguin.
  */
 public class HelpController extends Controller {
     @FXML
-    private TreeView listView;
+    private TreeView treeView;
     @FXML
     private TextFlow textArea;
 
-    //public static final ObservableList menu = FXCollections.observableArrayList();
     Text text = new Text();
+
+    //The TreeItems for the TreeView.
     TreeItem main_root = new TreeItem("Main Root");
 
     TreeItem importing = new TreeItem("Importing Data");
@@ -29,6 +29,8 @@ public class HelpController extends Controller {
     TreeItem importing_after = new TreeItem("Importing after Startup");
 
     TreeItem viewing = new TreeItem("Viewing Data");
+    TreeItem summary_viewing = new TreeItem("Viewing Summary Data");
+    TreeItem raw_viewing = new TreeItem("Viewing Raw Data");
 
     TreeItem manipulating = new TreeItem("Manipulating Data");
     TreeItem adding = new TreeItem("Adding Data");
@@ -40,16 +42,20 @@ public class HelpController extends Controller {
     TreeItem graphing = new TreeItem("Graphs");
     TreeItem distance = new TreeItem("Distance Calculator");
 
+    /**
+     * Loads the TreeView and sets up the TreeView.
+     */
     public void load() {
-        //menu.addAll("Importing Data", "Viewing Data", "Manipulating Data", "Analysis");
-        listView.setRoot(main_root);
-        listView.setShowRoot(false);
+        treeView.setRoot(main_root);
+        treeView.setShowRoot(false);
 
         main_root.getChildren().add(importing);
         importing.getChildren().add(importing_start);
         importing.getChildren().add(importing_after);
 
         main_root.getChildren().add(viewing);
+        viewing.getChildren().add(summary_viewing);
+        viewing.getChildren().add(raw_viewing);
 
         main_root.getChildren().add(manipulating);
         manipulating.getChildren().add(adding);
@@ -65,57 +71,104 @@ public class HelpController extends Controller {
         textArea.getChildren().add(text);
     }
 
-    public void sss() {
-        Object menuValue = null;
-        if (listView.getSelectionModel().getSelectedItem() != null) {
-             menuValue = listView.getSelectionModel().getSelectedItem();
-        }
-        textArea.getChildren().clear();
-        if (menuValue.equals("TreeItem[ value: Importing on Startup ]")) {
-            text = new Text("You can import data from the first start up of the application and " +
-                    "from the 'File' menu on the top of the screen.\nTo import data, select the type " +
-                    "of data you wish to import. Then select the file (.csv and .txt file) from the " +
-                    "file selector. The data will be loaded into the program and taken to the " +
-                    "corresponding summary page.");
-            textArea.getChildren().add(text);
-        } else if (menuValue == "Viewing Data") {
-            text = new Text("There are two types of views available: Summary view and Raw Data view. " +
-                    "These are accessable from the menu on the top of the screen under the " +
-                    "'View' tab. You first choose which set of data you want to view and then you can select" +
-                    " either 'Summary' or 'Raw Data'.\n" +
-                    "The summary view does not have every column but provides a map of where the " +
-                    "place is.\nThe raw data view allows the user to view the full data table.");
-            textArea.getChildren().add(text);
-        } else if (menuValue == "Manipulating Data") {
-            text = new Text("Data manipulation is all available in the Raw Data views. There are four " +
-                    "ways to manipulate data: 'Add', 'Filter', 'Edit' and 'Delete'.\n" +
-                    "Add: To add a new entry, first go to the raw data view for that data type. Then click " +
-                    "on the add button located on the bottom of the page. Then fill out the entries in the " +
-                    "pop-up box and click add at the bottom of the screen. If there is an error with your entry, " +
-                    "a message will pop up to help you.\n" +
-                    "Filter: To filter all current entries, click on the filter option and a pop " +
-                    "up will appear. Then type in the fields you wish to filter by and press the filter button. " +
-                    "The table should update with the fields specified.\n" +
-                    "Edit: The edit function can be accessed by right clicking on the entry you wish to edit and" +
-                    " clicking the edit option. This will lead to a pop up where you can edit the current entry. " +
-                    " When the edit has been completed, you can press the apply button on the bottom of the pop up. " +
-                    "Again, when the program detects an invalid field, a message will pop up.\n" +
-                    "Delete: The delete function is also accessed by right clicking an entry and pressing the delete field. " +
-                    "This will come up with a pop up to confirm your delete. When you press ok, the entry will be deleted " +
-                    "from the program. The program also allows multiple deletes.");
-            textArea.getChildren().add(text);
-        } else if (menuValue == "Analysis") {
-            text = new Text("There are two ways to do analysis.\nThe first method is to go to the raw data page and " +
-                    "press analyse. This will come up with specific graphs that are related to the set of data." +
-                    "\nThe second method is by accessing the 'Analysis' button on the menu on the top of the page. " +
-                    "You can select which type of analysis you want from here.");
-            textArea.getChildren().add(text);
-        } else if (menuValue == "Graphs") {
-            text = new Text("gachiGASM");
-            textArea.getChildren().add(text);
-        } else {
-            text = new Text("Fuck you");
-        }
+    /**
+     * Changes the text in the TextFlow depending on which option has been selected in the TreeView.
+     */
+    public void changeView() {
+        treeView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+
+            public void changed(ObservableValue observable, Object oldValue,
+                                Object newValue) {
+                TreeItem<String> selectedItem = (TreeItem<String>) newValue;
+                String menuValue = selectedItem.getValue();
+
+                if ( menuValue != null ){
+                textArea.getChildren().clear();
+                    if (menuValue.equals("Importing on Startup")) {
+                        text = new Text("Importing on Startup\n" + "You can import data from the first start up of the application." +
+                                "\nTo import data, select the type of data you wish to import along the bottom of the screen." +
+                                " Then select the file (.csv and .txt file) from the " +
+                                "file selector. The data will be loaded into the program and taken to the " +
+                                "corresponding summary page.");
+                        textArea.getChildren().add(text);
+
+                    } else if (menuValue.equals("Importing after Startup")) {
+                        text = new Text("Importing after Startup\n" +
+                                "You can import data from the 'File' menu on the top of the screen.\n" +
+                                "To import data, select the type of data you wish to import. " +
+                                "Then select the file (.csv and .txt file) from the file selector. " +
+                                "The data will be loaded into the program and taken to the corresponding summary page.");
+                        textArea.getChildren().add(text);
+
+                    } else if (menuValue.equals("Viewing Summary Data")) {
+                        text = new Text("Viewing Summary Data\n" +
+                                "The summary data view consists of a reduced version of the data and a map of the currently selected value. " +
+                                "The flight summary data also has a flight path selector to select which flight points you want to view.\n" +
+                                "The summary views are accessible from the menu on the top of the screen under the " +
+                                "'View' tab. You first choose which set of data you want to view and then you can select 'Summary'." +
+                                "\nEach summary page also has buttons that lead to their corresponding raw data view and the other summary views.");
+                        textArea.getChildren().add(text);
+
+                    }  else if (menuValue.equals("Viewing Raw Data")) {
+                        text = new Text("Viewing Raw Data\n" +
+                                "The raw data view allows the user to view the full data table." +
+                                "The user can also add, filter, edit and delete data values as well.\n" +
+                                "These are accessible from the menu on the top of the screen under the " +
+                                "'View' tab. You first choose which set of data you want to view and then you can select 'Raw Data'.\n" +
+                                "The summary view does not have every column but provides a map of where the " +
+                                "The raw data page also has buttons that lead to the analysis of that type of data and to go back to the" +
+                                " corresponding summary page.");
+                        textArea.getChildren().add(text);
+
+                    } else if (menuValue.equals("Adding Data")) {
+                        text = new Text("Adding Data\n" +
+                                "To add a new entry, first go to the raw data view for that data type. Then click " +
+                                "on the add button located on the bottom of the page. Then fill out the entries in the " +
+                                "pop-up box and click add at the bottom of the screen. " +
+                                "When the program detects an invalid field, a message will pop up and state where the error is.");
+                        textArea.getChildren().add(text);
+
+                    }  else if (menuValue.equals("Filtering Data")) {
+                        text = new Text("Filtering Data\n" +
+                                "To filter all current entries, click on the filter option and a pop " +
+                                "up will appear. Then type in the fields the values you wish to filter by and press the filter button. " +
+                                "The table should update with the fields specified.");
+                        textArea.getChildren().add(text);
+
+                    }  else if (menuValue.equals("Editing Data")) {
+                        text = new Text("Editing Data\n" +
+                                "The edit function can be accessed by right clicking on the entry you wish to edit and" +
+                                " clicking the edit option. This will lead to a pop up where you can edit the current entry." +
+                                " When the edit has been completed, you can press the apply button on the bottom of the pop up. " +
+                                "When the program detects an invalid field, a message will pop up and state where the error is.");
+                        textArea.getChildren().add(text);
+
+                    }  else if (menuValue.equals("Deleting Data")) {
+                        text = new Text("Deleting Data\n" +
+                                "The delete function is accessed by right clicking an entry and pressing the delete option. " +
+                                "This will come up with a pop up to confirm your delete. When you press OK, the entry will be deleted " +
+                                "from the program. The program also allows multiple deletes.");
+                        textArea.getChildren().add(text);
+
+                    } else if (menuValue.equals("Graphs")) {
+                        text = new Text("Graphs\n" + "The program has the ability to produce graphs according to the type of data.\n" +
+                                "This is done by going to the raw data page for the data you wish to graph. Then press the analyse data button" +
+                                " on the bottom of the screen. This will produce a graph specific for that type of data.");
+                        textArea.getChildren().add(text);
+
+                    } else if (menuValue.equals("Distance Calculator")) {
+                        text = new Text("Distance Calculator\n" + "You can calculate the distance between two airports.\n" +
+                                "First, go to the 'Analysis' tab on the top of the menu bar. You will be taken to a page that " +
+                                "allows them to select two airports, one from each column and press 'Calculate' to get the distance between" +
+                                " the two airports.");
+                        textArea.getChildren().add(text);
+                    } else {
+                        text = new Text("Please select an option on the left side menu to display its contents.");
+                        textArea.getChildren().add(text);
+                    }
+                }
+            }
+        });
     }
 
 }

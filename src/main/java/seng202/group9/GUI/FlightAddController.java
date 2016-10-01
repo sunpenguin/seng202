@@ -42,12 +42,9 @@ public class FlightAddController extends Controller {
     public void load() {
         theDataSet = getParent().getCurrentDataset();
         currentSession = getParent().getSession();
-        //System.out.println(theDataSet);
-        System.out.println(currentSession.getCurrentFlightPathID());
     }
 
     public void addFlight() {
-
         try {
             theDataSet.addFlightPointToPath(currentSession.getCurrentFlightPathID(),
                     fNameAdd.getText(),
@@ -72,6 +69,7 @@ public class FlightAddController extends Controller {
             alert.setTitle("Flight Point Data Error");
             alert.setHeaderText("Error adding a custom flight point entry.");
             alert.setContentText(e.getMessage());
+            alert.showAndWait();
         }
     }
 }
