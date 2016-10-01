@@ -18,19 +18,11 @@ public class FlightAddController extends Controller {
     @FXML
     private TextField fTypeAdd;
     @FXML
-    private TextField fViaAdd;
-    @FXML
     private TextField fAltitudeAdd;
     @FXML
     private TextField fLatitudeAdd;
     @FXML
     private TextField fLongitudeAdd;
-    @FXML
-    private TextField fHeadingAdd;
-    @FXML
-    private TextField fLegDistAdd;
-    @FXML
-    private TextField fTotDistAdd;
     @FXML
     private Button flightAddButton;
 
@@ -49,13 +41,9 @@ public class FlightAddController extends Controller {
             theDataSet.addFlightPointToPath(currentSession.getCurrentFlightPathID(),
                     fNameAdd.getText(),
                     fTypeAdd.getText(),
-                    fViaAdd.getText(),
                     fAltitudeAdd.getText(),
                     fLatitudeAdd.getText(),
-                    fLongitudeAdd.getText(),
-                    fHeadingAdd.getText(),
-                    fLegDistAdd.getText(),
-                    fTotDistAdd.getText());
+                    fLongitudeAdd.getText());
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Flight Point Add Successful");
             alert.setHeaderText("New Flight Point added!");

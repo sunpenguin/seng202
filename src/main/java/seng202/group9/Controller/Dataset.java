@@ -1189,22 +1189,14 @@ public class Dataset {
      * @param id
      * @param name
      * @param type
-     * @param via
      * @param altitude
      * @param latitude
      * @param longitude
-     * @param heading
-     * @param legDist 
-     * @param totDist
      */
-    public void addFlightPointToPath(int id, String name, String type, String via, String altitude, String latitude, String longitude,
-                               String heading, String legDist, String totDist , int index) throws DataException{
+    public void addFlightPointToPath(int id, String name, String type, String altitude, String latitude, String longitude, int index) throws DataException{
         double altitudeVal = 0.0;
         double latitudeVal = 0.0;
         double longitudeVal = 0.0;
-        int headingVal = 0;
-        double legDistVal = 0.0;
-        double totalDistVal = 0.0;
 
         try{
             altitudeVal = Double.parseDouble(altitude);
@@ -1221,20 +1213,8 @@ public class Dataset {
         }catch (NumberFormatException e){
             throw new DataException("Longitude must be a double value");
         }
-        try{
-            headingVal = Integer.parseInt(heading);
-        }catch (NumberFormatException e){
-            throw new DataException("Heading must be a integer value");
-        }
-        try{
-            legDistVal = Double.parseDouble(legDist);
-        }catch (NumberFormatException e){
-            throw new DataException("Leg DIstance must be a double value");
-        }
-        try{
-            totalDistVal = Double.parseDouble(totDist);
-        }catch (NumberFormatException e){
-            throw new DataException("Total Distance must be a double value");
+        if (index == -1){
+            index = flightPathDictionary.get(id).getFlightPoints().size();
         }
         Connection c = null;
         Statement stmt;
@@ -1252,12 +1232,11 @@ public class Dataset {
 
             stmt = c.createStatement();
             String insertFlightPointQuery = "INSERT INTO `" + this.name + "_Flight_Points` (`Index_ID`, `Name`, `Type`," +
-                    " `Altitude`, `Latitude`, `Longitude`, `Heading`, `Tot_Dist`, `Leg_Dist`, `Via`, `Order`) VALUES ";
+                    " `Altitude`, `Latitude`, `Longitude`, `Order`) VALUES ";
             String flightType = type.replace("\"", "\"\"");
             String flightName = name.replace("\"", "\"\"");
             insertFlightPointQuery += "(" + id +", \""+ flightName +"\", \"" + flightType + "\",  "+ altitudeVal + ", " +
-                    "" + latitudeVal + ", " + longitudeVal + ", " + headingVal + ", " + totalDistVal + ", " + legDistVal +
-                    ", \"" + via + "\", "+index+")";
+                    "" + latitudeVal + ", " + longitudeVal + ", "+index+")";
             stmt.execute(insertFlightPointQuery);
             stmt.close();
             //move all the points after this forward
@@ -1297,11 +1276,10 @@ public class Dataset {
             System.exit(0);
         }
 
-        FlightPoint pointToAdd = new FlightPoint(name, pointID+1, id, type, via, headingVal, altitudeVal, legDistVal,
-                totalDistVal,latitudeVal, longitudeVal);
-        updateFlightPointInfo(flightPathDictionary.get(Integer.valueOf(id)));
+        FlightPoint pointToAdd = new FlightPoint(type, pointID+1, id, name, altitudeVal, latitudeVal, longitudeVal);
         flightPathDictionary.get(Integer.valueOf(id)).addFlightPoint(pointToAdd, index);
         flightPointDictionary.put(pointID + 1, pointToAdd);
+        updateFlightPointInfo(flightPathDictionary.get(Integer.valueOf(id)));
     }
 
     /***
@@ -1311,9 +1289,8 @@ public class Dataset {
      * @throws DataException
      */
     public void addFlightPointToPath(FlightPoint point, int index) throws DataException{
-        addFlightPointToPath(point.getIndex(), point.getName(), point.getType(), point.getVia(), String.valueOf(point.getAltitude()),
-                String.valueOf( point.getLatitude()),String.valueOf(point.getLongitude()),
-                String.valueOf(point.getHeading()), String.valueOf(point.getLegDistance()), String.valueOf(point.getTotalDistance()), index);
+        addFlightPointToPath(point.getIndex(), point.getName(), point.getType(), String.valueOf(point.getAltitude()),
+                String.valueOf( point.getLatitude()),String.valueOf(point.getLongitude()), index);
     }
     /***
      * Adds a single flight Point to an Existing FLight Path appended on the end of the list.
@@ -1321,9 +1298,8 @@ public class Dataset {
      * @throws DataException
      */
     public void addFlightPointToPath(FlightPoint point) throws DataException{
-        addFlightPointToPath(point.getIndex(), point.getName(), point.getType(), point.getVia(), String.valueOf(point.getAltitude()),
-                String.valueOf( point.getLatitude()),String.valueOf(point.getLongitude()),
-                String.valueOf(point.getHeading()), String.valueOf(point.getLegDistance()), String.valueOf(point.getTotalDistance()), -1);
+        addFlightPointToPath(point.getIndex(), point.getName(), point.getType(), String.valueOf(point.getAltitude()),
+                String.valueOf( point.getLatitude()),String.valueOf(point.getLongitude()), -1);
     }
 
     /**
@@ -1331,19 +1307,14 @@ public class Dataset {
      * @param id
      * @param name
      * @param type
-     * @param via
      * @param altitude
      * @param latitude
      * @param longitude
-     * @param heading
-     * @param legDist
-     * @param totDist
      * @throws DataException
      */
 
-    public void addFlightPointToPath(int id, String name, String type, String via, String altitude, String latitude, String longitude,
-                                     String heading, String legDist, String totDist) throws DataException{
-        addFlightPointToPath(id, name, type, via, altitude, latitude, longitude, heading, legDist, totDist, -1);
+    public void addFlightPointToPath(int id, String name, String type, String altitude, String latitude, String longitude) throws DataException{
+        addFlightPointToPath(id, name, type, altitude, latitude, longitude, -1);
     }
     /**
      * This is called in conjunction to the App deleteDataset DO NOT CALL UNLESS THROUGH APP.DELETEDATASET

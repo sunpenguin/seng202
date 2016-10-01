@@ -154,7 +154,7 @@ public class FlightRDController extends Controller {
     public void openAdd() {
         Session session = getParent().getSession();
         session.setCurrentFlightPathtID(currentPathId);
-        createPopUpStage(SceneCode.FLIGHT_ADD, 600, 400);
+        createPopUpStage(SceneCode.FLIGHT_ADD, 600, 280);
         //flightTableView.setItems(FXCollections.observableArrayList(theDataSet.getAirports()));
         updateTable(currentPathIndex);
     }
