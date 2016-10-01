@@ -37,8 +37,6 @@ public class FlightRDController extends Controller {
     @FXML
     private TableColumn<FlightPoint, String> flightTypeCol;
     @FXML
-    private TableColumn<FlightPoint, String> flightViaCol;
-    @FXML
     private TableColumn<FlightPoint, String> flightAltitudeCol;
     @FXML
     private TableColumn<FlightPoint, String> flightLatCol;
@@ -59,8 +57,6 @@ public class FlightRDController extends Controller {
     private TextField flightNameBox;
     @FXML
     private TextField flightTypeBox;
-    @FXML
-    private TextField flightViaBox;
     @FXML
     private TextField flightAltitudeBox;
     @FXML
@@ -128,7 +124,6 @@ public class FlightRDController extends Controller {
         flightIdCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("ID"));
         flightNameCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("Name"));
         flightTypeCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("Type"));
-        flightViaCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("Via"));
         flightAltitudeCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("Altitude"));
         flightLatCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("Latitude"));
         flightLongCol.setCellValueFactory(new PropertyValueFactory<FlightPoint, String>("Longitude"));
@@ -151,7 +146,7 @@ public class FlightRDController extends Controller {
                 theDataSet.addFlightPointToPath(currentPathId,
                     flightNameBox.getText(),
                     flightTypeBox.getText(),
-                    flightViaBox.getText(),
+                    "",
                     flightAltitudeBox.getText(),
                     flightLatitudeBox.getText(),
                     flightLongitudeBox.getText(),
@@ -160,7 +155,6 @@ public class FlightRDController extends Controller {
                     flightTotDistBox.getText());
                 flightNameBox.clear();
                 flightTypeBox.clear();
-                flightViaBox.clear();
                 flightAltitudeBox.clear();
                 flightLatitudeBox.clear();
                 flightLongitudeBox.clear();

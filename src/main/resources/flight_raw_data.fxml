@@ -78,7 +78,7 @@
                                        <content>
                                           <Pane layoutY="25.0">
                                              <children>
-                                                <TextField fx:id="flightLatitudeBox" layoutX="440.0" prefHeight="25.0" prefWidth="100.0" promptText="Latitude">
+                                                <TextField fx:id="flightLatitudeBox" layoutX="340.0" prefHeight="25.0" prefWidth="100.0" promptText="Latitude">
                                                    <padding>
                                                       <Insets left="2.0" right="2.0" />
                                                    </padding>
@@ -88,23 +88,18 @@
                                                       <Insets left="2.0" right="2.0" />
                                                    </padding>
                                                 </TextField>
-                                                <TextField fx:id="flightAltitudeBox" layoutX="365.0" prefHeight="25.0" prefWidth="75.0" promptText="Altitude">
+                                                <TextField fx:id="flightAltitudeBox" layoutX="265.0" prefHeight="25.0" prefWidth="75.0" promptText="Altitude">
                                                    <padding>
                                                       <Insets left="2.0" right="2.0" />
                                                    </padding>
                                                 </TextField>
                                                 <Label prefHeight="25.0" prefWidth="90.0" text="Enter Values:" />
-                                                <TextField fx:id="flightViaBox" layoutX="265.0" prefHeight="25.0" prefWidth="100.0" promptText="Via">
+                                                <TextField fx:id="flightHeadingBox" layoutX="540.0" prefHeight="25.0" prefWidth="100.0" promptText="Heading">
                                                    <padding>
                                                       <Insets left="2.0" right="2.0" />
                                                    </padding>
                                                 </TextField>
-                                                <TextField fx:id="flightHeadingBox" layoutX="640.0" prefHeight="25.0" prefWidth="100.0" promptText="Heading">
-                                                   <padding>
-                                                      <Insets left="2.0" right="2.0" />
-                                                   </padding>
-                                                </TextField>
-                                                <TextField fx:id="flightLongitudeBox" layoutX="540.0" prefHeight="25.0" prefWidth="100.0" promptText="Longitude">
+                                                <TextField fx:id="flightLongitudeBox" layoutX="440.0" prefHeight="25.0" prefWidth="100.0" promptText="Longitude">
                                                    <padding>
                                                       <Insets left="2.0" right="2.0" />
                                                    </padding>
@@ -114,12 +109,12 @@
                                                       <Insets left="2.0" right="2.0" />
                                                    </padding>
                                                 </TextField>
-                                                <TextField fx:id="flightLegDistBox" layoutX="740.0" prefHeight="25.0" prefWidth="75.0" promptText="Leg Dist">
+                                                <TextField fx:id="flightLegDistBox" layoutX="640.0" prefHeight="25.0" prefWidth="75.0" promptText="Leg Dist">
                                                    <padding>
                                                       <Insets left="2.0" right="2.0" />
                                                    </padding>
                                                 </TextField>
-                                                <TextField fx:id="flightTotDistBox" layoutX="815.0" prefHeight="25.0" prefWidth="75.0" promptText="Tot Dist">
+                                                <TextField fx:id="flightTotDistBox" layoutX="715.0" prefHeight="25.0" prefWidth="75.0" promptText="Tot Dist">
                                                    <padding>
                                                       <Insets left="2.0" right="2.0" />
                                                    </padding>
@@ -142,7 +137,6 @@
                                         <TableColumn fx:id="flightIdCol" prefWidth="90.0" text="ID" />
                                           <TableColumn fx:id="flightNameCol" prefWidth="100.0" text="Name" />
                                         <TableColumn fx:id="flightTypeCol" prefWidth="75.0" text="Type" />
-                                          <TableColumn fx:id="flightViaCol" prefWidth="100.0" text="Via" />
                                           <TableColumn fx:id="flightAltitudeCol" prefWidth="75.0" text="Altitude" />
                                           <TableColumn fx:id="flightLatCol" prefWidth="100.0" text="Latitude" />
                                           <TableColumn fx:id="flightLongCol" prefWidth="100.0" text="Longitude" />
