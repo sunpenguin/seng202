@@ -143,38 +143,6 @@ public class FlightRDController extends Controller {
     /**
      *  Will take the inputs from the text fields and adds the point to the current flight path.
      */
-//    public void addFlightPoint() {
-//
-//            try {
-//                theDataSet.addFlightPointToPath(currentPathId,
-//                    flightNameBox.getText(),
-//                    flightTypeBox.getText(),
-//                    flightViaBox.getText(),
-//                    flightAltitudeBox.getText(),
-//                    flightLatitudeBox.getText(),
-//                    flightLongitudeBox.getText(),
-//                    flightHeadingBox.getText(),
-//                    flightLegDistBox.getText(),
-//                    flightTotDistBox.getText());
-//                flightNameBox.clear();
-//                flightTypeBox.clear();
-//                flightViaBox.clear();
-//                flightAltitudeBox.clear();
-//                flightLatitudeBox.clear();
-//                flightLongitudeBox.clear();
-//                flightHeadingBox.clear();
-//                flightLegDistBox.clear();
-//                flightTotDistBox.clear();
-//
-//                updateTable(currentPathIndex);
-//        } catch ( Exception e ) {
-//            Alert alert = new Alert(Alert.AlertType.ERROR);
-//            alert.setTitle("Flight Point Data Error");
-//            alert.setHeaderText("Error adding a custom flight point entry.");
-//            alert.setContentText(e.getMessage());
-//        }
-//    }
-
     public void openAdd() {
         Session session = getParent().getSession();
         session.setCurrentFlightPathtID(currentPathId);

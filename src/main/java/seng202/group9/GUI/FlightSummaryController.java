@@ -37,8 +37,6 @@ public class FlightSummaryController extends Controller {
     private int currentPathId = 0;
     private int currentPathIndex  = 0;
 
-    @FXML
-    private Button flightRawData;
     private Map map;
     @FXML
     private WebView mapView;
@@ -96,12 +94,8 @@ public class FlightSummaryController extends Controller {
             Airport sourceAirport = null;
             Airport destinationAirport = null;
 
-            System.out.println(firstPointICAO);
-            System.out.println(lastPointICAO);
-
             for (int i=0; i < airportList.size(); i++){
                 Airport current = airportList.get(i);
-                System.out.println(current.getICAO());
                 if(current.getICAO().equals(firstPointICAO)){
                     sourceAirport = current;
                 }
@@ -137,7 +131,6 @@ public class FlightSummaryController extends Controller {
                 infoList.add("ICAO codes not being present in the Airline");
                 infoList.add("Database!");
             }
-
             flightSummaryListView.setItems(infoList);
         } catch(Exception e) {
             e.printStackTrace();
@@ -175,6 +168,7 @@ public class FlightSummaryController extends Controller {
             e.printStackTrace();
         }
     }
+
     /**
      * Used to load the page from the MenuController.
      */
@@ -210,6 +204,7 @@ public class FlightSummaryController extends Controller {
             }
         });
     }
+
     /**
      *  Removes the selected path from the list view of paths and from the database.
      */
