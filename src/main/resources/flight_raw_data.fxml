@@ -88,7 +88,7 @@
             <TableColumn fx:id="flightIdCol" prefWidth="90.0" text="ID" />
             <TableColumn fx:id="flightNameCol" prefWidth="100.0" text="Name" />
             <TableColumn fx:id="flightTypeCol" prefWidth="75.0" text="Type" />
-            <TableColumn fx:id="flightViaCol" prefWidth="100.0" text="Via" />
+            <TableColumn fx:id="flightViaCol" prefWidth="100.0" text="Via" visible="false" />
             <TableColumn fx:id="flightAltitudeCol" prefWidth="75.0" text="Altitude" />
             <TableColumn fx:id="flightLatCol" prefWidth="100.0" text="Latitude" />
             <TableColumn fx:id="flightLongCol" prefWidth="100.0" text="Longitude" />
