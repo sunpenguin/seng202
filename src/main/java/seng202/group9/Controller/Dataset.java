@@ -2,6 +2,7 @@ package seng202.group9.Controller;
 
 
 import javafx.scene.chart.PieChart;
+import javafx.scene.control.Alert;
 import seng202.group9.Core.*;
 
 import java.sql.Connection;
@@ -1160,7 +1161,7 @@ public class Dataset {
         flightPathDictionary.put(pathID, newPath);
         flightPaths.add(newPath);
         FlightPoint sourcePoint = new FlightPoint(sourceAirport, pathID);
-        FlightPoint destinationPoint = new FlightPoint(sourceAirport, pathID);
+        FlightPoint destinationPoint = new FlightPoint(destAirport, pathID);
         try{
             addFlightPointToPath(sourcePoint);
             addFlightPointToPath(destinationPoint);
@@ -1591,33 +1592,41 @@ public class Dataset {
      * @param flightPoint
      */
     public void deleteFlightPoint(FlightPoint flightPoint, FlightPath flightPath){
-        //drop the tables
-        Connection c = null;
-        Statement stmt = null;
-        try {
-            Class.forName("org.sqlite.JDBC");
-            c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
-            String deleteQuery = "DELETE FROM `"+this.name+"_Flight_Points` WHERE `Point_ID` = " + flightPoint.getID() + ";";
-            stmt = c.createStatement();
-            stmt.execute(deleteQuery);
+        if (flightPath.getFlightPoints().size() > 2){
+            //drop the tables
+            Connection c = null;
+            Statement stmt = null;
+            try {
+                Class.forName("org.sqlite.JDBC");
+                c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
+                String deleteQuery = "DELETE FROM `" + this.name + "_Flight_Points` WHERE `Point_ID` = " + flightPoint.getID() + ";";
+                stmt = c.createStatement();
+                stmt.execute(deleteQuery);
 
-            stmt = c.createStatement();
-            String updatePointOrderQuery = "";
-            for (int i = 0; i < flightPath.getFlightPoints().size(); i ++){
-                updatePointOrderQuery = "UPDATE `"+this.name+"_Flight_Points` SET `Order` = "+i+" WHERE `Point_ID` = "+flightPath.getFlightPoints().get(i).getID()+";";
-                stmt.execute(updatePointOrderQuery);
+                stmt = c.createStatement();
+                String updatePointOrderQuery = "";
+                for (int i = 0; i < flightPath.getFlightPoints().size(); i++) {
+                    updatePointOrderQuery = "UPDATE `" + this.name + "_Flight_Points` SET `Order` = " + i + " WHERE `Point_ID` = " + flightPath.getFlightPoints().get(i).getID() + ";";
+                    stmt.execute(updatePointOrderQuery);
+                }
+                stmt.close();
+
+                c.close();
+            } catch (Exception e) {
+                System.err.println(e.getClass().getName() + ": " + e.getMessage());
+                System.exit(0);
             }
-            stmt.close();
-
-            c.close();
-        } catch ( Exception e ) {
-            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-            System.exit(0);
+            flightPath.getFlightPoints().remove(flightPoint);
+            flightPointDictionary.remove(flightPoint);
+            updateFlightPointInfo(flightPath);
+            updateFlightPath(flightPath);
+        }else{
+            Alert cannotDelete = new Alert(Alert.AlertType.ERROR);
+            cannotDelete.setTitle("Flight Path Error");
+            cannotDelete.setHeaderText("Cannot Delete Flight Point.");
+            cannotDelete.setContentText("You cannot have less than 2 Points in a Flight Path.");
+            cannotDelete.showAndWait();
         }
-        flightPath.getFlightPoints().remove(flightPoint);
-        flightPointDictionary.remove(flightPoint);
-        updateFlightPointInfo(flightPath);
-        updateFlightPath(flightPath);
     }
 
     /**
