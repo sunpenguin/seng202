@@ -20,6 +20,15 @@ public class Session implements Serializable {
     private String selectedgraphagainst;
     private ArrayList<String> selectedgraphoptions;
     private Boolean usefilter;
+    private String selectedDataToGraph;
+
+    public String getSelectedDataToGraph() {
+        return selectedDataToGraph;
+    }
+
+    public void setSelectedDataToGraph(String selectedDataToGraph) {
+        this.selectedDataToGraph = selectedDataToGraph;
+    }
 
     public String getSelectedgraphagainst() {
         return selectedgraphagainst;

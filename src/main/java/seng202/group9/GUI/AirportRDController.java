@@ -5,7 +5,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import seng202.group9.Controller.AirportFilter;
 import seng202.group9.Controller.Dataset;
 import seng202.group9.Controller.SceneCode;
 import seng202.group9.Controller.Session;
@@ -130,7 +129,7 @@ public class AirportRDController extends Controller{
 
     /**
      * Analyses the current data and creates a graph based on the data.
-     * @see AirportAnalyser
+     * @see PieGraphController
      */
     public void analyse_Button(){ replaceSceneContent(SceneCode.AIRPORT_ANALYSER);}
 

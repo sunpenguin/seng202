@@ -28,13 +28,12 @@ public class PieChooserController extends Controller{
     CheckBox usefilter;
 
 
-    ObservableList airportOptions = FXCollections.observableArrayList("ID", "Name", "ICAO", "IATA FFA", "Altitude",
-            "Latitude", "Longitude", "City", "Country");
+    ObservableList airportOptions = FXCollections.observableArrayList("Name", "ICAO", "IATA FFA", "Altitude",
+            "City", "Country");
 
-    ObservableList airlineOptions = FXCollections.observableArrayList("ID", "Name", "ICAO", "IATA", "Alias",
-            "Call Sign", "Active", "Country");
+    ObservableList airlineOptions = FXCollections.observableArrayList("Name", "ICAO", "IATA", "Active", "Country");
 
-    ObservableList routeOptions = FXCollections.observableArrayList("ID", "Stops", "Codeshare", "Equipment", "Airline",
+    ObservableList routeOptions = FXCollections.observableArrayList("Stops", "Codeshare", "Equipment", "Airline",
             "Departure Airport", "Arival airport");
 
     ArrayList<ObservableList> allOptions = new ArrayList<ObservableList>();
@@ -45,6 +44,7 @@ public class PieChooserController extends Controller{
     public void buildGraph() {
         Session currentsession = this.getParent().getSession();
         ArrayList<String> temp = new ArrayList<String>();
+        currentsession.setSelectedDataToGraph(datatypechooser.getSelectionModel().getSelectedItem().toString());
         currentsession.setSelectedgraphagainst(graph_options.getSelectionModel().getSelectedItem().toString());
         currentsession.setUsefilter(usefilter.isSelected());
         replaceSceneContent(SceneCode.AIRPORT_ANALYSER);
@@ -63,7 +63,6 @@ public class PieChooserController extends Controller{
                 changeTables();
             }
         });
-
         graph_options.setItems(airportOptions);
         graph_options.getSelectionModel().selectFirst();
         allOptions.add(airportOptions);
