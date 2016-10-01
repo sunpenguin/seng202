@@ -67,6 +67,9 @@ public class MenuController extends Controller{
 		replaceSceneContent(SceneCode.ROUTE_SUMMARY);
 	}
 
+	/**
+	 * view Routes by the Destination / Arrival Airport
+	 */
 	public void viewRouteByAirport(){
 		replaceSceneContent(SceneCode.ROUTE_BY_AIRPORT);
 	}
@@ -76,12 +79,15 @@ public class MenuController extends Controller{
 	public void viewFlightSummary() {
 		replaceSceneContent(SceneCode.FLIGHT_SUMMARY);
 	}
-
 	/**
 	 * Load Flight Raw Data Function.
 	 */
 	public void viewFlightRawData() {
 		replaceSceneContent(SceneCode.FLIGHT_RAW_DATA);
+	}
+
+	public void viewRouteByEquipment(){
+		replaceSceneContent(SceneCode.ROUTE_BY_EQUIP);
 	}
 
 	public void goToGettingStarted() {

@@ -3,6 +3,7 @@ package seng202.group9.Map;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableView;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -68,7 +69,12 @@ public class Map {
         int counter = 0;
         for (RoutePath route: routes){
             routeJSONArray += route.toJSONArray() + ", ";
-            if (counter++ > 99){
+            if (counter++ > 49){
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Too Many Routes");
+                alert.setHeaderText("Too Many Routes to display");
+                alert.setContentText("As there are too many routes to display only the first\n50 will be displayed.");
+                alert.showAndWait();
                 break;
             }
         }

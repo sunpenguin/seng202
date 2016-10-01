@@ -4,6 +4,7 @@ package seng202.group9.Controller;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Alert;
 import seng202.group9.Core.*;
+import sun.awt.image.ImageWatched;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -31,6 +32,7 @@ public class Dataset {
     private LinkedHashMap<String, Country> countryDictionary;//key name
     private LinkedHashMap<String, City> cityDictionary;//key city name
     private LinkedHashMap<Integer, FlightPoint> flightPointDictionary;//key point id
+    private LinkedHashMap<String, Equipment> equipmentDictionary;
 
     /**
      *
@@ -53,6 +55,7 @@ public class Dataset {
         this.cityDictionary = new LinkedHashMap<String, City>();;
         this.flightPathDictionary = new LinkedHashMap<Integer, FlightPath>();
         this.flightPointDictionary = new LinkedHashMap<Integer, FlightPoint>();
+        this.equipmentDictionary = new LinkedHashMap<>();
         if (action == getExisting){
             updateDataset();
             //after this make connections. ie filling in the country.cities airports.routes etc
@@ -783,8 +786,22 @@ public class Dataset {
             airport.setDepartureRoutes(new ArrayList<Route>());
             airport.setArrivalRoutes(new ArrayList<Route>());
         }
+        equipmentDictionary = new LinkedHashMap<>();
         //set Airport variables for route
         for (Route route: routes){
+            String[] equipment = route.getEquipment().split(" ");
+            for (String equip: equipment){
+                if (equip != "" && equip != null){
+                    Equipment equipment1 = equipmentDictionary.get(equip);
+                    if (equipment1 != null){
+                        equipment1.addRoute(route);
+                    }else{
+                        equipment1 = new Equipment(equip);
+                        equipment1.addRoute(route);
+                        equipmentDictionary.put(equip, equipment1);
+                    }
+                }
+            }
             if (route.getDepartureAirport().length() > 3){
                 route.setSourceAirport(airportsByICAO.get(route.getDepartureAirport()));
                 if (airportsByICAO.get(route.getDepartureAirport()) != null) {
@@ -1725,6 +1742,10 @@ public class Dataset {
      */
     public LinkedHashMap<String, City> getCityDictionary() {
         return cityDictionary;
+    }
+
+    public LinkedHashMap<String, Equipment> getEquipmentDictionary() {
+        return equipmentDictionary;
     }
 
     /**

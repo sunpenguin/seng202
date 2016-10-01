@@ -52,7 +52,7 @@
                   <Menu mnemonicParsing="false" text="Maps">
                     <items>
                       <MenuItem mnemonicParsing="false" onAction="#viewRouteByAirport" text="Route By Airport" />
-                        <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+                        <MenuItem mnemonicParsing="false" onAction="#viewRouteByEquipment" text="Route By Equipment" />
                     </items>
                   </Menu>
                </items></Menu>
