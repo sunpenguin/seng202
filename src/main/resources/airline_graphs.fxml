@@ -47,7 +47,7 @@
                             <CategoryAxis fx:id="routeXAxis" side="BOTTOM" />
                           </xAxis>
                           <yAxis>
-                            <NumberAxis fx:id="routeYAxis" side="LEFT" />
+                            <NumberAxis side="LEFT" />
                           </yAxis>
                         </BarChart>
                      </children>
@@ -60,7 +60,7 @@
                      <children>
                         <BarChart fx:id="countryGraph" layoutX="156.0" layoutY="-10.0" prefHeight="436.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <xAxis>
-                            <CategoryAxis side="BOTTOM" />
+                            <CategoryAxis fx:id="countryXAxis" side="BOTTOM" />
                           </xAxis>
                           <yAxis>
                             <NumberAxis side="LEFT" />
@@ -76,7 +76,7 @@
                      <children>
                         <BarChart fx:id="equipGraph" layoutX="69.0" layoutY="8.0" prefHeight="436.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <xAxis>
-                            <CategoryAxis side="BOTTOM" />
+                            <CategoryAxis fx:id="equipXAxis" side="BOTTOM" />
                           </xAxis>
                           <yAxis>
                             <NumberAxis side="LEFT" />

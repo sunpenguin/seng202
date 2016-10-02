@@ -11,11 +11,9 @@ import seng202.group9.Controller.Dataset;
 import seng202.group9.Controller.SceneCode;
 import seng202.group9.Controller.Session;
 import seng202.group9.Core.Airline;
+import seng202.group9.Core.Route;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.*;
 
 import static javafx.application.ConditionalFeature.FXML;
 
@@ -31,9 +29,16 @@ public class AirlineGraphController extends Controller{
     @FXML
     private BarChart routeGraph;
     @FXML
-    private NumberAxis routeYAxis;
-    @FXML
     private CategoryAxis routeXAxis;
+    @FXML
+    private BarChart countryGraph;
+    @FXML
+    private CategoryAxis countryXAxis;
+    @FXML
+    private BarChart equipGraph;
+    @FXML
+    private CategoryAxis equipXAxis;
+
 
     @Override
     public void load() {
@@ -52,6 +57,8 @@ public class AirlineGraphController extends Controller{
         airlinesFiltered = airlinesArrayList.toArray(new Airline[airlinesArrayList.size()]);
 
         loadRoutesGraph();
+        loadCountryGraph();
+        loadEquipGraph();
     }
 
     public void loadRoutesGraph(){
@@ -84,6 +91,79 @@ public class AirlineGraphController extends Controller{
             }
         }
         routeGraph.getData().add(series);
+    }
+
+    public void loadCountryGraph(){
+        countryGraph.setTitle("Top 10 Countries with the most Airlines");
+        countryXAxis.setLabel("Countries");
+        XYChart.Series<String,Integer> series = new XYChart.Series<>();
+        series.setName("Number of Countries");
+        HashMap<String, Integer> countries = new HashMap<>();
+        for (Airline airline: airlinesFiltered){
+            if (countries.containsKey(airline.getCountryName())) {
+                countries.put(airline.getCountryName(), countries.get(airline.getCountryName()) + 1);
+            }else{
+                countries.put(airline.getCountryName(), 1);
+            }
+        }
+
+        int length = 10;
+        if (airlinesFiltered.length < 10){
+            length = airlinesFiltered.length;
+        }
+        for (int i = 0 ; i < length; i ++) {
+            int max = 0;
+            String maxCountry = null;
+            for (String country: countries.keySet()){
+                if (countries.get(country) > max){
+                    maxCountry = country;
+                    max = countries.get(country);
+                }
+            }
+            series.getData().add(new XYChart.Data<String, Integer>(maxCountry, max));
+            countries.remove(maxCountry);
+        }
+
+        countryGraph.getData().add(series);
+    }
+
+    public void loadEquipGraph(){
+        equipGraph.setTitle("Top 10 Equipment used by Airlines");
+        equipXAxis.setLabel("Equipment");
+        XYChart.Series<String,Integer> series = new XYChart.Series<>();
+        series.setName("Number of Equipment");
+        HashMap<String, Integer> equipmentList = new HashMap<>();//equipment, count
+        for (Airline airline: airlinesFiltered){
+            for (Route route: airline.getRoutes()){
+                String equipment[] = route.getEquipment().split(" ");
+                for (String equip : equipment){
+                    if (equipmentList.containsKey(equip)){
+                        equipmentList.put(equip, equipmentList.get(equip) + 1);
+                    }else{
+                        equipmentList.put(equip, 1);
+                    }
+                }
+            }
+        }
+
+        int length = 10;
+        if (equipmentList.size() < 10){
+            length = equipmentList.size();
+        }
+        for (int i = 0 ; i < length; i ++) {
+            int max = 0;
+            String maxEquip = "";
+            for (String equip: equipmentList.keySet()){
+                if (equipmentList.get(equip) > max){
+                    max = equipmentList.get(equip);
+                    maxEquip = equip;
+                }
+            }
+            series.getData().add(new XYChart.Data<String, Integer>(maxEquip, max));
+            equipmentList.remove(maxEquip);
+        }
+
+        equipGraph.getData().add(series);
     }
 
     public void goToRawData(){
