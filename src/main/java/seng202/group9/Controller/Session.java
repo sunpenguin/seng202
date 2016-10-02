@@ -34,6 +34,9 @@ public class Session implements Serializable {
     public Session(){
         //blank constructor
         this.sceneDisplayed = SceneCode.INITIAL;
+        this.filteredAirlines = new HashMap<>();
+        this.filteredAirports = new HashMap<>();
+        this.filteredRoutes = new HashMap<>();
     }
 
     /**

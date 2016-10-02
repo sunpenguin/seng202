@@ -63,27 +63,25 @@ public class AirportRDController extends Controller{
             return;
         }
         theDataSet = getParent().getCurrentDataset();
-        if (theDataSet != null) {
-            //Sets up the table columns to be ready for use for Airport data
-            airpIDCol.setCellValueFactory(new PropertyValueFactory<Airport, String>("ID"));
-            airpNameCol.setCellValueFactory(new PropertyValueFactory<Airport, String>("Name"));
-            airpCityCol.setCellValueFactory(new PropertyValueFactory<Airport, String>("CityName"));
-            airpCountryCol.setCellValueFactory(new PropertyValueFactory<Airport, String>("CountryName"));
-            airpIATAFFACol.setCellValueFactory(new PropertyValueFactory<Airport, String>("IATA_FFA"));
-            airpICAOCol.setCellValueFactory(new PropertyValueFactory<Airport, String>("ICAO"));
-            airpLatitudeCol.setCellValueFactory(new PropertyValueFactory<Airport, String>("Latitude"));
-            airpLongitudeCol.setCellValueFactory(new PropertyValueFactory<Airport, String>("Longitude"));
-            airpAltitudeCol.setCellValueFactory(new PropertyValueFactory<Airport, String>("Altitude"));
-            airpTimezoneCol.setCellValueFactory(new PropertyValueFactory<Airport, String>("Timezone"));
-            airpDSTCol.setCellValueFactory(new PropertyValueFactory<Airport, String>("DST"));
-            airpTzCol.setCellValueFactory(new PropertyValueFactory<Airport, String>("Tz"));
+        //Sets up the table columns to be ready for use for Airport data
+        airpIDCol.setCellValueFactory(new PropertyValueFactory<Airport, String>("ID"));
+        airpNameCol.setCellValueFactory(new PropertyValueFactory<Airport, String>("Name"));
+        airpCityCol.setCellValueFactory(new PropertyValueFactory<Airport, String>("CityName"));
+        airpCountryCol.setCellValueFactory(new PropertyValueFactory<Airport, String>("CountryName"));
+        airpIATAFFACol.setCellValueFactory(new PropertyValueFactory<Airport, String>("IATA_FFA"));
+        airpICAOCol.setCellValueFactory(new PropertyValueFactory<Airport, String>("ICAO"));
+        airpLatitudeCol.setCellValueFactory(new PropertyValueFactory<Airport, String>("Latitude"));
+        airpLongitudeCol.setCellValueFactory(new PropertyValueFactory<Airport, String>("Longitude"));
+        airpAltitudeCol.setCellValueFactory(new PropertyValueFactory<Airport, String>("Altitude"));
+        airpTimezoneCol.setCellValueFactory(new PropertyValueFactory<Airport, String>("Timezone"));
+        airpDSTCol.setCellValueFactory(new PropertyValueFactory<Airport, String>("DST"));
+        airpTzCol.setCellValueFactory(new PropertyValueFactory<Airport, String>("Tz"));
 
-            //Assigning the Dataset to the current Dataset's airports and displaying it in a table
-            currentSession = getParent().getSession();
+        //Assigning the Dataset to the current Dataset's airports and displaying it in a table
+        currentSession = getParent().getSession();
 
-            tableViewAirportRD.setItems(observableArrayList(theDataSet.getAirports()));
-            tableViewAirportRD.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        }
+        tableViewAirportRD.setItems(observableArrayList(theDataSet.getAirports()));
+        tableViewAirportRD.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 
     public void openAdd() {

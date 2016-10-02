@@ -195,11 +195,6 @@ public class FlightSummaryController extends Controller {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            if (theDataSet.getFlightPaths().size() > 0) {
-                map = new Map(mapView, theDataSet.getFlightPaths().get(0).getRoutePath());
-            } else {
-                map = new Map(mapView, new RoutePath());
-            }
             flightPathListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
                 public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                     int index = flightPathListView.getSelectionModel().getSelectedIndices().get(0);
@@ -208,6 +203,7 @@ public class FlightSummaryController extends Controller {
                     }
                 }
             });
+            map = new Map(mapView, new RoutePath(), flightPathListView);
         }
     }
 

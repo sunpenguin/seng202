@@ -429,6 +429,10 @@ public class Airport {
 	public int getTotalRoutes(){
 		return departureRoutes.size() + arrivalRoutes.size();
 	}
+
+	public RoutePath getRoutePath(){
+		return new RoutePath(new Position(latitude, longitude));
+	}
 	/**
 	 * Information of the airport returned in String format.
 	 */
