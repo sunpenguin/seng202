@@ -28,13 +28,13 @@ public class PieChooserController extends Controller{
     CheckBox usefilter;
 
 
-    ObservableList airportOptions = FXCollections.observableArrayList("Name", "ICAO", "IATA FFA", "Altitude",
+    ObservableList airportOptions = FXCollections.observableArrayList("Name", "ICAO", "IATA/FFA", "Altitude",
             "City", "Country");
 
     ObservableList airlineOptions = FXCollections.observableArrayList("Name", "ICAO", "IATA", "Active", "Country");
 
-    ObservableList routeOptions = FXCollections.observableArrayList("Stops", "Codeshare", "Equipment", "Airline",
-            "Departure Airport", "Arival airport");
+    ObservableList routeOptions = FXCollections.observableArrayList("Airline", "Departure Airport", "Arrival Airport",
+            "Codeshare", "Stops" , "Equipment");
 
     ArrayList<ObservableList> allOptions = new ArrayList<ObservableList>();
 

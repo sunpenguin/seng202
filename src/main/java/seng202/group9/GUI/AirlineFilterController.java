@@ -125,4 +125,14 @@ public class AirlineFilterController extends Controller {
         Stage stage = (Stage) applyButton.getScene().getWindow();
         stage.close();
     }
+
+    public void resetForm() {
+        airlNameFilter.clear();
+        airlAliasFilter.clear();
+        airlIATAFilter.clear();
+        airlICAOFilter.clear();
+        airlCallsignFilter.clear();
+        airlCountryFilter.clear();
+        airlActiveFilter.clear();
+    }
 }
