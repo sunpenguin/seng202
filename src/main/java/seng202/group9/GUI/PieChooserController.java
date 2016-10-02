@@ -47,6 +47,7 @@ public class PieChooserController extends Controller{
         currentsession.setSelectedDataToGraph(datatypechooser.getSelectionModel().getSelectedItem().toString());
         currentsession.setSelectedgraphagainst(graph_options.getSelectionModel().getSelectedItem().toString());
         currentsession.setUsefilter(usefilter.isSelected());
+        currentsession.setForceGraph(Boolean.FALSE);
         replaceSceneContent(SceneCode.AIRPORT_ANALYSER);
     }
 
@@ -68,5 +69,17 @@ public class PieChooserController extends Controller{
         allOptions.add(airportOptions);
         allOptions.add(airlineOptions);
         allOptions.add(routeOptions);
+    }
+
+    public void newFilter(){
+        if (datatypechooser.getSelectionModel().getSelectedItem().toString() == "Airports"){
+            createPopUpStage(SceneCode.AIRPORT_FILTER, 600, 330);
+        }
+        else if (datatypechooser.getSelectionModel().getSelectedItem().toString() == "Airlines"){
+            createPopUpStage(SceneCode.AIRLINE_FILTER, 600, 330);
+        }
+        else if (datatypechooser.getSelectionModel().getSelectedItem().toString() == "Routes"){
+            createPopUpStage(SceneCode.ROUTE_FILTER, 600, 330);
+        }
     }
 }

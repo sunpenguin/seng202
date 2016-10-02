@@ -29,8 +29,8 @@ public class BarChooserController extends Controller{
     @FXML
     CheckBox usefilter;
 
-    ObservableList airportOptions = FXCollections.observableArrayList("ID", "Name", "ICAO", "IATA FFA", "Altitude",
-            "Latitude", "Longitude", "City", "Country");
+    ObservableList airportOptions = FXCollections.observableArrayList("Name", "ICAO", "IATA FFA", "Altitude",
+            "City", "Country");
 
     ObservableList airlineOptions = FXCollections.observableArrayList("ID", "Name", "ICAO", "IATA", "Alias",
             "Call Sign", "Active", "Country");
@@ -42,12 +42,10 @@ public class BarChooserController extends Controller{
 
     public void buildGraph() {
         Session currentsession = this.getParent().getSession();
-        ArrayList<String> temp = new ArrayList<String>();
-        temp.addAll(graph_options.getSelectionModel().getSelectedItems());
-        currentsession.setSelectedgraphoptions(temp);
-        currentsession.setUsefilter(usefilter.isSelected());
+        currentsession.setSelectedgraphoptions(graph_against.getSelectionModel().getSelectedItem().toString());
         currentsession.setSelectedgraphagainst(graph_options.getSelectionModel().getSelectedItem().toString());
         currentsession.setUsefilter(usefilter.isSelected());
+        currentsession.setForceGraph(Boolean.FALSE);
         replaceSceneContent(SceneCode.ROUTE_ANALYSER);
     }
 

@@ -11,7 +11,7 @@ public enum SceneCode {
     FLIGHT_RAW_DATA("flight_raw_data.fxml"), AIRPORT_ANALYSER("airport_analyser.fxml"), ROUTE_ANALYSER("route_analyser.fxml"),
     AIRPORT_DIST_CALC("airport_dist_calc.fxml"), AIRLINE_ADD("airline_add_form.fxml"), AIRLINE_FILTER("airline_filter_form.fxml"),
     AIRPORT_ADD("airport_add_form.fxml"), AIRPORT_FILTER("airport_filter_form.fxml"), ROUTE_ADD("route_add_form.fxml"),
-    ROUTE_FILTER("route_filter_form.fxml"),ANALYSER_TAB("analyser_main_page.fxml"),
+    ROUTE_FILTER("route_filter_form.fxml"),ANALYSER_TAB("analyser_main_page.fxml"), CHART_ERROR("too_many_options_pie.fxml"),
     BAR_GRAPH_CHOOSER("bar_graph_chooser.fxml"), PIE_GRAPH_CHOOSER("pie_graph_chooser.fxml");
 
     private String filePath;

@@ -18,9 +18,18 @@ public class Session implements Serializable {
     private HashMap<Integer, String> filteredAirports;
     private HashMap<Integer, String> filteredRoutes;
     private String selectedgraphagainst;
-    private ArrayList<String> selectedgraphoptions;
+    private String selectedgraphoptions;
     private Boolean usefilter;
+    private Boolean forceGraph;
     private String selectedDataToGraph;
+
+    public Boolean getForceGraph() {
+        return forceGraph;
+    }
+
+    public void setForceGraph(Boolean forceGraph) {
+        this.forceGraph = forceGraph;
+    }
 
     public String getSelectedDataToGraph() {
         return selectedDataToGraph;
@@ -38,11 +47,11 @@ public class Session implements Serializable {
         this.selectedgraphagainst = selectedgraphagainst;
     }
 
-    public ArrayList<String> getSelectedgraphoptions() {
+    public String getSelectedgraphoptions() {
         return selectedgraphoptions;
     }
 
-    public void setSelectedgraphoptions(ArrayList<String> selectedgraphoptions) {
+    public void setSelectedgraphoptions(String selectedgraphoptions) {
         this.selectedgraphoptions = selectedgraphoptions;
     }
 

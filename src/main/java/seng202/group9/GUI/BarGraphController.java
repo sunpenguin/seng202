@@ -1,61 +1,68 @@
 package seng202.group9.GUI;
 
+
 import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
-import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
-import seng202.group9.Controller.*;
+import seng202.group9.Controller.App;
+import seng202.group9.Controller.Dataset;
+import seng202.group9.Controller.Session;
 import seng202.group9.Core.Airline;
-import java.util.ArrayList;
-import java.util.HashMap;
-import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.chart.*;
-import javafx.scene.Group;
 import seng202.group9.Core.Airport;
 import seng202.group9.Core.Route;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 
 /**
  * Gui controller class currently for creating the bar graph of routes arriving and departing from airports.
  * Extend the class. {@link Controller}
- * Created by michael on 17/09/2016.
+ * Created by michael on 16/09/2016.
  */
-public class PieGraphController extends Controller {
-    //links fxml parts to the controller.
+public class BarGraphController extends Controller {
+    //Links fxml to the controller.
     @FXML
-    PieChart pieGraph;
+    private BarChart analyserGraph;
 
-    //Used to store the data needed for making the graph.
+    //Used to store the data needed for making the tables.
+    private ArrayList<Route> current_routes;
     private Dataset currentdata = null;
-    private HashMap<String, Integer> useddata = new HashMap<String, Integer>();
+    private HashMap<String, ArrayList> useddata = new HashMap<String, ArrayList>();
     private Session currentsession;
 
-
     /**
-     * Takes data from the current dataset and places it into the displayed pie graph.
+     * Takes data from the current dataset and places it into the displayed bar graph.
      */
     public void build_graph(){
-        //Turns the data into a usable list.
-        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
-        System.out.println(useddata.keySet().size());
+        //Takes routes from the full dataset.
+        current_routes = currentdata.getRoutes();
+        datasetup(current_routes);
+        //Builds series needed for the graph.
+        XYChart.Series seriesArivals = new XYChart.Series();
+        XYChart.Series seriesDeparts = new XYChart.Series();
+        seriesArivals.setName("Arriving routes");
+        seriesDeparts.setName("Departs routes");
         for (String airport : useddata.keySet()){
-            Integer temp = useddata.get(airport);
-            pieChartData.add(new PieChart.Data(airport,temp));
+            ArrayList<Integer> temp = useddata.get(airport);
+            seriesArivals.getData().add(new XYChart.Data(airport,temp.get(0)));
+            seriesDeparts.getData().add(new XYChart.Data(airport,temp.get(1)));
         }
-        //Gives the data to the graph.
-        if (useddata.keySet().size() > 50 && currentsession.getForceGraph()){
-            replaceSceneContent(SceneCode.CHART_ERROR);
-        }
-        else{
-            pieGraph.setData(pieChartData);
-        }
+        //Gives the formatted data to the graph.
+        analyserGraph.getData().addAll(seriesArivals,seriesDeparts);
     }
 
     /**
      * Takes the raw list of routes and fills the used data dictionary with the appropriate data to be displayed
-     * @param current_air_ports
+     * @param current_routes
      */
+
+    private int stops;
+    private String codeShare;
+    private String equipment;
+    private String airlineName;
+    private String departureAirport;
+    private String arrivalAirport;
+
     private void datasetupCustomarAirport(ArrayList<Airport> current_air_ports){
         //Takes out the specified field  then adds to the used data dict.
         for (Airport entry : current_air_ports){
@@ -86,61 +93,36 @@ public class PieGraphController extends Controller {
     }
 
 
-    private void datasetupCustomarAirline(ArrayList<Airline> current_air_ports){
-        //Takes out the specified field  then adds to the used data dict.
-        for (Airline entry : current_air_ports) {
-            String name = "Error";
-            if (currentsession.getSelectedgraphagainst() == "Name") {
-                name = entry.getName();
-            } else if (currentsession.getSelectedgraphagainst() == "ICAO") {
-                name = entry.getICAO();
-            } else if (currentsession.getSelectedgraphagainst() == "IATA") {
-                name = entry.getIATA();
-            } else if (currentsession.getSelectedgraphagainst() == "Country") {
-                name = entry.getCountryName();
-            } else if (currentsession.getSelectedgraphagainst() == "Active") {
-                name = entry.getActive();
-            }
-            if (useddata.containsKey(name)) {
-                int temp = useddata.get(name);
-                useddata.replace(name, temp + 1);
-            } else {
-                Integer temp = 1;
-                useddata.put(name, temp);
-            }
+    private void datasetupCustomRoute(ArrayList<Route> current_routes){
+        //Takes out the specified field (Currently departure airport and arrival airport) then adds to the used data dict.
+        if(currentsession.getSelectedgraphagainst() = ""){
+
         }
     }
 
 
-    private void datasetupCustomRoute(ArrayList<Route> current_air_ports){
-        //Takes out the specified field  then adds to the used data dict.
-        for (Route entry : current_air_ports){
-            String name = "Error";
-            if (currentsession.getSelectedgraphagainst() == "Stops") {
-                name = String.valueOf(entry.getStops());
-            }
-            else if (currentsession.getSelectedgraphagainst() == "Codeshare") {
-                name = entry.getCode();
-            }
-            else if (currentsession.getSelectedgraphagainst() == "Equipment") {
-                name = entry.getEquipment();
-            }
-            else if (currentsession.getSelectedgraphagainst() == "Airline") {
-                name = entry.getAirlineName();
-            }
-            else if (currentsession.getSelectedgraphagainst() == "Departure Airport") {
-                name = entry.getDepartureAirport();
-            }
-            else if (currentsession.getSelectedgraphagainst() == "Arival airport") {
-                name = entry.getArrivalAirport();
-            }
-            if (useddata.containsKey(name)){
-                int temp = useddata.get(name);
-                useddata.replace(name,temp+1);
-            }else {
-                Integer temp = 1;
-                useddata.put(name,temp);
-            }
+            for (Route entry : current_routes){
+        String departs = entry.getDepartureAirport();
+        String arives = entry.getArrivalAirport();
+        if (useddata.containsKey(departs)){
+            ArrayList<Integer> temp = useddata.get(departs);
+            temp.add(1,temp.get(1)+1);
+            useddata.replace(departs,temp);
+        }else {
+            ArrayList<Integer> temp = new ArrayList<Integer>(2);
+            temp.add(0);
+            temp.add(1);
+            useddata.put(departs,temp);
+        }
+        if (useddata.containsKey(arives)){
+            ArrayList<Integer> temp = useddata.get(arives);
+            temp.add(0,temp.get(0)+1);
+            useddata.replace(arives,temp);
+        }else {
+            ArrayList<Integer> temp = new ArrayList<Integer>(2);
+            temp.add(1);
+            temp.add(0);
+            useddata.put(arives,temp);
         }
     }
 
