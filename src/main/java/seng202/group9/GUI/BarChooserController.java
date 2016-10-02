@@ -32,17 +32,18 @@ public class BarChooserController extends Controller{
     ObservableList airportOptions = FXCollections.observableArrayList("Name", "ICAO", "IATA FFA", "Altitude",
             "City", "Country");
 
-    ObservableList airlineOptions = FXCollections.observableArrayList("ID", "Name", "ICAO", "IATA", "Alias",
+    ObservableList airlineOptions = FXCollections.observableArrayList("Name", "ICAO", "IATA", "Alias",
             "Call Sign", "Active", "Country");
 
-    ObservableList routeOptions = FXCollections.observableArrayList("ID", "Stops", "Codeshare", "Equipment", "Airline",
-            "Departure Airport", "Arival airport");
+    ObservableList routeOptions = FXCollections.observableArrayList("Stops", "Codeshare", "Equipment", "Airline",
+            "Departure Airport", "Arrival airport");
 
     ArrayList<ObservableList> allOptions = new ArrayList<ObservableList>();
 
     public void buildGraph() {
         Session currentsession = this.getParent().getSession();
-        currentsession.setSelectedgraphagainst(graph_options.getSelectionModel().getSelectedItem().toString());
+        ArrayList<String> temp = new ArrayList<>(graph_options.getSelectionModel().getSelectedItems());
+        currentsession.setSelectedgraphoptions(temp);
         currentsession.setUsefilter(usefilter.isSelected());
         currentsession.setForceGraph(Boolean.FALSE);
         replaceSceneContent(SceneCode.ROUTE_ANALYSER);
