@@ -92,12 +92,10 @@ public class AirportFilterController extends Controller {
             filter.filterOlson(airpTzFilter.getText());
         }
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Airline Filter Successful");
-        alert.setHeaderText("Airline data filtered!");
-        alert.setContentText("Your airline data has been successfully filtered.");
+        alert.setTitle("Airport Filter Successful");
+        alert.setHeaderText("Airport data filtered!");
+        alert.setContentText("Your airport data has been successfully filtered.");
         alert.showAndWait();
-
-        //currentSession.setFilteredAirlines(FXCollections.observableArrayList(filter.getFilteredData()));
 
         HashMap<Integer, String> airportsHM = new HashMap<Integer, String>();
         ArrayList<Airport> airports = filter.getFilteredData();
