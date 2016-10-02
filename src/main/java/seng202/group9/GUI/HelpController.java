@@ -8,6 +8,7 @@ import javafx.scene.control.TreeView;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
+
 /**
  * The GUI controller class for help.fxml.
  * Extends from the abstract class {@link Controller}.
@@ -24,6 +25,8 @@ public class HelpController extends Controller {
     //The TreeItems for the TreeView.
     TreeItem main_root = new TreeItem("Main Root");
 
+    TreeItem datasets = new TreeItem("Managing Datasets");
+
     TreeItem importing = new TreeItem("Importing Data");
     TreeItem importing_start = new TreeItem("Importing on Startup");
     TreeItem importing_after = new TreeItem("Importing after Startup");
@@ -31,6 +34,7 @@ public class HelpController extends Controller {
     TreeItem viewing = new TreeItem("Viewing Data");
     TreeItem summary_viewing = new TreeItem("Viewing Summary Data");
     TreeItem raw_viewing = new TreeItem("Viewing Raw Data");
+    TreeItem map_viewing = new TreeItem("Viewing Maps");
 
     TreeItem manipulating = new TreeItem("Manipulating Data");
     TreeItem adding = new TreeItem("Adding Data");
@@ -42,12 +46,15 @@ public class HelpController extends Controller {
     TreeItem graphing = new TreeItem("Graphs");
     TreeItem distance = new TreeItem("Distance Calculator");
 
+
     /**
      * Loads the TreeView and sets up the TreeView.
      */
     public void load() {
         treeView.setRoot(main_root);
         treeView.setShowRoot(false);
+
+        main_root.getChildren().add(datasets);
 
         main_root.getChildren().add(importing);
         importing.getChildren().add(importing_start);
@@ -56,6 +63,7 @@ public class HelpController extends Controller {
         main_root.getChildren().add(viewing);
         viewing.getChildren().add(summary_viewing);
         viewing.getChildren().add(raw_viewing);
+        viewing.getChildren().add(map_viewing);
 
         main_root.getChildren().add(manipulating);
         manipulating.getChildren().add(adding);
@@ -79,7 +87,13 @@ public class HelpController extends Controller {
 
                 if ( menuValue != null ){
                     textArea.getChildren().clear();
-                    if (menuValue.equals("Importing on Startup")) {
+                    if (menuValue.equals("Managing Datasets")) {
+                        text = new Text("Managing Datasets\n" + "You will need to create a dataset to use the application. " +
+                                "You can do this by the 'File' tab on the menu bar and selecting 'New/Open Dataset'.\nThis will take you to" +
+                                " a pop-up where you can manage your datasets (create, open, delete). A dataset stores all the data types.");
+                        textArea.getChildren().add(text);
+
+                    } else if (menuValue.equals("Importing on Startup")) {
                         text = new Text("Importing on Startup\n" + "You can import data from the first start up of the application." +
                                 "\nTo import data, select the type of data you wish to import along the bottom of the screen." +
                                 " Then select the file (.csv and .txt file) from the " +
@@ -115,6 +129,15 @@ public class HelpController extends Controller {
                                 " corresponding summary page.");
                         textArea.getChildren().add(text);
 
+                    } else if (menuValue.equals("Viewing Maps")) {
+                        text = new Text("Viewing Maps\n" +
+                                "The maps will have points displayed on them depending on the data type. Routes and flights" +
+                                " will also have lines connecting the points to show what the paths look like on the map.\n" +
+                                "In the raw data views for airport data and route data, you can click on the button 'Map Data' " +
+                                "to map the current data. You can also access maps by going into the 'View' tab at the top of the screen and going to" +
+                                " the maps section.\nSummary views will also have maps incorporated in them.");
+                        textArea.getChildren().add(text);
+
                     } else if (menuValue.equals("Adding Data")) {
                         text = new Text("Adding Data\n" +
                                 "To add a new entry, first go to the raw data view for that data type. Then click " +
@@ -148,7 +171,9 @@ public class HelpController extends Controller {
                     } else if (menuValue.equals("Graphs")) {
                         text = new Text("Graphs\n" + "The program has the ability to produce graphs according to the type of data.\n" +
                                 "This is done by going to the raw data page for the data you wish to graph. Then press the analyse data button" +
-                                " on the bottom of the screen. This will produce a graph specific for that type of data.");
+                                " on the bottom of the screen. This will produce a graph specific for that type of data.\nGraphs can also be" +
+                                " accessed from the menu bar at the top of the screen via the 'Analysis' tab and selecting which type of data" +
+                                " you wish to graph. There is no analysis of flight data.");
                         textArea.getChildren().add(text);
 
                     } else if (menuValue.equals("Distance Calculator")) {
