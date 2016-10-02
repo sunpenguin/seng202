@@ -184,7 +184,6 @@ public class AirportGraphController extends Controller{
                     if (airlines.containsKey(route.getAirline().getName())) {
                         airlines.put(route.getAirline().getName(), airlines.get(route.getAirline().getName()) + 1);
                     } else {
-
                         airlines.put(route.getAirline().getName(), 1);
                     }
                 }
@@ -194,7 +193,6 @@ public class AirportGraphController extends Controller{
                     if (airlines.containsKey(route.getAirline().getName())) {
                         airlines.put(route.getAirline().getName(), airlines.get(route.getAirline().getName()) + 1);
                     } else {
-
                         airlines.put(route.getAirline().getName(), 1);
                     }
                 }
