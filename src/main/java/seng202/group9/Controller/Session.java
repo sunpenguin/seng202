@@ -6,6 +6,7 @@ import seng202.group9.Core.Airline;
 import seng202.group9.Core.FlightPoint;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -13,6 +14,7 @@ import java.util.HashMap;
  * Users last session state is store here.
  */
 public class Session implements Serializable {
+
     private SceneCode sceneDisplayed;
 
     private int currentFlightPointID;
@@ -20,6 +22,51 @@ public class Session implements Serializable {
     private HashMap<Integer, String> filteredAirlines;
     private HashMap<Integer, String> filteredAirports;
     private HashMap<Integer, String> filteredRoutes;
+    private String selectedgraphagainst;
+    private String selectedgraphoptions;
+    private Boolean usefilter;
+    private Boolean forceGraph;
+    private String selectedDataToGraph;
+
+    public Boolean getForceGraph() {
+        return forceGraph;
+    }
+
+    public void setForceGraph(Boolean forceGraph) {
+        this.forceGraph = forceGraph;
+    }
+
+    public String getSelectedDataToGraph() {
+        return selectedDataToGraph;
+    }
+
+    public void setSelectedDataToGraph(String selectedDataToGraph) {
+        this.selectedDataToGraph = selectedDataToGraph;
+    }
+
+    public String getSelectedgraphagainst() {
+        return selectedgraphagainst;
+    }
+
+    public void setSelectedgraphagainst(String selectedgraphagainst) {
+        this.selectedgraphagainst = selectedgraphagainst;
+    }
+
+    public String getSelectedgraphoptions() {
+        return selectedgraphoptions;
+    }
+
+    public void setSelectedgraphoptions(String selectedgraphoptions) {
+        this.selectedgraphoptions = selectedgraphoptions;
+    }
+
+    public Boolean getUsefilter() {
+        return usefilter;
+    }
+
+    public void setUsefilter(Boolean usefilter) {
+        this.usefilter = usefilter;
+    }
 
     private String airlineToEdit;
     private String airportToEdit;
