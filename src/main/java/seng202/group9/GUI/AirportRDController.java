@@ -139,4 +139,11 @@ public class AirportRDController extends Controller{
     public void airportSummaryButton() {
         replaceSceneContent(SceneCode.AIRPORT_SUMMARY);
     }
+
+    /**
+     * Opens a map with the data currently being displayed in the table.
+     */
+    public void openMap() {
+
+    }
 }
