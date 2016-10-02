@@ -46,6 +46,7 @@ public class PieGraphController extends Controller {
         //Gives the data to the graph.
         if (useddata.keySet().size() > 250 && currentsession.getForceGraph()){
             replaceSceneContent(SceneCode.CHART_ERROR);
+
         }
         else{
             pieGraph.setData(pieChartData);
