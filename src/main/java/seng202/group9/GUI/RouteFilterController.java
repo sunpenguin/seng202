@@ -37,6 +37,7 @@ public class RouteFilterController extends Controller {
     private Dataset theDataSet = null;
     //Set an empty session to be assigned to the current session.
     private Session currentSession = null;
+    private HashMap<String, String> sesFilter;
 
     /**
      * Filters the routes table by any field.
@@ -47,23 +48,30 @@ public class RouteFilterController extends Controller {
     public void filterRoutes(){
         //The filter function also operates like a search function
         RouteFilter filter = new RouteFilter(theDataSet.getRoutes());
+        currentSession.setRouteFilter(new HashMap<String, String>());
         if (rAirlineFilter.getText() != null) {
             filter.filterAirline(rAirlineFilter.getText());
+            sesFilter.put("Airline", rAirlineFilter.getText());
         }
         if (rSourceFilter.getText() != null) {
             filter.filterSourceAirport(rSourceFilter.getText());
+            sesFilter.put("Airline", rSourceFilter.getText());
         }
         if (rDestFilter.getText() != null) {
             filter.filterDestinationAirport(rDestFilter.getText());
+            sesFilter.put("Airline", rDestFilter.getText());
         }
         if (rCodeshareFilter.getText() != null) {
             filter.filterCodeshare(rCodeshareFilter.getText());
+            sesFilter.put("Airline", rCodeshareFilter.getText());
         }
         if (rStopsFilter.getText() != null) {
             filter.filterDestinationStops(rStopsFilter.getText());
+            sesFilter.put("Airline", rStopsFilter.getText());
         }
         if (rEquipmentFilter.getText() != null) {
             filter.filterEquipment(rEquipmentFilter.getText());
+            sesFilter.put("Airline", rEquipmentFilter.getText());
         }
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Route Filter Successful");
@@ -91,5 +99,12 @@ public class RouteFilterController extends Controller {
         }
         theDataSet = getParent().getCurrentDataset();
         currentSession = getParent().getSession();
+        sesFilter = currentSession.getRouteFilter();
+        rAirlineFilter.setText(sesFilter.get("Airline"));
+        rSourceFilter.setText(sesFilter.get("Source"));
+        rDestFilter.setText(sesFilter.get("Destination"));
+        rCodeshareFilter.setText(sesFilter.get("Codeshare"));
+        rStopsFilter.setText(sesFilter.get("Stops"));
+        rEquipmentFilter.setText(sesFilter.get("Equipment"));
     }
 }

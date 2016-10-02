@@ -17,57 +17,19 @@ public class Session implements Serializable {
 
     private SceneCode sceneDisplayed;
 
-    private int currentFlightPointID;
-    private int currentFlightPathID;
-    private HashMap<Integer, String> filteredAirlines;
-    private HashMap<Integer, String> filteredAirports;
-    private HashMap<Integer, String> filteredRoutes;
+    private int currentFlightPointID;//current selected flight point
+    private int currentFlightPathID;//cureselected flight path
+    private HashMap<Integer, String> filteredAirlines;//current filtered airlines
+    private HashMap<Integer, String> filteredAirports;//current filtered airports
+    private HashMap<Integer, String> filteredRoutes;//current filtered routes
+    private HashMap<String, String> airportFilter;//storage for filter values for airports
+    private HashMap<String, String> airlineFilter;//storage for filter values for airports
+    private HashMap<String, String> routeFilter;//storage for filter values for airports
     private String selectedgraphagainst;
     private String selectedgraphoptions;
     private Boolean usefilter;
     private Boolean forceGraph;
     private String selectedDataToGraph;
-
-    public Boolean getForceGraph() {
-        return forceGraph;
-    }
-
-    public void setForceGraph(Boolean forceGraph) {
-        this.forceGraph = forceGraph;
-    }
-
-    public String getSelectedDataToGraph() {
-        return selectedDataToGraph;
-    }
-
-    public void setSelectedDataToGraph(String selectedDataToGraph) {
-        this.selectedDataToGraph = selectedDataToGraph;
-    }
-
-    public String getSelectedgraphagainst() {
-        return selectedgraphagainst;
-    }
-
-    public void setSelectedgraphagainst(String selectedgraphagainst) {
-        this.selectedgraphagainst = selectedgraphagainst;
-    }
-
-    public String getSelectedgraphoptions() {
-        return selectedgraphoptions;
-    }
-
-    public void setSelectedgraphoptions(String selectedgraphoptions) {
-        this.selectedgraphoptions = selectedgraphoptions;
-    }
-
-    public Boolean getUsefilter() {
-        return usefilter;
-    }
-
-    public void setUsefilter(Boolean usefilter) {
-        this.usefilter = usefilter;
-    }
-
     private String airlineToEdit;
     private String airportToEdit;
     private String routeToEdit;
@@ -84,6 +46,10 @@ public class Session implements Serializable {
         this.filteredAirlines = new HashMap<>();
         this.filteredAirports = new HashMap<>();
         this.filteredRoutes = new HashMap<>();
+        //set the filters to nothing
+        airportFilter = new HashMap<>();
+        airlineFilter = new HashMap<>();
+        routeFilter = new HashMap<>();
     }
 
     /**
@@ -198,4 +164,68 @@ public class Session implements Serializable {
         return currentFlightPathID;
     }
 
+
+    public Boolean getForceGraph() {
+        return forceGraph;
+    }
+
+    public void setForceGraph(Boolean forceGraph) {
+        this.forceGraph = forceGraph;
+    }
+
+    public String getSelectedDataToGraph() {
+        return selectedDataToGraph;
+    }
+
+    public void setSelectedDataToGraph(String selectedDataToGraph) {
+        this.selectedDataToGraph = selectedDataToGraph;
+    }
+
+    public String getSelectedgraphagainst() {
+        return selectedgraphagainst;
+    }
+
+    public void setSelectedgraphagainst(String selectedgraphagainst) {
+        this.selectedgraphagainst = selectedgraphagainst;
+    }
+
+    public String getSelectedgraphoptions() {
+        return selectedgraphoptions;
+    }
+
+    public void setSelectedgraphoptions(String selectedgraphoptions) {
+        this.selectedgraphoptions = selectedgraphoptions;
+    }
+
+    public Boolean getUsefilter() {
+        return usefilter;
+    }
+
+    public void setUsefilter(Boolean usefilter) {
+        this.usefilter = usefilter;
+    }
+
+    public HashMap<String, String> getAirportFilter() {
+        return airportFilter;
+    }
+
+    public void setAirportFilter(HashMap<String, String> airportFilter) {
+        this.airportFilter = airportFilter;
+    }
+
+    public HashMap<String, String> getAirlineFilter() {
+        return airlineFilter;
+    }
+
+    public void setAirlineFilter(HashMap<String, String> airlineFilter) {
+        this.airlineFilter = airlineFilter;
+    }
+
+    public HashMap<String, String> getRouteFilter() {
+        return routeFilter;
+    }
+
+    public void setRouteFilter(HashMap<String, String> routeFilter) {
+        this.routeFilter = routeFilter;
+    }
 }

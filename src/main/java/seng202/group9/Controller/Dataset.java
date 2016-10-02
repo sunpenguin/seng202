@@ -782,7 +782,9 @@ public class Dataset {
             //airport.getCountry().setPosition(new Position(airport.getLatitude(), airport.getLongitude()));
             //TODO Add City in country (This is extra work).
             airport.setCity(cityDictionary.get(airport.getCityName()));
-            airport.getCity().addAirport(airport);
+            if (airport.getCity() != null) {
+                airport.getCity().addAirport(airport);
+            }
             airport.setDepartureRoutes(new ArrayList<Route>());
             airport.setArrivalRoutes(new ArrayList<Route>());
         }
