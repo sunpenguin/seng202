@@ -72,9 +72,11 @@ public class DatasetController extends Controller{
 
     public void openDataset(){
         Dataset datasetToOpen = (Dataset) datasetView.getSelectionModel().getSelectedItem();
-        getParent().setCurrentDataset(datasetToOpen);
-        loadTable();
-        getParent().getMenuController().replaceSceneContent(getParent().getSession().getSceneDisplayed());
-        ((Stage) openDataset.getScene().getWindow()).close();
+        if (datasetToOpen != null) {
+            getParent().setCurrentDataset(datasetToOpen);
+            loadTable();
+            getParent().getMenuController().replaceSceneContent(getParent().getSession().getSceneDisplayed());
+            ((Stage) openDataset.getScene().getWindow()).close();
+        }
     }
 }
