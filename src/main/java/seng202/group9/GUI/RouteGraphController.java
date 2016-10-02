@@ -94,6 +94,7 @@ public class RouteGraphController extends Controller{
         loadInCountryGraph();
         loadOutCountryGraph();
         loadEquipGraph();
+        loadSimilarGraph();
     }
 
     public void loadAirlineGraph(){
@@ -326,6 +327,78 @@ public class RouteGraphController extends Controller{
 
         equipGraph.getData().add(series);
     }
+
+
+    public void loadSimilarGraph(){
+        similarGraph.setTitle("Top 10 Most Similar Routes");
+        similarXAxis.setLabel("Routes");
+        XYChart.Series<String,Integer> series = new XYChart.Series<>();
+        series.setName("Number of Routes");
+        HashMap<String, Integer> routes = new HashMap<>();//equipment, count
+        for (Route route: routesFiltered){
+            String key = route.getDepartureAirport() + " to " + route.getArrivalAirport();
+            if (routes.containsKey(key)){
+                routes.put(key, routes.get(key) + 1);
+            }else{
+                routes.put(key, 1);
+            }
+        }
+
+        int length = 10;
+        if (routes.size() < 10){
+            length = routes.size();
+        }
+        for (int i = 0 ; i < length; i ++) {
+            int max = 0;
+            String maxRoute = "";
+            for (String route: routes.keySet()){
+                if (routes.get(route) > max){
+                    max = routes.get(route);
+                    maxRoute = route;
+                }
+            }
+            series.getData().add(new XYChart.Data<String, Integer>(maxRoute, max));
+            routes.remove(maxRoute);
+        }
+
+        similarGraph.getData().add(series);
+    }
+
+    /*public void loadStopsGraph(){
+        stopsGraph.setTitle("Top 10 Equipment used by Routes");
+        XYChart.Series<String,Integer> series = new XYChart.Series<>();
+        series.setName("Number of Equipment");
+        HashMap<String, Integer> equipmentList = new HashMap<>();//equipment, count
+        for (Route route: routesFiltered){
+            String equipment[] = route.getEquipment().split(" ");
+            for (String equip : equipment){
+                if (equipmentList.containsKey(equip)){
+                    equipmentList.put(equip, equipmentList.get(equip) + 1);
+                }else{
+                    equipmentList.put(equip, 1);
+                }
+            }
+        }
+
+        int length = 10;
+        if (equipmentList.size() < 10){
+            length = equipmentList.size();
+        }
+        for (int i = 0 ; i < length; i ++) {
+            int max = 0;
+            String maxEquip = "";
+            for (String equip: equipmentList.keySet()){
+                if (equipmentList.get(equip) > max){
+                    max = equipmentList.get(equip);
+                    maxEquip = equip;
+                }
+            }
+            series.getData().add(new XYChart.Data<String, Integer>(maxEquip, max));
+            equipmentList.remove(maxEquip);
+        }
+
+        equipGraph.getData().add(series);
+    }*/
 
     public void goToRawData(){
         replaceSceneContent(SceneCode.ROUTE_RAW_DATA);
