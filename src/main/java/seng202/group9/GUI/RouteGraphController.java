@@ -89,6 +89,8 @@ public class RouteGraphController extends Controller{
         //load graphs
         loadAirlineGraph();
         loadDestGraph();
+        loadSourceGraph();
+        loadInCountryGraph();
     }
 
     public void loadAirlineGraph(){
@@ -129,7 +131,7 @@ public class RouteGraphController extends Controller{
     }
 
     public void loadDestGraph(){
-        destGraph.setTitle("Top 10 Airports with Arriving Routes");
+        destGraph.setTitle("Top 10 Destination Airports");
         destXAxis.setLabel("Airports");
 
         XYChart.Series<String,Integer> series = new XYChart.Series<>();
@@ -171,6 +173,85 @@ public class RouteGraphController extends Controller{
         destGraph.getData().add(series);
     }
 
+    public void loadSourceGraph(){
+        sourceGraph.setTitle("Top 10 Outgoing Airports");
+        sourceXAxis.setLabel("Airports");
+
+        XYChart.Series<String,Integer> series = new XYChart.Series<>();
+        series.setName("Number of Routes");
+
+        HashMap<String, Integer> airports = new HashMap<>();
+        for (Route route: routesFiltered){
+            if (route.getSourceAirport() != null) {
+                if (airports.containsKey(route.getSourceAirport().getName())) {
+                    airports.put(route.getSourceAirport().getName(), airports.get(route.getSourceAirport().getName()) + 1);
+                }else{
+
+                    airports.put(route.getSourceAirport().getName(), 1);
+                }
+            }
+        }
+
+        LinkedHashMap<String, Integer> maxAirports = new LinkedHashMap<>();
+        int length = 10;
+        if (airports.size() < 10){
+            length = airports.size();
+        }
+        for (int i = 0 ; i < length; i ++) {
+            int max = 0;
+            String maxAirport = null;
+            for (String airport: airports.keySet()){
+                if (airports.get(airport) > max){
+                    max = airports.get(airport);
+                    maxAirport = airport;
+                }
+            }
+            maxAirports.put(maxAirport, max);
+            airports.remove(maxAirport);
+        }
+
+        for (String airport: maxAirports.keySet()){
+            series.getData().add(new XYChart.Data<String, Integer>(airport, maxAirports.get(airport)));
+        }
+        sourceGraph.getData().add(series);
+    }
+
+    public void loadInCountryGraph(){
+        inCountryGraph.setTitle("Top 10 Countries Visited.");
+        inCountryXAxis.setLabel("Countries");
+        XYChart.Series<String,Integer> series = new XYChart.Series<>();
+        series.setName("Number of Countries");
+        LinkedHashMap<String, Integer> countries = new LinkedHashMap<>();
+        for (Route route: routesFiltered) {
+            Airport dest = route.getDestinationAirport();
+            if (dest != null){
+                if (countries.containsKey(dest.getCountryName())) {
+                    countries.put(dest.getCountryName(), countries.get(dest.getCountryName()) + 1);
+                } else {
+                    countries.put(dest.getCountryName(), 1);
+                }
+            }
+        }
+        System.out.println(countries.size());
+        int length = 10;
+        if (countries.size() < 10){
+            length = countries.size();
+        }
+        for (int i = 0 ; i < length; i ++) {
+            int max = 0;
+            String maxCountry = null;
+            for (String country: countries.keySet()){
+                if (countries.get(country) > max){
+                    maxCountry = country;
+                    max = countries.get(country);
+                }
+            }
+            series.getData().add(new XYChart.Data<String, Integer>(maxCountry, max));
+            countries.remove(maxCountry);
+        }
+
+        inCountryGraph.getData().add(series);
+    }
 
     public void goToRawData(){
         replaceSceneContent(SceneCode.ROUTE_RAW_DATA);
