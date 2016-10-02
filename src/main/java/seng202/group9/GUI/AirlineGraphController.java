@@ -19,6 +19,9 @@ public class AirlineGraphController extends Controller{
 
     @Override
     public void load() {
+        if (!checkDataset()){
+            return;
+        }
         dataset = getParent().getCurrentDataset();
         session = getParent().getSession();
     }
