@@ -35,7 +35,7 @@ public class Map {
             });
     }
 
-    public Map(WebView webView, final RoutePath newRoute, TableView table){
+    public Map(WebView webView, final RoutePath newRoute, final TableView table){
         this.webView = webView;
         webEngine = webView.getEngine();
         initMap();

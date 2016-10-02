@@ -58,6 +58,9 @@ public class BarChooserController extends Controller{
     }
 
     public void load(){
+        if (!checkDataset()){
+            return;
+        }
         datatypechooser.setItems(FXCollections.observableArrayList("Airports","Airlines","Routes"));
         datatypechooser.getSelectionModel().selectFirst();
         datatypechooser.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {

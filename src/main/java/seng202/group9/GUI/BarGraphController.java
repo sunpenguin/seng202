@@ -30,6 +30,7 @@ public class BarGraphController extends Controller {
     private HashMap<String, ArrayList> useddata = new HashMap<String, ArrayList>();
     private Session currentsession;
 
+
     /**
      * Takes data from the current dataset and places it into the displayed bar graph.
      */
@@ -63,35 +64,30 @@ public class BarGraphController extends Controller {
     private String departureAirport;
     private String arrivalAirport;
 
-    private void datasetupCustomarAirport(ArrayList<Airport> current_air_ports){
+/**    private void datasetupCustomarAirport(ArrayList<Airport> current_air_ports){
         //Takes out the specified field  then adds to the used data dict.
         for (Airport entry : current_air_ports){
-            String name = "Error";
-            if (currentsession.getSelectedgraphagainst() == "Name") {
-                name = entry.getName();
-            }
-            else if (currentsession.getSelectedgraphagainst() == "ICAO") {
+            currentsession.getSelectedgraphagainst() == "Name";
+            name = entry.getName();
+            currentsession.getSelectedgraphagainst() == "ICAO";
                 name = entry.getICAO();
-            }
-            else if (currentsession.getSelectedgraphagainst() == "IATA_FFA") {
+            currentsession.getSelectedgraphagainst() == "IATA_FFA"
                 name = entry.getIATA_FFA();
-            }
-            else if (currentsession.getSelectedgraphagainst() == "City") {
-                name = entry.getCityName();
-            }
-            else if (currentsession.getSelectedgraphagainst() == "Country") {
-                name = entry.getCountryName();
-            }
+            currentsession.getSelectedgraphagainst() == "City"
+
+            currentsession.getSelectedgraphagainst() == "Country"
+            name = entry.getCountryName();
+
             if (useddata.containsKey(name)){
-                //int temp = useddata.get(name);
-                //useddata.replace(name,temp+1);
+                int temp = useddata.get(name);
+                useddata.replace(name,temp+1);
             }else {
                 Integer temp = 1;
-                //useddata.put(name,temp);
+                useddata.put(name,temp);
             }
         }
     }
-
+*/
 
     private void datasetupCustomRoute(ArrayList<Route> current_routes){
         //Takes out the specified field (Currently departure airport and arrival airport) then adds to the used data dict.
@@ -100,32 +96,6 @@ public class BarGraphController extends Controller {
         //}
     }
 
-/**
-            for (Route entry : current_routes){
-        String departs = entry.getDepartureAirport();
-        String arives = entry.getArrivalAirport();
-        if (useddata.containsKey(departs)){
-            ArrayList<Integer> temp = useddata.get(departs);
-            temp.add(1,temp.get(1)+1);
-            useddata.replace(departs,temp);
-        }else {
-            ArrayList<Integer> temp = new ArrayList<Integer>(2);
-            temp.add(0);
-            temp.add(1);
-            useddata.put(departs,temp);
-        }
-        if (useddata.containsKey(arives)){
-            ArrayList<Integer> temp = useddata.get(arives);
-            temp.add(0,temp.get(0)+1);
-            useddata.replace(arives,temp);
-        }else {
-            ArrayList<Integer> temp = new ArrayList<Integer>(2);
-            temp.add(1);
-            temp.add(0);
-            useddata.put(arives,temp);
-        }
-    }
-*/
     /**
      * Takes the current dataset then loads the data to the graph using build graph.
      */
@@ -146,7 +116,7 @@ public class BarGraphController extends Controller {
             else{
                 d = currentdata.getAirports();
             }
-            datasetupCustomarAirport(d);
+            //datasetupCustomarAirport(d);
         }
         else if (temp == "Airlines"){
             ArrayList<Airline> d = new ArrayList();

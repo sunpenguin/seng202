@@ -44,9 +44,8 @@ public class PieGraphController extends Controller {
             pieChartData.add(new PieChart.Data(airport,temp));
         }
         //Gives the data to the graph.
-        if (useddata.keySet().size() > 250 && currentsession.getForceGraph()){
+        if (useddata.keySet().size() > 250 && !currentsession.getForceGraph()){
             replaceSceneContent(SceneCode.CHART_ERROR);
-
         }
         else{
             pieGraph.setData(pieChartData);
@@ -69,6 +68,9 @@ public class PieGraphController extends Controller {
             }
             else if (currentsession.getSelectedgraphagainst() == "IATA FFA") {
                 name = entry.getIATA_FFA();
+            }
+            else if (currentsession.getSelectedgraphagainst() == "Altitude") {
+                name = String.valueOf(entry.getAltitude());
             }
             else if (currentsession.getSelectedgraphagainst() == "City") {
                 name = entry.getCityName();
@@ -149,6 +151,9 @@ public class PieGraphController extends Controller {
      * Takes the current dataset then loads the data to the graph using build graph.
      */
     public void load() {
+        if (!checkDataset()){
+            return;
+        }
         currentdata = getParent().getCurrentDataset();
         currentsession = this.getParent().getSession();
         String temp = currentsession.getSelectedDataToGraph();

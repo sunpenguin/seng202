@@ -57,6 +57,9 @@ public class PieChooserController extends Controller{
     }
 
     public void load(){
+        if (!checkDataset()){
+            return;
+        }
         datatypechooser.setItems(FXCollections.observableArrayList("Airports","Airlines","Routes"));
         datatypechooser.getSelectionModel().selectFirst();
         datatypechooser.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
@@ -74,10 +77,10 @@ public class PieChooserController extends Controller{
 
     public void newFilter(){
         if (datatypechooser.getSelectionModel().getSelectedItem().toString() == "Airports"){
-            createPopUpStage(SceneCode.AIRPORT_FILTER, 600, 330);
+            createPopUpStage(SceneCode.AIRPORT_FILTER, 600, 480);
         }
         else if (datatypechooser.getSelectionModel().getSelectedItem().toString() == "Airlines"){
-            createPopUpStage(SceneCode.AIRLINE_FILTER, 600, 330);
+            createPopUpStage(SceneCode.AIRLINE_FILTER, 600, 370);
         }
         else if (datatypechooser.getSelectionModel().getSelectedItem().toString() == "Routes"){
             createPopUpStage(SceneCode.ROUTE_FILTER, 600, 330);
