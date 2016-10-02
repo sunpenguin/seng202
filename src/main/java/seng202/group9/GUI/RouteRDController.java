@@ -7,7 +7,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import seng202.group9.Controller.Dataset;
 import seng202.group9.Controller.SceneCode;
-import seng202.group9.Controller.RouteFilter;
 import seng202.group9.Controller.Session;
 import seng202.group9.Core.Route;
 
@@ -128,7 +127,7 @@ public class RouteRDController extends Controller {
 
     /**
      * Analyses the current data and creates a graph based on the data.
-     * @see RouteAnalyser
+     * @see BarGraphController
      */
     public void analyse_Button() {
         replaceSceneContent(SceneCode.ROUTE_ANALYSER);

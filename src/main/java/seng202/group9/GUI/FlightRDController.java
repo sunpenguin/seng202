@@ -56,25 +56,6 @@ public class FlightRDController extends Controller {
     ListView<String> flightPathListView;
     private ObservableList<String> flightList = FXCollections.observableArrayList();
 
-//    @FXML
-//    private TextField flightNameBox;
-//    @FXML
-//    private TextField flightTypeBox;
-//    @FXML
-//    private TextField flightViaBox;
-//    @FXML
-//    private TextField flightAltitudeBox;
-//    @FXML
-//    private TextField flightLatitudeBox;
-//    @FXML
-//    private TextField flightLongitudeBox;
-//    @FXML
-//    private TextField flightHeadingBox;
-//    @FXML
-//    private TextField flightLegDistBox;
-//    @FXML
-//    private TextField flightTotDistBox;
-
     /**
      * Loads the Flight paths into the List View and waits for a mouse clicked event for which it will update the table
      * to display the selected Flight paths points. Called from the MenuController.
@@ -166,16 +147,9 @@ public class FlightRDController extends Controller {
      * Creates a pop up dialog which prompts the user for two ICAO airport codes which will use when creating a new path.
      */
     public void newPath() {
-        NewPathPopUp dialogBox = new NewPathPopUp();
-        dialogBox.display();
-        String destAirport = dialogBox.getDestinationAirport();
-        String sourceAirport = dialogBox.getSourceAirport();
-
-        if (destAirport != null && sourceAirport != null){
-            theDataSet.addFlightPath(sourceAirport, destAirport);
-            flightPathListView.getItems().clear();
-            flightPathListView();
-        }
+        createPopUpStage(SceneCode.FLIGHT_PATH_ADD, 500, 240);
+        flightPathListView.getItems().clear();
+        flightPathListView();
     }
     /**
      *  Removes the selected point from the table and database.

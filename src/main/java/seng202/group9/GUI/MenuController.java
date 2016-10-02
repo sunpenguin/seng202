@@ -67,6 +67,8 @@ public class MenuController extends Controller{
 		replaceSceneContent(SceneCode.ROUTE_SUMMARY);
 	}
 
+	public void viewAnalyserMain() { replaceSceneContent(SceneCode.ANALYSER_TAB);}
+
 	/**
 	 * view Routes by the Destination / Arrival Airport
 	 */

@@ -131,7 +131,7 @@ public class AirportRDController extends Controller{
 
     /**
      * Analyses the current data and creates a graph based on the data.
-     * @see AirportAnalyser
+     * @see PieGraphController
      */
     public void analyse_Button(){ replaceSceneContent(SceneCode.AIRPORT_ANALYSER);}
 
