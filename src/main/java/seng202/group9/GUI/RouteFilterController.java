@@ -1,16 +1,21 @@
 package seng202.group9.GUI;
 
 import javafx.collections.FXCollections;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import seng202.group9.Controller.Dataset;
 import seng202.group9.Controller.RouteFilter;
 import seng202.group9.Controller.Session;
 import seng202.group9.Core.Route;
 
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -33,6 +38,8 @@ public class RouteFilterController extends Controller {
     private TextField rEquipmentFilter;
     @FXML
     private Button applyButton;
+    @FXML
+    private GridPane airlineAddForm;
 
     private Dataset theDataSet = null;
     //Set an empty session to be assigned to the current session.
@@ -99,6 +106,14 @@ public class RouteFilterController extends Controller {
         }
         theDataSet = getParent().getCurrentDataset();
         currentSession = getParent().getSession();
+        airlineAddForm.setOnKeyPressed(new EventHandler<KeyEvent>(){
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode().equals(KeyCode.ENTER)){
+                    filterRoutes();
+                }
+            }
+        });
         sesFilter = currentSession.getRouteFilter();
         rAirlineFilter.setText(sesFilter.get("Airline"));
         rSourceFilter.setText(sesFilter.get("Source"));
