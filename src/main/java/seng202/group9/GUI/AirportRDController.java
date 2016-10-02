@@ -107,16 +107,11 @@ public class AirportRDController extends Controller{
      */
     public void deleteAirport(){
         //Gets an airport from the table and deletes it before updating the table
-//        Airport toDelete = tableViewAirportRD.getSelectionModel().getSelectedItem();
-//        theDataSet.deleteAirport(toDelete);
-//        tableViewAirportRD.setItems(observableArrayList(theDataSet.getAirports()));
-
         ObservableList<Airport> toDelete = tableViewAirportRD.getSelectionModel().getSelectedItems();
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Airport Delete Confirmation");
         alert.setHeaderText("You are about to delete some data.");
         alert.setContentText("Are you sure you want to delete the selected airport(s)?");
-        //alert.showAndWait();
         Optional<ButtonType> result = alert.showAndWait();
         Airport air = null;
         if (result.isPresent() && result.get() == ButtonType.OK) {
@@ -132,11 +127,6 @@ public class AirportRDController extends Controller{
         Airport toEdit = tableViewAirportRD.getSelectionModel().getSelectedItem();
         currentSession.setAirportToEdit(toEdit.getName());
         createPopUpStage(SceneCode.AIRPORT_EDIT, 600, 480);
-
-//        System.out.println(toEdit.getName() + "," + toEdit.getCity() + "," + toEdit.getCountry() + "," + toEdit.getIATA_FFA()
-//                + "," + toEdit.getICAO() + "," + toEdit.getLatitude() + "," + toEdit.getLongitude() + "," + toEdit.getAltitude()
-//                + "," + toEdit.getTimezone() + "," + toEdit.getDST() + "," + toEdit.getTz());
-
         tableViewAirportRD.refresh();
     }
 

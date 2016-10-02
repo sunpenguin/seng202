@@ -1,5 +1,6 @@
 package seng202.group9.GUI;
 
+import javafx.scene.control.Alert;
 import seng202.group9.Controller.SceneCode;
 
 /**
@@ -8,7 +9,6 @@ import seng202.group9.Controller.SceneCode;
 public class GettingStartedController extends Controller {
 
     public void load() {
-
     }
 
     public void importAirlines() {
@@ -31,7 +31,15 @@ public class GettingStartedController extends Controller {
         Importer importer = new Importer(SceneCode.FLIGHT_RAW_DATA, getParent(), getParent().getPrimaryStage());
     }
 
-    public void goToAirlineSummary() {
+    public void manageDatasets() {
+        getParent().getMenuController().openDataset();
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Dataset Selected");
+        alert.setHeaderText("You have decided to change the Dataset.");
+        alert.setContentText("You will now be taken to the airline summary page.");
+        alert.showAndWait();
+
         replaceSceneContent(SceneCode.AIRLINE_SUMMARY);
     }
 }

@@ -51,12 +51,12 @@
             <Insets />
          </GridPane.margin>
       </Label>
-      <Button mnemonicParsing="false" onAction="#goToAirlineSummary" text="Blank Dataset" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+      <Button mnemonicParsing="false" onAction="#manageDatasets" text="Manage Datasets" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="2">
          <GridPane.margin>
-            <Insets bottom="15.0" />
+            <Insets bottom="15.0" right="15.0" />
          </GridPane.margin>
       </Button>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="To get started, select which type of data you wish to import or start from a blank dataset." textAlignment="CENTER" wrappingWidth="480.84765625" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="To get started, select which type of data you wish to import or manage your datasets." textAlignment="CENTER" wrappingWidth="480.84765625" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <font>
             <Font size="20.0" />
          </font>
