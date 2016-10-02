@@ -49,13 +49,10 @@
          </GridPane.margin>
       </TableView>
       <WebView fx:id="mapView" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Only Routes with Valid Airport Data will be displayed." wrappingWidth="214.509765625" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Note: Only Routes with Valid Airport Data will be displayed." wrappingWidth="276.509765625" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
          <GridPane.margin>
-            <Insets right="15.0" />
+            <Insets right="10.0" top="10.0" />
          </GridPane.margin>
-         <font>
-            <Font size="8.0" />
-         </font>
       </Text>
    </children>
 </GridPane>
