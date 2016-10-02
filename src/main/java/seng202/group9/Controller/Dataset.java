@@ -1901,7 +1901,7 @@ public class Dataset {
                 airport.getCountry().setDST(DST);
                 //update country in database
                 stmt = c.createStatement();
-                String updateCountryQuery = "UPDATE `"+this.name+"_Country` SET `DST` = "+DST+" WHERE `Country_Name` = \""+country+"\"";
+                String updateCountryQuery = "UPDATE `"+this.name+"_Country` SET `DST` = \""+DST+"\" WHERE `Country_Name` = \""+country+"\"";
                 stmt.execute(updateCountryQuery);
                 stmt.close();
             }else{
