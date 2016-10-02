@@ -43,6 +43,9 @@ public class RouteSummaryController extends Controller{
      * Loads initial state of the scene.
      */
     public void load() {
+        if (!checkDataset()){
+            return;
+        }
         columnAirline.setCellValueFactory(new PropertyValueFactory<Route, String>("AirlineName"));
         columnDepart.setCellValueFactory(new PropertyValueFactory<Route, String>("DepartureAirport"));
         columnArrive.setCellValueFactory(new PropertyValueFactory<Route, String>("ArrivalAirport"));
@@ -50,11 +53,9 @@ public class RouteSummaryController extends Controller{
         columnEquipment.setCellValueFactory(new PropertyValueFactory<Route, String>("Equipment"));
         currentData = getParent().getCurrentDataset();
         tableView.setItems(FXCollections.observableArrayList(currentData.getRoutes()));
-        map = new Map(mapView, new RoutePath());
         tableView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Route>() {
             public void changed(ObservableValue<? extends Route> observable, Route oldValue, Route newValue) {
-                System.out.println("loading");
-                Route selectedRoute= currentData.getRoutes().get(tableView.getSelectionModel().getSelectedIndices().get(0));
+                Route selectedRoute= tableView.getSelectionModel().getSelectedItems().get(0);
                 if (selectedRoute.getSourceAirport() != null && selectedRoute.getDestinationAirport() != null) {
                     map.displayRoute(new RoutePath(
                             new Position(selectedRoute.getSourceAirport().getLatitude(), selectedRoute.getSourceAirport().getLongitude()),
@@ -71,6 +72,7 @@ public class RouteSummaryController extends Controller{
                 }
             }
         });
+        map = new Map(mapView, new RoutePath(), tableView);
     }
 
     /**

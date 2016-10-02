@@ -39,6 +39,7 @@
          <contextMenu>
             <ContextMenu>
                <items>
+                  <MenuItem mnemonicParsing="false" onAction="#editRoute" text="Edit" />
                   <MenuItem mnemonicParsing="false" onAction="#deleteRoute" text="Delete" />
                </items>
             </ContextMenu>
@@ -57,17 +58,22 @@
       </TableView>
       <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="BASELINE">
          <children>
-            <Button mnemonicParsing="false" onAction="#analyse_Button" text="Analyse Route Data">
+            <Button mnemonicParsing="false" onAction="#analyse_Button" prefWidth="100.0" text="Analyse ">
                <HBox.margin>
                   <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" onAction="#openFilter" text="Filter Route Data">
+            <Button mnemonicParsing="false" onAction="#openFilter" prefWidth="100.0" text="Filter">
                <HBox.margin>
                   <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#openAdd" text="Add New Route">
+            <Button mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#openAdd" prefWidth="100.0" text="Add New">
+               <HBox.margin>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </HBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#openMap" prefWidth="100.0" text="Map Data">
                <HBox.margin>
                   <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                </HBox.margin>
@@ -79,5 +85,18 @@
             <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
          </GridPane.margin>
       </Button>
+      <Label text="Note: Airline, source airport and destination airports" GridPane.columnIndex="1" GridPane.valignment="TOP">
+         <GridPane.margin>
+            <Insets />
+         </GridPane.margin>
+         <padding>
+            <Insets top="5.0" />
+         </padding>
+      </Label>
+      <Label text="are in either IATA or ICAO code." GridPane.columnIndex="1">
+         <padding>
+            <Insets top="5.0" />
+         </padding>
+      </Label>
    </children>
 </GridPane>

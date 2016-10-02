@@ -17,7 +17,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Created by Sunguin on 2016/09/22.
+ * The GUI controller class for airline_filter_form.fxml.
+ * Extends from the abstract class {@link Controller}.
+ * Created by Sunguin
  */
 public class AirlineFilterController extends Controller {
 
@@ -41,6 +43,14 @@ public class AirlineFilterController extends Controller {
 
     private Dataset theDataSet = null;
     private Session currentSession = null;
+
+    /**
+     * Loads up the current dataset and current session.
+     */
+    public void load() {
+        theDataSet = getParent().getCurrentDataset();
+        currentSession = getParent().getSession();
+    }
 
     /**
      * Filters airlines by any field.
@@ -79,22 +89,17 @@ public class AirlineFilterController extends Controller {
         alert.setContentText("Your airline data has been successfully filtered.");
         alert.showAndWait();
 
-        //currentSession.setFilteredAirlines(FXCollections.observableArrayList(filter.getFilteredData()));
-
+        //Creates a new hashmap for airlines and fills it with airlines that fit the criteria specified by the user.
+        //Saves it into the current session.
         HashMap<Integer, String> airlinesHM = new HashMap<Integer, String>();
         ArrayList<Airline> airlines = filter.getFilteredData();
-        //for (Airline airline: airlines) {
         for (int index = 0; index < airlines.size(); index++) {
             airlinesHM.put(index, airlines.get(index).getName());
         }
         currentSession.setFilteredAirlines(airlinesHM);
 
+        //Closes the popup.
         Stage stage = (Stage) applyButton.getScene().getWindow();
         stage.close();
-    }
-
-    public void load() {
-        theDataSet = getParent().getCurrentDataset();
-        currentSession = getParent().getSession();
     }
 }

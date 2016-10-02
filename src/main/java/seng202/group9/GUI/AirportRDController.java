@@ -59,26 +59,31 @@ public class AirportRDController extends Controller{
      * Also sets up the dropdown menu options.
      */
     public void load() {
-        //Sets up the table columns to be ready for use for Airport data
-        airpIDCol.setCellValueFactory(new PropertyValueFactory<Airport, String>("ID"));
-        airpNameCol.setCellValueFactory(new PropertyValueFactory<Airport, String>("Name"));
-        airpCityCol.setCellValueFactory(new PropertyValueFactory<Airport, String>("CityName"));
-        airpCountryCol.setCellValueFactory(new PropertyValueFactory<Airport, String>("CountryName"));
-        airpIATAFFACol.setCellValueFactory(new PropertyValueFactory<Airport, String>("IATA_FFA"));
-        airpICAOCol.setCellValueFactory(new PropertyValueFactory<Airport, String>("ICAO"));
-        airpLatitudeCol.setCellValueFactory(new PropertyValueFactory<Airport, String>("Latitude"));
-        airpLongitudeCol.setCellValueFactory(new PropertyValueFactory<Airport, String>("Longitude"));
-        airpAltitudeCol.setCellValueFactory(new PropertyValueFactory<Airport, String> ("Altitude"));
-        airpTimezoneCol.setCellValueFactory(new PropertyValueFactory<Airport, String>("Timezone"));
-        airpDSTCol.setCellValueFactory(new PropertyValueFactory<Airport, String>("DST"));
-        airpTzCol.setCellValueFactory(new PropertyValueFactory<Airport, String>("Tz"));
-
-        //Assigning the Dataset to the current Dataset's airports and displaying it in a table
+        if (!checkDataset()){
+            return;
+        }
         theDataSet = getParent().getCurrentDataset();
-        currentSession = getParent().getSession();
+        if (theDataSet != null) {
+            //Sets up the table columns to be ready for use for Airport data
+            airpIDCol.setCellValueFactory(new PropertyValueFactory<Airport, String>("ID"));
+            airpNameCol.setCellValueFactory(new PropertyValueFactory<Airport, String>("Name"));
+            airpCityCol.setCellValueFactory(new PropertyValueFactory<Airport, String>("CityName"));
+            airpCountryCol.setCellValueFactory(new PropertyValueFactory<Airport, String>("CountryName"));
+            airpIATAFFACol.setCellValueFactory(new PropertyValueFactory<Airport, String>("IATA_FFA"));
+            airpICAOCol.setCellValueFactory(new PropertyValueFactory<Airport, String>("ICAO"));
+            airpLatitudeCol.setCellValueFactory(new PropertyValueFactory<Airport, String>("Latitude"));
+            airpLongitudeCol.setCellValueFactory(new PropertyValueFactory<Airport, String>("Longitude"));
+            airpAltitudeCol.setCellValueFactory(new PropertyValueFactory<Airport, String>("Altitude"));
+            airpTimezoneCol.setCellValueFactory(new PropertyValueFactory<Airport, String>("Timezone"));
+            airpDSTCol.setCellValueFactory(new PropertyValueFactory<Airport, String>("DST"));
+            airpTzCol.setCellValueFactory(new PropertyValueFactory<Airport, String>("Tz"));
 
-        tableViewAirportRD.setItems(observableArrayList(theDataSet.getAirports()));
-        tableViewAirportRD.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+            //Assigning the Dataset to the current Dataset's airports and displaying it in a table
+            currentSession = getParent().getSession();
+
+            tableViewAirportRD.setItems(observableArrayList(theDataSet.getAirports()));
+            tableViewAirportRD.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        }
     }
 
     public void openAdd() {
@@ -89,11 +94,8 @@ public class AirportRDController extends Controller{
     public void openFilter() {
         createPopUpStage(SceneCode.AIRPORT_FILTER, 600, 480);
         ArrayList<Airport> d = new ArrayList();
-        for(int i = 0; i < theDataSet.getAirports().size(); i++) {
-            if (currentSession.getFilteredAirports().containsValue(theDataSet.getAirports().get(i).getName())
-                    && currentSession.getFilteredAirports().containsKey(i)) {
-                d.add(theDataSet.getAirports().get(i));
-            }
+        for (int key: currentSession.getFilteredAirports().keySet()){
+            d.add(theDataSet.getAirportDictionary().get(currentSession.getFilteredAirports().get(key)));
         }
         tableViewAirportRD.setItems(FXCollections.observableArrayList(d));
     }
@@ -105,16 +107,11 @@ public class AirportRDController extends Controller{
      */
     public void deleteAirport(){
         //Gets an airport from the table and deletes it before updating the table
-//        Airport toDelete = tableViewAirportRD.getSelectionModel().getSelectedItem();
-//        theDataSet.deleteAirport(toDelete);
-//        tableViewAirportRD.setItems(observableArrayList(theDataSet.getAirports()));
-
         ObservableList<Airport> toDelete = tableViewAirportRD.getSelectionModel().getSelectedItems();
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Airport Delete Confirmation");
         alert.setHeaderText("You are about to delete some data.");
         alert.setContentText("Are you sure you want to delete the selected airport(s)?");
-        //alert.showAndWait();
         Optional<ButtonType> result = alert.showAndWait();
         Airport air = null;
         if (result.isPresent() && result.get() == ButtonType.OK) {
@@ -126,6 +123,12 @@ public class AirportRDController extends Controller{
         }
     }
 
+    public void editAirport() {
+        Airport toEdit = tableViewAirportRD.getSelectionModel().getSelectedItem();
+        currentSession.setAirportToEdit(toEdit.getName());
+        createPopUpStage(SceneCode.AIRPORT_EDIT, 600, 480);
+        tableViewAirportRD.refresh();
+    }
 
     /**
      * Analyses the current data and creates a graph based on the data.
@@ -135,5 +138,12 @@ public class AirportRDController extends Controller{
 
     public void airportSummaryButton() {
         replaceSceneContent(SceneCode.AIRPORT_SUMMARY);
+    }
+
+    /**
+     * Opens a map with the data currently being displayed in the table.
+     */
+    public void openMap() {
+
     }
 }

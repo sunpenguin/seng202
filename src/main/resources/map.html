@@ -90,6 +90,57 @@
         repositionMap(flightPath);
     }
 
+    function displayRoutes(flightPaths) {
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: 0, lng: 0},
+            zoom: 5
+        });
+        for (var i = 0; i < flightPaths.length; i++) {
+            var tempMarker1 = null;
+            var tempMarker2 = null;
+            var tempPath = null;
+
+            if (flightPaths[i].length < 2) {
+                continue;
+            }
+
+            // CREATE MARKERS AT START AND FINISH
+            tempMarker1 = new google.maps.Marker({
+                position: flightPaths[i][0],
+                map: map
+            });
+
+            tempMarker2 = new google.maps.Marker({
+                position: flightPaths[i][flightPaths[i].length - 1],
+                map: map
+            });
+
+            // DRAW POLYLINE FOR ROUTE
+            tempPath = new google.maps.Polyline({
+                path: flightPaths[i],
+                geodesic: true,
+                strokeColor: '#FF0000',
+                strokeOpacity: 1.0,
+                strokeWeight: 2
+            });
+
+            tempPath.setMap(map);
+        }
+        repositionMapToMulti(flightPaths);
+    }
+
+    function repositionMapToMulti(flightPaths){
+        var bounds = new google.maps.LatLngBounds();
+
+        for (var i = 0; i < flightPaths.length; i++) {
+            for (var j = 0; j < flightPaths[i].length; j++) {
+                bounds.extend(flightPaths[i][j]);
+            }
+        }
+
+        map.fitBounds(bounds);
+    }
+
     function repositionMap(flightPath) {
         var bounds = new google.maps.LatLngBounds();
 

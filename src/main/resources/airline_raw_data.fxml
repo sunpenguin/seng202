@@ -49,6 +49,7 @@
          <contextMenu>
             <ContextMenu>
                <items>
+                  <MenuItem mnemonicParsing="false" onAction="#editAirline" text="Edit" />
                   <MenuItem mnemonicParsing="false" onAction="#deleteAirline" text="Delete" />
                </items>
             </ContextMenu>
@@ -56,17 +57,17 @@
       </TableView>
       <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="BASELINE">
          <children>
-            <Button mnemonicParsing="false" onAction="#analyse_Button" text="Analyse Airline Data">
+            <Button mnemonicParsing="false" onAction="#analyse_Button" prefWidth="100.0" text="Analyse">
                <HBox.margin>
                   <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" onAction="#openFilter" text="Filter Airline Data">
+            <Button mnemonicParsing="false" onAction="#openFilter" prefWidth="100.0" text="Filter">
                <HBox.margin>
                   <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#openAdd" text="Add New Airline">
+            <Button mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#openAdd" prefWidth="100.0" text="Add New">
                <HBox.margin>
                   <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                </HBox.margin>

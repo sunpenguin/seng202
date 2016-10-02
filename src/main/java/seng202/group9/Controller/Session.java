@@ -1,7 +1,9 @@
 package seng202.group9.Controller;
 
-
+import javafx.collections.ObservableList;
 import seng202.group9.Core.Airline;
+
+import seng202.group9.Core.FlightPoint;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,6 +16,9 @@ import java.util.HashMap;
 public class Session implements Serializable {
 
     private SceneCode sceneDisplayed;
+
+    private int currentFlightPointID;
+    private int currentFlightPathID;
     private HashMap<Integer, String> filteredAirlines;
     private HashMap<Integer, String> filteredAirports;
     private HashMap<Integer, String> filteredRoutes;
@@ -63,6 +68,13 @@ public class Session implements Serializable {
         this.usefilter = usefilter;
     }
 
+    private String airlineToEdit;
+    private String airportToEdit;
+    private String routeToEdit;
+
+    private String currentDataset;
+
+
     /**
      * Constructor for a new session
      */
@@ -77,6 +89,14 @@ public class Session implements Serializable {
      */
     public Session(SceneCode scene){
         this.sceneDisplayed = scene;
+    }
+
+    public String getCurrentDataset(){
+        return this.currentDataset;
+    }
+
+    public void setCurrentDataset(String currentDataset){
+        this.currentDataset = currentDataset;
     }
 
     /**
@@ -117,6 +137,62 @@ public class Session implements Serializable {
 
     public HashMap<Integer, String> getFilteredRoutes() {
         return filteredRoutes;
+    }
+
+
+    public void setAirlineToEdit(String name) {
+        this.airlineToEdit = name;
+    }
+
+    public String getAirlineToEdit() {
+        return airlineToEdit;
+    }
+
+    public String getAirportToEdit() {
+        return airportToEdit;
+    }
+
+    public void setAirportToEdit(String airport) {
+        this.airportToEdit = airport;
+    }
+
+    public String getRouteToEdit() {
+        return routeToEdit;
+    }
+
+    public void setRouteToEdit(String route) {
+        this.routeToEdit = route;
+    }
+
+    /**
+     * sets the current flight point
+     * @param currentFlightPointID
+     */
+    public void setCurrentFlightPointID(int currentFlightPointID) {
+        this.currentFlightPointID = currentFlightPointID;
+    }
+
+    /**
+     * gets the current flight point
+     * @return
+     */
+    public int getCurrentFlightPointID() {
+        return currentFlightPointID;
+    }
+    /**
+     * sets the current flight point
+     * @param currentFlightPathID
+     */
+    public void setCurrentFlightPathtID(int currentFlightPathID) {
+        this.currentFlightPathID = currentFlightPathID;
+    }
+
+    /**
+     * gets the current flight point
+     * @return
+     */
+    public int getCurrentFlightPathID() {
+        return currentFlightPathID;
     }
 
 }

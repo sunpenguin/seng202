@@ -74,6 +74,9 @@ public class RouteAddController extends Controller {
     }
 
     public void load() {
+        if (!checkDataset()){
+            return;
+        }
         theDataSet = getParent().getCurrentDataset();
     }
 }

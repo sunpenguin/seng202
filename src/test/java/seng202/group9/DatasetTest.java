@@ -32,6 +32,11 @@ public class DatasetTest {
             fail("The sample file is missing");
         }
         assertTrue(dataset.getAirlines().size() == dataset.getAirlineDictionary().size());
+        try {
+            assertTrue(dataset.getAirlines().get(0).getID() == 1);
+        } catch (DataException e) {
+            fail("The first index of Airlines should have an id of 1 as there has been no tampering with the data yet");
+        }
 
         try {
             dataset.importAirport("res/Reduced Samples/Airports.txt");
@@ -41,6 +46,11 @@ public class DatasetTest {
         assertTrue(dataset.getAirports().size() == dataset.getAirportDictionary().size());
         assertTrue(dataset.getCities().size() == dataset.getCityDictionary().size());
         assertTrue(dataset.getCountries().size() == dataset.getCountryDictionary().size());
+        try {
+            assertTrue(dataset.getAirports().get(0).getID() == 1);
+        } catch (DataException e) {
+            fail("The first index of Airports should have an id of 1 as there has been no tampering with the data yet");
+        }
 
         try {
             dataset.importRoute("res/Reduced Samples/Routes.txt");
@@ -48,6 +58,11 @@ public class DatasetTest {
             fail("The sample file is missing");
         }
         assertTrue(dataset.getRoutes().size() == dataset.getRouteDictionary().size());
+        try {
+            assertTrue(dataset.getRoutes().get(0).getID() == 1);
+        } catch (DataException e) {
+            fail("The first index of Routes should have an id of 1 as there has been no tampering with the data yet");
+        }
 
         try {
             dataset.importFlight("res/Reduced Samples/NZCH-WSSS.csv");
@@ -55,6 +70,11 @@ public class DatasetTest {
             fail("The sample file is missing");
         }
         assertTrue(dataset.getFlightPaths().size() == dataset.getFlightPathDictionary().size());
+        try {
+            assertTrue(dataset.getFlightPaths().get(0).getID() == 1);
+        } catch (DataException e) {
+            fail("The first index of Flight Paths should have an id of 1 as there has been no tampering with the data yet");
+        }
 
         dataset.createDataLinks();
 
@@ -185,6 +205,8 @@ public class DatasetTest {
             fail("The sample file is missing");
         }
 
+        assertTrue(dataset.getFlightPaths().get(0).getFlightPoints().get(0).getID() == 1);
+
         FlightPoint flightPoint = dataset.getFlightPaths().get(0).getFlightPoints().get(6);
         FlightPoint flightPoint1 = dataset.getFlightPaths().get(0).getFlightPoints().get(5);
         dataset.deleteFlightPoint(1, 5);
@@ -197,6 +219,15 @@ public class DatasetTest {
         dataset.addFlightPointToPath(flightPoint, 6);
         assertEquals(dataset.getFlightPaths().get(0).getFlightPoints().get(5).getName(), flightPoint1.getName());
         assertEquals(dataset.getFlightPaths().get(0).getFlightPoints().get(6).getName(), flightPoint.getName());
+
+        //edit order
+        FlightPoint wasLast = dataset.getFlightPaths().get(0).getFlightPoints().get(dataset.getFlightPaths().get(0).getFlightPoints().size() - 1);
+        FlightPoint wasSecondToLast = dataset.getFlightPaths().get(0).getFlightPoints().get(dataset.getFlightPaths().get(0).getFlightPoints().size() - 2);
+        FlightPoint wasFirst = dataset.getFlightPaths().get(0).getFlightPoints().get(0);
+        dataset.moveFlightPoint(wasLast, 0);
+        assertTrue(dataset.getFlightPaths().get(0).getFlightPoints().indexOf(wasLast) == 0);
+        assertTrue(dataset.getFlightPaths().get(0).getFlightPoints().indexOf(wasSecondToLast) == dataset.getFlightPaths().get(0).getFlightPoints().size() - 1);
+        assertTrue(dataset.getFlightPaths().get(0).getFlightPoints().indexOf(wasFirst) == 1);
 
         app.deleteDataset(app.getCurrentDataset());
     }

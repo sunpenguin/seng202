@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group9.GUI.MenuController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group9.GUI.MenuController">
    <children>
       <MenuBar>
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
+                  <MenuItem mnemonicParsing="false" onAction="#openDataset" text="New/Open Dataset" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem mnemonicParsing="false" onAction="#importAirports" text="Import Airports" />
                   <MenuItem mnemonicParsing="false" onAction="#importAirlines" text="Import Airlines" />
                   <MenuItem mnemonicParsing="false" onAction="#importRoutes" text="Import Routes" />
@@ -43,12 +48,24 @@
                         <MenuItem mnemonicParsing="false" onAction="#viewFlightRawData" text="Raw Data" />
                      </items>
                   </Menu>
+                  <Menu mnemonicParsing="false" text="Maps">
+                    <items>
+                      <MenuItem mnemonicParsing="false" onAction="#viewRouteByAirport" text="Route By Airport" />
+                        <MenuItem mnemonicParsing="false" onAction="#viewRouteByEquipment" text="Route By Equipment" />
+                    </items>
+                  </Menu>
                </items></Menu>
             <Menu mnemonicParsing="false" text="Analysis">
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#viewAnalyserMain" text="Graphs" />
                   <MenuItem mnemonicParsing="false" onAction="#veiwDistCalc" text="Calculate distance between Airports" />
                </items></Menu>
+            <Menu mnemonicParsing="false" text="Help">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#goToGettingStarted" text="Getting Started" />
+                  <MenuItem mnemonicParsing="false" onAction="#goToHelp" text="Help Page" />
+              </items>
+            </Menu>
         </menus>
       </MenuBar>
    </children>

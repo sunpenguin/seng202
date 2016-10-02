@@ -60,6 +60,24 @@ public class FlightPoint {
 		this.longitude = longitude;
 	}
 
+	public FlightPoint(String type, int id, int index, String name, double altitude, double latitude, double longitude){
+		//extra calculations will have to be used to find heading, legdistance and total distance. If necessary
+		//Type 1 file the file the lecturers gave us
+		//indexID = flight path ID
+		//ID = unique Auto Increment value
+		this.name = name;
+		this.ID = id;
+		this.indexID = index;
+		this.type = type;
+		this.via = "";
+		this.heading = 0;
+		this.altitude = altitude;
+		this.legDistance = 0.0;
+		this.totalDistance = 0.0;
+		this.latitude = latitude;
+		this.longitude = longitude;
+	}
+
 	/**
 	 * Constructor when getting points from the database.
 	 * @param name Name for the point.

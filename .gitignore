@@ -6,3 +6,4 @@ SENG202.iml
 .settings/
 doc/
 res/session.ser
+res/userdb.db

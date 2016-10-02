@@ -1,6 +1,5 @@
 package seng202.group9.GUI;
 
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -9,10 +8,12 @@ import javafx.stage.Stage;
 import seng202.group9.Controller.Dataset;
 
 /**
- * Created by Sunguin on 2016/09/22.
+ * The GUI controller class for airline_add_form.fxml.
+ * Extends from the abstract class {@link Controller}.
+ * Created by Sunguin
  */
 public class AirlineAddController extends Controller {
-    //Setting up text fields for adding data
+    //Setting up text fields for adding data.
     @FXML
     private TextField airlNameAdd;
     @FXML
@@ -30,7 +31,15 @@ public class AirlineAddController extends Controller {
     @FXML
     private Button addButton;
 
+    //Set an empty Dataset to be assigned to the current dataset.
     private Dataset theDataSet = null;
+
+    /**
+     * Loads up the current dataset.
+     */
+    public void load() {
+        theDataSet = getParent().getCurrentDataset();
+    }
 
     /**
      * Adds a single airline entry to the database.
@@ -58,26 +67,23 @@ public class AirlineAddController extends Controller {
             airlCountryAdd.clear();
             airlActiveAdd.clear();
 
+            //Saying to the user that the airline has successfully added.
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Airline Add Successful");
             alert.setHeaderText("New Airline added!");
             alert.setContentText("Your new airline has been successfully added into the database.");
             alert.showAndWait();
 
+            //Closes the add form.
             Stage stage = (Stage) addButton.getScene().getWindow();
             stage.close();
-
         } catch (Exception e) {
+            //Tells the user what and where the error is.
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Airline Data Error");
             alert.setHeaderText("Error adding a custom airline entry.");
             alert.setContentText(e.getMessage());
             alert.showAndWait();
         }
-
-    }
-
-    public void load() {
-        theDataSet = getParent().getCurrentDataset();
     }
 }

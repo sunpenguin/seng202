@@ -3,6 +3,7 @@ package seng202.group9.GUI;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -37,7 +38,7 @@ public class AirportAddController extends Controller {
     @FXML
     private TextField airpTzAdd;
     @FXML
-    private TextField addButton;
+    private Button addButton;
 
     //Set an empty Dataset to be assigned later
     private Dataset theDataSet = null;

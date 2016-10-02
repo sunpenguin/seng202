@@ -2,7 +2,9 @@ package seng202.group9.Controller;
 
 
 import javafx.scene.chart.PieChart;
+import javafx.scene.control.Alert;
 import seng202.group9.Core.*;
+import sun.awt.image.ImageWatched;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -23,12 +25,14 @@ public class Dataset {
     private ArrayList<FlightPath> flightPaths;
     private ArrayList<Country> countries;
     private ArrayList<City> cities;
-    private LinkedHashMap<String, Airline> airlineDictionary;
-    private LinkedHashMap<String, Airport> airportDictionary;
-    private LinkedHashMap<String, Route> routeDictionary;
-    private LinkedHashMap<Integer, FlightPath> flightPathDictionary;
-    private LinkedHashMap<String, Country> countryDictionary;
-    private LinkedHashMap<String, City> cityDictionary;
+    private LinkedHashMap<String, Airline> airlineDictionary;//key name
+    private LinkedHashMap<String, Airport> airportDictionary;//key name
+    private LinkedHashMap<String, Route> routeDictionary;//key routeAirline + routeSourceAirport + routeArrvAirport + routeCodeShare + routeStops + routeEquip
+    private LinkedHashMap<Integer, FlightPath> flightPathDictionary;//key path id
+    private LinkedHashMap<String, Country> countryDictionary;//key name
+    private LinkedHashMap<String, City> cityDictionary;//key city name
+    private LinkedHashMap<Integer, FlightPoint> flightPointDictionary;//key point id
+    private LinkedHashMap<String, Equipment> equipmentDictionary;
 
     /**
      *
@@ -50,6 +54,8 @@ public class Dataset {
         this.countryDictionary = new LinkedHashMap<String, Country>();;
         this.cityDictionary = new LinkedHashMap<String, City>();;
         this.flightPathDictionary = new LinkedHashMap<Integer, FlightPath>();
+        this.flightPointDictionary = new LinkedHashMap<Integer, FlightPoint>();
+        this.equipmentDictionary = new LinkedHashMap<>();
         if (action == getExisting){
             updateDataset();
             //after this make connections. ie filling in the country.cities airports.routes etc
@@ -204,9 +210,11 @@ public class Dataset {
                     double flightPtTotDist = rs.getDouble("Tot_Dist");
                     double flightPtLatitude = rs.getDouble("Latitude");
                     double flightPtLongitude = rs.getDouble("Longitude");
-                    flightPaths.get(i).addFlightPoint(new FlightPoint(flightPtName, flightPtID, flightPtInd
-                    , flightPtType, flightPtVia, flightPtheading, flightPtAltitude, flightPtLegDistance, flightPtTotDist,
-                            flightPtLatitude, flightPtLongitude));
+                    FlightPoint flightPoint = new FlightPoint(flightPtName, flightPtID, flightPtInd
+                            , flightPtType, flightPtVia, flightPtheading, flightPtAltitude, flightPtLegDistance, flightPtTotDist,
+                            flightPtLatitude, flightPtLongitude);
+                    flightPaths.get(i).addFlightPoint(flightPoint);
+                    flightPointDictionary.put(flightPtID, flightPoint);
                 }
                 rs.close();
                 stmt.close();
@@ -375,7 +383,7 @@ public class Dataset {
         ArrayList<Airline> airlinesToImport = parser.getResult();
         //check for dup
         int numOfDuplicates = 0;
-        int nextID = -1;
+        int nextID = 1;
         //query database.
         Connection c = null;
         Statement stmt = null;
@@ -448,7 +456,7 @@ public class Dataset {
         ArrayList<Country> countriesToImport = parser.getCountryResult();
         //check for dup
         int numOfDuplicates = 0;
-        int nextID = -1;
+        int nextID = 1;
         //query database.
         Connection c = null;
         Statement stmt = null;
@@ -463,7 +471,6 @@ public class Dataset {
             while (IDResult.next()) {
                 nextID = Integer.parseInt(IDResult.getString("seq")) + 1;//for some reason sqlite3 stores incremental values as a string...
             }
-            System.out.println(nextID);
             stmt.close();
             stmt = c.createStatement();
             String insertAirportQuery = "INSERT INTO `" + this.name + "_Airport` (`Name`, `City`, `Country`, `IATA/FFA`," +
@@ -580,7 +587,7 @@ public class Dataset {
         ArrayList<Route> routesToImport = parser.getResult();
         //check for dup
         int numOfDuplicates = 0;
-        int nextID = -1;
+        int nextID = 1;
         //query database.
         Connection c = null;
         Statement stmt = null;
@@ -654,7 +661,7 @@ public class Dataset {
         String message = parser.parse();
         ArrayList<FlightPoint> flightPointsToImport = parser.getResult();
         //check for dup
-        int nextID = -1;
+        int nextID = 1;
         //query database.
         Connection c = null;
         Statement stmt = null;
@@ -662,15 +669,15 @@ public class Dataset {
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
             stmt = c.createStatement();
-            String queryName = this.name.replace("'", "''");
-            String IDQuery = "SELECT * FROM `sqlite_sequence` WHERE `name` = '"+queryName+"_Flight_Points' LIMIT 1;";
+            String queryName = this.name.replace("\"", "\"\"");
+            String IDQuery = "SELECT * FROM `sqlite_sequence` WHERE `name` = \""+queryName+"_Flight_Points\" LIMIT 1;";
             ResultSet IDResult = stmt.executeQuery(IDQuery);
             while(IDResult.next()){
                 nextID = Integer.parseInt(IDResult.getString("seq")) + 1;//for some reason sqlite3 stores incremental values as a string...
             }
             stmt.close();
             stmt = c.createStatement();
-            //ADDED
+
             String firstPt = flightPointsToImport.get(0).getName();
             String lastPt = flightPointsToImport.get(flightPointsToImport.size() - 1).getName();
             FlightPath flightPathToAdd = new FlightPath(firstPt, lastPt);
@@ -680,7 +687,7 @@ public class Dataset {
             stmt.execute(insertFlightPathQuery);
             stmt.close();
             stmt = c.createStatement();
-            int flightPathId = 0;
+            int flightPathId = 1;
             String getLastestIndex = "SELECT * FROM `sqlite_sequence` WHERE `name` = \"" + this.name.replace("\"", "\"\"") +
                     "_Flight_Path\"  LIMIT 1;";
             ResultSet lastestIdResult = stmt.executeQuery(getLastestIndex);
@@ -691,7 +698,7 @@ public class Dataset {
             lastestIdResult.close();
             stmt = c.createStatement();
             flightPathToAdd.setID(flightPathId);
-            //ADDED
+
             String insertFlightPointQuery = "INSERT INTO `" + this.name + "_Flight_Points` (`Index_ID`, `Name`, `Type`," +
                     " `Altitude`, `Latitude`, `Longitude`, `Order`) VALUES ";
             int numOfFlights = 0;
@@ -706,7 +713,7 @@ public class Dataset {
                 double flightLatitude = flightPointsToImport.get(i).getLatitude();
                 double flightLongitude = flightPointsToImport.get(i).getLongitude();
                 //insert import into database
-                if (numOfFlights > 0){
+                if (numOfFlights > 0) {
                     insertFlightPointQuery += ",";
                 }
                 insertFlightPointQuery += "(" + flightPathId +", \""+ flightName +"\", \"" + flightType + "\",  "+ flightAltitude + ", " +
@@ -717,6 +724,7 @@ public class Dataset {
                 //this is placed after incase the database messes up
                 flightPathToAdd.addFlightPoint(flightPointsToImport.get(i));
                 //routeDictionary.put(routeIdentifier, flightsToImport.get(i));
+                flightPointDictionary.put(nextID, flightPointsToImport.get(i));
                 nextID++;
                 numOfFlights++;
                 //}
@@ -732,6 +740,7 @@ public class Dataset {
             flightPathDictionary.put(flightPathToAdd.getID(), flightPathToAdd);
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            e.printStackTrace();
             System.exit(0);
         }
         createDataLinks();
@@ -755,7 +764,6 @@ public class Dataset {
         //create Airline country link
         for (Airline airline: airlines){
             airlineByIATA.put(airline.getIATA(), airline);
-            //System.out.println(airline.getAlias());
             airline.setRoutes(new ArrayList<Route>());
             airline.setCountry(countryDictionary.get(airline.getCountryName()));
             Country country = countryDictionary.get(airline.getCountryName());
@@ -778,17 +786,43 @@ public class Dataset {
             airport.setDepartureRoutes(new ArrayList<Route>());
             airport.setArrivalRoutes(new ArrayList<Route>());
         }
+        equipmentDictionary = new LinkedHashMap<>();
         //set Airport variables for route
         for (Route route: routes){
+            String[] equipment = route.getEquipment().split(" ");
+            for (String equip: equipment){
+                if (equip != "" && equip != null){
+                    Equipment equipment1 = equipmentDictionary.get(equip);
+                    if (equipment1 != null){
+                        equipment1.addRoute(route);
+                    }else{
+                        equipment1 = new Equipment(equip);
+                        equipment1.addRoute(route);
+                        equipmentDictionary.put(equip, equipment1);
+                    }
+                }
+            }
             if (route.getDepartureAirport().length() > 3){
                 route.setSourceAirport(airportsByICAO.get(route.getDepartureAirport()));
+                if (airportsByICAO.get(route.getDepartureAirport()) != null) {
+                    airportsByICAO.get(route.getDepartureAirport()).addDepartureRoutes(route);
+                }
             }else{
                 route.setSourceAirport(airportsByIATA.get(route.getDepartureAirport()));
+                if (airportsByIATA.get(route.getDepartureAirport()) != null){
+                    airportsByIATA.get(route.getDepartureAirport()).addDepartureRoutes(route);
+                }
             }
             if (route.getArrivalAirport().length() > 3){
                 route.setDestinationAirport(airportsByICAO.get(route.getArrivalAirport()));
+                if (airportsByICAO.get(route.getArrivalAirport()) != null) {
+                    airportsByICAO.get(route.getArrivalAirport()).addArrivalRoutes(route);
+                }
             }else{
                 route.setDestinationAirport(airportsByIATA.get(route.getArrivalAirport()));
+                if (airportsByIATA.get(route.getArrivalAirport()) != null) {
+                    airportsByIATA.get(route.getArrivalAirport()).addArrivalRoutes(route);
+                }
             }
             route.setAirline(airlineByIATA.get(route.getAirlineName()));
             Airline airline = airlineByIATA.get(route.getAirlineName());
@@ -1148,19 +1182,20 @@ public class Dataset {
             String insertPathQuery = "INSERT INTO `" + this.name + "_Flight_Path` (`Path_ID`, `Source_Airport`, " +
                     "`Destination_Airport`) VALUES ("+pathID+", \""+sourceAirport+"\", \""+destAirport+"\" )";
             stmt.execute(insertPathQuery);
-        } catch (Exception e){
-            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-            System.exit(0);
-        }
-        newPath.setID(pathID);
-        flightPathDictionary.put(pathID, newPath);
-        flightPaths.add(newPath);
-        FlightPoint sourcePoint = new FlightPoint(sourceAirport, pathID);
-        FlightPoint destinationPoint = new FlightPoint(sourceAirport, pathID);
-        try{
+            newPath.setID(pathID);
+
+            flightPathDictionary.put(pathID, newPath);
+            flightPaths.add(newPath);
+            FlightPoint sourcePoint = new FlightPoint(sourceAirport, pathID);
+            FlightPoint destinationPoint = new FlightPoint(destAirport, pathID);
+
             addFlightPointToPath(sourcePoint);
             addFlightPointToPath(destinationPoint);
+            updateFlightPath(newPath);
         } catch (DataException e){
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            System.exit(0);
+        }catch (Exception e){
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
             System.exit(0);
         }
@@ -1171,22 +1206,14 @@ public class Dataset {
      * @param id
      * @param name
      * @param type
-     * @param via
      * @param altitude
      * @param latitude
      * @param longitude
-     * @param heading
-     * @param legDist 
-     * @param totDist
      */
-    public void addFlightPointToPath(int id, String name, String type, String via, String altitude, String latitude, String longitude,
-                               String heading, String legDist, String totDist , int index) throws DataException{
+    public void addFlightPointToPath(int id, String name, String type, String altitude, String latitude, String longitude, int index) throws DataException{
         double altitudeVal = 0.0;
         double latitudeVal = 0.0;
         double longitudeVal = 0.0;
-        int headingVal = 0;
-        double legDistVal = 0.0;
-        double totalDistVal = 0.0;
 
         try{
             altitudeVal = Double.parseDouble(altitude);
@@ -1203,20 +1230,8 @@ public class Dataset {
         }catch (NumberFormatException e){
             throw new DataException("Longitude must be a double value");
         }
-        try{
-            headingVal = Integer.parseInt(heading);
-        }catch (NumberFormatException e){
-            throw new DataException("Heading must be a integer value");
-        }
-        try{
-            legDistVal = Double.parseDouble(legDist);
-        }catch (NumberFormatException e){
-            throw new DataException("Leg DIstance must be a double value");
-        }
-        try{
-            totalDistVal = Double.parseDouble(totDist);
-        }catch (NumberFormatException e){
-            throw new DataException("Total Distance must be a double value");
+        if (index == -1){
+            index = flightPathDictionary.get(id).getFlightPoints().size();
         }
         Connection c = null;
         Statement stmt;
@@ -1225,21 +1240,20 @@ public class Dataset {
             c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
 
             stmt = c.createStatement();
-            String flightPointIDQuery = "SELECT * FROM `sqlite_sequence` WHERE `name` = \""+this.name+"_Flight_Points\" LIMIT 1;";
-            ResultSet pointIDRes= stmt.executeQuery(flightPointIDQuery);
-            while (pointIDRes.next()){
+            String flightPointIDQuery = "SELECT * FROM `sqlite_sequence` WHERE `name` = \"" + this.name + "_Flight_Points\" LIMIT 1;";
+            ResultSet pointIDRes = stmt.executeQuery(flightPointIDQuery);
+            while (pointIDRes.next()) {
                 pointID = Integer.parseInt(pointIDRes.getString("seq"));
             }
             stmt.close();
 
             stmt = c.createStatement();
             String insertFlightPointQuery = "INSERT INTO `" + this.name + "_Flight_Points` (`Index_ID`, `Name`, `Type`," +
-                    " `Altitude`, `Latitude`, `Longitude`, `Heading`, `Tot_Dist`, `Leg_Dist`, `Via`, `Order`) VALUES ";
+                    " `Altitude`, `Latitude`, `Longitude`, `Order`) VALUES ";
             String flightType = type.replace("\"", "\"\"");
             String flightName = name.replace("\"", "\"\"");
             insertFlightPointQuery += "(" + id +", \""+ flightName +"\", \"" + flightType + "\",  "+ altitudeVal + ", " +
-                    "" + latitudeVal + ", " + longitudeVal + ", " + headingVal + ", " + totalDistVal + ", " + legDistVal +
-                    ", \"" + via + "\", "+index+")";
+                    "" + latitudeVal + ", " + longitudeVal + ", "+index+")";
             stmt.execute(insertFlightPointQuery);
             stmt.close();
             //move all the points after this forward
@@ -1258,7 +1272,6 @@ public class Dataset {
                     String query = "UPDATE `"+this.name+"_Flight_Path` SET `Source_Airport` = \""+flightName+"\" " +
                             "WHERE `Path_ID` = "+flightPath.getID();
                     stmt.execute(query);
-                    c.close();
                 } catch ( Exception e ) {
                     System.err.println( e.getClass().getName() + ": " + e.getMessage() );
                 }
@@ -1269,7 +1282,6 @@ public class Dataset {
                     String query = "UPDATE `"+this.name+"_Flight_Path` SET `Destination_Airport` = \""+flightName+"\" " +
                             "WHERE `Path_ID` = "+flightPath.getID();
                     stmt.execute(query);
-                    c.close();
                 } catch ( Exception e ) {
                     System.err.println( e.getClass().getName() + ": " + e.getMessage() );
                 }
@@ -1281,10 +1293,10 @@ public class Dataset {
             System.exit(0);
         }
 
-        FlightPoint pointToAdd = new FlightPoint(name, pointID+1, id, type, via, headingVal, altitudeVal, legDistVal,
-                totalDistVal,latitudeVal, longitudeVal);
-        updateFlightPointInfo(flightPathDictionary.get(Integer.valueOf(id)));
+        FlightPoint pointToAdd = new FlightPoint(type, pointID+1, id, name, altitudeVal, latitudeVal, longitudeVal);
         flightPathDictionary.get(Integer.valueOf(id)).addFlightPoint(pointToAdd, index);
+        flightPointDictionary.put(pointID + 1, pointToAdd);
+        updateFlightPointInfo(flightPathDictionary.get(Integer.valueOf(id)));
     }
 
     /***
@@ -1294,9 +1306,8 @@ public class Dataset {
      * @throws DataException
      */
     public void addFlightPointToPath(FlightPoint point, int index) throws DataException{
-        addFlightPointToPath(point.getIndex(), point.getName(), point.getType(), point.getVia(), String.valueOf(point.getAltitude()),
-                String.valueOf( point.getLatitude()),String.valueOf(point.getLongitude()),
-                String.valueOf(point.getHeading()), String.valueOf(point.getLegDistance()), String.valueOf(point.getTotalDistance()), index);
+        addFlightPointToPath(point.getIndex(), point.getName(), point.getType(), String.valueOf(point.getAltitude()),
+                String.valueOf( point.getLatitude()),String.valueOf(point.getLongitude()), index);
     }
     /***
      * Adds a single flight Point to an Existing FLight Path appended on the end of the list.
@@ -1304,9 +1315,8 @@ public class Dataset {
      * @throws DataException
      */
     public void addFlightPointToPath(FlightPoint point) throws DataException{
-        addFlightPointToPath(point.getIndex(), point.getName(), point.getType(), point.getVia(), String.valueOf(point.getAltitude()),
-                String.valueOf( point.getLatitude()),String.valueOf(point.getLongitude()),
-                String.valueOf(point.getHeading()), String.valueOf(point.getLegDistance()), String.valueOf(point.getTotalDistance()), -1);
+        addFlightPointToPath(point.getIndex(), point.getName(), point.getType(), String.valueOf(point.getAltitude()),
+                String.valueOf( point.getLatitude()),String.valueOf(point.getLongitude()), -1);
     }
 
     /**
@@ -1314,19 +1324,14 @@ public class Dataset {
      * @param id
      * @param name
      * @param type
-     * @param via
      * @param altitude
      * @param latitude
      * @param longitude
-     * @param heading
-     * @param legDist
-     * @param totDist
      * @throws DataException
      */
 
-    public void addFlightPointToPath(int id, String name, String type, String via, String altitude, String latitude, String longitude,
-                                     String heading, String legDist, String totDist) throws DataException{
-        addFlightPointToPath(id, name, type, via, altitude, latitude, longitude, heading, legDist, totDist, -1);
+    public void addFlightPointToPath(int id, String name, String type, String altitude, String latitude, String longitude) throws DataException{
+        addFlightPointToPath(id, name, type, altitude, latitude, longitude, -1);
     }
     /**
      * This is called in conjunction to the App deleteDataset DO NOT CALL UNLESS THROUGH APP.DELETEDATASET
@@ -1367,14 +1372,10 @@ public class Dataset {
         try {
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
-            //System.out.println(airline.getID());
-            String deleteQuery = "DELETE FROM `"+this.name+"_Airline` WHERE `Airline_ID` = " + airline.getID() + ";";
+            String deleteQuery = "DELETE FROM `" + this.name + "_Airline` WHERE `Airline_ID` = " + airline.getID() + ";";
             stmt = c.createStatement();
-            //System.out.println("Airline deleted");
             stmt.execute(deleteQuery);
-            //System.out.println("Airline deleted");
             stmt.close();
-            //System.out.println("Airline deleted");
             stmt = c.createStatement();
             //check if number of countries that contain airlines > 0 else delete the country
             String countCountry = "SELECT COUNT(*) FROM `"+this.name+"_Airline` JOIN `"+this.name+"_Country` ON" +
@@ -1546,7 +1547,12 @@ public class Dataset {
     public void deleteFlightPath(FlightPath flightPath){
         //delete all flight points with the id
         while(flightPath.getFlightPoints().size() > 0){
-            deleteFlightPoint(flightPath.getFlightPoints().get(0), flightPath);
+            try {
+                flightPointDictionary.remove(flightPath.getFlightPoints().get(0).getID());
+                flightPath.getFlightPoints().remove(0);
+            } catch (DataException e) {
+                e.printStackTrace();
+            }
         }
         //drop the entries
         Connection c = null;
@@ -1587,21 +1593,41 @@ public class Dataset {
      * @param flightPoint
      */
     public void deleteFlightPoint(FlightPoint flightPoint, FlightPath flightPath){
-        //drop the tables
-        Connection c = null;
-        Statement stmt = null;
-        try {
-            Class.forName("org.sqlite.JDBC");
-            c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
-            String deleteQuery = "DELETE FROM `"+this.name+"_Flight_Points` WHERE `Point_ID` = " + flightPoint.getID() + ";";
-            stmt = c.createStatement();
-            stmt.execute(deleteQuery);
-            c.close();
-        } catch ( Exception e ) {
-            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-            System.exit(0);
+        if (flightPath.getFlightPoints().size() > 2){
+            //drop the tables
+            Connection c = null;
+            Statement stmt = null;
+            try {
+                Class.forName("org.sqlite.JDBC");
+                c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
+                String deleteQuery = "DELETE FROM `" + this.name + "_Flight_Points` WHERE `Point_ID` = " + flightPoint.getID() + ";";
+                stmt = c.createStatement();
+                stmt.execute(deleteQuery);
+
+                stmt = c.createStatement();
+                String updatePointOrderQuery = "";
+                for (int i = 0; i < flightPath.getFlightPoints().size(); i++) {
+                    updatePointOrderQuery = "UPDATE `" + this.name + "_Flight_Points` SET `Order` = " + i + " WHERE `Point_ID` = " + flightPath.getFlightPoints().get(i).getID() + ";";
+                    stmt.execute(updatePointOrderQuery);
+                }
+                stmt.close();
+
+                c.close();
+            } catch (Exception e) {
+                System.err.println(e.getClass().getName() + ": " + e.getMessage());
+                System.exit(0);
+            }
+            flightPath.getFlightPoints().remove(flightPoint);
+            flightPointDictionary.remove(flightPoint);
+            updateFlightPointInfo(flightPath);
+            updateFlightPath(flightPath);
+        }else{
+            Alert cannotDelete = new Alert(Alert.AlertType.ERROR);
+            cannotDelete.setTitle("Flight Path Error");
+            cannotDelete.setHeaderText("Cannot Delete Flight Point.");
+            cannotDelete.setContentText("You cannot have less than 2 Points in a Flight Path.");
+            cannotDelete.showAndWait();
         }
-        flightPath.getFlightPoints().remove(flightPoint);
     }
 
     /**
@@ -1694,6 +1720,15 @@ public class Dataset {
     }
 
     /**
+     * returns a flightpoint dictionary with the flights that are associated with this dataset.
+     *
+     * @return
+     */
+    public LinkedHashMap<Integer, FlightPoint> getFlightPointDictionary() {
+        return flightPointDictionary;
+    }
+
+    /**
      * returns a Country Dictionary with the COuntries that are associated with this dataset.
      * @return
      */
@@ -1707,6 +1742,10 @@ public class Dataset {
      */
     public LinkedHashMap<String, City> getCityDictionary() {
         return cityDictionary;
+    }
+
+    public LinkedHashMap<String, Equipment> getEquipmentDictionary() {
+        return equipmentDictionary;
     }
 
     /**
@@ -1739,9 +1778,10 @@ public class Dataset {
     public void editAirline(Airline airline, String name, String alias, String IATA, String ICAO, String callsign, String country, String active ) throws DataException {
         //check the data errors
         EntryParser parser = new EntryParser();
+        airlineDictionary.remove(airline);
         parser.parseAirline(name, alias, IATA,ICAO, callsign, country, active);
         airline.setName(name);
-        airline.setAlias(name);
+        airline.setAlias(alias);
         airline.setIATA(IATA);
         airline.setICAO(ICAO);
         airline.setCallSign(callsign);
@@ -1753,7 +1793,7 @@ public class Dataset {
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
             stmt = c.createStatement();
-            String query = "UPDATE `"+this.name+"_Airline` SET `Name` = \""+airline.getName().replace("\"", "\"\"")+"\", `Alias` = \""+airline.getActive().replace("\"", "\"\"")+"\", " +
+            String query = "UPDATE `"+this.name+"_Airline` SET `Name` = \""+airline.getName().replace("\"", "\"\"")+"\", `Alias` = \""+airline.getAlias().replace("\"", "\"\"")+"\", " +
                     "`IATA` = \""+airline.getIATA().replace("\"", "\"\"")+"\", `ICAO` = \""+airline.getICAO().replace("\"", "\"\"")+"\" , `Callsign` = \""+airline.getCallSign().replace("\"", "\"\"")+"\", " +
                     "`Country` = \""+airline.getCountryName().replace("\"", "\"\"")+"\", `Active` = \""+airline.getActive().replace("\"", "\"\"")+"\" WHERE `Airline_ID` = "+airline.getID();
             stmt.execute(query);
@@ -1762,6 +1802,7 @@ public class Dataset {
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         }
+        airlineDictionary.put(airline.getName(), airline);
         createDataLinks();
     }
 
@@ -1803,25 +1844,77 @@ public class Dataset {
      */
     public void editAirport(Airport airport, String name, String city, String country, String IATA_FFA, String ICAO, String lat, String lng, String alt, String timezone, String DST, String olson) throws DataException {
         EntryParser parser = new EntryParser();
+        airportDictionary.remove(airport.getName());
         Airport newAirport = parser.parseAirport(name, city, country, IATA_FFA, ICAO, lat, lng, alt, timezone, DST, olson);
         airport.setName(name);
         airport.setCityName(city);
-        airport.getCity().setName(city);
+        //airport.getCity().setName(city);
         airport.setCountryName(country);
-        airport.getCountry().setName(country);
+        //airport.getCountry().setName(country);
         airport.setIATA_FFA(IATA_FFA);
         airport.setICAO(ICAO);
         airport.setLatitude(newAirport.getLatitude());
         airport.setLongitude(newAirport.getLongitude());
+        airport.setAltitude(newAirport.getAltitude());
         airport.getCity().setTimezone(Double.parseDouble(timezone));
         airport.getCountry().setDST(DST);
         airport.getCity().setTimeOlson(olson);
 
         Connection c = null;
         Statement stmt = null;
+
         try {
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
+            /*
+            //UPDATE CITY AND COUNTRIES
+             */
+            if (cityDictionary.containsKey(city) && cityDictionary.get(city) != null){
+                airport.setCity(cityDictionary.get(city));
+                airport.getCity().setCountry(country);
+                airport.getCity().setTimezone(Double.parseDouble(timezone));
+                airport.getCity().setTimeOlson(olson);
+                //update city in database
+                stmt = c.createStatement();
+                String updateCityQuery = "UPDATE `"+this.name+"_City` SET `Country_Name` = \""+country+"\", " +
+                        "`Timezone` = "+timezone+", `Olson_Timezone` = \""+olson+"\" WHERE `City_Name` = \""+city+"\"";
+                stmt.execute(updateCityQuery);
+                stmt.close();
+            }else {
+                City newCity = new City(city, country, Double.parseDouble(timezone), olson);
+                airport.setCity(newCity);
+                airport.setCityName(city);
+                cities.add(newCity);
+                cityDictionary.put(city, newCity);
+                //add new City to database
+                stmt = c.createStatement();
+                String addNewCity = "INSERT INTO `"+this.name+"_City` (`City_Name`, `Country_name`, `Timezone`, `Olson_Timezone`) VALUES " +
+                        "(\""+city+"\", \""+country+"\", "+timezone+", \""+olson+"\")";
+                stmt.execute(addNewCity);
+                stmt.close();
+            }
+
+            if (countryDictionary.containsKey(country) && countryDictionary.get(country) != null){
+                airport.setCountry(countryDictionary.get(country));
+                airport.getCountry().setDST(DST);
+                //update country in database
+                stmt = c.createStatement();
+                String updateCountryQuery = "UPDATE `"+this.name+"_Country` SET `DST` = "+DST+" WHERE `Country_Name` = \""+country+"\"";
+                stmt.execute(updateCountryQuery);
+                stmt.close();
+            }else{
+                Country newCountry = new Country(DST, name);
+                airport.setCountry(newCountry);
+                airport.setCountryName(country);
+                countries.add(newCountry);
+                countryDictionary.put(country, newCountry);
+                //add new COuntry to database
+                stmt = c.createStatement();
+                String createCountryQuery = "INSERT INTO `"+this.name+"_Country` (`Country_Name`, `DST`) VALUES (\""+country+"\", \""+DST+"\")";
+                stmt.execute(createCountryQuery);
+                stmt.close();
+            }
+
             stmt = c.createStatement();
             String query = "UPDATE `"+this.name+"_Airport` SET `Name` = \""+airport.getName().replace("\"", "\"\"")+"\", `City` = \""+airport.getCityName().replace("\"", "\"\"")+"\", " +
                     "`Country` = \""+airport.getCountryName().replace("\"", "\"\"")+"\", `IATA/FFA` = \""+airport.getIATA_FFA().replace("\"", "\"\"")+"\", " +
@@ -1833,6 +1926,7 @@ public class Dataset {
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         }
+        airportDictionary.put(airport.getName(), airport);
         createDataLinks();
     }
 
@@ -1864,6 +1958,8 @@ public class Dataset {
      */
     public void editRoute(Route route, String airline, String source, String dest, String code, String stops, String equip) throws DataException {
         EntryParser entryParser = new EntryParser();
+        //routeAirline + routeSourceAirport + routeArrvAirport + routeCodeShare + routeStops + routeEquip
+        routeDictionary.remove(route.getAirlineName()+route.getDepartureAirport()+route.getArrivalAirport()+route.getCode()+route.getStops() + route.getEquipment());
         Route newRoute = entryParser.parseRoute(airline, source, dest, code, stops, equip);
         route.setAirlineName(newRoute.getAirlineName());
         route.setDepartureAirport(newRoute.getDepartureAirport());
@@ -1877,16 +1973,18 @@ public class Dataset {
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
             stmt = c.createStatement();
-            String query = "UPDATE `"+this.name+"_Routes` SET `Airline` = \""+route.getAirlineName().replace("\"", "\"\"")+"\", " +
-                    "`Source_Airport` = \""+route.getDepartureAirport().replace("\"", "\"\"")+"\", `Destination_Airport` = \""+route.getArrivalAirport().replace("\"", "\"\"")+"\", " +
-                    "`Codeshare` = \""+route.getCode().replace("\"", "\"\"")+"\", `Stops` = "+route.getStops()+", `Equipment` = \""+route.getEquipment().replace("\"", "\"\"")+"\" " +
-                    "WHERE `Route_ID` = "+route.getID();
+            String query = "UPDATE `" + this.name + "_Routes` SET `Airline` = \"" + route.getAirlineName().replace("\"", "\"\"") + "\", " +
+                    "`Source_Airport` = \"" + route.getDepartureAirport().replace("\"", "\"\"") + "\", `Destination_Airport` = \"" + route.getArrivalAirport().replace("\"", "\"\"") + "\", " +
+                    "`Codeshare` = \"" + route.getCode().replace("\"", "\"\"") + "\", `Stops` = " + route.getStops() + ", `Equipment` = \"" + route.getEquipment().replace("\"", "\"\"") + "\" " +
+                    "WHERE `Route_ID` = " + route.getID();
             stmt.execute(query);
             stmt.close();
             c.close();
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         }
+        //routeAirline + routeSourceAirport + routeArrvAirport + routeCodeShare + routeStops + routeEquip
+        routeDictionary.put(route.getAirlineName()+route.getDepartureAirport()+route.getArrivalAirport()+route.getCode()+route.getStops() + route.getEquipment(), route);
         createDataLinks();
     }
 
@@ -1915,14 +2013,14 @@ public class Dataset {
      * @param longitude
      * @throws DataException
      */
-    public void editFlight(FlightPoint flightPoint, String name, String type, String altitude, String latitude, String longitude) throws DataException{
+    public void editFlight(FlightPoint flightPoint, String name, String type, String altitude, String latitude, String longitude) throws DataException {
         EntryParser entryParser = new EntryParser();
-        FlightPoint flightPoint1 = entryParser.parsePoint(name, type, altitude, latitude, longitude);
-        flightPoint.setName(flightPoint1.getName());
-        flightPoint.setType(flightPoint1.getType());
-        flightPoint.setAltitude(flightPoint1.getAltitude());
-        flightPoint.setLatitude(flightPoint1.getLatitude());
-        flightPoint.setLongitude(flightPoint1.getLongitude());
+        FlightPoint parsedFlightPoint = entryParser.parsePoint(name, type, altitude, latitude, longitude);
+        flightPoint.setName(parsedFlightPoint.getName());
+        flightPoint.setType(parsedFlightPoint.getType());
+        flightPoint.setAltitude(parsedFlightPoint.getAltitude());
+        flightPoint.setLatitude(parsedFlightPoint.getLatitude());
+        flightPoint.setLongitude(parsedFlightPoint.getLongitude());
 
 
         Connection c = null;
@@ -1941,35 +2039,33 @@ public class Dataset {
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         }
-
-        FlightPath flightPath = flightPathDictionary.get(flightPoint.getIndexID());
-        int indexOf = flightPath.getFlightPoints().indexOf(flightPoint);
-
-        if (indexOf == 0){
-            try {
-                stmt = c.createStatement();
-                String query = "UPDATE `"+this.name+"_Flight_Path` SET `Source_Airport` = \""+flightPoint.getName().replace("\"", "\"\"")+"\" " +
-                        "WHERE `Path_ID` = "+flightPoint.getIndexID();
-                stmt.execute(query);
-                c.close();
-            } catch ( Exception e ) {
-                System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-            }
-            flightPath.setDepartureAirport(flightPoint.getName());
-        }else if (indexOf == flightPath.getFlightPoints().size() - 1){
-            try {
-                stmt = c.createStatement();
-                String query = "UPDATE `"+this.name+"_Flight_Path` SET `Destination_Airport` = \""+flightPoint.getName().replace("\"", "\"\"")+"\" " +
-                        "WHERE `Path_ID` = "+flightPoint.getIndexID();
-                stmt.execute(query);
-                c.close();
-            } catch ( Exception e ) {
-                System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-            }
-            flightPath.setArrivalAirport(flightPoint.getName());
-        }
-        updateFlightPointInfo(flightPath);
+        updateFlightPath(flightPathDictionary.get(flightPoint.getIndex()));
         createDataLinks();
+    }
+
+    /**
+     * Updates the flight path to the first Point and the last point
+     * @param flightPath
+     */
+    private void updateFlightPath(FlightPath flightPath){
+        Connection c = null;
+        Statement stmt = null;
+        FlightPoint startPoint = flightPath.getFlightPoints().get(0);
+        FlightPoint endPoint = flightPath.getFlightPoints().get(flightPath.getFlightPoints().size() - 1);
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:res/userdb.db");
+            stmt = c.createStatement();
+            String query= "UPDATE `"+this.name+"_Flight_Path` SET `Source_Airport` = \""+startPoint.getName().replace("\"", "\"\"")+"\", " +
+                    "`Destination_Airport` = \""+endPoint.getName().replace("\"", "\"\"") + "\" " +
+                    "WHERE `Path_ID` = "+startPoint.getIndex();
+            stmt.execute(query);
+            c.close();
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        }
+        flightPath.setArrivalAirport(endPoint.getName());
+        flightPath.setDepartureAirport(startPoint.getName());
     }
 
     /**
@@ -1985,9 +2081,6 @@ public class Dataset {
         int curIndex = flightPath.getFlightPoints().indexOf(flightPoint);
         flightPath.getFlightPoints().remove(flightPoint);
         int indexToAdd = index;
-        if (curIndex < index){
-            indexToAdd --;
-        }
         flightPath.getFlightPoints().add(indexToAdd, flightPoint);
 
         Connection c = null;
@@ -2002,30 +2095,7 @@ public class Dataset {
                 stmt.execute(updatePointOrderQuery);
             }
             stmt.close();
-
-            if (index == 0){
-                try {
-                    stmt = c.createStatement();
-                    String query = "UPDATE `"+this.name+"_Flight_Path` SET `Source_Airport` = \""+flightPoint.getName().replace("\"", "\"\"")+"\" " +
-                            "WHERE `Path_ID` = "+flightPoint.getIndex();
-                    stmt.execute(query);
-                    c.close();
-                } catch ( Exception e ) {
-                    System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-                }
-                flightPath.setDepartureAirport(flightPoint.getName());
-            }else if (index == flightPath.getFlightPoints().size() - 1){
-                try {
-                    stmt = c.createStatement();
-                    String query = "UPDATE `"+this.name+"_Flight_Path` SET `Destination_Airport` = \""+flightPoint.getName().replace("\"", "\"\"")+"\" " +
-                            "WHERE `Path_ID` = "+flightPoint.getIndex();
-                    stmt.execute(query);
-                    c.close();
-                } catch ( Exception e ) {
-                    System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-                }
-                flightPath.setArrivalAirport(flightPoint.getName());
-            }
+            updateFlightPath(flightPath);
             c.close();
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -2059,5 +2129,13 @@ public class Dataset {
             e.printStackTrace();
             System.exit(0);
         }
+    }
+
+    /**
+     * Name of the dataset in the database
+     */
+    @Override
+    public String toString(){
+        return this.name;
     }
 }

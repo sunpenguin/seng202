@@ -49,6 +49,9 @@ public class AirlineRDController extends Controller {
      * Also sets up the dropdown menu options.
      */
     public void load() {
+        if (!checkDataset()){
+            return;
+        }
         //Sets up the table columns to be ready for use for Airline data
         airlIDCol.setCellValueFactory(new PropertyValueFactory<Airline, String>("ID"));
         airlNameCol.setCellValueFactory(new PropertyValueFactory<Airline, String>("Name"));
@@ -69,7 +72,7 @@ public class AirlineRDController extends Controller {
 
 
     /**
-     * Opens the Airline add form.
+     * Opens the Airline Add form.
      */
     public void openAdd() {
         createPopUpStage(SceneCode.AIRLINE_ADD, 600, 370);
@@ -82,11 +85,8 @@ public class AirlineRDController extends Controller {
     public void openFilter() {
         createPopUpStage(SceneCode.AIRLINE_FILTER, 600, 370);
         ArrayList<Airline> d = new ArrayList();
-        for(int i = 0; i < theDataSet.getAirlines().size(); i++) {
-            if (currentSession.getFilteredAirlines().containsValue(theDataSet.getAirlines().get(i).getName())
-                    && currentSession.getFilteredAirlines().containsKey(i)) {
-                d.add(theDataSet.getAirlines().get(i));
-            }
+        for (int key: currentSession.getFilteredAirlines().keySet()){
+            d.add(theDataSet.getAirlineDictionary().get(currentSession.getFilteredAirlines().get(key)));
         }
         tableViewAirlineRD.setItems(FXCollections.observableArrayList(d));
     }
@@ -104,7 +104,6 @@ public class AirlineRDController extends Controller {
         alert.setTitle("Airline Delete Confirmation");
         alert.setHeaderText("You are about to delete some data.");
         alert.setContentText("Are you sure you want to delete the selected airline(s)?");
-        //alert.showAndWait();
         Optional<ButtonType> result = alert.showAndWait();
         Airline air = null;
         if (result.isPresent() && result.get() == ButtonType.OK) {
@@ -116,6 +115,19 @@ public class AirlineRDController extends Controller {
         }
     }
 
+    /**
+     * Opens the Airline Edit form.
+     */
+    public void editAirline() {
+        Airline toEdit = tableViewAirlineRD.getSelectionModel().getSelectedItem();
+        currentSession.setAirlineToEdit(toEdit.getName());
+        createPopUpStage(SceneCode.AIRLINE_EDIT, 600, 370);
+
+        System.out.println(toEdit.getName() + "," + toEdit.getAlias() + "," + toEdit.getIATA() + "," + toEdit.getICAO()
+        + "," + toEdit.getCallSign() + "," + toEdit.getCountryName() + "," + toEdit.getActive());
+
+        tableViewAirlineRD.refresh();
+    }
 
     /**
      * Analyses the current data and creates a graph based on the data.
@@ -125,6 +137,9 @@ public class AirlineRDController extends Controller {
         JOptionPane.showMessageDialog(null, "This is not Implemented yet");
     }
 
+    /**
+     * Goes to the airline summary page.
+     */
     public void airlineSummaryButton() {
         replaceSceneContent(SceneCode.AIRLINE_SUMMARY);
     }

@@ -426,6 +426,9 @@ public class Airport {
 			throw new DataException("Airport ICAO already Exists, Please Choose Another.");
 		}
 	}
+	public int getTotalRoutes(){
+		return departureRoutes.size() + arrivalRoutes.size();
+	}
 	/**
 	 * Information of the airport returned in String format.
 	 */

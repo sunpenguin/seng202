@@ -72,11 +72,12 @@ public class RouteFilterController extends Controller {
         alert.showAndWait();
 
         //currentSession.setFilteredAirlines(FXCollections.observableArrayList(filter.getFilteredData()));
-
+        //routeAirline + routeSourceAirport + routeArrvAirport + routeCodeShare + routeStops + routeEquip
         HashMap<Integer, String> routesHM = new HashMap<Integer, String>();
         ArrayList<Route> routes = filter.getFilteredData();
         for (int index = 0; index < routes.size(); index++) {
-            routesHM.put(index, routes.get(index).getAirlineName());
+            routesHM.put(index, routes.get(index).getAirlineName() + routes.get(index).getDepartureAirport() + routes.get(index).getArrivalAirport()
+                    + routes.get(index).getCode() + routes.get(index).getStops() + routes.get(index).getEquipment());
         }
         currentSession.setFilteredRoutes(routesHM);
 
@@ -85,6 +86,9 @@ public class RouteFilterController extends Controller {
     }
 
     public void load() {
+        if (!checkDataset()){
+            return;
+        }
         theDataSet = getParent().getCurrentDataset();
         currentSession = getParent().getSession();
     }

@@ -51,6 +51,9 @@ public class RouteRDController extends Controller {
      * Also sets up the dropdown menu options.
      */
     public void load() {
+        if (!checkDataset()){
+            return;
+        }
         //Sets up the table columns to be ready for use for Route data
         rAirlineCol.setCellValueFactory(new PropertyValueFactory<Route, String>("AirlineName"));
         rAirlineIDCol.setCellValueFactory(new PropertyValueFactory<Route, String>("AirlineID"));
@@ -77,12 +80,10 @@ public class RouteRDController extends Controller {
 
     public void openFilter() {
         createPopUpStage(SceneCode.ROUTE_FILTER, 600, 330);
+
         ArrayList<Route> d = new ArrayList();
-        for(int i = 0; i < theDataSet.getRoutes().size(); i++) {
-            if (currentSession.getFilteredRoutes().containsValue(theDataSet.getRoutes().get(i).getAirlineName())
-                    && currentSession.getFilteredRoutes().containsKey(i)) {
-                d.add(theDataSet.getRoutes().get(i));
-            }
+        for (int key: currentSession.getFilteredRoutes().keySet()){
+            d.add(theDataSet.getRouteDictionary().get(currentSession.getFilteredRoutes().get(key)));
         }
         tableViewRouteRD.setItems(FXCollections.observableArrayList(d));
     }
@@ -111,6 +112,18 @@ public class RouteRDController extends Controller {
         }
     }
 
+    public void editRoute() {
+        Route toEdit = tableViewRouteRD.getSelectionModel().getSelectedItem();
+        currentSession.setRouteToEdit(toEdit.getAirlineName() + toEdit.getDepartureAirport() + toEdit.getArrivalAirport() +
+        toEdit.getCode() + toEdit.getStops() + toEdit.getEquipment());
+        createPopUpStage(SceneCode.ROUTE_EDIT, 600, 330);
+
+//        System.out.println(toEdit.getName() + "," + toEdit.getCity() + "," + toEdit.getCountry() + "," + toEdit.getIATA_FFA()
+//                + "," + toEdit.getICAO() + "," + toEdit.getLatitude() + "," + toEdit.getLongitude() + "," + toEdit.getAltitude()
+//                + "," + toEdit.getTimezone() + "," + toEdit.getDST() + "," + toEdit.getTz());
+
+        tableViewRouteRD.refresh();
+    }
 
     /**
      * Analyses the current data and creates a graph based on the data.
@@ -123,5 +136,12 @@ public class RouteRDController extends Controller {
     public void routeSummaryButton() {
         replaceSceneContent(SceneCode.ROUTE_SUMMARY);
         currentSession = getParent().getSession();
+    }
+
+    /**
+     * Opens a map with the data currently being displayed in the table.
+     */
+    public void openMap(){
+
     }
 }

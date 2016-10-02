@@ -48,6 +48,9 @@ public class AirlineSummaryController extends Controller{
      * Loads initial state of the scene.
      */
     public void load() {
+        if (!checkDataset()){
+            return;
+        }
         //Fills the table.
         columnName.setCellValueFactory(new PropertyValueFactory<Airline, String>("Name"));
         columnAlias.setCellValueFactory(new PropertyValueFactory<Airline, String>("Alias"));
@@ -57,10 +60,9 @@ public class AirlineSummaryController extends Controller{
         currentData = getParent().getCurrentDataset();
         tableView.setItems(FXCollections.observableArrayList(currentData.getAirlines()));
         //Sets up map.
-        map = new Map(mapView, new RoutePath());
         tableView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Airline>() {
             public void changed(ObservableValue<? extends Airline> observable, Airline oldValue, Airline newValue) {
-                Airline selectedAirline= currentData.getAirlines().get(tableView.getSelectionModel().getSelectedIndices().get(0));
+                Airline selectedAirline= tableView.getSelectionModel().getSelectedItems().get(0);
                 for (int i = 0 ; i < currentData.getAirports().size(); i ++){
                     if (currentData.getAirports().get(i).getCountryName().equals(selectedAirline.getCountryName())){
                         map.displayAirport(new RoutePath(new Position(currentData.getAirports().get(i).getLatitude(), currentData.getAirports().get(i).getLongitude())));
@@ -69,6 +71,7 @@ public class AirlineSummaryController extends Controller{
                 }
             }
         });
+        map = new Map(mapView, new RoutePath(), tableView);
     }
 
     /**
