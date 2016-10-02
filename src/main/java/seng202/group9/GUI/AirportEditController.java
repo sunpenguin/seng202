@@ -120,7 +120,11 @@ public class AirportEditController extends Controller {
             Stage stage = (Stage) editButton.getScene().getWindow();
             stage.close();
         } catch (DataException e) {
-            System.err.println(e.getMessage());
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Airport Data Error");
+            alert.setHeaderText("Error editing an airport entry.");
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
         }
     }
 }
