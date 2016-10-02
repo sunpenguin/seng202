@@ -138,4 +138,11 @@ public class RouteRDController extends Controller {
         replaceSceneContent(SceneCode.ROUTE_SUMMARY);
         currentSession = getParent().getSession();
     }
+
+    /**
+     * Opens a map with the data currently being displayed in the table.
+     */
+    public void openMap(){
+
+    }
 }
