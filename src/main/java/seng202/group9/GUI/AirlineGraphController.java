@@ -78,7 +78,6 @@ public class AirlineGraphController extends Controller{
         ArrayList<Airline> airlines = new ArrayList<>();
         airlines.addAll(Arrays.asList(airlinesFiltered));
         Airline maxRoutes[] = new Airline[10];
-        System.out.println(airlines.size());
         for (int i = 0 ; i < maxRoutes.length; i ++) {
             int max = 0;
             Airline maxAirline = null;
