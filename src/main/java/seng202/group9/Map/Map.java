@@ -36,6 +36,7 @@ public class Map {
                     }
                 }
             });
+
     }
 
     public Map(WebView webView, final ArrayList<RoutePath> newRoute, final int type){

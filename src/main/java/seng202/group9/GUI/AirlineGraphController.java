@@ -113,11 +113,11 @@ public class AirlineGraphController extends Controller{
                 countries.put(airline.getCountryName(), 1);
             }
         }
-
         int length = 10;
         if (airlinesFiltered.length < 10){
             length = airlinesFiltered.length;
         }
+
         for (int i = 0 ; i < length; i ++) {
             int max = 0;
             String maxCountry = null;
@@ -130,7 +130,7 @@ public class AirlineGraphController extends Controller{
             series.getData().add(new XYChart.Data<String, Integer>(maxCountry, max));
             countries.remove(maxCountry);
         }
-
+        System.out.println(countries.size());
         countryGraph.getData().add(series);
     }
 
