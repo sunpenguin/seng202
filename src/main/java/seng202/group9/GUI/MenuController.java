@@ -71,7 +71,16 @@ public class MenuController extends Controller{
 	 * view Routes by the Destination / Arrival Airport
 	 */
 	public void viewRouteByAirport(){
-		replaceSceneContent(SceneCode.ROUTE_BY_AIRPORT);
+		//check if there is internet connectivity
+		if (!getParent().testInet("maps.google.com")){
+			Alert alert = new Alert(Alert.AlertType.WARNING);
+			alert.setTitle("No Internet Connection.");
+			alert.setHeaderText("Unable to Connect to Google Maps");
+			alert.setContentText("As we are unable to connect to Google Maps all applications which are supposed to display maps may not work as intended.");
+			alert.showAndWait();
+		}else {
+			replaceSceneContent(SceneCode.ROUTE_BY_AIRPORT);
+		}
 	}
 	/**
 	 * Load Flight Summary Function.
@@ -87,7 +96,16 @@ public class MenuController extends Controller{
 	}
 
 	public void viewRouteByEquipment(){
-		replaceSceneContent(SceneCode.ROUTE_BY_EQUIP);
+		//check if there is internet connectivity
+		if (!getParent().testInet("maps.google.com")){
+			Alert alert = new Alert(Alert.AlertType.WARNING);
+			alert.setTitle("No Internet Connection.");
+			alert.setHeaderText("Unable to Connect to Google Maps");
+			alert.setContentText("As we are unable to connect to Google Maps all applications which are supposed to display maps may not work as intended.");
+			alert.showAndWait();
+		}else {
+			replaceSceneContent(SceneCode.ROUTE_BY_EQUIP);
+		}
 	}
 
 	public void goToGettingStarted() {

@@ -163,6 +163,15 @@ public class RouteRDController extends Controller {
      * Opens a map with the data currently being displayed in the table.
      */
     public void openMap(){
-        createPopUpStage(SceneCode.POP_UP_ROUTE_MAP, 600, 400);
+        //check if there is internet connectivity
+        if (!getParent().testInet("maps.google.com")){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("No Internet Connection.");
+            alert.setHeaderText("Unable to Connect to Google Maps");
+            alert.setContentText("As we are unable to connect to Google Maps all applications which are supposed to display maps may not work as intended.");
+            alert.showAndWait();
+        }else {
+            createPopUpStage(SceneCode.POP_UP_ROUTE_MAP, 600, 400);
+        }
     }
 }
