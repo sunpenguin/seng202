@@ -3,8 +3,11 @@ package seng202.group9.GUI;
 import javafx.scene.control.Alert;
 import seng202.group9.Controller.SceneCode;
 
+
 /**
- * Created by spe76 on 26/09/16.
+ * The GUI controller class for getting_started.fxml.
+ * Extends from the abstract class {@link Controller}
+ * Created by Sunguin.
  */
 public class GettingStartedController extends Controller {
 
