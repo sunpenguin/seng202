@@ -134,7 +134,7 @@ public class AirlineRDController extends Controller {
      * Currently not implemented yet.
      */
     public void analyse_Button() {
-        JOptionPane.showMessageDialog(null, "This is not Implemented yet");
+        replaceSceneContent(SceneCode.AIRLINE_GRAPHS);
     }
 
     /**
