@@ -87,7 +87,7 @@ public class App extends Application
 				if (datasets.get(i).getName().equals(session.getCurrentDataset())) {
 					currentDataset = datasets.get(i);
 
-					if (session.getFilteredAirlines().size() == 0) {
+					if (session.getFilteredAirlines().size() == 0 || session.getFilteredAirlines() == null) {
 						HashMap<Integer, String> airlinesHM = new HashMap<Integer, String>();
 						ArrayList<Airline> airlines = currentDataset.getAirlines();
 						for (int index = 0; index < airlines.size(); index++) {
@@ -96,7 +96,7 @@ public class App extends Application
 						session.setFilteredAirlines(airlinesHM);
 					}
 
-					if (session.getFilteredAirports().size() == 0) {
+					if (session.getFilteredAirports().size() == 0 || session.getFilteredAirports() == null) {
 						HashMap<Integer, String> airportsHM = new HashMap<Integer, String>();
 						ArrayList<Airport> airports = currentDataset.getAirports();
 						for (int index = 0; index < airports.size(); index++) {
@@ -105,15 +105,14 @@ public class App extends Application
 						session.setFilteredAirports(airportsHM);
 					}
 
-					if (session.getFilteredRoutes().size() == 0) {
+					if (session.getFilteredRoutes().size() == 0 || session.getFilteredRoutes() == null) {
 						HashMap<Integer, String> routesHM = new HashMap<Integer, String>();
 						ArrayList<Route> routes = currentDataset.getRoutes();
 						for (int index = 0; index < routes.size(); index++) {
 							routesHM.put(index, routes.get(index).getUniqueKey());
 						}
-						session.setFilteredAirports(routesHM);
+						session.setFilteredRoutes(routesHM);
 					}
-					//session.setFilteredRoutes();
 				}
 			}
 		}
@@ -255,6 +254,27 @@ public class App extends Application
 	public void setCurrentDataset(Dataset dataset){
 		currentDataset = dataset;
 		session.setCurrentDataset(currentDataset.getName());
+
+		HashMap<Integer, String> airlinesHM = new HashMap<Integer, String>();
+		ArrayList<Airline> airlines = currentDataset.getAirlines();
+		for (int index = 0; index < airlines.size(); index++) {
+			airlinesHM.put(index, airlines.get(index).getName());
+		}
+		session.setFilteredAirlines(airlinesHM);
+
+		HashMap<Integer, String> airportsHM = new HashMap<Integer, String>();
+		ArrayList<Airport> airports = currentDataset.getAirports();
+		for (int index = 0; index < airports.size(); index++) {
+			airportsHM.put(index, airports.get(index).getName());
+		}
+		session.setFilteredAirports(airportsHM);
+
+		HashMap<Integer, String> routesHM = new HashMap<Integer, String>();
+		ArrayList<Route> routes = currentDataset.getRoutes();
+		for (int index = 0; index < routes.size(); index++) {
+			routesHM.put(index, routes.get(index).getUniqueKey());
+		}
+		session.setFilteredRoutes(routesHM);
 	}
 
 	/**
