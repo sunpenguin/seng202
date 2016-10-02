@@ -280,6 +280,11 @@ public class Route {
 		return routePath;
 	}
 
+	public String getUniqueKey(){
+		//key routeAirline + routeSourceAirport + routeArrvAirport + routeCodeShare + routeStops + routeEquip
+		return airlineName + departureAirport + arrivalAirport + codeShare + String.valueOf(stops) + equipment;
+	}
+
 	/**
 	 * What to print if printed as a string.
 	 * @return
