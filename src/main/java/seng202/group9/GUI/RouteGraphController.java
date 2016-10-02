@@ -1,5 +1,6 @@
 package seng202.group9.GUI;
 
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
@@ -15,10 +16,7 @@ import seng202.group9.Core.Airline;
 import seng202.group9.Core.Airport;
 import seng202.group9.Core.Route;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.*;
 
 /**
  * Created by fwy13 on 2/10/2016.
@@ -95,6 +93,7 @@ public class RouteGraphController extends Controller{
         loadOutCountryGraph();
         loadEquipGraph();
         loadSimilarGraph();
+        loadStopsGraph();
     }
 
     public void loadAirlineGraph(){
@@ -328,7 +327,6 @@ public class RouteGraphController extends Controller{
         equipGraph.getData().add(series);
     }
 
-
     public void loadSimilarGraph(){
         similarGraph.setTitle("Top 10 Most Similar Routes");
         similarXAxis.setLabel("Routes");
@@ -364,41 +362,23 @@ public class RouteGraphController extends Controller{
         similarGraph.getData().add(series);
     }
 
-    /*public void loadStopsGraph(){
-        stopsGraph.setTitle("Top 10 Equipment used by Routes");
-        XYChart.Series<String,Integer> series = new XYChart.Series<>();
-        series.setName("Number of Equipment");
-        HashMap<String, Integer> equipmentList = new HashMap<>();//equipment, count
+    public void loadStopsGraph(){
+        stopsGraph.setTitle("Top 10 Most Common Amount of Stops by Routes");
+        ArrayList<PieChart.Data> data = new ArrayList<>();
+        HashMap<Integer, Integer> stops = new HashMap<>();//equipment, count
         for (Route route: routesFiltered){
-            String equipment[] = route.getEquipment().split(" ");
-            for (String equip : equipment){
-                if (equipmentList.containsKey(equip)){
-                    equipmentList.put(equip, equipmentList.get(equip) + 1);
-                }else{
-                    equipmentList.put(equip, 1);
-                }
+            if (stops.containsKey(route.getStops())){
+                stops.put(route.getStops(), stops.get(route.getStops()) + 1);
+            }else{
+                stops.put(route.getStops(), 1);
             }
         }
 
-        int length = 10;
-        if (equipmentList.size() < 10){
-            length = equipmentList.size();
-        }
-        for (int i = 0 ; i < length; i ++) {
-            int max = 0;
-            String maxEquip = "";
-            for (String equip: equipmentList.keySet()){
-                if (equipmentList.get(equip) > max){
-                    max = equipmentList.get(equip);
-                    maxEquip = equip;
-                }
-            }
-            series.getData().add(new XYChart.Data<String, Integer>(maxEquip, max));
-            equipmentList.remove(maxEquip);
+        for (int stop: stops.keySet()){
+            stopsGraph.getData().add(new PieChart.Data(String.valueOf(stop), stops.get(stop)));
         }
 
-        equipGraph.getData().add(series);
-    }*/
+    }
 
     public void goToRawData(){
         replaceSceneContent(SceneCode.ROUTE_RAW_DATA);
