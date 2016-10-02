@@ -37,9 +37,7 @@ public class GettingStartedController extends Controller {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Dataset Selected");
         alert.setHeaderText("You have decided to change the Dataset.");
-        alert.setContentText("You will now be taken to the airline summary page.");
+        alert.setContentText("The Flight Data System will now use your selected Dataset.");
         alert.showAndWait();
-
-        replaceSceneContent(SceneCode.AIRLINE_SUMMARY);
     }
 }
