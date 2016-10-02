@@ -91,6 +91,7 @@ public class RouteGraphController extends Controller{
         loadDestGraph();
         loadSourceGraph();
         loadInCountryGraph();
+        loadOutCountryGraph();
     }
 
     public void loadAirlineGraph(){
@@ -232,7 +233,6 @@ public class RouteGraphController extends Controller{
                 }
             }
         }
-        System.out.println(countries.size());
         int length = 10;
         if (countries.size() < 10){
             length = countries.size();
@@ -251,6 +251,41 @@ public class RouteGraphController extends Controller{
         }
 
         inCountryGraph.getData().add(series);
+    }
+
+    public void loadOutCountryGraph(){
+        outCountryGraph.setTitle("Top 10 Countries Visited.");
+        outCountryXAxis.setLabel("Countries");
+        XYChart.Series<String,Integer> series = new XYChart.Series<>();
+        series.setName("Number of Countries");
+        LinkedHashMap<String, Integer> countries = new LinkedHashMap<>();
+        for (Route route: routesFiltered) {
+            Airport source = route.getSourceAirport();
+            if (source != null){
+                if (countries.containsKey(source.getCountryName())) {
+                    countries.put(source.getCountryName(), countries.get(source.getCountryName()) + 1);
+                } else {
+                    countries.put(source.getCountryName(), 1);
+                }
+            }
+        }
+        int length = 10;
+        if (countries.size() < 10){
+            length = countries.size();
+        }
+        for (int i = 0 ; i < length; i ++) {
+            int max = 0;
+            String maxCountry = null;
+            for (String country: countries.keySet()){
+                if (countries.get(country) > max){
+                    maxCountry = country;
+                    max = countries.get(country);
+                }
+            }
+            series.getData().add(new XYChart.Data<String, Integer>(maxCountry, max));
+            countries.remove(maxCountry);
+        }
+        outCountryGraph.getData().add(series);
     }
 
     public void goToRawData(){
