@@ -12,6 +12,7 @@ import seng202.group9.Controller.SceneCode;
 import seng202.group9.Controller.Session;
 import seng202.group9.Core.Airline;
 import seng202.group9.Core.Airport;
+import seng202.group9.Core.Route;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -71,6 +72,7 @@ public class AirportGraphController extends Controller{
         loadCountryGraph();
         loadDestGraph();
         loadTransGraph();
+        loadAirlineGraph();
     }
 
     public void loadCountryGraph(){
@@ -167,6 +169,56 @@ public class AirportGraphController extends Controller{
             }
         }
         transGraph.getData().add(series);
+    }
+
+    public void loadAirlineGraph(){
+        airlineGraph.setTitle("Top 10 Airlines Flown to Airports");
+        airlineXAxis.setLabel("Airline");
+        XYChart.Series<String,Integer> series = new XYChart.Series<>();
+        series.setName("Number of Time Flown");
+
+        HashMap<String, Integer> airlines = new HashMap<>();
+        for (Airport airport: airportsFiltered){
+            for (Route route: airport.getArrivalRoutes()){
+                if (route.getAirline() != null) {
+                    if (airlines.containsKey(route.getAirline().getName())) {
+                        airlines.put(route.getAirline().getName(), airlines.get(route.getAirline().getName()) + 1);
+                    } else {
+
+                        airlines.put(route.getAirline().getName(), 1);
+                    }
+                }
+            }
+            for (Route route: airport.getDepartureRoutes()){
+                if (route.getAirline() != null) {
+                    if (airlines.containsKey(route.getAirline().getName())) {
+                        airlines.put(route.getAirline().getName(), airlines.get(route.getAirline().getName()) + 1);
+                    } else {
+
+                        airlines.put(route.getAirline().getName(), 1);
+                    }
+                }
+            }
+        }
+
+        int length = 10;
+        if (airlines.size() < 10){
+            length = airlines.size();
+        }
+        for (int i = 0 ; i < length; i ++) {
+            int max = 0;
+            String maxAirline = "";
+            for (String airline: airlines.keySet()){
+                if (airlines.get(airline) > max){
+                    max = airlines.get(airline);
+                    maxAirline = airline;
+                }
+            }
+            series.getData().add(new XYChart.Data<String, Integer>(maxAirline, max));
+            airlines.remove(maxAirline);
+        }
+
+        airlineGraph.getData().add(series);
     }
 
     public void goToRawData(){
