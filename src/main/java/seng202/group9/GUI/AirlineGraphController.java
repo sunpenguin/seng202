@@ -19,7 +19,7 @@ import java.util.*;
 import static javafx.application.ConditionalFeature.FXML;
 
 /**
- * Created by Gondr on 2/10/2016.
+ * Created by fwy13 on 2/10/2016.
  */
 public class AirlineGraphController extends Controller{
     private Dataset dataset;

@@ -11,6 +11,7 @@ import javafx.scene.layout.VBox;
 import seng202.group9.Controller.Dataset;
 import seng202.group9.Controller.SceneCode;
 import seng202.group9.Controller.Session;
+import seng202.group9.Core.Airline;
 import seng202.group9.Core.Airport;
 import seng202.group9.Core.Route;
 
@@ -20,7 +21,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 /**
- * Created by Gondr on 2/10/2016.
+ * Created by fwy13 on 2/10/2016.
  */
 public class RouteGraphController extends Controller{
     private Dataset dataset;
@@ -92,6 +93,7 @@ public class RouteGraphController extends Controller{
         loadSourceGraph();
         loadInCountryGraph();
         loadOutCountryGraph();
+        loadEquipGraph();
     }
 
     public void loadAirlineGraph(){
@@ -286,6 +288,43 @@ public class RouteGraphController extends Controller{
             countries.remove(maxCountry);
         }
         outCountryGraph.getData().add(series);
+    }
+
+    public void loadEquipGraph(){
+        equipGraph.setTitle("Top 10 Equipment used by Routes");
+        equipXAxis.setLabel("Equipment");
+        XYChart.Series<String,Integer> series = new XYChart.Series<>();
+        series.setName("Number of Equipment");
+        HashMap<String, Integer> equipmentList = new HashMap<>();//equipment, count
+        for (Route route: routesFiltered){
+            String equipment[] = route.getEquipment().split(" ");
+            for (String equip : equipment){
+                if (equipmentList.containsKey(equip)){
+                    equipmentList.put(equip, equipmentList.get(equip) + 1);
+                }else{
+                    equipmentList.put(equip, 1);
+                }
+            }
+        }
+
+        int length = 10;
+        if (equipmentList.size() < 10){
+            length = equipmentList.size();
+        }
+        for (int i = 0 ; i < length; i ++) {
+            int max = 0;
+            String maxEquip = "";
+            for (String equip: equipmentList.keySet()){
+                if (equipmentList.get(equip) > max){
+                    max = equipmentList.get(equip);
+                    maxEquip = equip;
+                }
+            }
+            series.getData().add(new XYChart.Data<String, Integer>(maxEquip, max));
+            equipmentList.remove(maxEquip);
+        }
+
+        equipGraph.getData().add(series);
     }
 
     public void goToRawData(){
