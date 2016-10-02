@@ -36,7 +36,7 @@ public class BarGraphController extends Controller {
     public void build_graph(){
         //Takes routes from the full dataset.
         current_routes = currentdata.getRoutes();
-        datasetup(current_routes);
+        //datasetup(current_routes);
         //Builds series needed for the graph.
         XYChart.Series seriesArivals = new XYChart.Series();
         XYChart.Series seriesDeparts = new XYChart.Series();
@@ -83,11 +83,11 @@ public class BarGraphController extends Controller {
                 name = entry.getCountryName();
             }
             if (useddata.containsKey(name)){
-                int temp = useddata.get(name);
-                useddata.replace(name,temp+1);
+                //int temp = useddata.get(name);
+                //useddata.replace(name,temp+1);
             }else {
                 Integer temp = 1;
-                useddata.put(name,temp);
+                //useddata.put(name,temp);
             }
         }
     }
@@ -95,12 +95,12 @@ public class BarGraphController extends Controller {
 
     private void datasetupCustomRoute(ArrayList<Route> current_routes){
         //Takes out the specified field (Currently departure airport and arrival airport) then adds to the used data dict.
-        if(currentsession.getSelectedgraphagainst() = ""){
+        //if(currentsession.getSelectedgraphagainst() = ""){
 
-        }
+        //}
     }
 
-
+/**
             for (Route entry : current_routes){
         String departs = entry.getDepartureAirport();
         String arives = entry.getArrivalAirport();
@@ -125,7 +125,7 @@ public class BarGraphController extends Controller {
             useddata.put(arives,temp);
         }
     }
-
+*/
     /**
      * Takes the current dataset then loads the data to the graph using build graph.
      */
@@ -161,7 +161,7 @@ public class BarGraphController extends Controller {
             else{
                 d = currentdata.getAirlines();
             }
-            datasetupCustomarAirline(d);
+            //datasetupCustomarAirline(d);
         }
         else if (temp == "Routes") {
             ArrayList<Route> d = new ArrayList();

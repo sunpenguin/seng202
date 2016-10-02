@@ -14,7 +14,7 @@ public class PieChartErrorController extends Controller {
     }
 
     public void ignoredWarning() {
-        currentSession.setForceGraph(Boolean.TRUE);
+        currentSession.setForceGraph(true);
         replaceSceneContent(SceneCode.AIRPORT_ANALYSER);
     }
     public void backToSafety(){

@@ -47,7 +47,7 @@ public class PieChooserController extends Controller{
         currentsession.setSelectedDataToGraph(datatypechooser.getSelectionModel().getSelectedItem().toString());
         currentsession.setSelectedgraphagainst(graph_options.getSelectionModel().getSelectedItem().toString());
         currentsession.setUsefilter(usefilter.isSelected());
-        currentsession.setForceGraph(Boolean.FALSE);
+        currentsession.setForceGraph(false);
         replaceSceneContent(SceneCode.AIRPORT_ANALYSER);
     }
 
@@ -64,6 +64,7 @@ public class PieChooserController extends Controller{
                 changeTables();
             }
         });
+
         graph_options.setItems(airportOptions);
         graph_options.getSelectionModel().selectFirst();
         allOptions.add(airportOptions);

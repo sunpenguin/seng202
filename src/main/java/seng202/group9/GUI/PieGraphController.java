@@ -44,7 +44,7 @@ public class PieGraphController extends Controller {
             pieChartData.add(new PieChart.Data(airport,temp));
         }
         //Gives the data to the graph.
-        if (useddata.keySet().size() > 50 && currentsession.getForceGraph()){
+        if (useddata.keySet().size() > 250 && currentsession.getForceGraph()){
             replaceSceneContent(SceneCode.CHART_ERROR);
         }
         else{
@@ -66,7 +66,7 @@ public class PieGraphController extends Controller {
             else if (currentsession.getSelectedgraphagainst() == "ICAO") {
                 name = entry.getICAO();
             }
-            else if (currentsession.getSelectedgraphagainst() == "IATA_FFA") {
+            else if (currentsession.getSelectedgraphagainst() == "IATA FFA") {
                 name = entry.getIATA_FFA();
             }
             else if (currentsession.getSelectedgraphagainst() == "City") {
