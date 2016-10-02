@@ -8,6 +8,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -22,6 +23,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import seng202.group9.Core.Airline;
+import seng202.group9.Core.Airport;
 import seng202.group9.Core.FlightPath;
 import seng202.group9.GUI.*;
 
@@ -97,6 +100,29 @@ public class App extends Application
 			for (int i = 0; i < datasets.size(); i ++) {
 				if (datasets.get(i).getName().equals(session.getCurrentDataset())) {
 					currentDataset = datasets.get(i);
+
+					HashMap<Integer, Integer> airlinesHM = new HashMap<Integer, Integer>();
+					ArrayList<Airline> airlines = currentDataset.getAirlines();
+					for (int index = 0; index < airlines.size(); index++) {
+						try {
+							airlinesHM.put(index, airlines.get(index).getID());
+						} catch (DataException e) {
+							e.printStackTrace();
+						}
+					}
+					session.setFilteredAirlines(airlinesHM);
+
+					HashMap<Integer, Integer> airportsHM = new HashMap<Integer, Integer>();
+					ArrayList<Airport> airports = currentDataset.getAirports();
+					for (int index = 0; index < airports.size(); index++) {
+						try {
+							airportsHM.put(index, airports.get(index).getID());
+						} catch (DataException e) {
+							e.printStackTrace();
+						}
+					}
+					session.setFilteredAirports(airportsHM);
+					//session.setFilteredRoutes();
 				}
 			}
 		}

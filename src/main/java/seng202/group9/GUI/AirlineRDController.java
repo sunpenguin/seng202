@@ -85,8 +85,14 @@ public class AirlineRDController extends Controller {
     public void openFilter() {
         createPopUpStage(SceneCode.AIRLINE_FILTER, 600, 370);
         ArrayList<Airline> d = new ArrayList();
-        for (int key: currentSession.getFilteredAirlines().keySet()){
-            d.add(theDataSet.getAirlineDictionary().get(currentSession.getFilteredAirlines().get(key)));
+        for (Airline airline : theDataSet.getAirlines()){
+            try {
+                if (currentSession.getFilteredAirlines().containsValue(airline.getID())){
+                    d.add(airline);
+                }
+            } catch (DataException e) {
+                e.printStackTrace();
+            }
         }
         tableViewAirlineRD.setItems(FXCollections.observableArrayList(d));
     }

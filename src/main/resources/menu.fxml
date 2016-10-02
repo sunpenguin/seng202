@@ -57,8 +57,11 @@
                </items></Menu>
             <Menu mnemonicParsing="false" text="Analysis">
                <items>
-                  <MenuItem mnemonicParsing="false" onAction="#viewAnalyserMain" text="Graphs" />
-                  <MenuItem mnemonicParsing="false" onAction="#veiwDistCalc" text="Calculate distance between Airports" />
+                  <MenuItem mnemonicParsing="false" onAction="#viewAirportGraphs" text="Airport Graphs" />
+                  <MenuItem mnemonicParsing="false" onAction="#viewAirlineGraphs" text="Airline Graphs" />
+                  <MenuItem mnemonicParsing="false" onAction="#viewRouteGraphs" text="Route Graphs" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" onAction="#viewDistCalc" text="Distance Calculator" />
                </items></Menu>
             <Menu mnemonicParsing="false" text="Help">
               <items>

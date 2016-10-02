@@ -11,6 +11,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import seng202.group9.Controller.AirportFilter;
+import seng202.group9.Controller.DataException;
 import seng202.group9.Controller.Dataset;
 import seng202.group9.Controller.Session;
 import seng202.group9.Core.Airport;
@@ -117,10 +118,14 @@ public class AirportFilterController extends Controller {
         alert.setContentText("Your airport data has been successfully filtered.");
         alert.showAndWait();
 
-        HashMap<Integer, String> airportsHM = new HashMap<Integer, String>();
+        HashMap<Integer, Integer> airportsHM = new HashMap<Integer, Integer>();
         ArrayList<Airport> airports = filter.getFilteredData();
         for (int index = 0; index < airports.size(); index++) {
-            airportsHM.put(index, airports.get(index).getName());
+            try {
+                airportsHM.put(index, airports.get(index).getID());
+            } catch (DataException e) {
+                e.printStackTrace();
+            }
         }
         currentSession.setFilteredAirports(airportsHM);
 

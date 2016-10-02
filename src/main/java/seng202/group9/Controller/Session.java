@@ -19,17 +19,12 @@ public class Session implements Serializable {
 
     private int currentFlightPointID;//current selected flight point
     private int currentFlightPathID;//cureselected flight path
-    private HashMap<Integer, String> filteredAirlines;//current filtered airlines
-    private HashMap<Integer, String> filteredAirports;//current filtered airports
-    private HashMap<Integer, String> filteredRoutes;//current filtered routes
+    private HashMap<Integer, Integer> filteredAirlines;//current filtered airlines
+    private HashMap<Integer, Integer> filteredAirports;//current filtered airports
+    private HashMap<Integer, Integer> filteredRoutes;//current filtered routes
     private HashMap<String, String> airportFilter;//storage for filter values for airports
     private HashMap<String, String> airlineFilter;//storage for filter values for airports
     private HashMap<String, String> routeFilter;//storage for filter values for airports
-    private String selectedgraphagainst;
-    private ArrayList<String> selectedgraphoptions;
-    private Boolean usefilter;
-    private Boolean forceGraph;
-    private String selectedDataToGraph;
     private String airlineToEdit;
     private String airportToEdit;
     private String routeToEdit;
@@ -88,7 +83,7 @@ public class Session implements Serializable {
         this.filteredAirlines = airlines;
     }
 
-    public HashMap<Integer, String> getFilteredAirlines() {
+    public HashMap<Integer, Integer> getFilteredAirlines() {
         return filteredAirlines;
     }
 
@@ -96,7 +91,7 @@ public class Session implements Serializable {
         this.filteredAirports = airports;
     }
 
-    public HashMap<Integer, String> getFilteredAirports() {
+    public HashMap<Integer, Integer> getFilteredAirports() {
         return filteredAirports;
     }
 
@@ -104,7 +99,7 @@ public class Session implements Serializable {
         this.filteredRoutes = routes;
     }
 
-    public HashMap<Integer, String> getFilteredRoutes() {
+    public HashMap<Integer, Integer> getFilteredRoutes() {
         return filteredRoutes;
     }
 
@@ -162,47 +157,6 @@ public class Session implements Serializable {
      */
     public int getCurrentFlightPathID() {
         return currentFlightPathID;
-    }
-
-
-    public Boolean getForceGraph() {
-        return forceGraph;
-    }
-
-    public void setForceGraph(Boolean forceGraph) {
-        this.forceGraph = forceGraph;
-    }
-
-    public String getSelectedDataToGraph() {
-        return selectedDataToGraph;
-    }
-
-    public void setSelectedDataToGraph(String selectedDataToGraph) {
-        this.selectedDataToGraph = selectedDataToGraph;
-    }
-
-    public String getSelectedgraphagainst() {
-        return selectedgraphagainst;
-    }
-
-    public void setSelectedgraphagainst(String selectedgraphagainst) {
-        this.selectedgraphagainst = selectedgraphagainst;
-    }
-
-    public ArrayList<String> getSelectedgraphoptions() {
-        return selectedgraphoptions;
-    }
-
-    public void setSelectedgraphoptions(ArrayList<String> selectedgraphoptions) {
-        this.selectedgraphoptions = selectedgraphoptions;
-    }
-
-    public Boolean getUsefilter() {
-        return usefilter;
-    }
-
-    public void setUsefilter(Boolean usefilter) {
-        this.usefilter = usefilter;
     }
 
     public HashMap<String, String> getAirportFilter() {

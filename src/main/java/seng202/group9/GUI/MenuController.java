@@ -67,8 +67,6 @@ public class MenuController extends Controller{
 		replaceSceneContent(SceneCode.ROUTE_SUMMARY);
 	}
 
-	public void viewAnalyserMain() { replaceSceneContent(SceneCode.ANALYSER_TAB);}
-
 	/**
 	 * view Routes by the Destination / Arrival Airport
 	 */
@@ -104,7 +102,19 @@ public class MenuController extends Controller{
 		//nothing to load
 	}
 
-	public void veiwDistCalc(){replaceSceneContent(SceneCode.AIRPORT_DIST_CALC);}
+	public void viewDistCalc(){replaceSceneContent(SceneCode.AIRPORT_DIST_CALC);}
+
+	public void viewAirportGraphs(){
+		replaceSceneContent(SceneCode.AIRPORT_GRAPHS);
+	}
+
+	public void viewAirlineGraphs(){
+		replaceSceneContent(SceneCode.AIRLINE_GRAPHS);
+	}
+
+	public void viewRouteGraphs(){
+		replaceSceneContent(SceneCode.ROUTE_GRAPHS);
+	}
 
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub

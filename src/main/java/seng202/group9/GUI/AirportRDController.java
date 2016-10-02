@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import seng202.group9.Controller.DataException;
 import seng202.group9.Controller.Dataset;
 import seng202.group9.Controller.SceneCode;
 import seng202.group9.Controller.Session;
@@ -93,8 +94,14 @@ public class AirportRDController extends Controller{
     public void openFilter() {
         createPopUpStage(SceneCode.AIRPORT_FILTER, 600, 480);
         ArrayList<Airport> d = new ArrayList();
-        for (int key: currentSession.getFilteredAirports().keySet()){
-            d.add(theDataSet.getAirportDictionary().get(currentSession.getFilteredAirports().get(key)));
+        for (Airport airport: theDataSet.getAirports()){
+            try {
+                if (currentSession.getFilteredAirports().containsValue(airport.getID())) {
+                    d.add(airport);
+                }
+            } catch (DataException e) {
+                e.printStackTrace();
+            }
         }
         tableViewAirportRD.setItems(FXCollections.observableArrayList(d));
     }
@@ -131,9 +138,9 @@ public class AirportRDController extends Controller{
 
     /**
      * Analyses the current data and creates a graph based on the data.
-     * @see PieGraphController
+     *
      */
-    public void analyse_Button(){ replaceSceneContent(SceneCode.AIRPORT_ANALYSER);}
+    public void analyse_Button(){ replaceSceneContent(SceneCode.AIRPORT_GRAPHS);}
 
     public void airportSummaryButton() {
         replaceSceneContent(SceneCode.AIRPORT_SUMMARY);
