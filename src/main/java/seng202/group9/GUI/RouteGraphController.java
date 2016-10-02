@@ -15,6 +15,7 @@ import seng202.group9.Core.Airport;
 import seng202.group9.Core.Route;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
@@ -87,6 +88,7 @@ public class RouteGraphController extends Controller{
         System.out.println(routesFiltered.length);
         //load graphs
         loadAirlineGraph();
+        loadDestGraph();
     }
 
     public void loadAirlineGraph(){
@@ -124,6 +126,49 @@ public class RouteGraphController extends Controller{
         }
 
         airlineGraph.getData().add(series);
+    }
+
+    public void loadDestGraph(){
+        destGraph.setTitle("Top 10 Airports with Arriving Routes");
+        destXAxis.setLabel("Airports");
+
+        XYChart.Series<String,Integer> series = new XYChart.Series<>();
+        series.setName("Number of Routes");
+
+        HashMap<String, Integer> airports = new HashMap<>();
+        for (Route route: routesFiltered){
+            if (route.getDestinationAirport() != null) {
+                if (airports.containsKey(route.getDestinationAirport().getName())) {
+                    airports.put(route.getDestinationAirport().getName(), airports.get(route.getDestinationAirport().getName()) + 1);
+                }else{
+
+                    airports.put(route.getDestinationAirport().getName(), 1);
+                }
+            }
+        }
+
+        LinkedHashMap<String, Integer> maxAirports = new LinkedHashMap<>();
+        int length = 10;
+        if (airports.size() < 10){
+            length = airports.size();
+        }
+        for (int i = 0 ; i < length; i ++) {
+            int max = 0;
+            String maxAirport = null;
+            for (String airport: airports.keySet()){
+                if (airports.get(airport) > max){
+                    max = airports.get(airport);
+                    maxAirport = airport;
+                }
+            }
+            maxAirports.put(maxAirport, max);
+            airports.remove(maxAirport);
+        }
+
+        for (String airport: maxAirports.keySet()){
+            series.getData().add(new XYChart.Data<String, Integer>(airport, maxAirports.get(airport)));
+        }
+        destGraph.getData().add(series);
     }
 
 
