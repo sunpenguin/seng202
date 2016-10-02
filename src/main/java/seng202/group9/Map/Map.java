@@ -21,6 +21,8 @@ public class Map {
     private WebEngine webEngine;
     private WebView webView;
     private boolean canLoad = false;
+    public static int loadAirports = 0;
+    public static int loadRoutes = 1;
 
     public Map(WebView webView, final RoutePath newRoute){
         this.webView = webView;
@@ -34,6 +36,24 @@ public class Map {
                     }
                 }
             });
+    }
+
+    public Map(WebView webView, final ArrayList<RoutePath> newRoute, int type){
+        this.webView = webView;
+        webEngine = webView.getEngine();
+        initMap();
+        webEngine.getLoadWorker().stateProperty().addListener(
+                new ChangeListener<Worker.State>() {
+                    public void changed(ObservableValue ov, Worker.State oldState, Worker.State newState) {
+                        if (newState == Worker.State.SUCCEEDED){
+                            if (loadAirports == type) {
+                                displayAirports(newRoute);
+                            }else if (loadRoutes == type){
+                                displayRoutes(newRoute);
+                            }
+                        }
+                    }
+                });
     }
 
     public Map(WebView webView, final RoutePath newRoute, TableView table){
@@ -87,15 +107,15 @@ public class Map {
             airportJSONArray += airport.toJSONArray() + ", ";
             if (counter++ > 49){
                 Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Too Many Routes");
-                alert.setHeaderText("Too Many Routes to display");
-                alert.setContentText("As there are too many routes to display only the first\n50 will be displayed.");
+                alert.setTitle("Too Many Airports");
+                alert.setHeaderText("Too Many Airports to display");
+                alert.setContentText("As there are too many Airports to display only the first\n50 will be displayed.");
                 alert.showAndWait();
                 break;
             }
         }
         airportJSONArray += "]";
-        webEngine.executeScript("displayRoutes("+airportJSONArray+");");
+        webEngine.executeScript("displayAirports("+airportJSONArray+");");
     }
 
     public void displayRoutes(ArrayList<RoutePath> routes){

@@ -143,6 +143,6 @@ public class RouteRDController extends Controller {
      * Opens a map with the data currently being displayed in the table.
      */
     public void openMap(){
-
+        createPopUpStage(SceneCode.POP_UP_ROUTE_MAP, 600, 400);
     }
 }

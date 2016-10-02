@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import seng202.group9.Controller.Dataset;
 import seng202.group9.Controller.SceneCode;
 import seng202.group9.Controller.Session;
@@ -142,6 +143,6 @@ public class AirportRDController extends Controller{
      * Opens a map with the data currently being displayed in the table.
      */
     public void openMap() {
-
+        createPopUpStage(SceneCode.POP_UP_AIRPORT_MAP, 600, 400);
     }
 }
