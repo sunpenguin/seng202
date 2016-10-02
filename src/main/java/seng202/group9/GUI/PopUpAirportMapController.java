@@ -37,11 +37,4 @@ public class PopUpAirportMapController extends Controller {
         map = new Map(mapView, routePaths, Map.loadAirports);
     }
 
-    public void loadRoutes(ArrayList<Route> routes){
-        ArrayList<RoutePath> routePaths = new ArrayList<>();
-        for (Route route: routes){
-            routePaths.add(route.getRoutePath());
-        }
-        map.displayRoutes(routePaths);
-    }
 }

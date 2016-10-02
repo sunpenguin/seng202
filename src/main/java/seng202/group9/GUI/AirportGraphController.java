@@ -90,8 +90,8 @@ public class AirportGraphController extends Controller{
         }
 
         int length = 10;
-        if (airportsFiltered.length < 10){
-            length = airportsFiltered.length;
+        if (countries.size() < 10){
+            length = countries.size();
         }
         for (int i = 0 ; i < length; i ++) {
             int max = 0;
