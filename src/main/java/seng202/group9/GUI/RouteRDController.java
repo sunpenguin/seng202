@@ -127,10 +127,10 @@ public class RouteRDController extends Controller {
 
     /**
      * Analyses the current data and creates a graph based on the data.
-     * @see BarGraphController
+     *
      */
     public void analyse_Button() {
-        replaceSceneContent(SceneCode.ROUTE_ANALYSER);
+        replaceSceneContent(SceneCode.ROUTE_GRAPHS);
     }
 
     public void routeSummaryButton() {
