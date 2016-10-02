@@ -38,7 +38,7 @@ public class Map {
             });
     }
 
-    public Map(WebView webView, final ArrayList<RoutePath> newRoute, int type){
+    public Map(WebView webView, final ArrayList<RoutePath> newRoute, final int type){
         this.webView = webView;
         webEngine = webView.getEngine();
         initMap();
@@ -71,7 +71,7 @@ public class Map {
                 });
     }
 
-    public Map(WebView webView, final RoutePath newRoute, ListView table){
+    public Map(WebView webView, final RoutePath newRoute, final ListView table){
         this.webView = webView;
         webEngine = webView.getEngine();
         initMap();
