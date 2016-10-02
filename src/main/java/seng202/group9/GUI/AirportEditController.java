@@ -1,9 +1,13 @@
 package seng202.group9.GUI;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import seng202.group9.Controller.DataException;
 import seng202.group9.Controller.Dataset;
@@ -40,6 +44,8 @@ public class AirportEditController extends Controller {
     private TextField airpTzEdit;
     @FXML
     private Button editButton;
+    @FXML
+    private GridPane airportContainer;
 
     //Set an empty Dataset to be assigned later
     private Dataset theDataSet = null;
@@ -91,5 +97,13 @@ public class AirportEditController extends Controller {
         airpTimezoneEdit.setText(Double.toString(toEdit.getTimezone()));
         airpDSTEdit.setText(toEdit.getDST());
         airpTzEdit.setText(toEdit.getTz());
+        airportContainer.setOnKeyPressed(new EventHandler<KeyEvent>(){
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode().equals(KeyCode.ENTER)){
+                    editAirport();
+                }
+            }
+        });
     }
 }

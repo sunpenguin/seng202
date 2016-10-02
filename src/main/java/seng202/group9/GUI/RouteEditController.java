@@ -1,9 +1,13 @@
 package seng202.group9.GUI;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import seng202.group9.Controller.DataException;
 import seng202.group9.Controller.Dataset;
@@ -29,6 +33,8 @@ public class RouteEditController extends Controller {
     private TextField rEquipmentEdit;
     @FXML
     private Button editButton;
+    @FXML
+    private GridPane routeContainer;
 
     private Dataset theDataSet = null;
 
@@ -72,5 +78,13 @@ public class RouteEditController extends Controller {
         rCodeshareEdit.setText(toEdit.getCode());
         rStopsEdit.setText(Integer.toString(toEdit.getStops()));
         rEquipmentEdit.setText(toEdit.getEquipment());
+        routeContainer.setOnKeyPressed(new EventHandler<KeyEvent>(){
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode().equals(KeyCode.ENTER)){
+                    editRoute();
+                }
+            }
+        });
     }
 }

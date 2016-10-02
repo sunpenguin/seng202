@@ -1,9 +1,13 @@
 package seng202.group9.GUI;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import seng202.group9.Controller.DataException;
 import seng202.group9.Controller.Dataset;
@@ -35,6 +39,9 @@ public class AirlineEditController extends Controller {
     private TextField airlActiveEdit;
     @FXML
     private Button applyButton;
+    @FXML
+    private GridPane airlineContainer;
+
 
     //Sets up an empty Dataset to be assigned to the current dataset.
     private Dataset theDataSet = null;
@@ -52,6 +59,15 @@ public class AirlineEditController extends Controller {
     public void load() {
         theDataSet = getParent().getCurrentDataset();
         currentSession = getParent().getSession();
+
+        airlineContainer.setOnKeyPressed(new EventHandler<KeyEvent>(){
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode().equals(KeyCode.ENTER)){
+                    editAirline();
+                }
+            }
+        });
 
         toEdit = theDataSet.getAirlineDictionary().get(currentSession.getAirlineToEdit());
 

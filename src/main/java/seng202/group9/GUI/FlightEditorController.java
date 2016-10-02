@@ -1,9 +1,13 @@
 package seng202.group9.GUI;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import seng202.group9.Controller.Dataset;
 import seng202.group9.Controller.Session;
@@ -27,6 +31,8 @@ public class FlightEditorController extends Controller{
     TextField fLongitudeEdit;
     @FXML
     private Button flightEditButton;
+    @FXML
+    private GridPane flightContainer;
 
     //Set an empty Dataset to be assigned later
     private Dataset theDataSet = null;
@@ -95,6 +101,14 @@ public class FlightEditorController extends Controller{
         fAltitudeEdit.setText(Double.toString(flightPoint.getAltitude()));
         fLatitudeEdit.setText(Double.toString(flightPoint.getLatitude()));
         fLongitudeEdit.setText(Double.toString(flightPoint.getLongitude()));
+        flightContainer.setOnKeyPressed(new EventHandler<KeyEvent>(){
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode().equals(KeyCode.ENTER)){
+                    editFlight();
+                }
+            }
+        });
     }
 
 }

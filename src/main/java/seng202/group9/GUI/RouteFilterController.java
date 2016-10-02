@@ -39,7 +39,7 @@ public class RouteFilterController extends Controller {
     @FXML
     private Button applyButton;
     @FXML
-    private GridPane airlineAddForm;
+    private GridPane routeContainer;
 
     private Dataset theDataSet = null;
     //Set an empty session to be assigned to the current session.
@@ -106,14 +106,6 @@ public class RouteFilterController extends Controller {
         }
         theDataSet = getParent().getCurrentDataset();
         currentSession = getParent().getSession();
-        airlineAddForm.setOnKeyPressed(new EventHandler<KeyEvent>(){
-            @Override
-            public void handle(KeyEvent event) {
-                if (event.getCode().equals(KeyCode.ENTER)){
-                    filterRoutes();
-                }
-            }
-        });
         sesFilter = currentSession.getRouteFilter();
         rAirlineFilter.setText(sesFilter.get("Airline"));
         rSourceFilter.setText(sesFilter.get("Source"));
@@ -121,6 +113,14 @@ public class RouteFilterController extends Controller {
         rCodeshareFilter.setText(sesFilter.get("Codeshare"));
         rStopsFilter.setText(sesFilter.get("Stops"));
         rEquipmentFilter.setText(sesFilter.get("Equipment"));
+        routeContainer.setOnKeyPressed(new EventHandler<KeyEvent>(){
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode().equals(KeyCode.ENTER)){
+                    filterRoutes();
+                }
+            }
+        });
     }
 
     public void resetForm() {

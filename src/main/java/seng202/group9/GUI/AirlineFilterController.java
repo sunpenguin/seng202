@@ -2,10 +2,14 @@ package seng202.group9.GUI;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import seng202.group9.Controller.AirlineFilter;
 import seng202.group9.Controller.Dataset;
@@ -40,6 +44,8 @@ public class AirlineFilterController extends Controller {
     private TextField airlActiveFilter;
     @FXML
     private Button applyButton;
+    @FXML
+    private GridPane airlineContainer;
 
     private Dataset theDataSet = null;
     private Session currentSession = null;
@@ -54,6 +60,15 @@ public class AirlineFilterController extends Controller {
         }
         theDataSet = getParent().getCurrentDataset();
         currentSession = getParent().getSession();
+
+        airlineContainer.setOnKeyPressed(new EventHandler<KeyEvent>(){
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode().equals(KeyCode.ENTER)){
+                    filterAirlines();
+                }
+            }
+        });
 
         sesFilter = currentSession.getAirlineFilter();
 

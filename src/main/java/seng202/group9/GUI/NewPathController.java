@@ -1,9 +1,13 @@
 package seng202.group9.GUI;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import seng202.group9.Controller.Dataset;
 import seng202.group9.Controller.EntryParser;
@@ -19,11 +23,21 @@ public class NewPathController extends Controller {
     private TextField destinationAirport;
     @FXML
     private Button addButton;
+    @FXML
+    private GridPane flightContainer;
 
     private Dataset theDataSet = null;
 
     public void load() {
         theDataSet = getParent().getCurrentDataset();
+        flightContainer.setOnKeyPressed(new EventHandler<KeyEvent>(){
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode().equals(KeyCode.ENTER)){
+                    addPath();
+                }
+            }
+        });
     }
 
     /**
