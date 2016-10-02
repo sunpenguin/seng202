@@ -74,6 +74,20 @@ public class App extends Application
 			session = new Session();
 			e.printStackTrace();
 		}
+
+		//load all datasets
+		try{
+			loadAllDatasets();
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		if (session.getCurrentDataset() != null){
+			for (int i = 0; i < datasets.size(); i ++) {
+				if (datasets.get(i).getName().equals(session.getCurrentDataset())) {
+					currentDataset = datasets.get(i);
+				}
+			}
+		}
 		//load the menu and the first container
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -89,49 +103,13 @@ public class App extends Application
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		primaryStage.show();
-		//load all datasets
-		try{
-			loadAllDatasets();
-		} catch (Exception e){
-			e.printStackTrace();
-		}
-		if (session.getCurrentDataset() != null){
-			for (int i = 0; i < datasets.size(); i ++) {
-				if (datasets.get(i).getName().equals(session.getCurrentDataset())) {
-					currentDataset = datasets.get(i);
-
-					HashMap<Integer, Integer> airlinesHM = new HashMap<Integer, Integer>();
-					ArrayList<Airline> airlines = currentDataset.getAirlines();
-					for (int index = 0; index < airlines.size(); index++) {
-						try {
-							airlinesHM.put(index, airlines.get(index).getID());
-						} catch (DataException e) {
-							e.printStackTrace();
-						}
-					}
-					session.setFilteredAirlines(airlinesHM);
-
-					HashMap<Integer, Integer> airportsHM = new HashMap<Integer, Integer>();
-					ArrayList<Airport> airports = currentDataset.getAirports();
-					for (int index = 0; index < airports.size(); index++) {
-						try {
-							airportsHM.put(index, airports.get(index).getID());
-						} catch (DataException e) {
-							e.printStackTrace();
-						}
-					}
-					session.setFilteredAirports(airportsHM);
-					//session.setFilteredRoutes();
-				}
-			}
-		}
 		//after all loading then load the previous session
 		if (session.getSceneDisplayed() != null) {
 			menuController.replaceSceneContent(session.getSceneDisplayed());
 		}else{
 			menuController.replaceSceneContent(SceneCode.INITIAL);
 		}
+		primaryStage.show();
 		//check if there is internet connectivity
 		if (!testInet("maps.google.com")){
 			Alert alert = new Alert(Alert.AlertType.WARNING);

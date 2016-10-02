@@ -10,7 +10,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import seng202.group9.Controller.DataException;
 import seng202.group9.Controller.Dataset;
 import seng202.group9.Controller.RouteFilter;
 import seng202.group9.Controller.Session;
@@ -87,14 +86,13 @@ public class RouteFilterController extends Controller {
         alert.setContentText("Your route data has been successfully filtered.");
         alert.showAndWait();
 
-        HashMap<Integer, Integer> routesHM = new HashMap<Integer, Integer>();
+        //currentSession.setFilteredAirlines(FXCollections.observableArrayList(filter.getFilteredData()));
+        //routeAirline + routeSourceAirport + routeArrvAirport + routeCodeShare + routeStops + routeEquip
+        HashMap<Integer, String> routesHM = new HashMap<Integer, String>();
         ArrayList<Route> routes = filter.getFilteredData();
         for (int index = 0; index < routes.size(); index++) {
-            try {
-                routesHM.put(index, routes.get(index).getID());
-            } catch (DataException e) {
-                e.printStackTrace();
-            }
+            routesHM.put(index, routes.get(index).getAirlineName() + routes.get(index).getDepartureAirport() + routes.get(index).getArrivalAirport()
+                    + routes.get(index).getCode() + routes.get(index).getStops() + routes.get(index).getEquipment());
         }
         currentSession.setFilteredRoutes(routesHM);
 

@@ -42,7 +42,7 @@
       </Button>
       <ScrollPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
          <content>
-            <VBox fx:id="chartContainer" prefHeight="200.0" prefWidth="100.0" />
+            <VBox fx:id="chartContainer" prefHeight="463.0" prefWidth="798.0" />
          </content>
       </ScrollPane>
    </children>

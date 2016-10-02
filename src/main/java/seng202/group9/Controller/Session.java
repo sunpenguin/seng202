@@ -19,9 +19,9 @@ public class Session implements Serializable {
 
     private int currentFlightPointID;//current selected flight point
     private int currentFlightPathID;//cureselected flight path
-    private HashMap<Integer, Integer> filteredAirlines;//current filtered airlines
-    private HashMap<Integer, Integer> filteredAirports;//current filtered airports
-    private HashMap<Integer, Integer> filteredRoutes;//current filtered routes
+    private HashMap<Integer, String> filteredAirlines;//current filtered airlines
+    private HashMap<Integer, String> filteredAirports;//current filtered airports
+    private HashMap<Integer, String> filteredRoutes;//current filtered routes
     private HashMap<String, String> airportFilter;//storage for filter values for airports
     private HashMap<String, String> airlineFilter;//storage for filter values for airports
     private HashMap<String, String> routeFilter;//storage for filter values for airports
@@ -83,7 +83,7 @@ public class Session implements Serializable {
         this.filteredAirlines = airlines;
     }
 
-    public HashMap<Integer, Integer> getFilteredAirlines() {
+    public HashMap<Integer, String> getFilteredAirlines() {
         return filteredAirlines;
     }
 
@@ -91,7 +91,7 @@ public class Session implements Serializable {
         this.filteredAirports = airports;
     }
 
-    public HashMap<Integer, Integer> getFilteredAirports() {
+    public HashMap<Integer, String> getFilteredAirports() {
         return filteredAirports;
     }
 
@@ -99,7 +99,7 @@ public class Session implements Serializable {
         this.filteredRoutes = routes;
     }
 
-    public HashMap<Integer, Integer> getFilteredRoutes() {
+    public HashMap<Integer, String> getFilteredRoutes() {
         return filteredRoutes;
     }
 

@@ -12,7 +12,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import seng202.group9.Controller.AirlineFilter;
-import seng202.group9.Controller.DataException;
 import seng202.group9.Controller.Dataset;
 import seng202.group9.Controller.Session;
 import seng202.group9.Core.Airline;
@@ -130,14 +129,10 @@ public class AirlineFilterController extends Controller {
 
         //Creates a new hashmap for airlines and fills it with airlines that fit the criteria specified by the user.
         //Saves it into the current session.
-        HashMap<Integer, Integer> airlinesHM = new HashMap<Integer, Integer>();
+        HashMap<Integer, String> airlinesHM = new HashMap<Integer, String>();
         ArrayList<Airline> airlines = filter.getFilteredData();
         for (int index = 0; index < airlines.size(); index++) {
-            try {
-                airlinesHM.put(index, airlines.get(index).getID());
-            } catch (DataException e) {
-                e.printStackTrace();
-            }
+            airlinesHM.put(index, airlines.get(index).getName());
         }
         currentSession.setFilteredAirlines(airlinesHM);
 

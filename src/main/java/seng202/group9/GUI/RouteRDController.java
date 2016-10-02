@@ -5,7 +5,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import seng202.group9.Controller.DataException;
 import seng202.group9.Controller.Dataset;
 import seng202.group9.Controller.SceneCode;
 import seng202.group9.Controller.Session;
@@ -83,14 +82,8 @@ public class RouteRDController extends Controller {
         createPopUpStage(SceneCode.ROUTE_FILTER, 600, 330);
 
         ArrayList<Route> d = new ArrayList();
-        for (Route route: theDataSet.getRoutes()){
-            try {
-                if (currentSession.getFilteredRoutes().containsValue(route.getID())) {
-                    d.add(route);
-                }
-            } catch (DataException e) {
-                e.printStackTrace();
-            }
+        for (int key: currentSession.getFilteredRoutes().keySet()){
+            d.add(theDataSet.getRouteDictionary().get(currentSession.getFilteredRoutes().get(key)));
         }
         tableViewRouteRD.setItems(FXCollections.observableArrayList(d));
     }
@@ -134,10 +127,10 @@ public class RouteRDController extends Controller {
 
     /**
      * Analyses the current data and creates a graph based on the data.
-     *
+     * @see BarGraphController
      */
     public void analyse_Button() {
-        replaceSceneContent(SceneCode.ROUTE_GRAPHS);
+        replaceSceneContent(SceneCode.ROUTE_ANALYSER);
     }
 
     public void routeSummaryButton() {
