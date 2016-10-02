@@ -2,6 +2,7 @@ package seng202.group9.GUI;
 
 import javafx.fxml.FXML;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import seng202.group9.Controller.Dataset;
 import seng202.group9.Controller.SceneCode;
 import seng202.group9.Controller.Session;
@@ -15,7 +16,7 @@ public class AirlineGraphController extends Controller{
     private Dataset dataset;
     private Session session;
     @FXML
-    private GridPane chartContainer;
+    private VBox chartContainer;
 
     @Override
     public void load() {
