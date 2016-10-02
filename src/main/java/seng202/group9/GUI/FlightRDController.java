@@ -139,7 +139,6 @@ public class FlightRDController extends Controller {
         Session session = getParent().getSession();
         session.setCurrentFlightPathtID(currentPathId);
         createPopUpStage(SceneCode.FLIGHT_ADD, 600, 280);
-        //flightTableView.setItems(FXCollections.observableArrayList(theDataSet.getAirports()));
         updateTable(currentPathIndex);
     }
 
@@ -160,7 +159,6 @@ public class FlightRDController extends Controller {
         alert.setTitle("Flight Point Delete Confirmation");
         alert.setHeaderText("You are about to delete some data.");
         alert.setContentText("Are you sure you want to delete the selected flight point?");
-        //alert.showAndWait();
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             int pathID;
@@ -290,13 +288,7 @@ public class FlightRDController extends Controller {
             e.printStackTrace();
         }
     }
-
-    /**
-     * Will link to the flight analyser when implemented.
-     */
-    public void flightAnalyser(){
-        JOptionPane.showMessageDialog(null, "This is not Implemented yet");
-    }
+    
 
     @Override
     public void loadOnce(){

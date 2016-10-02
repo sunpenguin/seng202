@@ -1,7 +1,5 @@
 package seng202.group9.GUI;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -16,17 +14,16 @@ import seng202.group9.Controller.Dataset;
 import seng202.group9.Controller.Session;
 import seng202.group9.Core.Airline;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+
 
 /**
  * The GUI controller class for airline_filter_form.fxml.
  * Extends from the abstract class {@link Controller}.
- * Created by Sunguin
+ * Created by Sunguin.
  */
 public class AirlineFilterController extends Controller {
-
     //Setting up text fields for filtering data
     @FXML
     private TextField airlNameFilter;
@@ -49,7 +46,9 @@ public class AirlineFilterController extends Controller {
 
     private Dataset theDataSet = null;
     private Session currentSession = null;
-    private HashMap<String,String> sesFilter;//session filter dictionary
+    //Sets up a session filter dictionary
+    private HashMap<String,String> sesFilter;
+
 
     /**
      * Loads up the current dataset and current session.
@@ -80,6 +79,7 @@ public class AirlineFilterController extends Controller {
         airlCountryFilter.setText(sesFilter.get("Country"));
         airlActiveFilter.setText(sesFilter.get("Active"));
     }
+
 
     /**
      * Filters airlines by any field.
@@ -121,6 +121,7 @@ public class AirlineFilterController extends Controller {
             sesFilter.put("Active", airlActiveFilter.getText());
         }
 
+        //Saying to the user that the airlines have been successfully filtered.
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Airline Filter Successful");
         alert.setHeaderText("Airline data filtered!");
@@ -141,6 +142,10 @@ public class AirlineFilterController extends Controller {
         stage.close();
     }
 
+
+    /**
+     * Resets all the fields in the form to an empty state.
+     */
     public void resetForm() {
         airlNameFilter.clear();
         airlAliasFilter.clear();

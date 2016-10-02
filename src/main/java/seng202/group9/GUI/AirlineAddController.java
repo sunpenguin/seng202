@@ -11,10 +11,11 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import seng202.group9.Controller.Dataset;
 
+
 /**
  * The GUI controller class for airline_add_form.fxml.
  * Extends from the abstract class {@link Controller}.
- * Created by Sunguin
+ * Created by Sunguin.
  */
 public class AirlineAddController extends Controller {
     //Setting up text fields for adding data.
@@ -37,14 +38,15 @@ public class AirlineAddController extends Controller {
     @FXML
     private GridPane airlineContainer;
 
-    //Set an empty Dataset to be assigned to the current dataset.
     private Dataset theDataSet = null;
+
 
     /**
      * Loads up the current dataset.
      */
     public void load() {
         theDataSet = getParent().getCurrentDataset();
+
         airlineContainer.setOnKeyPressed(new EventHandler<KeyEvent>(){
             @Override
             public void handle(KeyEvent event) {
@@ -55,15 +57,14 @@ public class AirlineAddController extends Controller {
         });
     }
 
+
     /**
      * Adds a single airline entry to the database.
      * Takes in values from the GUI the user has typed in.
      * @see Dataset
      */
     public void addAirlineSingle() {
-        //Tries to add a new airline and clears the fields to their initial state if successful.
-        //Otherwise an error message will pop up with what is wrong with the manual data.
-
+        //Tries to add a new airline to the current dataset.
         try {
             theDataSet.addAirline(
                     airlNameAdd.getText(),

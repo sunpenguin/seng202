@@ -19,7 +19,7 @@ import seng202.group9.Core.Airline;
 /**
  * The GUI controller class for airline_edit_form.fxml.
  * Extends from the abstract class {@link Controller}.
- * Created by Sunguin
+ * Created by Sunguin.
  */
 public class AirlineEditController extends Controller {
     //Setting up text fields for editing data.
@@ -42,12 +42,8 @@ public class AirlineEditController extends Controller {
     @FXML
     private GridPane airlineContainer;
 
-
-    //Sets up an empty Dataset to be assigned to the current dataset.
     private Dataset theDataSet = null;
-    //Sets up an empty session to be assigned to the current session.
     private Session currentSession = null;
-    //Sets up an empty airline to be assigned to the airline being edited.
     private Airline toEdit = null;
 
 
@@ -87,8 +83,7 @@ public class AirlineEditController extends Controller {
      * @see Dataset
      */
     public void editAirline() {
-        //Tries to edit an airport and comes up with a popup if successful and exits the popup.
-        //Otherwise an error message will pop up with what is wrong.
+        //Tries to edit an airline and comes up with a popup if successful and exits the form
         try {
             EntryParser parser = new EntryParser();
             parser.parseAirline(airlNameEdit.getText(), airlAliasEdit.getText(), airlIATAEdit.getText(),
@@ -96,16 +91,18 @@ public class AirlineEditController extends Controller {
             theDataSet.editAirline(toEdit, airlNameEdit.getText(), airlAliasEdit.getText(), airlIATAEdit.getText(),
                     airlICAOEdit.getText(), airlCallsignEdit.getText(), airlCountryEdit.getText(), airlActiveEdit.getText());
 
+            //Saying to the user that the airline has successfully edited.
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Airline Edit Successful");
             alert.setHeaderText("Airline data edited!");
             alert.setContentText("Your airline data has been successfully edited.");
             alert.showAndWait();
 
+            //Close the edit form.
             Stage stage = (Stage) applyButton.getScene().getWindow();
             stage.close();
         } catch (DataException e) {
-            System.err.println("RIP Harambe: " + e.getMessage() + "IT WAS TOO SOON");
+            System.err.println(e.getMessage());
         }
     }
 }

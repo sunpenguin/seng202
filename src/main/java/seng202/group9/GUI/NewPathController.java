@@ -12,8 +12,10 @@ import javafx.stage.Stage;
 import seng202.group9.Controller.Dataset;
 import seng202.group9.Controller.EntryParser;
 
+
 /**
- * The controller class for new_flight_path.fxml.
+ * The GUI controller class for new_flight_path.fxml.
+ * Extends the abstract class {@link Controller}
  * Created by Sunguin.
  */
 public class NewPathController extends Controller {
@@ -30,6 +32,7 @@ public class NewPathController extends Controller {
 
     public void load() {
         theDataSet = getParent().getCurrentDataset();
+
         flightContainer.setOnKeyPressed(new EventHandler<KeyEvent>(){
             @Override
             public void handle(KeyEvent event) {
@@ -39,6 +42,7 @@ public class NewPathController extends Controller {
             }
         });
     }
+
 
     /**
      * Attempts to add a new flight path. First uses the entry parser to check for valid ICAO codes.

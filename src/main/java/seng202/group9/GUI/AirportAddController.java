@@ -1,24 +1,24 @@
 package seng202.group9.GUI;
 
-import javafx.collections.FXCollections;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import seng202.group9.Controller.Dataset;
-import seng202.group9.Controller.Session;
+
 
 /**
- * Created by Sunguin on 2016/09/22.
+ * The GUI controller class for airport_add_form.fxml.
+ * Extends from the abstract class {@link Controller}
+ * Created by Sunguin.
  */
 public class AirportAddController extends Controller {
-    //Setting up text fields for adding data
+    //Setting up text fields for adding data.
     @FXML
     private TextField airpNameAdd;
     @FXML
@@ -46,8 +46,25 @@ public class AirportAddController extends Controller {
     @FXML
     private GridPane airportContainer;
 
-    //Set an empty Dataset to be assigned later
     private Dataset theDataSet = null;
+
+
+    /**
+     * Loads up the current dataset.
+     */
+    public void load() {
+        theDataSet = getParent().getCurrentDataset();
+
+        airportContainer.setOnKeyPressed(new EventHandler<KeyEvent>(){
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode().equals(KeyCode.ENTER)){
+                    addAirportSingle();
+                }
+            }
+        });
+    }
+
 
     /**
      * Adds a single airport entry in the database.
@@ -55,8 +72,7 @@ public class AirportAddController extends Controller {
      * @see Dataset
      */
     public void addAirportSingle() {
-        //Tries to add a new airport and clears the fields to their initial state if successful.
-        //Otherwise an error message will pop up with what is wrong with the manual data.
+        //Tries to add a new airport to the current dataset.
         try {
             theDataSet.addAirport(
                     airpNameAdd.getText(),
@@ -82,33 +98,23 @@ public class AirportAddController extends Controller {
             airpDSTAdd.clear();
             airpTzAdd.clear();
 
+            //Saying to the user that the airport has successfully added.
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Airport Add Successful");
             alert.setHeaderText("New Airport added!");
             alert.setContentText("Your new airport has been successfully added into the database.");
             alert.showAndWait();
 
+            //Close the add form
             Stage stage = (Stage) addButton.getScene().getWindow();
             stage.close();
-
         } catch ( Exception e ) {
+            //Tells the user what and where the error is.
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Airport Data Error");
             alert.setHeaderText("Error adding a custom airport entry.");
             alert.setContentText(e.getMessage());
             alert.showAndWait();
         }
-    }
-
-    public void load() {
-        theDataSet = getParent().getCurrentDataset();
-        airportContainer.setOnKeyPressed(new EventHandler<KeyEvent>(){
-            @Override
-            public void handle(KeyEvent event) {
-                if (event.getCode().equals(KeyCode.ENTER)){
-                    addAirportSingle();
-                }
-            }
-        });
     }
 }

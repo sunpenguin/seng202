@@ -1,6 +1,5 @@
 package seng202.group9.GUI;
 
-import javafx.collections.FXCollections;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -15,12 +14,14 @@ import seng202.group9.Controller.RouteFilter;
 import seng202.group9.Controller.Session;
 import seng202.group9.Core.Route;
 
-import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+
 /**
- * Created by Sunguin on 2016/09/23.
+ * The GUI controller class for route_filter_form.fxml.
+ * Extends from the abstract class {@link Controller}.
+ * Created by Sunguin.
  */
 public class RouteFilterController extends Controller {
     //Setting up text fields for filtering data
@@ -42,9 +43,37 @@ public class RouteFilterController extends Controller {
     private GridPane routeContainer;
 
     private Dataset theDataSet = null;
-    //Set an empty session to be assigned to the current session.
     private Session currentSession = null;
+    //Sets up a session filter dictionary
     private HashMap<String, String> sesFilter;
+
+
+    /**
+     * Loads up the current dataset and current session.
+     */
+    public void load() {
+        if (!checkDataset()){
+            return;
+        }
+        theDataSet = getParent().getCurrentDataset();
+        currentSession = getParent().getSession();
+        sesFilter = currentSession.getRouteFilter();
+        rAirlineFilter.setText(sesFilter.get("Airline"));
+        rSourceFilter.setText(sesFilter.get("Source"));
+        rDestFilter.setText(sesFilter.get("Destination"));
+        rCodeshareFilter.setText(sesFilter.get("Codeshare"));
+        rStopsFilter.setText(sesFilter.get("Stops"));
+        rEquipmentFilter.setText(sesFilter.get("Equipment"));
+        routeContainer.setOnKeyPressed(new EventHandler<KeyEvent>(){
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode().equals(KeyCode.ENTER)){
+                    filterRoutes();
+                }
+            }
+        });
+    }
+
 
     /**
      * Filters the routes table by any field.
@@ -80,14 +109,16 @@ public class RouteFilterController extends Controller {
             filter.filterEquipment(rEquipmentFilter.getText());
             sesFilter.put("Airline", rEquipmentFilter.getText());
         }
+
+        //Saying to the user that the routes have been successfully filtered.
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Route Filter Successful");
         alert.setHeaderText("Route data filtered!");
         alert.setContentText("Your route data has been successfully filtered.");
         alert.showAndWait();
 
-        //currentSession.setFilteredAirlines(FXCollections.observableArrayList(filter.getFilteredData()));
-        //routeAirline + routeSourceAirport + routeArrvAirport + routeCodeShare + routeStops + routeEquip
+        //Creates a new hashmap for routes and fills it with routes that fit the criteria specified by the user.
+        //Saves it into the current session.
         HashMap<Integer, String> routesHM = new HashMap<Integer, String>();
         ArrayList<Route> routes = filter.getFilteredData();
         for (int index = 0; index < routes.size(); index++) {
@@ -96,33 +127,15 @@ public class RouteFilterController extends Controller {
         }
         currentSession.setFilteredRoutes(routesHM);
 
+        //Close the popup.
         Stage stage = (Stage) applyButton.getScene().getWindow();
         stage.close();
     }
 
-    public void load() {
-        if (!checkDataset()){
-            return;
-        }
-        theDataSet = getParent().getCurrentDataset();
-        currentSession = getParent().getSession();
-        sesFilter = currentSession.getRouteFilter();
-        rAirlineFilter.setText(sesFilter.get("Airline"));
-        rSourceFilter.setText(sesFilter.get("Source"));
-        rDestFilter.setText(sesFilter.get("Destination"));
-        rCodeshareFilter.setText(sesFilter.get("Codeshare"));
-        rStopsFilter.setText(sesFilter.get("Stops"));
-        rEquipmentFilter.setText(sesFilter.get("Equipment"));
-        routeContainer.setOnKeyPressed(new EventHandler<KeyEvent>(){
-            @Override
-            public void handle(KeyEvent event) {
-                if (event.getCode().equals(KeyCode.ENTER)){
-                    filterRoutes();
-                }
-            }
-        });
-    }
 
+    /**
+     * Resets all the fields in the form to an empty state.
+     */
     public void resetForm() {
         rAirlineFilter.clear();
         rSourceFilter.clear();

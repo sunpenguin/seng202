@@ -1,6 +1,5 @@
 package seng202.group9.GUI;
 
-import javafx.collections.FXCollections;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -18,8 +17,11 @@ import seng202.group9.Core.Airport;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+
 /**
- * Created by Sunguin on 2016/09/22.
+ * The GUI controller class for airport_filter_form.fxml.
+ * Extends from the abstract class {@link Controller}.
+ * Created by Sunguin.
  */
 public class AirportFilterController extends Controller {
     //Setting up text fields for filtering data
@@ -50,11 +52,44 @@ public class AirportFilterController extends Controller {
     @FXML
     private GridPane airportContainer;
 
-    //Set an empty Dataset to be assigned later
     private Dataset theDataSet = null;
-    //Set an empty session to be assigned to the current session.
     private Session currentSession = null;
+    //Sets up a session filter dictionary
     private HashMap<String, String> sesFilter;
+
+
+    /**
+     * Loads up the current dataset and current session.
+     */
+    public void load() {
+        if (!checkDataset()){
+            return;
+        }
+        theDataSet = getParent().getCurrentDataset();
+        currentSession = getParent().getSession();
+        sesFilter = currentSession.getAirportFilter();
+
+        airpNameFilter.setText(sesFilter.get("Name"));
+        airpCityFilter.setText(sesFilter.get("City"));
+        airpCountryFilter.setText(sesFilter.get("Country"));
+        airpIATAFAAFilter.setText(sesFilter.get("IATA/FFA"));
+        airpICAOFilter.setText(sesFilter.get("ICAO"));
+        airpLatitudeFilter.setText(sesFilter.get("Latitude"));
+        airpLongitudeFilter.setText(sesFilter.get("Longitude"));
+        airpAltitudeFilter.setText(sesFilter.get("Altitude"));
+        airpTimezoneFilter.setText(sesFilter.get("Tz"));
+        airpDSTFilter.setText(sesFilter.get("DST"));
+        airpTzFilter.setText(sesFilter.get("Olson"));
+        airportContainer.setOnKeyPressed(new EventHandler<KeyEvent>(){
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode().equals(KeyCode.ENTER)){
+                    filterAirports();
+                }
+            }
+        });
+    }
+
 
     /**
      * Filters the airports table by any field.
@@ -111,12 +146,16 @@ public class AirportFilterController extends Controller {
             filter.filterOlson(airpTzFilter.getText());
             sesFilter.put("Olson", airpTzFilter.getText());
         }
+
+        //Saying to the user that the airports have been successfully filtered.
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Airport Filter Successful");
         alert.setHeaderText("Airport data filtered!");
         alert.setContentText("Your airport data has been successfully filtered.");
         alert.showAndWait();
 
+        //Creates a new hashmap for airports and fills it with airports that fit the criteria specified by the user.
+        //Saves it into the current session.
         HashMap<Integer, String> airportsHM = new HashMap<Integer, String>();
         ArrayList<Airport> airports = filter.getFilteredData();
         for (int index = 0; index < airports.size(); index++) {
@@ -124,39 +163,15 @@ public class AirportFilterController extends Controller {
         }
         currentSession.setFilteredAirports(airportsHM);
 
+        //Closes the popup.
         Stage stage = (Stage) applyButton.getScene().getWindow();
         stage.close();
     }
 
-    public void load() {
-        if (!checkDataset()){
-            return;
-        }
-        theDataSet = getParent().getCurrentDataset();
-        currentSession = getParent().getSession();
-        sesFilter = currentSession.getAirportFilter();
 
-        airpNameFilter.setText(sesFilter.get("Name"));
-        airpCityFilter.setText(sesFilter.get("City"));
-        airpCountryFilter.setText(sesFilter.get("Country"));
-        airpIATAFAAFilter.setText(sesFilter.get("IATA/FFA"));
-        airpICAOFilter.setText(sesFilter.get("ICAO"));
-        airpLatitudeFilter.setText(sesFilter.get("Latitude"));
-        airpLongitudeFilter.setText(sesFilter.get("Longitude"));
-        airpAltitudeFilter.setText(sesFilter.get("Altitude"));
-        airpTimezoneFilter.setText(sesFilter.get("Tz"));
-        airpDSTFilter.setText(sesFilter.get("DST"));
-        airpTzFilter.setText(sesFilter.get("Olson"));
-        airportContainer.setOnKeyPressed(new EventHandler<KeyEvent>(){
-            @Override
-            public void handle(KeyEvent event) {
-                if (event.getCode().equals(KeyCode.ENTER)){
-                    filterAirports();
-                }
-            }
-        });
-    }
-
+    /**
+     * Resets all the fields in the form to an empty state.
+     */
     public void resetForm() {
         airpNameFilter.clear();
         airpCityFilter.clear();

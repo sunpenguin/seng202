@@ -16,6 +16,7 @@ import java.util.Optional;
 
 import static javafx.collections.FXCollections.observableArrayList;
 
+
 /**
  * The GUI controller class for airport_raw_data.fxml.
  * Extends from the abstract class {@link Controller}.
@@ -50,20 +51,17 @@ public class AirportRDController extends Controller{
     @FXML
     private TableColumn<Airport, String> airpTzCol;
 
-    //Set an empty Dataset to be assigned later
     private Dataset theDataSet = null;
-    //Set an empty session to be assigned to the current session.
     private Session currentSession = null;
+
 
     /**
      * Loads the initial airport data to the GUI table.
-     * Also sets up the dropdown menu options.
      */
     public void load() {
         if (!checkDataset()){
             return;
         }
-        theDataSet = getParent().getCurrentDataset();
         //Sets up the table columns to be ready for use for Airport data
         airpIDCol.setCellValueFactory(new PropertyValueFactory<Airport, String>("ID"));
         airpNameCol.setCellValueFactory(new PropertyValueFactory<Airport, String>("Name"));
@@ -78,18 +76,29 @@ public class AirportRDController extends Controller{
         airpDSTCol.setCellValueFactory(new PropertyValueFactory<Airport, String>("DST"));
         airpTzCol.setCellValueFactory(new PropertyValueFactory<Airport, String>("Tz"));
 
-        //Assigning the Dataset to the current Dataset's airports and displaying it in a table
+        theDataSet = getParent().getCurrentDataset();
         currentSession = getParent().getSession();
 
         tableViewAirportRD.setItems(observableArrayList(theDataSet.getAirports()));
+        //Allows the selection of multiple entries in the table.
         tableViewAirportRD.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 
+
+    /**
+     * Opens the Airport Add form.
+     * @see AirportAddController
+     */
     public void openAdd() {
         createPopUpStage(SceneCode.AIRPORT_ADD, 600, 480);
         tableViewAirportRD.setItems(FXCollections.observableArrayList(theDataSet.getAirports()));
     }
 
+
+    /**
+     * Opens the Airport Filter form.
+     * @see AirportFilterController
+     */
     public void openFilter() {
         createPopUpStage(SceneCode.AIRPORT_FILTER, 600, 480);
         ArrayList<Airport> d = new ArrayList();
@@ -99,13 +108,13 @@ public class AirportRDController extends Controller{
         tableViewAirportRD.setItems(FXCollections.observableArrayList(d));
     }
 
+
     /**
      * Deletes a single selected airport entry from the database.
      * Updates the GUI accordingly.
      * @see Dataset
      */
     public void deleteAirport(){
-        //Gets an airport from the table and deletes it before updating the table
         ObservableList<Airport> toDelete = tableViewAirportRD.getSelectionModel().getSelectedItems();
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Airport Delete Confirmation");
@@ -122,6 +131,11 @@ public class AirportRDController extends Controller{
         }
     }
 
+
+    /**
+     * Opens the Airport Edit form.
+     * @see AirportEditController
+     */
     public void editAirport() {
         Airport toEdit = tableViewAirportRD.getSelectionModel().getSelectedItem();
         currentSession.setAirportToEdit(toEdit.getName());
@@ -129,15 +143,22 @@ public class AirportRDController extends Controller{
         tableViewAirportRD.refresh();
     }
 
+
     /**
      * Analyses the current data and creates a graph based on the data.
-     *
+     *@see AirportGraphController
      */
     public void analyse_Button(){ replaceSceneContent(SceneCode.AIRPORT_GRAPHS);}
 
+
+    /**
+     * Goes to the airport summary page.
+     * @see AirportSummaryController
+     */
     public void airportSummaryButton() {
         replaceSceneContent(SceneCode.AIRPORT_SUMMARY);
     }
+
 
     /**
      * Opens a map with the data currently being displayed in the table.

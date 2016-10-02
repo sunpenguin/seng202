@@ -8,7 +8,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import seng202.group9.Controller.*;
 import seng202.group9.Core.Airline;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -16,7 +15,7 @@ import java.util.Optional;
 /**
  * The GUI controller class for airline_raw_data.fxml.
  * Extends from the abstract class {@link Controller}.
- * Created by Sunguin
+ * Created by Sunguin.
  */
 public class AirlineRDController extends Controller {
     //Setting up the table from the FXML file
@@ -39,14 +38,12 @@ public class AirlineRDController extends Controller {
     @FXML
     private TableColumn<Airline, String> airlActiveCol;
 
-    //Set an empty Dataset to be assigned to the current dataset.
     private Dataset theDataSet = null;
-    //Set an empty session to be assigned to the current session.
     private Session currentSession = null;
+
 
     /**
      * Loads the initial airline data to the GUI table.
-     * Also sets up the dropdown menu options.
      */
     public void load() {
         if (!checkDataset()){
@@ -62,25 +59,28 @@ public class AirlineRDController extends Controller {
         airlCountryCol.setCellValueFactory(new PropertyValueFactory<Airline, String>("CountryName"));
         airlActiveCol.setCellValueFactory(new PropertyValueFactory<Airline, String>("Active"));
 
-        //Assigning the Dataset to the current Dataset's airlines and displaying it in a table
         theDataSet = getParent().getCurrentDataset();
         currentSession = getParent().getSession();
 
         tableViewAirlineRD.setItems(FXCollections.observableArrayList(theDataSet.getAirlines()));
+        //Allows the selection of multiple entries in the table.
         tableViewAirlineRD.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 
 
     /**
      * Opens the Airline Add form.
+     * @see AirlineAddController
      */
     public void openAdd() {
         createPopUpStage(SceneCode.AIRLINE_ADD, 600, 370);
         tableViewAirlineRD.setItems(FXCollections.observableArrayList(theDataSet.getAirlines()));
     }
 
+
     /**
      * Opens the Airline Filter form.
+     * @see AirlineFilterController
      */
     public void openFilter() {
         createPopUpStage(SceneCode.AIRLINE_FILTER, 600, 370);
@@ -98,7 +98,6 @@ public class AirlineRDController extends Controller {
      * @see Dataset
      */
     public void deleteAirline() {
-        //Gets an airline from the table and deletes it before updating the table
         ObservableList<Airline> toDelete = tableViewAirlineRD.getSelectionModel().getSelectedItems();
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Airline Delete Confirmation");
@@ -115,30 +114,31 @@ public class AirlineRDController extends Controller {
         }
     }
 
+
     /**
      * Opens the Airline Edit form.
+     * @see AirlineEditController
      */
     public void editAirline() {
         Airline toEdit = tableViewAirlineRD.getSelectionModel().getSelectedItem();
         currentSession.setAirlineToEdit(toEdit.getName());
         createPopUpStage(SceneCode.AIRLINE_EDIT, 600, 370);
-
-        System.out.println(toEdit.getName() + "," + toEdit.getAlias() + "," + toEdit.getIATA() + "," + toEdit.getICAO()
-        + "," + toEdit.getCallSign() + "," + toEdit.getCountryName() + "," + toEdit.getActive());
-
         tableViewAirlineRD.refresh();
     }
 
+
     /**
      * Analyses the current data and creates a graph based on the data.
-     * Currently not implemented yet.
+     * @see AirlineGraphController
      */
     public void analyse_Button() {
         replaceSceneContent(SceneCode.AIRLINE_GRAPHS);
     }
 
+
     /**
      * Goes to the airline summary page.
+     * @see AirlineSummaryController
      */
     public void airlineSummaryButton() {
         replaceSceneContent(SceneCode.AIRLINE_SUMMARY);

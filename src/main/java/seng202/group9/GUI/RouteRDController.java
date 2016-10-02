@@ -13,6 +13,7 @@ import seng202.group9.Core.Route;
 import java.util.ArrayList;
 import java.util.Optional;
 
+
 /**
  * The GUI controller class for route_raw_data.fxml.
  * Extends from the abstract class {@link Controller}.
@@ -41,14 +42,12 @@ public class RouteRDController extends Controller {
     @FXML
     private TableColumn<Route, String> rEquipmentCol;
 
-    //Set an empty Dataset to be assigned later
     private Dataset theDataSet = null;
-    //Set an empty session to be assigned to the current session.
     private Session currentSession = null;
+
 
     /**
      * Loads the initial route data to the GUI table.
-     * Also sets up the dropdown menu options.
      */
     public void load() {
         if (!checkDataset()){
@@ -65,19 +64,29 @@ public class RouteRDController extends Controller {
         rStopsCol.setCellValueFactory(new PropertyValueFactory<Route, String>("Stops"));
         rEquipmentCol.setCellValueFactory(new PropertyValueFactory<Route, String>("Equipment"));
 
-        //Assigning the Dataset to the current Dataset's routes and displaying it in a table
         theDataSet = getParent().getCurrentDataset();
         currentSession = getParent().getSession();
 
         tableViewRouteRD.setItems(FXCollections.observableArrayList(theDataSet.getRoutes()));
+        //Allows the selection of multiple entries in the table.
         tableViewRouteRD.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 
+
+    /**
+     * Opens the Route Add form.
+     * @see RouteAddController
+     */
     public void openAdd() {
         createPopUpStage(SceneCode.ROUTE_ADD, 600, 330);
         tableViewRouteRD.setItems(FXCollections.observableArrayList(theDataSet.getRoutes()));
     }
 
+
+    /**
+     * Opens the Route Filter form.
+     * @see RouteFilterController
+     */
     public void openFilter() {
         createPopUpStage(SceneCode.ROUTE_FILTER, 600, 330);
 
@@ -87,6 +96,7 @@ public class RouteRDController extends Controller {
         }
         tableViewRouteRD.setItems(FXCollections.observableArrayList(d));
     }
+
 
     /**
      * Deletes a single selected route entry from the database.
@@ -100,7 +110,6 @@ public class RouteRDController extends Controller {
         alert.setTitle("Route Delete Confirmation");
         alert.setHeaderText("You are about to delete some data.");
         alert.setContentText("Are you sure you want to delete the selected route(s)?");
-        //alert.showAndWait();
         Optional<ButtonType> result = alert.showAndWait();
         Route air = null;
         if (result.isPresent() && result.get() == ButtonType.OK) {
@@ -112,6 +121,11 @@ public class RouteRDController extends Controller {
         }
     }
 
+
+    /**
+     * Opens the Route Edit form.
+     * @see RouteEditController
+     */
     public void editRoute() {
         Route toEdit = tableViewRouteRD.getSelectionModel().getSelectedItem();
         currentSession.setRouteToEdit(toEdit.getAirlineName() + toEdit.getDepartureAirport() + toEdit.getArrivalAirport() +
@@ -125,18 +139,25 @@ public class RouteRDController extends Controller {
         tableViewRouteRD.refresh();
     }
 
+
     /**
      * Analyses the current data and creates a graph based on the data.
-     *
+     * @see RouteGraphController
      */
     public void analyse_Button() {
         replaceSceneContent(SceneCode.ROUTE_GRAPHS);
     }
 
+
+    /**
+     * Goes to the route summary page.
+     * @see RouteSummaryController
+     */
     public void routeSummaryButton() {
         replaceSceneContent(SceneCode.ROUTE_SUMMARY);
         currentSession = getParent().getSession();
     }
+
 
     /**
      * Opens a map with the data currently being displayed in the table.
