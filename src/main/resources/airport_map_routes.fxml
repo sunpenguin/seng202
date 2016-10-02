@@ -62,5 +62,10 @@
             <Insets bottom="15.0" left="15.0" right="15.0" />
          </GridPane.margin>
       </TableView>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Only Routes with Valid Airport Data will be displayed." GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+         <font>
+            <Font size="8.0" />
+         </font>
+      </Text>
    </children>
 </GridPane>

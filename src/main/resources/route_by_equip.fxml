@@ -31,7 +31,7 @@
       <RowConstraints maxHeight="520.0" minHeight="10.0" prefHeight="500.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Routes By Equip">
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Routes By Equipment">
          <font>
             <Font size="36.0" />
          </font>
@@ -49,5 +49,13 @@
          </GridPane.margin>
       </TableView>
       <WebView fx:id="mapView" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Only Routes with Valid Airport Data will be displayed." wrappingWidth="214.509765625" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+         <GridPane.margin>
+            <Insets right="15.0" />
+         </GridPane.margin>
+         <font>
+            <Font size="8.0" />
+         </font>
+      </Text>
    </children>
 </GridPane>

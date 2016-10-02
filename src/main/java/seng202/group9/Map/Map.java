@@ -106,7 +106,7 @@ public class Map {
         int counter = 0;
         for (RoutePath airport: airports){
             airportJSONArray += airport.toJSONArray() + ", ";
-            if (counter++ > 49){
+            if (counter++ > 49) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Too Many Airports");
                 alert.setHeaderText("Too Many Airports to display");
@@ -124,7 +124,7 @@ public class Map {
         int counter = 0;
         for (RoutePath route: routes){
             routeJSONArray += route.toJSONArray() + ", ";
-            if (counter++ > 49){
+            if (counter++ > 49) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Too Many Routes");
                 alert.setHeaderText("Too Many Routes to display");
