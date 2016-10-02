@@ -5,6 +5,7 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import seng202.group9.Controller.Dataset;
@@ -49,6 +50,13 @@ public class AirlineGraphController extends Controller{
         airlineDict = dataset.getAirlineDictionary();
         session = getParent().getSession();
         sessionDict = session.getFilteredAirlines();
+        if (sessionDict.size() == 0){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("No Data");
+            alert.setHeaderText("No Filtered Data");
+            alert.setContentText("There is no set Filtered Data Please go to the Airline Raw Data and Filter a Dataset to Analyse.");
+            alert.showAndWait();
+        }
         ArrayList<Airline> airlinesArrayList = new ArrayList<>();
         for (int key : sessionDict.keySet()) {
             airlinesArrayList.add(airlineDict.get(sessionDict.get(key)));
