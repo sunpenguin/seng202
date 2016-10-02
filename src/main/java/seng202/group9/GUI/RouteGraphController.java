@@ -58,9 +58,9 @@ public class RouteGraphController extends Controller{
     @FXML
     private PieChart stopsGraph;
     @FXML
-    private BarChart contienentGraph;
+    private BarChart zoneGraph;
     @FXML
-    private CategoryAxis contienentXAxis;
+    private CategoryAxis zoneXAxis;
 
     @Override
     public void load() {
@@ -94,6 +94,7 @@ public class RouteGraphController extends Controller{
         loadEquipGraph();
         loadSimilarGraph();
         loadStopsGraph();
+        loadZoneGraph();
     }
 
     public void loadAirlineGraph(){
@@ -378,6 +379,49 @@ public class RouteGraphController extends Controller{
             stopsGraph.getData().add(new PieChart.Data(String.valueOf(stop), stops.get(stop)));
         }
 
+    }
+
+    public void loadZoneGraph(){
+        zoneGraph.setTitle("Top Zones With Flights.");
+        zoneXAxis.setLabel("Zones");
+        XYChart.Series<String,Integer> series = new XYChart.Series<>();
+        series.setName("Number of Zones");
+        LinkedHashMap<String, Integer> zones = new LinkedHashMap<>();
+        for (Route route: routesFiltered) {
+            Airport source = route.getSourceAirport();
+            if (source != null){
+                if (zones.containsKey(source.getTz())) {
+                    zones.put(source.getTz(), zones.get(source.getTz()) + 1);
+                } else {
+                    zones.put(source.getTz(), 1);
+                }
+            }
+            Airport dest = route.getDestinationAirport();
+            if (dest != null){
+                if (zones.containsKey(dest.getTz())) {
+                    zones.put(dest.getTz(), zones.get(dest.getTz()) + 1);
+                } else {
+                    zones.put(dest.getTz(), 1);
+                }
+            }
+        }
+        int length = 10;
+        if (zones.size() < 10){
+            length = zones.size();
+        }
+        for (int i = 0 ; i < length; i ++) {
+            int max = 0;
+            String maxZone = null;
+            for (String zone: zones.keySet()){
+                if (zones.get(zone) > max){
+                    maxZone = zone;
+                    max = zones.get(zone);
+                }
+            }
+            series.getData().add(new XYChart.Data<String, Integer>(maxZone, max));
+            zones.remove(maxZone);
+        }
+        zoneGraph.getData().add(series);
     }
 
     public void goToRawData(){
