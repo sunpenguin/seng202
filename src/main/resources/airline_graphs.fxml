@@ -88,7 +88,7 @@
             </Tab>
         </tabs>
       </TabPane>
-      <Button mnemonicParsing="false" onAction="#goToRawData" prefHeight="25.0" prefWidth="100.0" text="Change Data" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP">
+      <Button mnemonicParsing="false" onAction="#goToRawData" prefHeight="25.0" prefWidth="125.0" text="Change Data" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP">
          <GridPane.margin>
             <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
          </GridPane.margin>

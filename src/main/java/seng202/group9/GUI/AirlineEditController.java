@@ -102,7 +102,12 @@ public class AirlineEditController extends Controller {
             Stage stage = (Stage) applyButton.getScene().getWindow();
             stage.close();
         } catch (DataException e) {
-            System.err.println(e.getMessage());
+            //Tells the user what and where the error is.
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Airline Data Error");
+            alert.setHeaderText("Error editing an airline entry.");
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
         }
     }
 }
