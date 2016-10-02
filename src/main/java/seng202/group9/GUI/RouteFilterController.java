@@ -87,8 +87,6 @@ public class RouteFilterController extends Controller {
         alert.setContentText("Your route data has been successfully filtered.");
         alert.showAndWait();
 
-        //currentSession.setFilteredAirlines(FXCollections.observableArrayList(filter.getFilteredData()));
-        //routeAirline + routeSourceAirport + routeArrvAirport + routeCodeShare + routeStops + routeEquip
         HashMap<Integer, Integer> routesHM = new HashMap<Integer, Integer>();
         ArrayList<Route> routes = filter.getFilteredData();
         for (int index = 0; index < routes.size(); index++) {
