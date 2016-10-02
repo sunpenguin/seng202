@@ -4,10 +4,15 @@ import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import seng202.group9.Controller.*;
 import seng202.group9.Core.Airline;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Optional;
+
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -45,7 +50,17 @@ public class PieGraphController extends Controller {
         }
         //Gives the data to the graph.
         if (useddata.keySet().size() > 250 && !currentsession.getForceGraph()){
-            replaceSceneContent(SceneCode.CHART_ERROR);
+            ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.YES);
+            ButtonType no = new ButtonType("No", ButtonBar.ButtonData.NO);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "", yes, no);
+            alert.setTitle("Too many fields selected");
+            alert.setHeaderText("You have selected too many fields to graph.");
+            alert.setContentText("This could potentially cause errors in the program.\nDo you want to proceed?");
+            //alert.showAndWait();
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == no) {
+                replaceSceneContent(SceneCode.PIE_GRAPH_CHOOSER);
+            }
         }
         else{
             pieGraph.setData(pieChartData);

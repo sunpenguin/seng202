@@ -40,7 +40,7 @@ public class BarChooserController extends Controller{
 
     public void buildGraph() {
         Session currentsession = this.getParent().getSession();
-        currentsession.setSelectedgraphoptions(graph_options.getSelectionModel().getSelectedItem().toString());
+        currentsession.setSelectedgraphagainst(graph_options.getSelectionModel().getSelectedItem().toString());
         currentsession.setUsefilter(usefilter.isSelected());
         currentsession.setForceGraph(Boolean.FALSE);
         replaceSceneContent(SceneCode.ROUTE_ANALYSER);

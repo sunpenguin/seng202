@@ -107,4 +107,13 @@ public class RouteFilterController extends Controller {
         rStopsFilter.setText(sesFilter.get("Stops"));
         rEquipmentFilter.setText(sesFilter.get("Equipment"));
     }
+
+    public void resetForm() {
+        rAirlineFilter.clear();
+        rSourceFilter.clear();
+        rDestFilter.clear();
+        rCodeshareFilter.clear();
+        rStopsFilter.clear();
+        rEquipmentFilter.clear();
+    }
 }

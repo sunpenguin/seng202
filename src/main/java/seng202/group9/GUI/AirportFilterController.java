@@ -141,6 +141,19 @@ public class AirportFilterController extends Controller {
         airpTimezoneFilter.setText(sesFilter.get("Tz"));
         airpDSTFilter.setText(sesFilter.get("DST"));
         airpTzFilter.setText(sesFilter.get("Olson"));
+    }
 
+    public void resetForm() {
+        airpNameFilter.clear();
+        airpCityFilter.clear();
+        airpCountryFilter.clear();
+        airpIATAFAAFilter.clear();
+        airpICAOFilter.clear();
+        airpLatitudeFilter.clear();
+        airpLongitudeFilter.clear();
+        airpAltitudeFilter.clear();
+        airpTimezoneFilter.clear();
+        airpDSTFilter.clear();
+        airpTzFilter.clear();
     }
 }
