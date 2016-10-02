@@ -23,8 +23,6 @@ public class BarChooserController extends Controller{
     @FXML
     ChoiceBox datatypechooser;
     @FXML
-    ListView graph_against;
-    @FXML
     ListView graph_options;
     @FXML
     CheckBox usefilter;
@@ -32,18 +30,17 @@ public class BarChooserController extends Controller{
     ObservableList airportOptions = FXCollections.observableArrayList("Name", "ICAO", "IATA FFA", "Altitude",
             "City", "Country");
 
-    ObservableList airlineOptions = FXCollections.observableArrayList("ID", "Name", "ICAO", "IATA", "Alias",
+    ObservableList airlineOptions = FXCollections.observableArrayList("Name", "ICAO", "IATA", "Alias",
             "Call Sign", "Active", "Country");
 
-    ObservableList routeOptions = FXCollections.observableArrayList("ID", "Stops", "Codeshare", "Equipment", "Airline",
+    ObservableList routeOptions = FXCollections.observableArrayList("Stops", "Codeshare", "Equipment", "Airline",
             "Departure Airport", "Arival airport");
 
     ArrayList<ObservableList> allOptions = new ArrayList<ObservableList>();
 
     public void buildGraph() {
         Session currentsession = this.getParent().getSession();
-        currentsession.setSelectedgraphoptions(graph_against.getSelectionModel().getSelectedItem().toString());
-        currentsession.setSelectedgraphagainst(graph_options.getSelectionModel().getSelectedItem().toString());
+        currentsession.setSelectedgraphoptions(graph_options.getSelectionModel().getSelectedItem().toString());
         currentsession.setUsefilter(usefilter.isSelected());
         currentsession.setForceGraph(Boolean.FALSE);
         replaceSceneContent(SceneCode.ROUTE_ANALYSER);
@@ -53,7 +50,6 @@ public class BarChooserController extends Controller{
 
     public void changeTables(){
         int temp = datatypechooser.getSelectionModel().getSelectedIndex();
-        graph_against.setItems(allOptions.get(temp));
         graph_options.setItems(allOptions.get(temp));
     }
 
@@ -68,8 +64,6 @@ public class BarChooserController extends Controller{
                 changeTables();
             }
         });
-        graph_against.setItems(airportOptions);
-        graph_against.getSelectionModel().selectFirst();
         graph_options.setItems(airportOptions);
         graph_options.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         graph_options.getSelectionModel().selectFirst();
