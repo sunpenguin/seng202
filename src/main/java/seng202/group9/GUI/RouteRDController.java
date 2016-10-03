@@ -116,7 +116,12 @@ public class RouteRDController extends Controller {
             for (int i = 0; i < toDelete.size(); i++) {
                 air = toDelete.get(i);
                 theDataSet.deleteRoute(air);
-                currentSession.getFilteredRoutes().remove(air.getUniqueKey());
+                for (int key: currentSession.getFilteredRoutes().keySet()) {
+                    if (currentSession.getFilteredRoutes().get(key) == air.getUniqueKey()) {
+                        currentSession.getFilteredRoutes().remove(key);
+                        break;
+                    }
+                }
             }
             tableViewRouteRD.setItems(FXCollections.observableArrayList(theDataSet.getRoutes()));
         }
