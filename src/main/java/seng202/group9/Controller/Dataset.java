@@ -1177,10 +1177,8 @@ public class Dataset {
             updateFlightPath(newPath);
         } catch (DataException e){
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-            System.exit(0);
         }catch (Exception e){
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-            System.exit(0);
         }
     }
 

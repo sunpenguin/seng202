@@ -24,7 +24,7 @@ public class FlightPoint {
 		this.name = name;
 		this.ID = -1;
 		this.indexID = indexID;
-		this.type = "";
+		this.type = "APT";
 		this.via = "";
 		this.heading = 0;
 		this.altitude = 0.0;
