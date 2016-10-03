@@ -1,11 +1,6 @@
 package seng202.group9.Controller;
 
-import javafx.application.Platform;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import seng202.group9.Core.Route;
 
 import java.io.*;

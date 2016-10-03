@@ -1,7 +1,6 @@
 package seng202.group9.Controller;
 
 import java.io.*;
-import java.util.ArrayList;
 
 public abstract class Parser {
 
