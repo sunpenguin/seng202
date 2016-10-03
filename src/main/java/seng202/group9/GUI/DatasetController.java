@@ -44,8 +44,10 @@ public class DatasetController extends Controller{
 
     public void deleteDataset(){
         Dataset datasetToDelete = (Dataset) datasetView.getSelectionModel().getSelectedItem();
-        getParent().deleteDataset(datasetToDelete);
-        loadTable();
+        if (datasetToDelete != null) {
+            getParent().deleteDataset(datasetToDelete);
+            loadTable();
+        }
     }
 
     public void addDataset(){
