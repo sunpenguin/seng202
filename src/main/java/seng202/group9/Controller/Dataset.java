@@ -939,6 +939,8 @@ public class Dataset {
             Airport airportToAdd = new Airport(name, city, country, IATA_FFA, ICAO, latitudeVal, longitudeVal, altitudeVal);
             City cityToAdd = new City(city, country, timezoneVal, olsonTz);
             Country countryToAdd = new Country(DST, country);
+            airportToAdd.setCity(cityToAdd);
+            airportToAdd.setCountry(countryToAdd);
             addAirport(airportToAdd);
             addCity(cityToAdd);
             addCountry(countryToAdd);

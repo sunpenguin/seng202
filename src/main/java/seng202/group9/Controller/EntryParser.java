@@ -95,8 +95,9 @@ public class EntryParser {
             throw new DataException("Timezone must be between 14 and -12 UTC inclusive");
         }
         //DST
+        System.out.println(DST);
         if (!DST.equals("E") && !DST.equals("A") && !DST.equals("S") && !DST.equals("O") && !DST.equals("Z") && !DST.equals("N") && !DST.equals("U")){
-            throw new DataException ("TDST must be either E (Europe), A (US/Canada), S (South America), O (Australia), Z (New Zealand), N (None) or U (Unknown)");
+            throw new DataException ("DST must be either E (Europe), A (US/Canada), S (South America), O (Australia), Z (New Zealand), N (None) or U (Unknown)");
         }
         if (olson.equals("\\N") || olson.equals("\\n")){
             olson.equals("");
