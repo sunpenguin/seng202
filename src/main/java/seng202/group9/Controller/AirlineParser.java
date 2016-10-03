@@ -1,7 +1,18 @@
 package seng202.group9.Controller;
 
+import com.sun.javaws.progress.Progress;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import seng202.group9.Core.Airline;
 
 import java.io.*;
@@ -36,9 +47,20 @@ public class AirlineParser extends Parser {
         File file = new File(filePath);
         BufferedReader reader = null;
 
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("To Load");
+        alert.setHeaderText("Importing may take time");
+        alert.setContentText("Please wait paitiently when you import data.\n It may take a long time.\n" +
+                " Press OK to Continue.");
+        alert.showAndWait();
+
         try {
-            reader = new BufferedReader(new FileReader(file));
             String line = null;
+            int lines = getLines(filePath);
+
+            int currentProgress = 0;
+
+            reader = new BufferedReader(new FileReader(file));
 
             while ((line = reader.readLine()) != null) {
                 //read file here
@@ -113,6 +135,7 @@ public class AirlineParser extends Parser {
                 airlActive = parts[7];
                 parsedAirline.add(new Airline(airlName, airlAlias, airlIATA, airlICAO, airlCallsign, airlCountry, airlActive));
                 successful++;
+                currentProgress++;
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -129,7 +152,6 @@ public class AirlineParser extends Parser {
                 throw new DataException(this.filePath + " is unable to initialise reader.");
             }
         }
-
         return String.format("Airlines Successfully Entered: %1$d.\n" +
                 "Airlines With Errors: %2$d", successful, error);
     }

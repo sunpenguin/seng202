@@ -1,5 +1,11 @@
 package seng202.group9.Controller;
 
+import javafx.application.Platform;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import seng202.group9.Core.Route;
 
 import java.io.*;
@@ -33,6 +39,14 @@ public class RouteParser extends Parser {
 
         File file = new File(filePath);
         BufferedReader reader = null;
+
+
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("To Load");
+        alert.setHeaderText("Importing may take time");
+        alert.setContentText("Please wait paitiently when you import data.\n It may take a long time.\n" +
+                " Press OK to Continue.");
+        alert.showAndWait();
 
         try {
             reader = new BufferedReader(new FileReader(file));

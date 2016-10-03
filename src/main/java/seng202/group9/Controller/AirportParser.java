@@ -2,6 +2,7 @@ package seng202.group9.Controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 import seng202.group9.Core.Airport;
 import seng202.group9.Core.City;
 import seng202.group9.Core.Country;
@@ -43,6 +44,12 @@ public class AirportParser extends Parser {
 
         File file = new File(filePath);
         BufferedReader reader = null;
+
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("To Load");
+        alert.setHeaderText("Importing may take time");
+        alert.setContentText("Please wait paitiently when you import data.\n It may take a long time.\n Press OK to Continue.");
+        alert.showAndWait();
 
         try {
             reader = new BufferedReader(new FileReader(file));
