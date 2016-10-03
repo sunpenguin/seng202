@@ -62,6 +62,9 @@ public class RouteGraphController extends Controller{
     @FXML
     private CategoryAxis zoneXAxis;
 
+    /**
+     * Initialise load Route Graphs
+     */
     @Override
     public void load() {
         if (!checkDataset(SceneCode.ROUTE_GRAPHS)){
@@ -97,6 +100,9 @@ public class RouteGraphController extends Controller{
         loadZoneGraph();
     }
 
+    /**
+     * Graphs top 10 most flown airline in routes.
+     */
     public void loadAirlineGraph(){
         airlineGraph.setTitle("Top 10 Most Flown Airline in Routes");
         airlineXAxis.setLabel("Airline");
@@ -134,6 +140,9 @@ public class RouteGraphController extends Controller{
         airlineGraph.getData().add(series);
     }
 
+    /**
+     * Grpahs top 10 destination airports
+     */
     public void loadDestGraph(){
         destGraph.setTitle("Top 10 Destination Airports");
         destXAxis.setLabel("Airports");
@@ -177,6 +186,9 @@ public class RouteGraphController extends Controller{
         destGraph.getData().add(series);
     }
 
+    /**
+     * Graphs top 10 outoging Airports.
+     */
     public void loadSourceGraph(){
         sourceGraph.setTitle("Top 10 Outgoing Airports");
         sourceXAxis.setLabel("Airports");
@@ -220,6 +232,9 @@ public class RouteGraphController extends Controller{
         sourceGraph.getData().add(series);
     }
 
+    /**
+     * graphs top 10 countries Visited.
+     */
     public void loadInCountryGraph(){
         inCountryGraph.setTitle("Top 10 Countries Visited.");
         inCountryXAxis.setLabel("Countries");
@@ -256,8 +271,11 @@ public class RouteGraphController extends Controller{
         inCountryGraph.getData().add(series);
     }
 
+    /**
+     * graphs top 10 countries with departing routes.
+     */
     public void loadOutCountryGraph(){
-        outCountryGraph.setTitle("Top 10 Countries Visited.");
+        outCountryGraph.setTitle("Top 10 Countries with Departing Routes.");
         outCountryXAxis.setLabel("Countries");
         XYChart.Series<String,Integer> series = new XYChart.Series<>();
         series.setName("Number of Countries");
@@ -291,6 +309,9 @@ public class RouteGraphController extends Controller{
         outCountryGraph.getData().add(series);
     }
 
+    /**
+     * graphs top 10 equipement used by routes.
+     */
     public void loadEquipGraph(){
         equipGraph.setTitle("Top 10 Equipment used by Routes");
         equipXAxis.setLabel("Equipment");
@@ -328,6 +349,9 @@ public class RouteGraphController extends Controller{
         equipGraph.getData().add(series);
     }
 
+    /**
+     * graphs top 10 most similar routes.
+     */
     public void loadSimilarGraph(){
         similarGraph.setTitle("Top 10 Most Similar Routes");
         similarXAxis.setLabel("Routes");
@@ -363,6 +387,9 @@ public class RouteGraphController extends Controller{
         similarGraph.getData().add(series);
     }
 
+    /**
+     * graphs most common amount of stops by routes.
+     */
     public void loadStopsGraph(){
         stopsGraph.setTitle("Top 10 Most Common Amount of Stops by Routes");
         ArrayList<PieChart.Data> data = new ArrayList<>();
@@ -381,6 +408,9 @@ public class RouteGraphController extends Controller{
 
     }
 
+    /**
+     * graphs top zones with flights.
+     */
     public void loadZoneGraph(){
         zoneGraph.setTitle("Top Zones With Flights.");
         zoneXAxis.setLabel("Zones");
@@ -424,6 +454,9 @@ public class RouteGraphController extends Controller{
         zoneGraph.getData().add(series);
     }
 
+    /**
+     * navigate to routeraw data page.
+     */
     public void goToRawData(){
         replaceSceneContent(SceneCode.ROUTE_RAW_DATA);
     }

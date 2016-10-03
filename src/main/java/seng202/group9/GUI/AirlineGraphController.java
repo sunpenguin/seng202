@@ -40,7 +40,9 @@ public class AirlineGraphController extends Controller{
     @FXML
     private CategoryAxis equipXAxis;
 
-
+    /**
+     * Initial Load for Airline Graphs
+     */
     @Override
     public void load() {
         if (!checkDataset(SceneCode.AIRLINE_GRAPHS)){
@@ -69,6 +71,9 @@ public class AirlineGraphController extends Controller{
         loadEquipGraph();
     }
 
+    /**
+     * Loads top routes that the airline goes.
+     */
     public void loadRoutesGraph(){
         routeGraph.setTitle("Top 10 Number of Routes vs Airports");
         routeXAxis.setLabel("Airports");
@@ -100,6 +105,9 @@ public class AirlineGraphController extends Controller{
         routeGraph.getData().add(series);
     }
 
+    /**
+     * graphs top 10 countries with the most airlines.
+     */
     public void loadCountryGraph(){
         countryGraph.setTitle("Top 10 Countries with the most Airlines");
         countryXAxis.setLabel("Countries");
@@ -133,6 +141,9 @@ public class AirlineGraphController extends Controller{
         countryGraph.getData().add(series);
     }
 
+    /**
+     * graphs the top 10 equipmeent used by airlines.
+     */
     public void loadEquipGraph(){
         equipGraph.setTitle("Top 10 Equipment used by Airlines");
         equipXAxis.setLabel("Equipment");
@@ -172,6 +183,9 @@ public class AirlineGraphController extends Controller{
         equipGraph.getData().add(series);
     }
 
+    /**
+     * go back to the airline raw data page.
+     */
     public void goToRawData(){
         replaceSceneContent(SceneCode.AIRLINE_RAW_DATA);
     }

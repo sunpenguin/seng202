@@ -15,6 +15,18 @@ public class EntryParser {
 
     }
 
+    /**
+     * Checks whether Airlines are in the right format
+     * @param name
+     * @param alias
+     * @param IATA
+     * @param ICAO
+     * @param callsign
+     * @param country
+     * @param active
+     * @return
+     * @throws DataException
+     */
     public Airline parseAirline(String name, String alias, String IATA, String ICAO, String callsign, String country, String active) throws DataException{
         if (name.equals("")){
             throw new DataException("Name cannot be Empty.");
@@ -44,6 +56,22 @@ public class EntryParser {
         return successParse;
     }
 
+    /**
+     * Checkes whether Airports are in the right format.
+     * @param name
+     * @param city
+     * @param country
+     * @param IATA_FFA
+     * @param ICAO
+     * @param latitude
+     * @param longitude
+     * @param altitude
+     * @param timezone
+     * @param DST
+     * @param olson
+     * @return
+     * @throws DataException
+     */
     public Airport parseAirport(String name, String city, String country, String IATA_FFA, String ICAO, String latitude, String longitude, String altitude, String timezone, String DST, String olson) throws DataException{
         if (name.equals("")){
             throw new DataException("Name cannot be Empty.");
@@ -106,6 +134,17 @@ public class EntryParser {
         return successParse;
     }
 
+    /**
+     * Chckes whether Routes are in the the right format.
+     * @param airline
+     * @param source
+     * @param dest
+     * @param code
+     * @param stops
+     * @param equip
+     * @return
+     * @throws DataException
+     */
     public Route parseRoute(String airline, String source, String dest, String code, String stops, String equip) throws DataException {
         if (airline.length() != 2 && airline.length() != 3){
             throw new DataException("Airline must be 2 letters (IATA Code) or 3 letters (ICAO Code).");
@@ -132,6 +171,16 @@ public class EntryParser {
         return successParse;
     }
 
+    /**
+     * Checks whether flight points are in the the right format
+     * @param name
+     * @param type
+     * @param altitude
+     * @param latitude
+     * @param longitude
+     * @return
+     * @throws DataException
+     */
     public FlightPoint parsePoint(String name, String type, String altitude, String latitude, String longitude) throws DataException{
         //name
         name = name.toUpperCase();

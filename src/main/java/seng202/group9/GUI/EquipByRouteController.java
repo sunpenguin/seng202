@@ -37,6 +37,9 @@ public class EquipByRouteController extends Controller{
     Dataset currentDataset;
     Map map;
 
+    /**
+     * Initialise map for equipment by route.
+     */
     @Override
     public void load() {
         if (!checkDataset(SceneCode.ROUTE_BY_EQUIP)){

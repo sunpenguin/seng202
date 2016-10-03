@@ -36,6 +36,9 @@ public class DatasetController extends Controller{
     ObservableList<Dataset> datasetList = observableArrayList();
     Dataset selectedFirst = null;
 
+    /**
+     * loads the popup to select the dataset/create dataset.
+     */
     public void load() {
         curDataset = getParent().getCurrentDataset();
         datasetName.setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -64,12 +67,17 @@ public class DatasetController extends Controller{
         loadTable();
     }
 
+    /**
+     * loads the datasets to table
+     */
     public void loadTable(){
         ArrayList<Dataset> datasets = getParent().getDatasets();
         datasetList = observableArrayList(datasets);
         datasetView.setItems(datasetList);
     }
-
+    /**
+     * deletes a dataset
+     */
     public void deleteDataset(){
         Dataset datasetToDelete = (Dataset) datasetView.getSelectionModel().getSelectedItem();
         if (datasetToDelete != null) {
@@ -78,6 +86,9 @@ public class DatasetController extends Controller{
         }
     }
 
+    /**
+     * adds a bnew dataset.
+     */
     public void addDataset(){
         String name = datasetName.getText();
         if (!name.equals("") && name != null) {
@@ -101,6 +112,9 @@ public class DatasetController extends Controller{
         loadTable();
     }
 
+    /**
+     * opens the dataset to replace the current working dataset.
+     */
     public void openDataset(){
         Dataset datasetToOpen = (Dataset) datasetView.getSelectionModel().getSelectedItem();
         if (datasetToOpen != null) {

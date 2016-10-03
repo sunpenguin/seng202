@@ -19,7 +19,9 @@ import seng202.group9.Controller.SceneCode;
  * Created By Fan-Wu Yang (fwy13)
  */
 public class MenuController extends Controller{
-
+	/**
+	 * import airports from file
+	 */
 	public void importAirports(){
 		if (getParent().getCurrentDataset() == null){
 			createPopUpStage(SceneCode.DATASET_CONTROLLER, 600, 400);
@@ -31,7 +33,10 @@ public class MenuController extends Controller{
 			Importer importer = new Importer(SceneCode.AIRPORT_RAW_DATA, getParent(), getParent().getPrimaryStage());
 		}
 	}
-	
+
+	/**
+	 * import airlines from file
+	 */
 	public void importAirlines(){
 		if (getParent().getCurrentDataset() == null){
 			createPopUpStage(SceneCode.DATASET_CONTROLLER, 600, 400);
@@ -44,6 +49,9 @@ public class MenuController extends Controller{
 		}
 	}
 
+	/**
+	 * Import routes from file.
+	 */
 	public void importRoutes(){
 		if (getParent().getCurrentDataset() == null){
 			createPopUpStage(SceneCode.DATASET_CONTROLLER, 600, 400);
@@ -56,7 +64,10 @@ public class MenuController extends Controller{
 			Importer importer = new Importer(SceneCode.ROUTE_RAW_DATA, getParent(), getParent().getPrimaryStage());
 		}
 	}
-	
+
+	/**
+	 * Import flight data from file.
+	 */
 	public void importFlightData(){
 		if (getParent().getCurrentDataset() == null){
 			createPopUpStage(SceneCode.DATASET_CONTROLLER, 600, 400);
@@ -76,22 +87,37 @@ public class MenuController extends Controller{
 		replaceSceneContent(SceneCode.AIRLINE_RAW_DATA);
 	}
 
+	/**
+	 * view Airport Raw Data
+	 */
 	public void viewAirportRawData() {
 		replaceSceneContent(SceneCode.AIRPORT_RAW_DATA);
 	}
 
+	/**
+	 * view Routes Raw Datat
+	 */
 	public void viewRouteRawData() {
 		replaceSceneContent(SceneCode.ROUTE_RAW_DATA);
 	}
 
+	/**
+	 * View Airlines SUmmary Data
+	 */
 	public void viewAirlineSummary() {
 		replaceSceneContent(SceneCode.AIRLINE_SUMMARY);
 	}
 
+	/**
+	 * View Airport SUmmary Data
+	 */
 	public void viewAirportSummary() {
 		replaceSceneContent(SceneCode.AIRPORT_SUMMARY);
 	}
 
+	/**
+	 * View ROutes Summary Data
+	 */
 	public void viewRouteSummary() {
 		replaceSceneContent(SceneCode.ROUTE_SUMMARY);
 	}
@@ -124,6 +150,9 @@ public class MenuController extends Controller{
 		replaceSceneContent(SceneCode.FLIGHT_RAW_DATA);
 	}
 
+	/**
+	 * View Routes by Equipment navigation.
+	 */
 	public void viewRouteByEquipment(){
 		//check if there is internet connectivity
 		if (!getParent().testInet("maps.google.com")){
@@ -137,28 +166,49 @@ public class MenuController extends Controller{
 		}
 	}
 
+	/**
+	 * open getting starting home page
+	 */
 	public void goToGettingStarted() {
 		replaceSceneContent(SceneCode.INITIAL);
 	}
 
+	/**
+	 * open help maneul
+	 */
 	public void goToHelp() {
         createPopUpStage(SceneCode.HELP, 600, 400);
     }
 
+	/**
+	 * initial loader
+	 */
 	public void load() {
 		//nothing to load
 	}
 
+	/**
+	 * open view distance calculator.
+	 */
 	public void viewDistCalc(){replaceSceneContent(SceneCode.AIRPORT_DIST_CALC);}
 
+	/**
+	 * view airport graphs
+	 */
 	public void viewAirportGraphs(){
 		replaceSceneContent(SceneCode.AIRPORT_GRAPHS);
 	}
 
+	/**
+	 * view airline graphs
+	 */
 	public void viewAirlineGraphs(){
 		replaceSceneContent(SceneCode.AIRLINE_GRAPHS);
 	}
 
+	/**
+	 * view routes graphs
+	 */
 	public void viewRouteGraphs(){
 		replaceSceneContent(SceneCode.ROUTE_GRAPHS);
 	}
@@ -168,6 +218,9 @@ public class MenuController extends Controller{
 		
 	}
 
+	/**
+	 * change dataset prompt Yes or No.
+	 */
 	public void changeDatasetPrompt(){
 		ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.YES);
 		ButtonType no = new ButtonType("No", ButtonBar.ButtonData.NO);
@@ -182,6 +235,9 @@ public class MenuController extends Controller{
 		}
 	}
 
+	/**
+	 * Open Dataset Chooser popup.
+	 */
 	public void openDataset(){
 		createPopUpStage(SceneCode.DATASET_CONTROLLER, 600, 400);
 	}

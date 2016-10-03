@@ -19,12 +19,18 @@ public class PopUpRouteMapController extends Controller{
     Dataset dataset;
     Map map;
 
+    /**
+     * initial load function.
+     */
     @Override
     public void load() {
         dataset = getParent().getCurrentDataset();
         loadRoutes();
     }
 
+    /**
+     * Load Routes filtered from session.
+     */
     public void loadRoutes(){
         ArrayList<RoutePath> routePaths = new ArrayList<>();
         HashMap routes = getParent().getSession().getFilteredRoutes();

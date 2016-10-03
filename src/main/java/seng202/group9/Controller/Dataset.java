@@ -1714,6 +1714,10 @@ public class Dataset {
         return cityDictionary;
     }
 
+    /**
+     * Gets the equipment dictionary
+     * @return
+     */
     public LinkedHashMap<String, Equipment> getEquipmentDictionary() {
         return equipmentDictionary;
     }

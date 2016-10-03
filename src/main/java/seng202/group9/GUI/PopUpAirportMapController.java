@@ -22,12 +22,18 @@ public class PopUpAirportMapController extends Controller {
     Dataset dataset;
     Map map;
 
+    /**
+     * load initial map
+     */
     @Override
     public void load() {
         dataset = getParent().getCurrentDataset();
         loadAirports();
     }
 
+    /**
+     * load airports filtered from session.
+     */
     public void loadAirports(){
         ArrayList<RoutePath> routePaths = new ArrayList<>();
         HashMap airports = getParent().getSession().getFilteredAirports();

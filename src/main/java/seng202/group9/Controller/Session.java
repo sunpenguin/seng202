@@ -55,10 +55,18 @@ public class Session implements Serializable {
         this.sceneDisplayed = scene;
     }
 
+    /**
+     * gets the current dataset that the user is using
+     * @return
+     */
     public String getCurrentDataset(){
         return this.currentDataset;
     }
 
+    /**
+     * sets the current dataset ot the new dataset the user is using
+     * @param currentDataset
+     */
     public void setCurrentDataset(String currentDataset){
         this.currentDataset = currentDataset;
     }
@@ -79,51 +87,98 @@ public class Session implements Serializable {
         return sceneDisplayed;
     }
 
+    /**
+     * Sets filtered Airline Key Dictionary
+     * @param airlines
+     */
     public void setFilteredAirlines(HashMap airlines) {
         this.filteredAirlines = airlines;
     }
 
+    /**
+     * Gets Filtered Airline Key Dictionary
+     * @return
+     */
     public HashMap<Integer, String> getFilteredAirlines() {
         return filteredAirlines;
     }
 
+    /**
+     * sets filtered Airports Key dictionary.
+     * @param airports
+     */
     public void setFilteredAirports(HashMap airports) {
         this.filteredAirports = airports;
     }
 
+    /**
+     * gets filtered Airports Key Dictionary.
+     * @return
+     */
     public HashMap<Integer, String> getFilteredAirports() {
         return filteredAirports;
     }
 
+    /**
+     * gets filtered Routes key dictionary
+     * @param routes
+     */
     public void setFilteredRoutes(HashMap routes) {
         this.filteredRoutes = routes;
     }
 
+    /**
+     * get filtered routes key dictionary
+     * @return
+     */
     public HashMap<Integer, String> getFilteredRoutes() {
         return filteredRoutes;
     }
 
-
+    /**
+     * sets airline that is to be editted by dictionary key
+     * @param name
+     */
     public void setAirlineToEdit(String name) {
         this.airlineToEdit = name;
     }
 
+    /**
+     * get airline that is to be editted by dictionary key
+     * @return
+     */
     public String getAirlineToEdit() {
         return airlineToEdit;
     }
 
+    /**
+     * gets airport that is to be editted by dictionary key
+     * @return
+     */
     public String getAirportToEdit() {
         return airportToEdit;
     }
 
+    /**
+     * sets airport that is to be editted by dictionary key.
+     * @param airport
+     */
     public void setAirportToEdit(String airport) {
         this.airportToEdit = airport;
     }
 
+    /**
+     * gets route that is to be editted by dictionary key
+     * @return
+     */
     public String getRouteToEdit() {
         return routeToEdit;
     }
 
+    /**
+     * sets route that is to be editted by dictionary key
+     * @param route
+     */
     public void setRouteToEdit(String route) {
         this.routeToEdit = route;
     }
@@ -159,26 +214,50 @@ public class Session implements Serializable {
         return currentFlightPathID;
     }
 
+    /**
+     * gets current filter for airports
+     * @return
+     */
     public HashMap<String, String> getAirportFilter() {
         return airportFilter;
     }
 
+    /**
+     * sets current filter for airport
+     * @param airportFilter
+     */
     public void setAirportFilter(HashMap<String, String> airportFilter) {
         this.airportFilter = airportFilter;
     }
 
+    /**
+     * gets current filter for airline
+     * @return
+     */
     public HashMap<String, String> getAirlineFilter() {
         return airlineFilter;
     }
 
+    /**
+     * sets current filter for Airlines
+     * @param airlineFilter
+     */
     public void setAirlineFilter(HashMap<String, String> airlineFilter) {
         this.airlineFilter = airlineFilter;
     }
 
+    /**
+     * gets current filter for Route
+     * @return
+     */
     public HashMap<String, String> getRouteFilter() {
         return routeFilter;
     }
 
+    /**
+     * sets current filter for Routes
+     * @param routeFilter
+     */
     public void setRouteFilter(HashMap<String, String> routeFilter) {
         this.routeFilter = routeFilter;
     }

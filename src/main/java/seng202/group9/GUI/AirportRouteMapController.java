@@ -33,6 +33,9 @@ public class AirportRouteMapController extends Controller{
     Dataset currentDataset;
     Map map;
 
+    /**
+     * load initial route map and table
+     */
     @Override
     public void load() {
         if (!checkDataset()){

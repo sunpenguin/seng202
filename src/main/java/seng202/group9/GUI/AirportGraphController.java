@@ -45,6 +45,9 @@ public class AirportGraphController extends Controller{
     @FXML
     private CategoryAxis airlineXAxis;
 
+    /**
+     * Initial load for AIport Graphs
+     */
     @Override
     public void load() {
         if (!checkDataset(SceneCode.AIRPORT_GRAPHS)){
@@ -75,6 +78,9 @@ public class AirportGraphController extends Controller{
         loadAirlineGraph();
     }
 
+    /**
+     * loads the top 10 coutnries with the most airports
+     */
     public void loadCountryGraph(){
         countryGraph.setTitle("Top 10 Countries with the most Airports");
         countryXAxis.setLabel("Countries");
@@ -109,6 +115,9 @@ public class AirportGraphController extends Controller{
         countryGraph.getData().add(series);
     }
 
+    /**
+     * graphs the top 10 airport with arriving routes.
+     */
     public void loadDestGraph(){
         destGraph.setTitle("Top 10 Airports with Arriving Routes");
         destXAxis.setLabel("Airports");
@@ -140,6 +149,9 @@ public class AirportGraphController extends Controller{
         destGraph.getData().add(series);
     }
 
+    /**
+     * graphs top 10 arirports with leaving routes
+     */
     public void loadTransGraph(){
         transGraph.setTitle("Top 10 Airports with Leaving Routes");
         transXAxis.setLabel("Airports");
@@ -171,6 +183,9 @@ public class AirportGraphController extends Controller{
         transGraph.getData().add(series);
     }
 
+    /**
+     * graphs top 10 airlines flown to airports.
+     */
     public void loadAirlineGraph(){
         airlineGraph.setTitle("Top 10 Airlines Flown to Airports");
         airlineXAxis.setLabel("Airline");
@@ -219,6 +234,9 @@ public class AirportGraphController extends Controller{
         airlineGraph.getData().add(series);
     }
 
+    /**
+     * go to airport raw data page.
+     */
     public void goToRawData(){
         replaceSceneContent(SceneCode.AIRPORT_RAW_DATA);
     }

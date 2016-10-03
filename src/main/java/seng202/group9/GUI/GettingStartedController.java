@@ -10,10 +10,15 @@ import seng202.group9.Controller.SceneCode;
  * Created by Sunguin.
  */
 public class GettingStartedController extends Controller {
-
+    /**
+     * Initial load for getting started
+     */
     public void load() {
     }
 
+    /**
+     * import airlines from file function.
+     */
     public void importAirlines() {
         if (getParent().getCurrentDataset() == null){
             createPopUpStage(SceneCode.DATASET_CONTROLLER, 600, 400);
@@ -26,6 +31,9 @@ public class GettingStartedController extends Controller {
         }
     }
 
+    /**
+     * import airports for file functions.
+     */
     public void importAirports() {
         if (getParent().getCurrentDataset() == null){
             createPopUpStage(SceneCode.DATASET_CONTROLLER, 600, 400);
@@ -38,6 +46,9 @@ public class GettingStartedController extends Controller {
         }
     }
 
+    /**
+     * import routes from file functions.
+     */
     public void importRoutes() {
         if (getParent().getCurrentDataset() == null){
             createPopUpStage(SceneCode.DATASET_CONTROLLER, 600, 400);
@@ -50,6 +61,9 @@ public class GettingStartedController extends Controller {
         }
     }
 
+    /**
+     * import flight data from file functions.
+     */
     public void importFlightData() {
         if (getParent().getCurrentDataset() == null){
             createPopUpStage(SceneCode.DATASET_CONTROLLER, 600, 400);
@@ -62,6 +76,9 @@ public class GettingStartedController extends Controller {
         }
     }
 
+    /**
+     * manage the datasets.
+     */
     public void manageDatasets() {
         getParent().getMenuController().openDataset();
 

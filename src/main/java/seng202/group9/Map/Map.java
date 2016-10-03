@@ -24,6 +24,11 @@ public class Map {
     public static int loadAirports = 0;
     public static int loadRoutes = 1;
 
+    /**
+     * Map Constructor for a single route.
+     * @param webView
+     * @param newRoute
+     */
     public Map(WebView webView, final RoutePath newRoute){
         this.webView = webView;
         webEngine = webView.getEngine();
@@ -39,6 +44,12 @@ public class Map {
 
     }
 
+    /**
+     * Map constructor for multiple routes or airports.
+     * @param webView
+     * @param newRoute
+     * @param type
+     */
     public Map(WebView webView, final ArrayList<RoutePath> newRoute, final int type){
         this.webView = webView;
         webEngine = webView.getEngine();
@@ -57,6 +68,12 @@ public class Map {
                 });
     }
 
+    /**
+     * map constructor where the first item in the table will be selected.
+     * @param webView
+     * @param newRoute
+     * @param table
+     */
     public Map(WebView webView, final RoutePath newRoute, final TableView table){
         this.webView = webView;
         webEngine = webView.getEngine();
@@ -72,6 +89,12 @@ public class Map {
                 });
     }
 
+    /**
+     * map constructor where the first item in the list will be selected.
+     * @param webView
+     * @param newRoute
+     * @param table
+     */
     public Map(WebView webView, final RoutePath newRoute, final ListView table){
         this.webView = webView;
         webEngine = webView.getEngine();
@@ -87,20 +110,35 @@ public class Map {
                 });
     }
 
+    /**
+     * Initialise hte map
+     */
     public void initMap() {
         webEngine.load(getClass().getClassLoader().getResource("map.html").toExternalForm());
     }
 
+    /**
+     * Displays an Airport.
+     * @param newRoute
+     */
     public void displayAirport(RoutePath newRoute) {
         String scriptToExecute = "displayAirport(" + newRoute.toJSONArray() + ");";
         webEngine.executeScript(scriptToExecute);
     }
 
+    /**
+     * Display a Route.
+     * @param newRoute
+     */
     public void displayRoute(RoutePath newRoute) {
         String scriptToExecute = "displayRoute(" + newRoute.toJSONArray() + ");";
         webEngine.executeScript(scriptToExecute);
     }
 
+    /**
+     * Display multiple Airports.
+     * @param airports
+     */
     public void displayAirports(ArrayList<RoutePath> airports) {
         String airportJSONArray = "[";
         int counter = 0;
@@ -119,6 +157,10 @@ public class Map {
         webEngine.executeScript("displayAirports("+airportJSONArray+");");
     }
 
+    /**
+     * Display Multiple ROutes.
+     * @param routes
+     */
     public void displayRoutes(ArrayList<RoutePath> routes){
         String routeJSONArray = "[";
         int counter = 0;
