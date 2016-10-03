@@ -867,15 +867,9 @@ public class Dataset {
      * @throws DataException
      */
     public void addAirline(Airline airlineToAdd) throws DataException{
-        if (airlineToAdd.getIATA().length() != 0 && airlineToAdd.getIATA().length() != 2){
-            throw new DataException("IATA is either empty or length of 2 Letters.");
-        }
-        if (airlineToAdd.getICAO().length() != 0 && airlineToAdd.getICAO().length() != 3){
-            throw new DataException("ICAO is either empty or length of 3 Letters.");
-        }
-        if (airlineToAdd.getActive().length() != 1){
-            throw new DataException ("Active must be Y or N.");
-        }
+        EntryParser parser = new EntryParser();
+        parser.parseAirline(airlineToAdd.getName(), airlineToAdd.getAlias(), airlineToAdd.getIATA(), airlineToAdd.getICAO(),
+                airlineToAdd.getCallSign(), airlineToAdd.getCountryName(), airlineToAdd.getActive());
         for (String key : airlineDictionary.keySet()){
             airlineDictionary.get(key).hasDuplicate(airlineToAdd);
         }
@@ -968,15 +962,10 @@ public class Dataset {
      * @throws DataException
      */
     private void addAirport(Airport airportToAdd) throws DataException{
-        if (airportToAdd.getIATA_FFA().length() != 0 && airportToAdd.getIATA_FFA().length() != 3){
-            throw new DataException("IATA/FFA either empty or 3 letters");
-        }
-        if (airportToAdd.getICAO().length() != 0 && airportToAdd.getICAO().length() != 4){
-            throw new DataException("ICAO either empty or 4 letters");
-        }
-        if (airportToAdd.getName().equals("")) {
-            throw new DataException("You cannot have an airport without a name.");
-        }
+        EntryParser parser = new EntryParser();
+        parser.parseAirport(airportToAdd.getName(), airportToAdd.getCityName(), airportToAdd.getCountryName(), airportToAdd.getIATA_FFA(),
+                airportToAdd.getICAO(), String.valueOf(airportToAdd.getLatitude()), String.valueOf(airportToAdd.getLongitude()),
+                String.valueOf(airportToAdd.getAltitude()), String.valueOf(airportToAdd.getTimezone()), airportToAdd.getDST(), airportToAdd.getTz());
         for (String key : airportDictionary.keySet()){
             airportDictionary.get(key).hasDuplicate(airportToAdd);
         }
@@ -1105,18 +1094,9 @@ public class Dataset {
      * @throws DataException
      */
     public void addRoute(Route routeToAdd) throws DataException{
-        if (routeToAdd.getAirlineName().length() != 2 && routeToAdd.getAirlineName().length() != 3){
-            throw new DataException("Airline ICAO code must be 2 or 3 letters.");
-        }
-        if (routeToAdd.getDepartureAirport().length() != 3 && routeToAdd.getDepartureAirport().length() != 4){
-            throw new DataException("Airport Source Airport IATA must be 3 letters or 4 letters if ICAO.");
-        }
-        if (routeToAdd.getArrivalAirport().length() != 3 && routeToAdd.getArrivalAirport().length() != 4){
-            throw new DataException("Airport Destination Airport IATA must be 3 letters or 4 letters if ICAO.");
-        }
-        if (routeToAdd.getCode().length() != 0 && routeToAdd.getCode().length() != 1){
-            throw new DataException("Codeshare has to be empty or Y.");
-        }
+        EntryParser parser = new EntryParser();
+        parser.parseRoute(routeToAdd.getAirlineName(), routeToAdd.getDepartureAirport(), routeToAdd.getArrivalAirport(),
+                routeToAdd.getCode(), String.valueOf(routeToAdd.getStops()), routeToAdd.getEquipment());
         for (String key : routeDictionary.keySet()){
             routeDictionary.get(key).hasDuplicate(routeToAdd);
         }
@@ -1218,21 +1198,8 @@ public class Dataset {
         double latitudeVal = 0.0;
         double longitudeVal = 0.0;
 
-        try{
-            altitudeVal = Double.parseDouble(altitude);
-        }catch (NumberFormatException e){
-            throw new DataException("Altitude must be a double value");
-        }
-        try{
-            latitudeVal = Double.parseDouble(latitude);
-        }catch (NumberFormatException e){
-            throw new DataException("Latitude must be a double value");
-        }
-        try{
-            longitudeVal = Double.parseDouble(longitude);
-        }catch (NumberFormatException e){
-            throw new DataException("Longitude must be a double value");
-        }
+        EntryParser parser = new EntryParser();
+        parser.parsePoint(name, type, altitude, latitude, longitude);
         if (index == -1){
             index = flightPathDictionary.get(id).getFlightPoints().size();
         }
