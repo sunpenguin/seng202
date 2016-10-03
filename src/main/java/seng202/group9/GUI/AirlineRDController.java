@@ -46,7 +46,7 @@ public class AirlineRDController extends Controller {
      * Loads the initial airline data to the GUI table.
      */
     public void load() {
-        if (!checkDataset()){
+        if (!checkDataset(SceneCode.AIRLINE_RAW_DATA)){
             return;
         }
         //Sets up the table columns to be ready for use for Airline data

@@ -59,7 +59,7 @@ public class AirportRDController extends Controller{
      * Loads the initial airport data to the GUI table.
      */
     public void load() {
-        if (!checkDataset()){
+        if (!checkDataset(SceneCode.AIRPORT_RAW_DATA)){
             return;
         }
         //Sets up the table columns to be ready for use for Airport data

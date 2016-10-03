@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import seng202.group9.Controller.DataException;
 import seng202.group9.Controller.Dataset;
+import seng202.group9.Controller.SceneCode;
 
 import java.util.*;
 

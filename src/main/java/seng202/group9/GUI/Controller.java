@@ -60,16 +60,24 @@ public abstract class Controller implements Initializable{
     }
 
     public boolean checkDataset(){
+        return checkDataset(SceneCode.INITIAL);
+    }
+
+    public boolean checkDataset(SceneCode scene){
         //if the dataset is null then we want to change to the initial and give a warning.
         //Also then let them selecthe data set
         if (getParent().getCurrentDataset() == null) {
-            replaceSceneContent(SceneCode.INITIAL);
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Missing Dataset");
             alert.setHeaderText("No Dataset is currently selected.");
             alert.setContentText("Please Create a Dataset to store your Information in.");
             alert.showAndWait();
             createPopUpStage(SceneCode.DATASET_CONTROLLER, 600, 400);
+            if (getParent().getCurrentDataset() == null){
+                replaceSceneContent(SceneCode.INITIAL);
+            }else {
+                replaceSceneContent(scene);
+            }
             return false;
         }else{
             return true;

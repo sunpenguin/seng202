@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.text.Text;
 import seng202.group9.Controller.Dataset;
+import seng202.group9.Controller.SceneCode;
 import seng202.group9.Core.Airport;
 import seng202.group9.Controller.App;
 import seng202.group9.Controller.Dataset;
@@ -67,7 +68,7 @@ public class DistCalcController extends Controller {
      * Sets the initial state of the scene.
      */
     public void load(){
-        if (!checkDataset()){
+        if (!checkDataset(SceneCode.AIRPORT_DIST_CALC)){
             return;
         }
         currentData = getParent().getCurrentDataset();

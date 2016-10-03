@@ -47,7 +47,7 @@ public class AirportGraphController extends Controller{
 
     @Override
     public void load() {
-        if (!checkDataset()){
+        if (!checkDataset(SceneCode.AIRPORT_GRAPHS)){
             return;
         }
         dataset = getParent().getCurrentDataset();

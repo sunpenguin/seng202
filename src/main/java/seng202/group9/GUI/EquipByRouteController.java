@@ -10,6 +10,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.web.WebView;
 import seng202.group9.Controller.Dataset;
+import seng202.group9.Controller.SceneCode;
 import seng202.group9.Core.Airport;
 import seng202.group9.Core.Equipment;
 import seng202.group9.Core.Route;
@@ -38,7 +39,7 @@ public class EquipByRouteController extends Controller{
 
     @Override
     public void load() {
-        if (!checkDataset()){
+        if (!checkDataset(SceneCode.ROUTE_BY_EQUIP)){
             return;
         }
         currentDataset = getParent().getCurrentDataset();

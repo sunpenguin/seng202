@@ -50,7 +50,7 @@ public class RouteRDController extends Controller {
      * Loads the initial route data to the GUI table.
      */
     public void load() {
-        if (!checkDataset()){
+        if (!checkDataset(SceneCode.ROUTE_RAW_DATA)){
             return;
         }
         //Sets up the table columns to be ready for use for Route data

@@ -48,7 +48,7 @@ public class AirlineSummaryController extends Controller{
      * Loads initial state of the scene.
      */
     public void load() {
-        if (!checkDataset()){
+        if (!checkDataset(SceneCode.AIRLINE_SUMMARY)){
             return;
         }
         //Fills the table.

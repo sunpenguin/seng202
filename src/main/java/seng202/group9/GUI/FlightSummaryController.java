@@ -165,7 +165,7 @@ public class FlightSummaryController extends Controller {
      * Used to load the page from the MenuController.
      */
     public void load() {
-        if (!checkDataset()){
+        if (!checkDataset(SceneCode.FLIGHT_SUMMARY)){
             return;
         }
         theDataSet = getParent().getCurrentDataset();

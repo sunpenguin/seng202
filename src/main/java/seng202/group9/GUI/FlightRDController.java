@@ -83,7 +83,7 @@ public class FlightRDController extends Controller {
      * Used to load the table for the Flight points initially from the MenuController
      */
     public void load() {
-        if (!checkDataset()){
+        if (!checkDataset(SceneCode.FLIGHT_RAW_DATA)){
             return;
         }
         theDataSet = getParent().getCurrentDataset();

@@ -72,7 +72,7 @@ public class AirportSummaryController extends Controller{
      * Loads initial state of the scene.
      */
     public void load() {
-        if (!checkDataset()){
+        if (!checkDataset(SceneCode.AIRPORT_SUMMARY)){
             return;
         }
         currentData = getParent().getCurrentDataset();

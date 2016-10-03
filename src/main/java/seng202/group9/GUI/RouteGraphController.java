@@ -64,7 +64,7 @@ public class RouteGraphController extends Controller{
 
     @Override
     public void load() {
-        if (!checkDataset()){
+        if (!checkDataset(SceneCode.ROUTE_GRAPHS)){
             return;
         }
         dataset = getParent().getCurrentDataset();

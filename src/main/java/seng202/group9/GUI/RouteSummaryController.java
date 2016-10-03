@@ -43,7 +43,7 @@ public class RouteSummaryController extends Controller{
      * Loads initial state of the scene.
      */
     public void load() {
-        if (!checkDataset()){
+        if (!checkDataset(SceneCode.ROUTE_SUMMARY)){
             return;
         }
         columnAirline.setCellValueFactory(new PropertyValueFactory<Route, String>("AirlineName"));
