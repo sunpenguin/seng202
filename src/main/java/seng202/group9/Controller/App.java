@@ -3,6 +3,7 @@ package seng202.group9.Controller;
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -185,8 +186,30 @@ public class App extends Application
 			stmt.close();
 			c.close();
 		} catch ( Exception e ) {
-			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-			e.printStackTrace();
+			try {
+				InputStream input = getClass().getClassLoader().getResourceAsStream("userdb.db");
+				File file = new File("res");
+				if (!file.exists()){
+					file.mkdir();
+				}
+				FileOutputStream fos= new FileOutputStream("res/userdb.db");
+				byte[] buffer = new byte[2048];
+				int r;
+				while((r = input.read(buffer)) != -1){
+					fos.write(buffer, 0, r);
+				}
+				fos.close();
+				input.close();
+				loadAllDatasets();
+			} catch (IOException e1){
+				Alert alert = new Alert(Alert.AlertType.WARNING);
+				alert.setTitle("Unable to find Database");
+				alert.setHeaderText("Unable to locate or copy database");
+				alert.setContentText("This may be due to read & write Permissions or a corrupt programs.");
+				alert.showAndWait();
+				e1.printStackTrace();
+				System.exit(1);
+			}
 		}
 	}
 
