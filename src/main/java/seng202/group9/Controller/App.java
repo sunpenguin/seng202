@@ -331,7 +331,9 @@ public class App extends Application
 				currentDataset = datasets.get(0);
 			}else{
 				currentDataset = null;
-				menuController.replaceSceneContent(SceneCode.INITIAL);
+				if (menuController != null) {
+					menuController.replaceSceneContent(SceneCode.INITIAL);
+				}
 			}
 		}
 	}
