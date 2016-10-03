@@ -137,9 +137,17 @@ public class FlightRDController extends Controller {
      */
     public void openAdd() {
         Session session = getParent().getSession();
-        session.setCurrentFlightPathtID(currentPathId);
-        createPopUpStage(SceneCode.FLIGHT_ADD, 600, 280);
-        updateTable(currentPathIndex);
+        if (currentPathId != 0) {
+            session.setCurrentFlightPathtID(currentPathId);
+            createPopUpStage(SceneCode.FLIGHT_ADD, 600, 280);
+            updateTable(currentPathIndex);
+        }else{
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("No Path Selected");
+            alert.setHeaderText("Unable to add to missing Flight path");
+            alert.setContentText("Please Select a Flight Path from the Left Hand List.");
+            alert.showAndWait();
+        }
     }
 
     /**
@@ -219,6 +227,7 @@ public class FlightRDController extends Controller {
             flightPathListView();
             updatePaths();
             updateTable(0);
+            currentPathId = 0;
         }
     }
 
