@@ -81,58 +81,60 @@ public class FlightSummaryController extends Controller {
      */
     public void flightSummaryListView() {
         try {
-            currentPathId = theDataSet.getFlightPaths().get(currentPathIndex).getID(); //Sets the default to the 1st Path
-            infoList.removeAll();
-            infoList.clear();
-            FlightPath currentPath = theDataSet.getFlightPathDictionary().get(currentPathId);
-            ArrayList<FlightPoint> flightPoints = currentPath.getFlightPoints();
-            FlightPoint firstPoint = flightPoints.get(0);
-            String firstPointICAO = firstPoint.getName();
-            FlightPoint lastPoint = flightPoints.get(flightPoints.size()-1);
-            String lastPointICAO = lastPoint.getName();
+            if (theDataSet.getFlightPaths().size() > 0) {
+                currentPathId = theDataSet.getFlightPaths().get(currentPathIndex).getID(); //Sets the default to the 1st Path
+                infoList.removeAll();
+                infoList.clear();
+                FlightPath currentPath = theDataSet.getFlightPathDictionary().get(currentPathId);
+                ArrayList<FlightPoint> flightPoints = currentPath.getFlightPoints();
+                FlightPoint firstPoint = flightPoints.get(0);
+                String firstPointICAO = firstPoint.getName();
+                FlightPoint lastPoint = flightPoints.get(flightPoints.size() - 1);
+                String lastPointICAO = lastPoint.getName();
 
-            ArrayList<Airport> airportList = theDataSet.getAirports();
-            Airport sourceAirport = null;
-            Airport destinationAirport = null;
+                ArrayList<Airport> airportList = theDataSet.getAirports();
+                Airport sourceAirport = null;
+                Airport destinationAirport = null;
 
-            for (int i=0; i < airportList.size(); i++){
-                Airport current = airportList.get(i);
-                if(current.getICAO().equals(firstPointICAO)){
-                    sourceAirport = current;
+                for (int i = 0; i < airportList.size(); i++) {
+                    Airport current = airportList.get(i);
+                    if (current.getICAO().equals(firstPointICAO)) {
+                        sourceAirport = current;
+                    }
+                    if (current.getICAO().equals(lastPointICAO)) {
+                        destinationAirport = current;
+                    }
                 }
-                if(current.getICAO().equals(lastPointICAO)){
-                    destinationAirport = current;
+
+                String source = "Not Available";
+                String destination = "Not Available";
+                double distance = 0.0;
+                if (sourceAirport != null) {
+                    source = sourceAirport.getName();
                 }
-            }
+                if (destinationAirport != null) {
+                    destination = destinationAirport.getName();
+                }
+                if (destination != "Not Available" && source != "Not Available") {
+                    distance = sourceAirport.calculateDistance(destinationAirport);
+                }
 
-            String source = "Not Available";
-            String destination = "Not Available";
-            double distance = 0.0;
-            if(sourceAirport != null){
-                source = sourceAirport.getName();
-            }
-            if(destinationAirport != null){
-                destination = destinationAirport.getName();
-            }
-            if(destination != "Not Available" && source != "Not Available"){
-                distance = sourceAirport.calculateDistance(destinationAirport);
-            }
-
-            infoList.add("           Flight Path Summary Information");
-            infoList.add("");
-            infoList.add("Total Distance of Flight:");
-            infoList.add(Double.toString(distance));
-            infoList.add("Source Airport:");
-            infoList.add(source);
-            infoList.add("Destination Airport:");
-            infoList.add(destination);
-            if(sourceAirport == null || destinationAirport == null){
+                infoList.add("           Flight Path Summary Information");
                 infoList.add("");
-                infoList.add("Missing Data is due to first or last points");
-                infoList.add("ICAO codes not being present in the Airline");
-                infoList.add("Database!");
+                infoList.add("Total Distance of Flight:");
+                infoList.add(Double.toString(distance));
+                infoList.add("Source Airport:");
+                infoList.add(source);
+                infoList.add("Destination Airport:");
+                infoList.add(destination);
+                if (sourceAirport == null || destinationAirport == null) {
+                    infoList.add("");
+                    infoList.add("Missing Data is due to first or last points");
+                    infoList.add("ICAO codes not being present in the Airline");
+                    infoList.add("Database!");
+                }
+                flightSummaryListView.setItems(infoList);
             }
-            flightSummaryListView.setItems(infoList);
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -152,20 +154,7 @@ public class FlightSummaryController extends Controller {
                 String pathDestin = flightPaths.get(i).arrivesAt();
                 String flightPathDisplayName = Integer.toString(pathID) + "_" + pathSource + "_" + pathDestin;
                 flightList.add(flightPathDisplayName);
-            }/*
-            flightPathListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                 public void handle(MouseEvent event) {
-                     String flightPathDisplayNameClicked = flightPathListView.getSelectionModel().getSelectedItem();
-                     if (flightPathDisplayNameClicked!=null) {
-                         String[] segments = flightPathDisplayNameClicked.split("_");
-                         String pathIdClicked = segments[0];
-
-                         currentPathIndex = theDataSet.getFlightPaths().indexOf(theDataSet.getFlightPathDictionary()
-                                 .get(Integer.parseInt(pathIdClicked)));
-                         currentPathId = Integer.parseInt(pathIdClicked);
-                     }
-                 }
-            });*/
+            }
             flightPathListView.setItems(flightList);
         } catch (Exception e) {
             e.printStackTrace();
