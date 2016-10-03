@@ -81,8 +81,9 @@ public class FlightSummaryController extends Controller {
      */
     public void flightSummaryListView() {
         try {
-            currentPathId = theDataSet.getFlightPaths().get(0).getID(); //Sets the default to the 1st Path
-
+            currentPathId = theDataSet.getFlightPaths().get(currentPathIndex).getID(); //Sets the default to the 1st Path
+            infoList.removeAll();
+            infoList.clear();
             FlightPath currentPath = theDataSet.getFlightPathDictionary().get(currentPathId);
             ArrayList<FlightPoint> flightPoints = currentPath.getFlightPoints();
             FlightPoint firstPoint = flightPoints.get(0);
@@ -151,7 +152,7 @@ public class FlightSummaryController extends Controller {
                 String pathDestin = flightPaths.get(i).arrivesAt();
                 String flightPathDisplayName = Integer.toString(pathID) + "_" + pathSource + "_" + pathDestin;
                 flightList.add(flightPathDisplayName);
-            }
+            }/*
             flightPathListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
                  public void handle(MouseEvent event) {
                      String flightPathDisplayNameClicked = flightPathListView.getSelectionModel().getSelectedItem();
@@ -164,7 +165,7 @@ public class FlightSummaryController extends Controller {
                          currentPathId = Integer.parseInt(pathIdClicked);
                      }
                  }
-            });
+            });*/
             flightPathListView.setItems(flightList);
         } catch (Exception e) {
             e.printStackTrace();
@@ -199,7 +200,17 @@ public class FlightSummaryController extends Controller {
                 public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                     int index = flightPathListView.getSelectionModel().getSelectedIndices().get(0);
                     if (index != -1) {
-                        map.displayRoute(theDataSet.getFlightPaths().get(index).getRoutePath());
+                        String flightPathDisplayNameClicked = flightPathListView.getSelectionModel().getSelectedItem();
+                        if (flightPathDisplayNameClicked!=null) {
+                            String[] segments = flightPathDisplayNameClicked.split("_");
+                            String pathIdClicked = segments[0];
+
+                            currentPathIndex = theDataSet.getFlightPaths().indexOf(theDataSet.getFlightPathDictionary()
+                                    .get(Integer.parseInt(pathIdClicked)));
+                            currentPathId = Integer.parseInt(pathIdClicked);
+                            flightSummaryListView();
+                            map.displayRoute(theDataSet.getFlightPaths().get(index).getRoutePath());
+                        }
                     }
                 }
             });

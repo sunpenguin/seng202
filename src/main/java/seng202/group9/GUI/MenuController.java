@@ -21,23 +21,52 @@ import seng202.group9.Controller.SceneCode;
 public class MenuController extends Controller{
 
 	public void importAirports(){
-		changeDatasetPrompt();
-		Importer importer = new Importer(SceneCode.AIRPORT_RAW_DATA, getParent(), getParent().getPrimaryStage());
+		if (getParent().getCurrentDataset() == null){
+			createPopUpStage(SceneCode.DATASET_CONTROLLER, 600, 400);
+			if (getParent().getCurrentDataset() != null){
+				Importer importer = new Importer(SceneCode.AIRPORT_RAW_DATA, getParent(), getParent().getPrimaryStage());
+			}
+		}else {
+			changeDatasetPrompt();
+			Importer importer = new Importer(SceneCode.AIRPORT_RAW_DATA, getParent(), getParent().getPrimaryStage());
+		}
 	}
 	
 	public void importAirlines(){
-		changeDatasetPrompt();
-		Importer importer = new Importer(SceneCode.AIRLINE_RAW_DATA, getParent(), getParent().getPrimaryStage());
+		if (getParent().getCurrentDataset() == null){
+			createPopUpStage(SceneCode.DATASET_CONTROLLER, 600, 400);
+			if (getParent().getCurrentDataset() != null){
+				Importer importer = new Importer(SceneCode.AIRLINE_RAW_DATA, getParent(), getParent().getPrimaryStage());
+			}
+		}else {
+			changeDatasetPrompt();
+			Importer importer = new Importer(SceneCode.AIRLINE_RAW_DATA, getParent(), getParent().getPrimaryStage());
+		}
 	}
 
 	public void importRoutes(){
-		changeDatasetPrompt();
-		Importer importer = new Importer(SceneCode.ROUTE_RAW_DATA, getParent(), getParent().getPrimaryStage());
+		if (getParent().getCurrentDataset() == null){
+			createPopUpStage(SceneCode.DATASET_CONTROLLER, 600, 400);
+			if (getParent().getCurrentDataset() != null){
+				Importer importer = new Importer(SceneCode.ROUTE_RAW_DATA, getParent(), getParent().getPrimaryStage());
+			}
+		}else {
+			changeDatasetPrompt();
+
+			Importer importer = new Importer(SceneCode.ROUTE_RAW_DATA, getParent(), getParent().getPrimaryStage());
+		}
 	}
 	
 	public void importFlightData(){
-		changeDatasetPrompt();
-		Importer importer = new Importer(SceneCode.FLIGHT_RAW_DATA, getParent(), getParent().getPrimaryStage());
+		if (getParent().getCurrentDataset() == null){
+			createPopUpStage(SceneCode.DATASET_CONTROLLER, 600, 400);
+			if (getParent().getCurrentDataset() != null){
+				Importer importer = new Importer(SceneCode.FLIGHT_RAW_DATA, getParent(), getParent().getPrimaryStage());
+			}
+		}else {
+			changeDatasetPrompt();
+			Importer importer = new Importer(SceneCode.FLIGHT_RAW_DATA, getParent(), getParent().getPrimaryStage());
+		}
 	}
 
 	/**
