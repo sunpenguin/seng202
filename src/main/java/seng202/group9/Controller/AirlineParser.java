@@ -37,7 +37,6 @@ public class AirlineParser extends Parser {
 
         try {
             String line = null;
-            int lines = getLines(filePath);
 
             int currentProgress = 0;
 

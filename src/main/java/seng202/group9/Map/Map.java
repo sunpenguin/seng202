@@ -8,6 +8,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TableView;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import netscape.javascript.JSException;
 import seng202.group9.Core.Position;
 import seng202.group9.Core.RoutePath;
 
@@ -123,7 +124,11 @@ public class Map {
      */
     public void displayAirport(RoutePath newRoute) {
         String scriptToExecute = "displayAirport(" + newRoute.toJSONArray() + ");";
-        webEngine.executeScript(scriptToExecute);
+        try {
+            webEngine.executeScript(scriptToExecute);
+        } catch(JSException e){
+
+        }
     }
 
     /**
@@ -132,7 +137,11 @@ public class Map {
      */
     public void displayRoute(RoutePath newRoute) {
         String scriptToExecute = "displayRoute(" + newRoute.toJSONArray() + ");";
-        webEngine.executeScript(scriptToExecute);
+        try {
+            webEngine.executeScript(scriptToExecute);
+        } catch(JSException e){
+
+        }
     }
 
     /**
@@ -154,7 +163,11 @@ public class Map {
             }
         }
         airportJSONArray += "]";
-        webEngine.executeScript("displayAirports("+airportJSONArray+");");
+        try {
+            webEngine.executeScript("displayAirports(" + airportJSONArray + ");");
+        } catch (JSException e){
+
+        }
     }
 
     /**
@@ -176,7 +189,11 @@ public class Map {
             }
         }
         routeJSONArray += "]";
-        webEngine.executeScript("displayRoutes("+routeJSONArray+");");
+        try {
+            webEngine.executeScript("displayRoutes(" + routeJSONArray + ");");
+        } catch (JSException e){
+
+        }
     }
 
 }
