@@ -116,24 +116,26 @@ public class AirportRDController extends Controller{
      */
     public void deleteAirport(){
         ObservableList<Airport> toDelete = tableViewAirportRD.getSelectionModel().getSelectedItems();
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Airport Delete Confirmation");
-        alert.setHeaderText("You are about to delete some data.");
-        alert.setContentText("Are you sure you want to delete the selected airport(s)?");
-        Optional<ButtonType> result = alert.showAndWait();
-        Airport air = null;
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            for (int i = 0; i < toDelete.size(); i++) {
-                air = toDelete.get(i);
-                theDataSet.deleteAirport(air);
-                for (int key: currentSession.getFilteredAirports().keySet()) {
-                    if (currentSession.getFilteredAirports().get(key) == air.getName()) {
-                        currentSession.getFilteredAirports().remove(key);
-                        break;
+        if (toDelete.size() > 0 && toDelete != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Airport Delete Confirmation");
+            alert.setHeaderText("You are about to delete some data.");
+            alert.setContentText("Are you sure you want to delete the selected airport(s)?");
+            Optional<ButtonType> result = alert.showAndWait();
+            Airport air = null;
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                for (int i = 0; i < toDelete.size(); i++) {
+                    air = toDelete.get(i);
+                    theDataSet.deleteAirport(air);
+                    for (int key : currentSession.getFilteredAirports().keySet()) {
+                        if (currentSession.getFilteredAirports().get(key) == air.getName()) {
+                            currentSession.getFilteredAirports().remove(key);
+                            break;
+                        }
                     }
                 }
+                tableViewAirportRD.setItems(FXCollections.observableArrayList(theDataSet.getAirports()));
             }
-            tableViewAirportRD.setItems(FXCollections.observableArrayList(theDataSet.getAirports()));
         }
     }
 
@@ -144,9 +146,11 @@ public class AirportRDController extends Controller{
      */
     public void editAirport() {
         Airport toEdit = tableViewAirportRD.getSelectionModel().getSelectedItem();
-        currentSession.setAirportToEdit(toEdit.getName());
-        createPopUpStage(SceneCode.AIRPORT_EDIT, 600, 480);
-        tableViewAirportRD.refresh();
+        if (toEdit != null) {
+            currentSession.setAirportToEdit(toEdit.getName());
+            createPopUpStage(SceneCode.AIRPORT_EDIT, 600, 480);
+            tableViewAirportRD.refresh();
+        }
     }
 
 

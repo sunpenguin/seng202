@@ -155,28 +155,30 @@ public class FlightRDController extends Controller {
      */
     public void deletePoint() {
         FlightPoint toDelete = flightTableView.getSelectionModel().getSelectedItem();
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Flight Point Delete Confirmation");
-        alert.setHeaderText("You are about to delete some data.");
-        alert.setContentText("Are you sure you want to delete the selected flight point?");
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            int pathID;
-            try {
-                pathID = toDelete.getIndex();
-            } catch (DataException e) {
-                e.printStackTrace();
-                System.err.println("Point is Undeletable as the Index ID is not set.");
-                return;
+        if (toDelete != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Flight Point Delete Confirmation");
+            alert.setHeaderText("You are about to delete some data.");
+            alert.setContentText("Are you sure you want to delete the selected flight point?");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                int pathID;
+                try {
+                    pathID = toDelete.getIndex();
+                } catch (DataException e) {
+                    e.printStackTrace();
+                    System.err.println("Point is Undeletable as the Index ID is not set.");
+                    return;
+                }
+                LinkedHashMap<Integer, FlightPath> flightPathDict = theDataSet.getFlightPathDictionary();
+                FlightPath toDeletesPath = flightPathDict.get(pathID);
+                theDataSet.deleteFlightPoint(toDelete, toDeletesPath);
+
+                currentPathIndex = theDataSet.getFlightPaths().indexOf(theDataSet.getFlightPathDictionary().get(pathID));
+
+                updateTable(currentPathIndex);
+                updatePaths();
             }
-            LinkedHashMap<Integer, FlightPath> flightPathDict = theDataSet.getFlightPathDictionary();
-            FlightPath toDeletesPath = flightPathDict.get(pathID);
-            theDataSet.deleteFlightPoint(toDelete, toDeletesPath);
-
-            currentPathIndex = theDataSet.getFlightPaths().indexOf(theDataSet.getFlightPathDictionary().get(pathID));
-
-            updateTable(currentPathIndex);
-            updatePaths();
         }
     }
 
@@ -185,36 +187,39 @@ public class FlightRDController extends Controller {
      */
     public void editPoint() {
         FlightPoint toEdit = flightTableView.getSelectionModel().getSelectedItem();
-        try {
-            Session session = getParent().getSession();
-            session.setCurrentFlightPointID(toEdit.getID());
-            session.setCurrentFlightPathtID(currentPathId);
-        } catch (DataException e) {
-            e.printStackTrace();
-            System.err.println("Point is Uneditable as the Index ID is not set.");
-            return;
+        if (toEdit != null) {
+            try {
+                Session session = getParent().getSession();
+                session.setCurrentFlightPointID(toEdit.getID());
+                session.setCurrentFlightPathtID(currentPathId);
+            } catch (DataException e) {
+                e.printStackTrace();
+                System.err.println("Point is Uneditable as the Index ID is not set.");
+                return;
+            }
+            createPopUpStage(SceneCode.FLIGHT_EDITOR, 600, 289);
+            updateTable(currentPathIndex);
+            updatePaths();
         }
-        createPopUpStage(SceneCode.FLIGHT_EDITOR, 600, 289);
-        updateTable(currentPathIndex);
-        updatePaths();
-
     }
     /**
      *  Removes the selected path from the list view of paths and from the database.
      */
     public void deletePath() {
         String toDeleteStr = flightPathListView.getSelectionModel().getSelectedItem();
-        String[] segments = toDeleteStr.split("_");
-        String pathIdClicked = segments[0];
+        if (toDeleteStr != null && toDeleteStr != "") {
+            String[] segments = toDeleteStr.split("_");
+            String pathIdClicked = segments[0];
 
-        int toDeleteIndex = theDataSet.getFlightPaths().indexOf(theDataSet.getFlightPathDictionary()
-                .get(Integer.parseInt(pathIdClicked)));
+            int toDeleteIndex = theDataSet.getFlightPaths().indexOf(theDataSet.getFlightPathDictionary()
+                    .get(Integer.parseInt(pathIdClicked)));
 
-        theDataSet.deleteFlightPath(toDeleteIndex);
-        flightPathListView.getItems().clear();
-        flightPathListView();
-        updatePaths();
-        updateTable(0);
+            theDataSet.deleteFlightPath(toDeleteIndex);
+            flightPathListView.getItems().clear();
+            flightPathListView();
+            updatePaths();
+            updateTable(0);
+        }
     }
 
     /**
@@ -222,16 +227,18 @@ public class FlightRDController extends Controller {
      */
     public void movePointUp(){
         FlightPoint toMove = flightTableView.getSelectionModel().getSelectedItem();
-        int toMoveIndex = flightTableView.getSelectionModel().getSelectedIndex();
-        try{
-            if (toMoveIndex != 0) {
-                theDataSet.moveFlightPoint(toMove, toMoveIndex - 1);
+        if (toMove != null) {
+            int toMoveIndex = flightTableView.getSelectionModel().getSelectedIndex();
+            try {
+                if (toMoveIndex != 0) {
+                    theDataSet.moveFlightPoint(toMove, toMoveIndex - 1);
+                }
+            } catch (DataException e) {
+                e.printStackTrace();
             }
-        } catch (DataException e) {
-            e.printStackTrace();
+            updateTable(currentPathIndex);
+            updatePaths();
         }
-        updateTable(currentPathIndex);
-        updatePaths();
     }
 
     /**
@@ -239,16 +246,18 @@ public class FlightRDController extends Controller {
      */
     public void movePointDown(){
         FlightPoint toMove = flightTableView.getSelectionModel().getSelectedItem();
-        int toMoveIndex = flightTableView.getSelectionModel().getSelectedIndex();
-        try{
-            if (toMoveIndex != flightTableView.getItems().size()-1) {
-                theDataSet.moveFlightPoint(toMove, toMoveIndex + 1);
+        if (toMove != null) {
+            int toMoveIndex = flightTableView.getSelectionModel().getSelectedIndex();
+            try {
+                if (toMoveIndex != flightTableView.getItems().size() - 1) {
+                    theDataSet.moveFlightPoint(toMove, toMoveIndex + 1);
+                }
+            } catch (DataException e) {
+                e.printStackTrace();
             }
-        } catch (DataException e) {
-            e.printStackTrace();
+            updateTable(currentPathIndex);
+            updatePaths();
         }
-        updateTable(currentPathIndex);
-        updatePaths();
     }
 
     /**

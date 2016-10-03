@@ -106,24 +106,26 @@ public class RouteRDController extends Controller {
     public void deleteRoute() {
         //Gets a route from the table and deletes it before updating the table
         ObservableList<Route> toDelete = tableViewRouteRD.getSelectionModel().getSelectedItems();
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Route Delete Confirmation");
-        alert.setHeaderText("You are about to delete some data.");
-        alert.setContentText("Are you sure you want to delete the selected route(s)?");
-        Optional<ButtonType> result = alert.showAndWait();
-        Route air = null;
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            for (int i = 0; i < toDelete.size(); i++) {
-                air = toDelete.get(i);
-                theDataSet.deleteRoute(air);
-                for (int key: currentSession.getFilteredRoutes().keySet()) {
-                    if (currentSession.getFilteredRoutes().get(key) == air.getUniqueKey()) {
-                        currentSession.getFilteredRoutes().remove(key);
-                        break;
+        if (toDelete != null && toDelete.size() > 0) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Route Delete Confirmation");
+            alert.setHeaderText("You are about to delete some data.");
+            alert.setContentText("Are you sure you want to delete the selected route(s)?");
+            Optional<ButtonType> result = alert.showAndWait();
+            Route air = null;
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                for (int i = 0; i < toDelete.size(); i++) {
+                    air = toDelete.get(i);
+                    theDataSet.deleteRoute(air);
+                    for (int key : currentSession.getFilteredRoutes().keySet()) {
+                        if (currentSession.getFilteredRoutes().get(key) == air.getUniqueKey()) {
+                            currentSession.getFilteredRoutes().remove(key);
+                            break;
+                        }
                     }
                 }
+                tableViewRouteRD.setItems(FXCollections.observableArrayList(theDataSet.getRoutes()));
             }
-            tableViewRouteRD.setItems(FXCollections.observableArrayList(theDataSet.getRoutes()));
         }
     }
 
@@ -134,15 +136,12 @@ public class RouteRDController extends Controller {
      */
     public void editRoute() {
         Route toEdit = tableViewRouteRD.getSelectionModel().getSelectedItem();
-        currentSession.setRouteToEdit(toEdit.getAirlineName() + toEdit.getDepartureAirport() + toEdit.getArrivalAirport() +
-        toEdit.getCode() + toEdit.getStops() + toEdit.getEquipment());
-        createPopUpStage(SceneCode.ROUTE_EDIT, 600, 330);
-
-//        System.out.println(toEdit.getName() + "," + toEdit.getCity() + "," + toEdit.getCountry() + "," + toEdit.getIATA_FFA()
-//                + "," + toEdit.getICAO() + "," + toEdit.getLatitude() + "," + toEdit.getLongitude() + "," + toEdit.getAltitude()
-//                + "," + toEdit.getTimezone() + "," + toEdit.getDST() + "," + toEdit.getTz());
-
-        tableViewRouteRD.refresh();
+        if (toEdit != null) {
+            currentSession.setRouteToEdit(toEdit.getAirlineName() + toEdit.getDepartureAirport() + toEdit.getArrivalAirport() +
+                    toEdit.getCode() + toEdit.getStops() + toEdit.getEquipment());
+            createPopUpStage(SceneCode.ROUTE_EDIT, 600, 330);
+            tableViewRouteRD.refresh();
+        }
     }
 
 

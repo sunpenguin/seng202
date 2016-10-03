@@ -99,24 +99,26 @@ public class AirlineRDController extends Controller {
      */
     public void deleteAirline() {
         ObservableList<Airline> toDelete = tableViewAirlineRD.getSelectionModel().getSelectedItems();
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Airline Delete Confirmation");
-        alert.setHeaderText("You are about to delete some data.");
-        alert.setContentText("Are you sure you want to delete the selected airline(s)?");
-        Optional<ButtonType> result = alert.showAndWait();
-        Airline air = null;
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            for (int i = 0; i < toDelete.size(); i++) {
-                air = toDelete.get(i);
-                theDataSet.deleteAirline(air);
-                for (int key: currentSession.getFilteredAirlines().keySet()) {
-                    if (currentSession.getFilteredAirlines().get(key) == air.getName()) {
-                        currentSession.getFilteredAirlines().remove(key);
-                        break;
+        if (toDelete != null && toDelete.size() > 0) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Airline Delete Confirmation");
+            alert.setHeaderText("You are about to delete some data.");
+            alert.setContentText("Are you sure you want to delete the selected airline(s)?");
+            Optional<ButtonType> result = alert.showAndWait();
+            Airline air = null;
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                for (int i = 0; i < toDelete.size(); i++) {
+                    air = toDelete.get(i);
+                    theDataSet.deleteAirline(air);
+                    for (int key : currentSession.getFilteredAirlines().keySet()) {
+                        if (currentSession.getFilteredAirlines().get(key) == air.getName()) {
+                            currentSession.getFilteredAirlines().remove(key);
+                            break;
+                        }
                     }
                 }
+                tableViewAirlineRD.setItems(FXCollections.observableArrayList(theDataSet.getAirlines()));
             }
-            tableViewAirlineRD.setItems(FXCollections.observableArrayList(theDataSet.getAirlines()));
         }
     }
 
@@ -127,9 +129,11 @@ public class AirlineRDController extends Controller {
      */
     public void editAirline() {
         Airline toEdit = tableViewAirlineRD.getSelectionModel().getSelectedItem();
-        currentSession.setAirlineToEdit(toEdit.getName());
-        createPopUpStage(SceneCode.AIRLINE_EDIT, 600, 370);
-        tableViewAirlineRD.refresh();
+        if (toEdit != null) {
+            currentSession.setAirlineToEdit(toEdit.getName());
+            createPopUpStage(SceneCode.AIRLINE_EDIT, 600, 370);
+            tableViewAirlineRD.refresh();
+        }
     }
 
 

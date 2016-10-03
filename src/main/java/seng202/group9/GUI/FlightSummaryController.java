@@ -212,15 +212,17 @@ public class FlightSummaryController extends Controller {
      */
     public void deletePath() {
         String toDeleteStr = flightPathListView.getSelectionModel().getSelectedItem();
-        String[] segments = toDeleteStr.split("_");
-        String pathIdClicked = segments[0];
+        if (toDeleteStr != "" && toDeleteStr != null) {
+            String[] segments = toDeleteStr.split("_");
+            String pathIdClicked = segments[0];
 
-        int toDeleteIndex = theDataSet.getFlightPaths().indexOf(theDataSet.getFlightPathDictionary()
-                .get(Integer.parseInt(pathIdClicked)));
+            int toDeleteIndex = theDataSet.getFlightPaths().indexOf(theDataSet.getFlightPathDictionary()
+                    .get(Integer.parseInt(pathIdClicked)));
 
-        theDataSet.deleteFlightPath(toDeleteIndex);
-        flightPathListView.getItems().clear();
-        flightPathListView();
+            theDataSet.deleteFlightPath(toDeleteIndex);
+            flightPathListView.getItems().clear();
+            flightPathListView();
+        }
     }
 }
 
