@@ -126,6 +126,7 @@ public class AirportRDController extends Controller{
             for (int i = 0; i < toDelete.size(); i++) {
                 air = toDelete.get(i);
                 theDataSet.deleteAirport(air);
+                currentSession.getFilteredAirports().remove(air.getName());
             }
             tableViewAirportRD.setItems(FXCollections.observableArrayList(theDataSet.getAirports()));
         }
